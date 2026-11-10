@@ -1,0 +1,40 @@
+# Bei jedem Push auf main: Offline-Liste (sw.js) erneuern und Tests ausführen.
+# So bleibt der Offline-Cache auch aktuell, wenn Dateien direkt auf github.com geändert werden
+# (zum Beispiel der Laborcode in data/versuch.json). Veröffentlicht wird über GitHub Pages aus main.
+name: Offline-Liste und Tests
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: offline-liste
+  cancel-in-progress: false
+
+jobs:
+  pruefen:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Offline-Liste erneuern
+        run: node tools/precache.mjs
+      - name: Geänderte sw.js zurückschreiben
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add sw.js
+          if ! git diff --cached --quiet; then
+            git commit -m "Offline-Liste aktualisiert"
+            git push
+          else
+            echo "sw.js ist aktuell."
+          fi
+      - name: Tests
+        run: npm test
