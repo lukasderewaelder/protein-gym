@@ -13,6 +13,7 @@ import { createNotebook } from './ui/notebook.js';
 import { createTaskPanel } from './ui/taskpanel.js';
 import { encodeProgress } from './state/progress.js';
 import { alleFallKarten } from './state/fall.js';
+import { merkePosition, holePosition } from './state/zwischenstand.js';
 import { h, clear } from './ui/dom.js';
 import { renderFund, fundIcon } from './ui/funde.js';
 import { fundart, istZusatz } from './ui/funde-core.js';
@@ -203,7 +204,7 @@ async function loadNpcs(scene) {
   return list;
 }
 
-async function enterScene(id, { fade = true } = {}) {
+async function enterScene(id, { fade = true, pos = null } = {}) {
   const def = DATA.scenes.get(id);
   if (!def) return;
   busy = true;
@@ -218,7 +219,7 @@ async function enterScene(id, { fade = true } = {}) {
   const bg = await loadFirst(`assets/szenen/${scene.bg}`);
   cur = { scene, grid: buildGrid(scene), bg, npcs: await loadNpcs(scene) };
 
-  const [sx, sy] = scene.spawn;
+  const [sx, sy] = pos ? [pos.x, pos.y] : scene.spawn; // gespeicherte Position nach Neuladen, sonst der Eingang
   const spawn = nearestWalkable(cur.grid, sx, sy) || { x: sx, y: sy };
   player.x = spawn.x;
   player.y = spawn.y;
@@ -227,6 +228,7 @@ async function enterScene(id, { fade = true } = {}) {
   pending = null;
 
   store.state.scene = id;
+  merkePosition(store.state, id, player.x, player.y);
   store.save();
   $('#room-chip').textContent = scene.name;
   renderTray();
@@ -414,7 +416,18 @@ function registerServiceWorker() {
 
 async function begin() {
   $('#hud').hidden = false;
-  await enterScene(DATA.scenes.has(store.state.scene) ? store.state.scene : 'empfang', { fade: false });
+  const szene = DATA.scenes.has(store.state.scene) ? store.state.scene : 'empfang';
+  await enterScene(szene, { fade: false, pos: holePosition(store.state, szene) });
+  // Speicher soll nicht von selbst gelöscht werden; wo er fehlt, deutlich warnen
+  try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist(); } catch { /* egal */ }
+  if (!storage) showInfo('Speichern nicht möglich', h('p', {}, 'Dieser Browser speichert nichts (zum Beispiel im privaten Fenster). Dein Fortschritt geht verloren, wenn du den Browser schließt.'), h('p', {}, 'Notiere dir deshalb nach jedem Raum den Fortschrittscode (Menü → Fortschrittscode anzeigen).'));
+}
+
+/** Position der Figur und Spielstand sichern, auch wenn der Browser plötzlich geschlossen wird. */
+function sichereZwischenstand() {
+  if (!cur || busy || !store.hasNames()) return;
+  merkePosition(store.state, cur.scene.id, player.x, player.y);
+  store.save();
 }
 
 async function boot() {
@@ -461,7 +474,7 @@ async function boot() {
       begin();
     },
     onRestore: async ({ names, shirt, hair, skin, scene, flags, levels, quiz, fall }) => {
-      Object.assign(store.state, { names, shirt, hair, skin, scene, flags, levels, quiz, fall });
+      Object.assign(store.state, { names, shirt, hair, skin, scene, flags, levels, quiz, fall, pos: null, taskProgress: {} });
       store.save();
       buildFallCards();
       await refreshFigure();
@@ -469,6 +482,10 @@ async function boot() {
       begin();
     },
   });
+
+  setInterval(sichereZwischenstand, 4000);
+  window.addEventListener('pagehide', sichereZwischenstand);
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') sichereZwischenstand(); });
 
   requestAnimationFrame(frame);
   if (store.hasNames()) begin();

@@ -6,6 +6,7 @@ import { h, clear } from './dom.js';
 import { TYPES } from '../tasks/types.js';
 import { fehlendeKarten, raumFertig, quizErgebnis, aehnlicheAufgabe } from '../tasks/check.js';
 import { encodeProgress } from '../state/progress.js';
+import { merkeFortschritt, holeFortschritt, loescheFortschritt } from '../state/zwischenstand.js';
 
 /** Namen für Freigaben, die keine Wissenskarte sind (Anzeige im gesperrten Menüeintrag). */
 const FLAG_TEXTE = {
@@ -31,6 +32,7 @@ export function createTaskPanel({ root, data, store, notebook, showCall, onRoomD
 
   const levelOf = () => (store.state.levels && store.state.levels[roomId]) ?? 1;
   const levelKey = () => data.aufgaben.niveaus[levelOf()].id;
+  const stufe = () => (S.t.niveaus.alle ? 'alle' : levelKey());
 
   function close() {
     root.hidden = true;
@@ -102,8 +104,12 @@ export function createTaskPanel({ root, data, store, notebook, showCall, onRoomD
     titleEl.textContent = t.titel;
     metaEl.textContent = t.buch ? `${t.zeit} · ${t.buch}` : t.zeit;
     levelsEl.hidden = Boolean(t.niveaus.alle);
-    renderLevels(() => { S.step = 0; renderStep(); });
+    renderLevels(() => { S.step = 0; S.first = []; loescheFortschritt(store.state); store.save(); renderStep(); });
+    // Zwischenstand: nach Schließen oder Neuladen beim gemerkten Schritt weitermachen
+    const rest = holeFortschritt(store.state, id, stufe(), steps().length);
+    if (rest) { S.step = rest.step; S.first = rest.first; }
     renderStep();
+    if (rest) { feedbackEl.className = 'task-feedback'; feedbackEl.textContent = `Willkommen zurück! Du machst bei Schritt ${S.step + 1} weiter.`; }
   }
 
   function steps() {
@@ -210,7 +216,13 @@ export function createTaskPanel({ root, data, store, notebook, showCall, onRoomD
   }
 
   function next() {
-    if (S.step < steps().length - 1) { S.step++; renderStep(); return; }
+    if (S.step < steps().length - 1) {
+      S.step++;
+      merkeFortschritt(store.state, S.id, stufe(), S.step, S.first);
+      store.save();
+      renderStep();
+      return;
+    }
     completeTask();
   }
 
@@ -220,6 +232,7 @@ export function createTaskPanel({ root, data, store, notebook, showCall, onRoomD
       store.state.quiz = quizErgebnis(steps(), S.first);
       store.save();
     }
+    loescheFortschritt(store.state, S.id);
     store.setFlag(S.t.flag);
     const done = raumFertig(rd, data.aufgaben.aufgaben, levelOf(), store.state.flags);
     if (done && !store.hasFlag(rd.fertigFlag)) {

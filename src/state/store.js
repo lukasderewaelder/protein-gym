@@ -18,6 +18,8 @@ export function defaultState() {
     scene: 'empfang',
     flags: {},          // Fortschritt und gesehene Dialoge
     fall: { taeter: null }, // Täter des Krimis, wird beim Spielstart gewürfelt (siehe ensureFall)
+    taskProgress: {},   // Zwischenstand je Aufgabe: { Niveau, Schritt, richtige Erstversuche } (nur auf dem Gerät)
+    pos: null,          // Position der Figur { scene, x, y } (nur auf dem Gerät)
     fontScale: 1,
   };
 }
