@@ -73,7 +73,7 @@ function buildFallCards() {
   for (const k of alleFallKarten(store.state.fall.taeter, DATA.fall)) { karten.push(k); DATA.cards.set(k.id, k); }
 }
 
-/** Der Coach im Empfang: Einweisung, danach Hinweise zum nächsten Raum, am Ende die Auflösung des Falls. */
+/** Markus, der Trainer im Empfang: Einweisung, danach Hinweise zum nächsten Raum, am Ende die Auflösung des Falls. */
 function coach() {
   if (!store.hasFlag('empfang_done')) {
     if (!store.hasFlag('spind_gesehen')) playDialog('empfang.coach.spind');

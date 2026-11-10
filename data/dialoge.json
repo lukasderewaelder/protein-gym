@@ -1,19 +1,21 @@
 {
   "empfang.intro": {
-    "speaker": "Trainer:in",
+    "speaker": "Markus",
     "portrait": "trainer",
     "setFlag": "intro_done",
     "lines": [
-      "Hey {name}, willkommen im Protein-Gym! Ich bin dein:e Coach für das Probetraining.",
+      "Hey {name}, willkommen im Protein-Gym! Ich bin Markus, dein Trainer für das Probetraining.",
       "Gleich ein Problem: Unser Eiweiß-Vorrat ist über Nacht geronnen. Eier, Quark, Shakes: alles trüb und fest. Vier Leute hatten Zugang, und du hilfst mir, den Fall zu klären.",
       "Zuerst dein Spind: Das ist deine Ermittlungszentrale. Dort sammelst du alle Hinweise, schlägst Begriffe nach und findest Texte für deinen Hefter. Tippe auf den Spind in der Mitte der Wand.",
+      "Zu allem darfst du dir Notizen machen. Auf jeden Fall übernimmst du aber die Heftereinträge aus dem Spind in deinen Hefter. Sie kommen nach und nach dazu.",
+      "Achte auf die Hinweise mit lila Rand. Das ist Zusatzwissen für Neugierige: Du darfst es lesen, musst es aber nicht. Zum Pflichtstoff gehört es nicht.",
       "Warum der ganze Aufwand? Eiweiße sind überall: Muskeln, Haut und Haare bestehen aus ihnen, sie transportieren Stoffe im Blut, und Antikörper schützen dich vor Krankheiten. Protein und Eiweiß sind übrigens dasselbe.",
       "Tippe auf den Boden, um zu laufen, und auf funkelnde Dinge, um sie zu untersuchen. Schau dich hier um, öffne den Spind und komm dann zu mir für die Einweisung.",
       "Eine Frage vorab: Warum wird Eiklar in der Pfanne eigentlich fest? Merk dir deine Idee, wir kommen darauf zurück."
     ]
   },
   "empfang.trainer": {
-    "speaker": "Trainer:in",
+    "speaker": "Markus",
     "portrait": "trainer",
     "lines": [
       "Alles klar? Such in jedem Raum zuerst die Hinweise an den funkelnden Dingen, dann klappt die Aufgabe."
@@ -147,7 +149,7 @@
     ]
   },
   "empfang.coach.spind": {
-    "speaker": "Trainer:in",
+    "speaker": "Markus",
     "portrait": "trainer",
     "lines": [
       "Zuerst dein Spind: Das ist deine Ermittlungszentrale. Tippe auf den Spind in der Mitte der Wand und sieh dich dort um.",
@@ -155,7 +157,7 @@
     ]
   },
   "empfang.coach.labor": {
-    "speaker": "Trainer:in",
+    "speaker": "Markus",
     "portrait": "trainer",
     "lines": [
       "Gut! Weiter ins Labor, die Tür mit dem Reagenzglas. Dort findest du heraus, was Eiweiß zum Gerinnen bringt und wie man Eiweiß nachweist.",
@@ -163,21 +165,21 @@
     ]
   },
   "empfang.coach.sauna": {
-    "speaker": "Trainer:in",
+    "speaker": "Markus",
     "portrait": "trainer",
     "lines": [
       "Als Nächstes die Sauna, die Tür mit der Dampfwolke. Dort siehst du, wie Hitze Eiweiß verändert und wo du das im Alltag erkennst."
     ]
   },
   "empfang.coach.training": {
-    "speaker": "Trainer:in",
+    "speaker": "Markus",
     "portrait": "trainer",
     "lines": [
       "Jetzt zur Trainingsfläche, die Tür mit der Hantel. Dort erfährst du, wie ein Eiweiß aufgebaut ist, warum es beim Gerinnen seine Form verliert und was Aminosäuren sind."
     ]
   },
   "empfang.coach.shakebar": {
-    "speaker": "Trainer:in",
+    "speaker": "Markus",
     "portrait": "trainer",
     "lines": [
       "Zum Schluss die Shake-Bar, die Tür mit dem Becher. Dort wendest du dein Wissen an. Danach lösen wir den Fall gemeinsam: Komm zu mir, wenn du in allen Räumen warst."

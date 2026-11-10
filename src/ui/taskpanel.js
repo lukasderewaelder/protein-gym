@@ -198,7 +198,7 @@ export function createTaskPanel({ root, data, store, notebook, showCall, onRoomD
       h('button', { type: 'button', onclick: () => notebook.open('glossar') }, 'Glossar'),
       h('button', { type: 'button', disabled: !unlocked, onclick: () => showHelp('tipp') }, unlocked ? 'Tipp' : 'Tipp (nach 2 Fehlern)'),
       h('button', { type: 'button', disabled: !unlocked, onclick: () => showHelp('karte') }, unlocked ? 'Hilfekarte' : 'Hilfekarte (nach 2 Fehlern)'),
-      h('button', { type: 'button', onclick: () => showCall() }, 'Trainer:in rufen'),
+      h('button', { type: 'button', onclick: () => showCall() }, 'Hilfe rufen'),
     );
     if (S.helped && S.similar && !S.inSimilar) {
       footEl.append(h('button', { class: 'primary', type: 'button', onclick: startSimilar }, 'Ähnliche Aufgabe üben'));

@@ -46,7 +46,7 @@
         "Eiweiße transportieren Stoffe, zum Beispiel Sauerstoff im Blut.",
         "Eiweiße schützen dich: Antikörper wehren Krankheitserreger ab."
       ],
-      "fuss": "– dein Coach"
+      "fuss": "– Markus, dein Trainer"
     },
     {
       "id": "k_kette", "typ": "pflicht", "raum": "training", "ort": "Trainingsplan",
@@ -174,11 +174,11 @@
       "titel": "Erhitzen macht haltbar",
       "medium": "chat", "kopf": "Sauna-Gruppe · Hitze-Hannes",
       "zeilen": [
-        "Trainer:in: Hannes, warum macht Erhitzen Essen haltbar?",
+        "Markus: Hannes, warum macht Erhitzen Essen haltbar?",
         "Hannes: Auch Krankheitskeime bestehen aus Eiweißen.",
         "Hannes: Hitze lässt ihre Eiweiße gerinnen.",
         "Hannes: Dann verlieren die Keime ihre Wirkung. Deshalb hält erhitztes Essen länger.",
-        "Trainer:in: Merk dir das fürs Quiz!"
+        "Markus: Merk dir das für die Auflösung!"
       ],
       "fuss": "zugestellt"
     },

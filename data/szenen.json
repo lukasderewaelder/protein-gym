@@ -8,7 +8,7 @@
       "spawn": [768, 800],
       "blocked": [[0, 0, 1536, 365], [0, 365, 40, 635], [40, 345, 325, 320], [0, 665, 70, 325], [1145, 300, 265, 155], [1410, 365, 126, 90], [1470, 455, 66, 545], [0, 1000, 1536, 24]],
       "hotspots": [
-        { "id": "trainer", "label": "Trainer:in", "type": "npc", "x": 560, "y": 640, "r": 80, "dialog": "empfang.trainer", "aktion": "coach", "color": "#1f8a8a" },
+        { "id": "trainer", "label": "Markus", "type": "npc", "x": 560, "y": 640, "r": 80, "dialog": "empfang.trainer", "aktion": "coach", "color": "#1f8a8a" },
         { "id": "desi", "label": "Desi", "type": "npc", "x": 1020, "y": 700, "r": 80, "dialog": "empfang.desi", "color": "#6aa8d8" },
         { "id": "spind", "label": "Spind", "type": "dialog", "x": 780, "y": 385, "r": 90, "aktion": "notizbuch" },
         { "id": "tresen", "label": "Empfangstresen", "type": "dialog", "x": 390, "y": 540, "r": 80, "karte": "k_protein" },
@@ -16,7 +16,7 @@
         { "id": "poster", "label": "Poster", "type": "dialog", "x": 1118, "y": 415, "r": 70, "karte": "z_protein" },
         { "id": "brett", "label": "Schwarzes Brett", "type": "dialog", "x": 1400, "y": 520, "r": 70, "karte": "z_struktur" },
         { "id": "tuer_training", "label": "Trainingsfläche", "type": "door", "x": 290, "y": 930, "r": 90, "to": "training", "requires": "sauna_done", "lockedText": "Die Trainingsfläche ist noch zu. Erst muss die Sauna durch sein." },
-        { "id": "tuer_labor", "label": "Labor", "type": "door", "x": 610, "y": 930, "r": 90, "to": "labor", "requires": "empfang_done", "lockedText": "Das Labor ist noch zu. Mach zuerst die Einweisung beim Coach und öffne den Spind." },
+        { "id": "tuer_labor", "label": "Labor", "type": "door", "x": 610, "y": 930, "r": 90, "to": "labor", "requires": "empfang_done", "lockedText": "Das Labor ist noch zu. Mach zuerst die Einweisung bei Markus und öffne den Spind." },
         { "id": "tuer_sauna", "label": "Sauna", "type": "door", "x": 925, "y": 930, "r": 90, "to": "sauna", "requires": "labor_done", "lockedText": "Die Sauna ist noch zu. Erst muss der Versuch im Labor durch sein." },
         { "id": "tuer_shakebar", "label": "Shake-Bar", "type": "door", "x": 1240, "y": 930, "r": 90, "to": "shakebar", "requires": "training_done", "lockedText": "Die Shake-Bar öffnet erst nach der Trainingsfläche." }
       ]

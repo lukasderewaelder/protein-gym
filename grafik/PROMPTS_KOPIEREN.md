@@ -1,6 +1,6 @@
 # Prompts zum Kopieren (Protein-Gym)
 
-**Stand:** Erledigt und im Spiel eingebaut: die sechs Szenen (Nr 1–6), die Spielfigur (Nr 7–11), Trainer:in, Alex, Hannes, Zoe und Kurt (Sprite und Porträts), das Porträt-Sheet von Desi (Nr 21), Zertifikat-Rahmen (Nr 29), App-Icon (Nr 30) und die Haftnotiz-Textur (Nr 31). Objekte und Icons (Nr 24–28) sind aufbereitet und liegen in `assets/figuren`, werden aber noch nicht im Spiel gezeigt. **Noch offen:** der Sprite von Desi (Nr 20, `npc_desi.png`) und die Papiertexturen Nr 32–37 (Karteikarte, Zeitung, Heft, Formular, Emailleschild, Korkwand). Bereits erledigte Nummern kannst du überspringen.
+**Stand:** Erledigt und im Spiel eingebaut: die sechs Szenen (Nr 1–6), die Spielfigur (Nr 7–11), Markus (Trainer), Alex, Hannes, Zoe und Kurt (Sprite und Porträts), das Porträt-Sheet von Desi (Nr 21), Zertifikat-Rahmen (Nr 29), App-Icon (Nr 30) und die Haftnotiz-Textur (Nr 31). Objekte und Icons (Nr 24–28) sind aufbereitet und liegen in `assets/figuren`, werden aber noch nicht im Spiel gezeigt. **Noch offen:** der Sprite von Desi (Nr 20, `npc_desi.png`) und die Papiertexturen Nr 32–37 (Karteikarte, Zeitung, Heft, Formular, Emailleschild, Korkwand). Bereits erledigte Nummern kannst du überspringen.
 
 Von oben nach unten abarbeiten. Je Bild: Block kopieren, in ChatGPT einfügen, bei „Anhängen“ das genannte Bild mitschicken, Ergebnis unter dem Dateinamen speichern. Jeder Block ist vollständig, es muss nichts ergänzt werden. Die Reihenfolge ist so gewählt, dass jedes Referenzbild schon vorher entstanden ist.
 
@@ -162,17 +162,17 @@ Pixel art look, three-quarter top-down view like a classic 16-bit adventure game
 
 ## NPCs
 
-### Nr 12: Trainer:in: Sprite (Stehbild)
+### Nr 12: Markus (Trainer): Sprite (Stehbild)
 
 Speichern als: `npc_trainer.png`
 
 **Anhängen:** figur_v1_ref.png (damit Proportionen und Stil passen)
 
 ```
-Pixel art look, three-quarter top-down view like a classic 16-bit adventure game, chunky visible pixels, dark outlines, soft cel shading, warm friendly colours (teal, off-white, warm wood brown, signal orange, soft grey, a little yellow), clean readable shapes. No text, no letters, no numbers, no logos, no watermark, no photorealism, no blur. Friendly, school-appropriate mood. Use the attached character sheet only as reference for the pixel art style, proportions (chibi-like, about 3 heads tall) and line work. Create a different character: a single full-body sprite of a friendly coach in their thirties, gender-neutral, athletic, wearing a teal tracksuit with a whistle around the neck, relaxed standing pose with arms down, kind smile. Standing facing the viewer. Flat pure magenta background (#FF00FF) without gradient, texture or shadow. Nothing cropped. No ground shadow under the figure. No text.
+Pixel art look, three-quarter top-down view like a classic 16-bit adventure game, chunky visible pixels, dark outlines, soft cel shading, warm friendly colours (teal, off-white, warm wood brown, signal orange, soft grey, a little yellow), clean readable shapes. No text, no letters, no numbers, no logos, no watermark, no photorealism, no blur. Friendly, school-appropriate mood. Use the attached character sheet only as reference for the pixel art style, proportions (chibi-like, about 3 heads tall) and line work. Create a different character: a single full-body sprite of a friendly male coach in his thirties, athletic, wearing a teal tracksuit with a whistle around the neck, relaxed standing pose with arms down, kind smile. Standing facing the viewer. Flat pure magenta background (#FF00FF) without gradient, texture or shadow. Nothing cropped. No ground shadow under the figure. No text.
 ```
 
-### Nr 13: Trainer:in: Porträt-Sheet (4 Ausdrücke)
+### Nr 13: Markus (Trainer): Porträt-Sheet (4 Ausdrücke)
 
 Speichern als: `trainer_sheet.png` (das Grafik-Werkzeug teilt es danach in trainer_0.png … trainer_3.png)
 

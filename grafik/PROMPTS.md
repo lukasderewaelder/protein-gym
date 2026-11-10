@@ -53,8 +53,8 @@ Flat pure magenta background (#FF00FF) without gradient, texture or shadow. Noth
 | 9 | Spielfigur: Lauf-Streifen up | figur_v1_walk_up.png | assets/figuren/ | Lauf-Streifen (Richtung up, Variante 1) |
 | 10 | Spielfigur: Lauf-Streifen left | figur_v1_walk_left.png | assets/figuren/ | Lauf-Streifen (Richtung left, Variante 1) |
 | 11 | Spielfigur: Lauf-Streifen right | figur_v1_walk_right.png | assets/figuren/ | Lauf-Streifen (Richtung right, Variante 1) |
-| 12 | Trainer:in: Sprite (Stehbild) | npc_trainer.png | assets/figuren/ | Einzel-Sprite (Art NPC, Name trainer) |
-| 13 | Trainer:in: Porträt-Sheet (4 Ausdrücke) | trainer_0.png … trainer_3.png | assets/portraits/ | Sheet teilen (Spalten 4, Zeilen 1, quadratisch, 256 px, Name trainer) |
+| 12 | Markus (Trainer): Sprite (Stehbild) | npc_trainer.png | assets/figuren/ | Einzel-Sprite (Art NPC, Name trainer) |
+| 13 | Markus (Trainer): Porträt-Sheet (4 Ausdrücke) | trainer_0.png … trainer_3.png | assets/portraits/ | Sheet teilen (Spalten 4, Zeilen 1, quadratisch, 256 px, Name trainer) |
 | 14 | Alex (Trainingspartner): Sprite (Stehbild) | npc_alex.png | assets/figuren/ | Einzel-Sprite (Art NPC, Name alex) |
 | 15 | Alex (Trainingspartner): Porträt-Sheet (4 Ausdrücke) | alex_0.png … alex_3.png | assets/portraits/ | Sheet teilen (Spalten 4, Zeilen 1, quadratisch, 256 px, Name alex) |
 | 16 | Hitze-Hannes (Sauna, Verdächtiger „Hitze“): Sprite (Stehbild) | npc_hannes.png | assets/figuren/ | Einzel-Sprite (Art NPC, Name hannes) |
@@ -333,18 +333,18 @@ Pixel art look, three-quarter top-down view like a classic 16-bit adventure game
 
 Zu jeder Figur zwei Prompts: erst der Sprite (Stehbild), dann das Porträt-Sheet mit dem Sprite als Referenz. Die Verdächtigen sind sympathisch gezeichnet und gehören je zu einem der vier Auslöser der Denaturierung (Hitze, Säure, Alkohol, Schwermetallsalz). Die Namen sind Vorschläge.
 
-### Nr 12: Trainer:in: Sprite (Stehbild)
+### Nr 12: Markus (Trainer): Sprite (Stehbild)
 
 - **Dateiname:** `npc_trainer.png`
 - **Zielordner:** `assets/figuren/`
 - **Verarbeiten mit:** Einzel-Sprite (Art NPC, Name trainer)
 - **Referenzbild anhängen:** figur_v1_ref.png (damit Proportionen und Stil passen)
-- **Stil:** Sportliche Trainer:in Anfang dreißig, geschlechtsneutral, türkisfarbener Trainingsanzug mit Trillerpfeife, freundlich. Führt durch das Spiel. Gleicher Chibi-Stil (ca. 3 Köpfe hoch) und gleiche Pixel-Optik wie die Spielfigur.
+- **Stil:** Sportlicher Trainer Markus, Anfang dreißig, türkisfarbener Trainingsanzug mit Trillerpfeife, freundlich. Führt durch das Spiel. Gleicher Chibi-Stil (ca. 3 Köpfe hoch) und gleiche Pixel-Optik wie die Spielfigur.
 
 **Prompt:**
 
 ```
-Pixel art look, three-quarter top-down view like a classic 16-bit adventure game, chunky visible pixels, dark outlines, soft cel shading, warm friendly colours (teal, off-white, warm wood brown, signal orange, soft grey, a little yellow), clean readable shapes. No text, no letters, no numbers, no logos, no watermark, no photorealism, no blur. Friendly, school-appropriate mood. Use the attached character sheet only as reference for the pixel art style, proportions (chibi-like, about 3 heads tall) and line work. Create a different character: a single full-body sprite of a friendly coach in their thirties, gender-neutral, athletic, wearing a teal tracksuit with a whistle around the neck, relaxed standing pose with arms down, kind smile. Standing facing the viewer. Flat pure magenta background (#FF00FF) without gradient, texture or shadow. Nothing cropped. No ground shadow under the figure. No text.
+Pixel art look, three-quarter top-down view like a classic 16-bit adventure game, chunky visible pixels, dark outlines, soft cel shading, warm friendly colours (teal, off-white, warm wood brown, signal orange, soft grey, a little yellow), clean readable shapes. No text, no letters, no numbers, no logos, no watermark, no photorealism, no blur. Friendly, school-appropriate mood. Use the attached character sheet only as reference for the pixel art style, proportions (chibi-like, about 3 heads tall) and line work. Create a different character: a single full-body sprite of a friendly male coach in his thirties, athletic, wearing a teal tracksuit with a whistle around the neck, relaxed standing pose with arms down, kind smile. Standing facing the viewer. Flat pure magenta background (#FF00FF) without gradient, texture or shadow. Nothing cropped. No ground shadow under the figure. No text.
 ```
 
 **Prüfliste:**
@@ -354,7 +354,7 @@ Pixel art look, three-quarter top-down view like a classic 16-bit adventure game
 - [ ] Gleicher Stil und gleiche Proportionen wie die Spielfigur, aber erkennbar eine andere Person.
 - [ ] Keine Beschriftung auf Kleidung, Flaschen oder Gegenständen.
 
-### Nr 13: Trainer:in: Porträt-Sheet (4 Ausdrücke)
+### Nr 13: Markus (Trainer): Porträt-Sheet (4 Ausdrücke)
 
 - **Dateiname:** `trainer_0.png … trainer_3.png`
 - **Zielordner:** `assets/portraits/`
