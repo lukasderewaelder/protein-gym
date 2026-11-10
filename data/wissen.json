@@ -1,0 +1,256 @@
+{
+  "karten": [
+    {
+      "id": "k_bauplan", "typ": "pflicht", "raum": "training", "ort": "Hantelständer",
+      "titel": "So entstehen Eiweiße",
+      "medium": "karteikarte", "kopf": "Übung des Tages: So entstehen Eiweiße",
+      "zeilen": [
+        "1. Aminosäuren sind die Bausteine (Monomere) der Proteine. Es gibt etwa 20 Sorten.",
+        "2. Alle sind fast gleich gebaut: Ein großes Stück ist bei jeder Sorte gleich (das Grundgerüst). Nur ein kleines Stück, der Rest R, ist bei jeder Sorte anders.",
+        "3. Viele Aminosäuren stecken sich aneinander. Bei jeder Verbindung wird ein Wassermolekül abgespalten (Wasserabspaltung, Fachwort: Kondensation).",
+        "4. So entsteht eine lange Kette: das Protein (Eiweiß), ein Polymer. Wie bei Steckbausteinen: viele kleine Teile, eine lange Kette.",
+        "5. Mehr musst du dir nicht merken: Aminosäuren sind die Bausteine der Proteine."
+      ],
+      "fuss": "Wiederholungen: dreimal lesen, null Schweiß"
+    },
+    {
+      "id": "k_rest", "typ": "pflicht", "raum": "training", "ort": "Schautafel am Spiegel",
+      "titel": "So ist eine Aminosäure gebaut",
+      "medium": "schautafel", "kopf": "Schautafel: So ist eine Aminosäure gebaut",
+      "vorspann": "Hier siehst du zwei Aminosäuren ganz genau. Sie sind fast gleich gebaut.",
+      "zeilen": [
+        "Glycin (Gly) | H",
+        "Alanin (Ala) | CH₃",
+        "Das Grundgerüst (grau) ist bei jeder Aminosäure gleich: H₂N ist die Aminogruppe, COOH die Carboxygruppe.",
+        "Nur der Rest R (orange) ist bei jeder Sorte anders: bei Glycin nur ein H, bei Alanin CH₃."
+      ],
+      "fuss": "Mehr über die Teile musst du dir nicht merken."
+    },
+    {
+      "id": "k_protein", "typ": "pflicht", "raum": "empfang", "ort": "Empfangstresen",
+      "titel": "Protein = Eiweiß",
+      "medium": "haftnotiz", "kopf": "Nicht vergessen!",
+      "zeilen": [
+        "Protein = Eiweiß.",
+        "Fremdwort und deutsches Wort für denselben Stoff.",
+        "Steckt im Eiklar, aber auch in Milch, Fleisch, Linsen und sogar in Haaren."
+      ],
+      "fuss": "– dein Empfangsteam"
+    },
+    {
+      "id": "k_wichtig", "typ": "pflicht", "raum": "empfang", "ort": "Spiegel",
+      "titel": "Warum Eiweiße wichtig sind",
+      "medium": "haftnotiz", "kopf": "Wofür brauchst du Eiweiß?",
+      "zeilen": [
+        "Muskeln, Haut und Haare bestehen zu großen Teilen aus Eiweiß.",
+        "Eiweiße transportieren Stoffe, zum Beispiel Sauerstoff im Blut.",
+        "Eiweiße schützen dich: Antikörper wehren Krankheitserreger ab."
+      ],
+      "fuss": "– dein Coach"
+    },
+    {
+      "id": "k_kette", "typ": "pflicht", "raum": "training", "ort": "Trainingsplan",
+      "titel": "Eine Kette aus Bausteinen",
+      "medium": "whiteboard", "kopf": "Trainingsplan: Ketten",
+      "zeilen": [
+        "Aminosäuren → hängen sich zu langen Ketten zusammen",
+        "Ein Protein = viele Hundert Bausteine",
+        "Reihenfolge entscheidet → andere Reihenfolge = anderes Protein",
+        "wie Buchstaben und Wörter!",
+        "Danach faltet sich die Kette zu einer festen Form (siehe Aushang)."
+      ],
+      "fuss": "Wo hinkt der Vergleich? Ein Protein ist viel mehr als eine Reihe aus Buchstaben."
+    },
+    {
+      "id": "k_struktur", "typ": "pflicht", "raum": "training", "ort": "Aushang",
+      "titel": "Gefaltet und fest: die Struktur",
+      "medium": "schild", "kopf": "Aushang: So ist ein Eiweiß aufgebaut",
+      "zeilen": [
+        "Ein Protein ist eine lange Kette aus Aminosäuren. Die Kette ist zu einer festen Form gefaltet, ähnlich wie ein verknäultes Wollband.",
+        "Schwache Verbindungen (Wasserstoffbrücken) halten die Falten zusammen.",
+        "Hitze, Säuren, Alkohol und Schwermetallsalze lösen diese Verbindungen: Die Kette entfaltet sich und verklumpt. Das Eiweiß gerinnt.",
+        "Die Aminosäuren selbst bleiben erhalten. Aber ohne die richtige Form kann das Eiweiß nicht mehr wirken."
+      ],
+      "fuss": "So erklärt sich der Fall"
+    },
+    {
+      "id": "z_peptid", "typ": "zusatz", "raum": "training", "ort": "Bank",
+      "titel": "Peptidbindung und Dipeptide (Zusatzwissen)",
+      "medium": "heft", "kopf": "Chemie-Heft, Peptide",
+      "zeilen": [
+        "Zwei Aminosäuren verbinden sich und spalten Wasser ab: Kondensation.",
+        "Die neue Bindung –CO–NH– heißt Peptidbindung.",
+        "Zwei verbundene Aminosäuren = Dipeptid, mehrere = Peptid.",
+        "n Aminosäuren → n − 1 Peptidbindungen und n − 1 Wassermoleküle.",
+        "Die Reihenfolge zählt: Glycin–Alanin ist nicht dasselbe wie Alanin–Glycin!"
+      ],
+      "fuss": "Zusatz, steht nicht im Pflichtstoff"
+    },
+    {
+      "id": "z_essentiell", "typ": "zusatz", "raum": "training", "ort": "Poster",
+      "titel": "Essentielle Aminosäuren (Zusatzwissen)",
+      "medium": "plakat", "kopf": "Essentielle Aminosäuren",
+      "zeilen": [
+        "Dein Körper kann sie nicht selbst bilden.",
+        "Sie müssen mit der Nahrung kommen:",
+        "Valin · Leucin · Isoleucin · Lysin · Methionin · Phenylalanin · Threonin · Tryptophan",
+        "Die genaue Liste findest du im Lehrbuch S. 23."
+      ]
+    },
+    {
+      "id": "k_denat", "typ": "pflicht", "raum": "labor", "ort": "Kühlschrank",
+      "titel": "Denaturieren heißt Gerinnen",
+      "medium": "laborzettel", "kopf": "Lagerzettel: Eier",
+      "zeilen": [
+        "Probe: Eiklar (Eiweiß)",
+        "Hinweis: Kühl lagern, nicht in die Wärme stellen.",
+        "Form: Ein Eiweiß hat eine feste Form. Sie sorgt dafür, dass es seine Aufgabe erfüllen kann.",
+        "Begriff: Geht die Form verloren, nennt man das denaturieren. Im Alltag sagt man: Das Eiweiß gerinnt oder flockt aus.",
+        "Befund: Aus klarem, flüssigem Eiklar wird weißes, festes Eiweiß. Es ist nicht verschwunden, nur verändert. Nicht umkehrbar."
+      ],
+      "fuss": "GEPRÜFT"
+    },
+    {
+      "id": "k_ausloeser", "typ": "pflicht", "raum": "labor", "ort": "Kupfer-Kurt",
+      "titel": "Die vier Auslöser",
+      "medium": "protokoll", "kopf": "Befragung · Fall Eiweiß-Vorrat",
+      "zeilen": [
+        "F: Was bringt Eiweiß zum Gerinnen?",
+        "A: Hitze, Säuren, Alkohol und Schwermetallsalze, zum Beispiel Kupfersulfat.",
+        "F: Wer hatte Zugang zum Vorrat?",
+        "A: Vier Verdächtige. Das sind unsere vier Auslöser."
+      ],
+      "fuss": "Aufgenommen von: Kupfer-Kurt, Labortechnik (nicht verdächtig, behauptet er)"
+    },
+    {
+      "id": "k_biuret", "typ": "pflicht", "raum": "labor", "ort": "Plakat an der Wand",
+      "titel": "Der Biuret-Nachweis",
+      "medium": "plakat", "kopf": "Nachweis: Biuret",
+      "zeilen": [
+        "Probe + Natronlauge + Kupfersulfat-Lösung",
+        "Violett = Eiweiß ist enthalten",
+        "Bleibt die Probe blau (zum Beispiel Wasser oder Zuckerlösung), ist kein Eiweiß enthalten."
+      ]
+    },
+    {
+      "id": "z_ninhydrin", "typ": "zusatz", "raum": "shakebar", "ort": "Spur am Barhocker",
+      "titel": "Fingerabdrücke mit Ninhydrin (Zusatzwissen)",
+      "medium": "bericht", "kopf": "Spurensicherung: Bericht",
+      "zeilen": [
+        "Fundort: Barhocker in der Shake-Bar",
+        "Befund: Unsichtbarer Fingerabdruck. Schweiß enthält winzige Mengen Aminosäuren.",
+        "Methode: Ninhydrin reagiert mit Aminosäuren und färbt sie violett.",
+        "Ergebnis: Der Abdruck wird sichtbar. Ninhydrin weist Aminosäuren nach.",
+        "Hinweis: Auch Glycin färbt sich mit Ninhydrin violett. Ninhydrin ist kein Schülerversuch, das machen nur Fachleute und die Lehrkraft."
+      ],
+      "fuss": "SPUR"
+    },
+    {
+      "id": "k_hitze", "typ": "pflicht", "raum": "sauna", "ort": "Saunaofen",
+      "titel": "Hitze und Eiweiß",
+      "medium": "schild", "kopf": "Hinweis am Saunaofen",
+      "zeilen": [
+        "Hitze lässt Eiweiß gerinnen. Sie ist einer der vier Auslöser.",
+        "Klares Eiklar wird beim Braten weiß und fest, Milch bildet eine Haut, Fleisch wird fest.",
+        "Je heißer, desto schneller geht es."
+      ],
+      "fuss": "Eiweiß nicht überhitzen!"
+    },
+    {
+      "id": "k_umkehr", "typ": "pflicht", "raum": "sauna", "ort": "Thermometer",
+      "titel": "Nicht umkehrbar",
+      "medium": "rezept", "kopf": "Spiegelei braten",
+      "zeilen": [
+        "Zutaten: ein Ei, etwas Öl, eine Pfanne",
+        "1. Pfanne erhitzen, das Ei hineingleiten lassen.",
+        "2. Das klare Eiklar wird weiß und fest: Das Eiweiß gerinnt.",
+        "3. Aus dem gebratenen Ei wird nie wieder klares Eiklar.",
+        "Warum? Die Form des Eiweißes ist zerstört, und sie kommt nicht von allein zurück. Das Gerinnen ist nicht umkehrbar."
+      ],
+      "fuss": "Küchentipp: Aus Spiegelei wird nie wieder rohes Ei."
+    },
+    {
+      "id": "k_haltbar", "typ": "pflicht", "raum": "sauna", "ort": "Hitze-Hannes",
+      "titel": "Erhitzen macht haltbar",
+      "medium": "chat", "kopf": "Sauna-Gruppe · Hitze-Hannes",
+      "zeilen": [
+        "Trainer:in: Hannes, warum macht Erhitzen Essen haltbar?",
+        "Hannes: Auch Krankheitskeime bestehen aus Eiweißen.",
+        "Hannes: Hitze lässt ihre Eiweiße gerinnen.",
+        "Hannes: Dann verlieren die Keime ihre Wirkung. Deshalb hält erhitztes Essen länger.",
+        "Trainer:in: Merk dir das fürs Quiz!"
+      ],
+      "fuss": "zugestellt"
+    },
+    {
+      "id": "k_dose", "typ": "pflicht", "raum": "shakebar", "ort": "Regal mit Dosen",
+      "titel": "Was ist in der Dose?",
+      "medium": "etikett", "kopf": "Eiweiß-Pulver Natur",
+      "zeilen": [
+        "Zutaten: Milcheiweiß oder Pflanzeneiweiß",
+        "Hinweis: „Protein“ auf der Dose heißt nichts anderes als „Eiweiß“.",
+        "Ein Lebensmittel wie Quark oder Linsen, nur getrocknet und gemahlen. Zauberstoffe sind nicht enthalten."
+      ],
+      "fuss": "Trocken und gut verschlossen lagern"
+    },
+    {
+      "id": "k_abbau", "typ": "pflicht", "raum": "shakebar", "ort": "Mixer",
+      "titel": "Abbau im Körper",
+      "medium": "heft", "kopf": "Ernährung · Mitschrift",
+      "zeilen": [
+        "Verdauung: Nahrungseiweiß wird in seine Bausteine zerlegt = Aminosäuren.",
+        "Aus den Aminosäuren baut der Körper sein eigenes Eiweiß.",
+        "Wie Steckbausteine: auseinandernehmen, neu zusammenstecken.",
+        "→ Eiweiß aus dem Essen ist nicht wertlos!"
+      ],
+      "fuss": "doppelt unterstrichen: Aminosäuren"
+    },
+    {
+      "id": "k_geronnen", "typ": "pflicht", "raum": "shakebar", "ort": "Kühlvitrine",
+      "titel": "Geronnen heißt nicht verdorben",
+      "medium": "chat", "kopf": "Zoe & Alex",
+      "zeilen": [
+        "Alex: Zoe, deine Zitrone hat den Shake ausgeflockt! Ist der jetzt verdorben?",
+        "Zoe: Quatsch. Säure lässt Eiweiß gerinnen, mehr nicht.",
+        "Zoe: Es ist denaturiert, aber nicht verdorben. Gebratenes Ei und gekochter Quark sind auch geronnen.",
+        "Alex: Und die Aminosäuren?",
+        "Zoe: Bleiben erhalten. Der Körper kann sie weiter nutzen."
+      ],
+      "fuss": "gelesen"
+    },
+    {
+      "id": "z_quellen", "typ": "zusatz", "raum": "shakebar", "ort": "Obstschale",
+      "titel": "Eiweißquellen und Mythen (Zusatzwissen)",
+      "medium": "rezept", "kopf": "Einkaufszettel: Eiweiß-Woche",
+      "zeilen": [
+        "Ei · Milch · Quark · Fisch",
+        "Linsen · Nüsse",
+        "Wer abwechslungsreich isst, deckt seinen Bedarf meist ohne Pulver.",
+        "Mehr Eiweiß bedeutet nicht automatisch mehr Muskeln: Training und die gesamte Ernährung zählen mit."
+      ],
+      "fuss": "Zusatzwissen"
+    },
+    {
+      "id": "z_protein", "typ": "zusatz", "raum": "empfang", "ort": "Poster am Empfang",
+      "titel": "Woher kommt das Wort Protein? (Zusatzwissen)",
+      "medium": "zeitung", "kopf": "Wort der Woche: Protein",
+      "vorspann": "Woher kommt eigentlich der Name?",
+      "zeilen": [
+        "Das Wort Protein stammt aus dem Griechischen und bedeutet „das Erste“ oder „das Wichtigste“.",
+        "Eiweiß heißt es auf Deutsch, weil man den Stoff zuerst im Eiklar entdeckt hat. Eiklar besteht neben Wasser fast nur aus Protein."
+      ],
+      "fuss": "Gym-Post · Rubrik Wissen"
+    },
+    {
+      "id": "z_struktur", "typ": "zusatz", "raum": "empfang", "ort": "Schwarzes Brett",
+      "titel": "Eiweiße im Alltag (Zusatzwissen)",
+      "medium": "zeitung", "kopf": "Spinnenseide: Fäden aus Eiweiß",
+      "vorspann": "Auch Haare und Sehnen bestehen aus Eiweiß.",
+      "zeilen": [
+        "Haare und Spinnenseide bestehen aus Eiweißstoffen. Kollagen hält Haut und Sehnen zusammen.",
+        "Eiweiß steckt also nicht nur im Essen, sondern auch in uns und in der Natur."
+      ],
+      "fuss": "Gym-Post · Aushang am Schwarzen Brett"
+    }
+  ]
+}

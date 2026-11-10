@@ -1,0 +1,222 @@
+/* Fundstücke: jede Fundart sieht anders aus. Papiertexturen (assets/funde/*.webp) sind optional, die Farbflächen funktionieren allein.
+   Nur Systemschriften (keine externen Schriften). Text im großen Fund mindestens 18 px. */
+
+:root {
+  --hand: "Segoe Print", "Bradley Hand", "Marker Felt", "Comic Sans MS", "Chalkboard SE", cursive;
+  --serif: Georgia, "Times New Roman", serif;
+  --schreibmaschine: "Courier New", Courier, monospace;
+}
+
+/* ---------- Fenster ---------- */
+dialog#fund {
+  border: 0; background: transparent; padding: 12px;
+  width: min(660px, 96vw); max-height: 94vh; overflow: visible;
+  color: #1d1d1d;
+}
+dialog#fund::backdrop { background: rgba(0, 0, 0, 0.62); }
+.fund-fenster { display: grid; gap: 14px; justify-items: center; }
+.fund-neu {
+  margin: 0; padding: 6px 16px; border-radius: 999px;
+  background: var(--accent); color: #1d1305; font-weight: 800; font-family: var(--font-pixel);
+  font-size: calc(18px * var(--font-scale)); animation: fund-pop 0.5s ease-out;
+}
+.fund-fenster .primary { min-width: 180px; }
+
+/* ---------- Grundform ---------- */
+.fund {
+  position: relative; width: 100%; box-sizing: border-box;
+  padding: 24px 26px 16px; border-radius: 6px;
+  font-size: calc(18px * var(--font-scale)); line-height: 1.42;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
+  max-height: 76vh; overflow: auto;
+  animation: fund-pop 0.45s ease-out;
+}
+.fund p { margin: 6px 0; }
+.fund-kopf { margin: 0 0 10px; font-weight: 700; font-size: 1.25em; line-height: 1.2; }
+.fund-fuss { margin-top: 12px; font-size: 0.9em; }
+.fund-buch { margin: 10px 0 0; font-size: 0.78em; opacity: 0.65; text-align: right; font-family: system-ui, sans-serif; }
+.fund-deko { position: absolute; pointer-events: none; }
+.fund.zusatz { outline: 4px dashed #8f5cc0; outline-offset: 5px; }
+.fund.zusatz .fund-buch { color: #5a2e8a; opacity: 1; font-weight: 700; }
+@keyframes fund-pop { 0% { transform: scale(0.7) rotate(-3deg); opacity: 0; } 70% { transform: scale(1.03); opacity: 1; } 100% { transform: scale(1); } }
+@media (prefers-reduced-motion: reduce) { .fund, .fund-neu { animation: none; } }
+
+/* ---------- Haftnotiz ---------- */
+.fund.haftnotiz {
+  background: #fbe66b url("../funde/fund_haftnotiz.webp") center / cover no-repeat;
+  font-family: var(--hand); font-size: calc(21px * var(--font-scale)); transform: rotate(-1.6deg);
+  width: min(430px, 100%); border-radius: 2px 2px 18px 2px; padding-top: 44px; color: #2b2208;
+}
+.fund.haftnotiz .fund-kopf { font-size: 1.35em; text-decoration: underline wavy #c0392b; text-underline-offset: 6px; }
+.fund.haftnotiz .fund-deko { top: -14px; left: 50%; width: 110px; height: 28px; transform: translateX(-50%) rotate(2deg); background: rgba(255, 255, 255, 0.55); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25); }
+.fund.haftnotiz .fund-fuss { text-align: right; font-style: italic; }
+
+/* ---------- Karteikarte ---------- */
+.fund.karteikarte {
+  /* Heftlinien: Text steht auf den Linien, deshalb haben Zeilenhöhe und Linienabstand dieselbe Größe */
+  --zeile: calc(34px * var(--font-scale));
+  background-color: #fffdf2;
+  background-image: url("../funde/fund_karteikarte.webp"), repeating-linear-gradient(transparent 0 calc(var(--zeile) - 5px), #b6d4ee calc(var(--zeile) - 5px) calc(var(--zeile) - 4px), transparent calc(var(--zeile) - 4px) var(--zeile));
+  background-size: cover, auto; background-position: center, 0 0; background-repeat: no-repeat, repeat; background-attachment: local, local;
+  border-top: 8px solid #d94c4c; font-family: "Trebuchet MS", system-ui, sans-serif; transform: rotate(0.8deg);
+  padding-top: var(--zeile); line-height: var(--zeile);
+}
+.fund.karteikarte p, .fund.karteikarte .fund-kopf, .fund.karteikarte .fund-fuss { margin: 0; line-height: var(--zeile); }
+.fund.karteikarte .fund-kopf { color: #a82929; text-transform: uppercase; letter-spacing: 0.03em; font-size: 1.1em; }
+.fund.karteikarte .fund-fuss { margin-top: var(--zeile); font-style: italic; color: #555; text-align: right; }
+.fund.karteikarte .fund-buch { margin: 0; line-height: var(--zeile); }
+
+/* ---------- Schautafel (Aufbau einer Aminosäure) ---------- */
+.fund.schautafel { width: min(720px, 100%); background: #f6f3e8; border: 8px solid #5a4a36; border-top-width: 20px; font-family: system-ui, sans-serif; transform: rotate(-0.4deg); }
+.fund.schautafel .fund-kopf { margin: -2px 0 8px; color: #1f4a66; text-transform: uppercase; letter-spacing: 0.05em; font-size: 1.1em; }
+.fund.schautafel .fund-deko { top: -18px; left: 12%; right: 12%; height: 10px; border-radius: 5px; background: #8a7a60; box-shadow: 0 1px 2px #0006; }
+.fund.schautafel .fund-vorspann { font-style: normal; border-bottom: 0; padding-bottom: 0; }
+.fund-tafeln { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 6px 0 10px; }
+.fund-tafel { margin: 0; padding: 8px; background: #fff; border: 2px solid #b9b199; border-radius: 10px; text-align: center; }
+.fund-tafel figcaption { font-weight: 800; margin-top: 2px; }
+.tafel-formel { width: 100%; height: auto; display: block; }
+.tafel-formel text { font-family: ui-monospace, "Courier New", monospace; }
+.fund .tafel-formel .bond { stroke: #1d1d1d; stroke-width: 5; stroke-linecap: round; }
+.fund.schautafel .fund-fuss { font-weight: 700; color: #1f4a66; }
+.fund.schautafel .chip { position: relative; padding-left: 30px; }
+.fund.schautafel .chip::before { content: ""; position: absolute; left: 0; top: 0.35em; width: 20px; height: 20px; border-radius: 5px; border: 2px solid #8a959a; background: #dde1e4; }
+.fund.schautafel .chip-orange::before { border-color: #e5701f; background: #ffd8a8; }
+@media (max-width: 520px) { .fund-tafeln { grid-template-columns: 1fr; } }
+
+/* ---------- Whiteboard ---------- */
+.fund.whiteboard { background: #fbfdff; border: 10px solid #b8c2c7; border-bottom-width: 20px; font-family: var(--hand); color: #1f4f9a; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55), inset 0 0 40px rgba(180, 200, 220, 0.35); }
+.fund.whiteboard .fund-kopf { color: #c0392b; border-bottom: 3px solid #c0392b; display: inline-block; }
+.fund.whiteboard .fund-kette { width: 100%; max-width: 300px; margin: 4px 0 8px; display: block; }
+.fund.whiteboard .fund-fuss { color: #1c8a4a; }
+
+/* ---------- Heftseite ---------- */
+.fund.heft {
+  background-color: #fffef6;
+  background-image: url("../funde/fund_heft.webp"), linear-gradient(90deg, transparent 54px, #e07b7b 54px 56px, transparent 56px), repeating-linear-gradient(#fffef6 0 23px, #c8dcef 23px 24px), repeating-linear-gradient(90deg, transparent 0 23px, #c8dcef 23px 24px);
+  background-size: cover, auto, auto, auto;
+  padding-left: 72px; font-family: var(--hand); color: #1f3d99; transform: rotate(1.1deg); line-height: 1.5;
+}
+.fund.heft .fund-kopf { text-decoration: underline; text-underline-offset: 5px; }
+.fund.heft .fund-fuss { color: #b32525; text-decoration: underline double; }
+
+/* ---------- Plakat ---------- */
+.fund.plakat { background: #f6e5c2; border: 10px solid #7a4318; font-family: system-ui, sans-serif; text-align: center; padding-top: 0; }
+.fund.plakat .fund-kopf { margin: 0 -26px 14px; padding: 14px 20px; background: #e5701f; color: #fff; text-transform: uppercase; letter-spacing: 0.05em; font-size: 1.5em; }
+.fund-liste { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+.fund-liste li { padding: 8px 12px; background: rgba(255, 255, 255, 0.55); border-radius: 8px; font-weight: 600; }
+.fund-liste li.klein { font-size: 0.85em; font-weight: 400; font-style: italic; }
+.fund.plakat .fund-fuss { font-size: 0.85em; color: #5a3410; }
+
+/* ---------- Zeitungsartikel ---------- */
+.fund.zeitung { background: #e8e0cb url("../funde/fund_zeitung.webp") center / cover no-repeat; font-family: var(--serif); transform: rotate(-0.7deg); }
+.fund-zeitungskopf { margin: 0 0 8px; padding: 4px 0; text-align: center; font-variant: small-caps; letter-spacing: 0.22em; font-weight: 700; border-top: 3px double #222; border-bottom: 3px double #222; font-size: 0.85em; }
+.fund.zeitung .fund-kopf { font-size: 1.9em; font-weight: 900; line-height: 1.08; text-align: left; }
+.fund-vorspann { margin: 0 0 10px; font-style: italic; font-weight: 700; font-size: 1.02em; border-bottom: 1px solid #555; padding-bottom: 8px; }
+.fund-spalten { column-count: 2; column-gap: 22px; column-rule: 1px solid #888; text-align: justify; hyphens: auto; }
+.fund-absatz { margin: 0 0 8px !important; }
+.fund-absatz:first-child::first-letter { float: left; font-size: 2.6em; line-height: 0.85; padding: 3px 6px 0 0; font-weight: 900; }
+.fund.zeitung .fund-fuss { border-top: 1px solid #555; padding-top: 6px; font-size: 0.8em; font-variant: small-caps; letter-spacing: 0.06em; }
+@media (max-width: 520px) { .fund-spalten { column-count: 1; } }
+
+/* ---------- Formulare: Laborzettel, Spurenbericht, Etikett ---------- */
+.fund.laborzettel, .fund.bericht {
+  background: #f7fbfd url("../funde/fund_formular.webp") center / cover no-repeat;
+  border: 2px solid #6aa0b8; font-family: system-ui, sans-serif;
+}
+.fund.laborzettel .fund-kopf { margin: -24px -26px 12px; padding: 8px 26px; background: #6aa0b8; color: #fff; text-transform: uppercase; letter-spacing: 0.06em; font-size: 1.05em; }
+.fund.bericht { border-color: #c8433a; border-left-width: 10px; }
+.fund.bericht .fund-kopf { color: #a02c24; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 3px solid #c8433a; padding-bottom: 6px; }
+.fund-felder-liste { display: grid; grid-template-columns: max-content 1fr; gap: 8px 14px; margin: 0; }
+.fund-felder-liste dt { font-weight: 800; text-transform: uppercase; font-size: 0.72em; letter-spacing: 0.06em; color: #456; padding-top: 4px; }
+.fund-felder-liste dd { margin: 0; padding-bottom: 6px; border-bottom: 1px dashed #9ab; }
+.fund-felder-liste dd.frei { grid-column: 1 / -1; }
+.fund.laborzettel .fund-fuss, .fund.bericht .fund-fuss {
+  position: absolute; right: 18px; bottom: 36px; margin: 0; padding: 4px 14px;
+  border: 4px solid #2a6ea6; color: #2a6ea6; border-radius: 6px; transform: rotate(-10deg);
+  font-weight: 900; letter-spacing: 0.15em; font-size: 1.1em; opacity: 0.85; background: rgba(255, 255, 255, 0.4);
+}
+.fund.bericht .fund-fuss { border-color: #c8433a; color: #c8433a; }
+.fund.laborzettel, .fund.bericht { padding-bottom: 64px; }
+.fund.laborzettel .fund-buch, .fund.bericht .fund-buch { text-align: left; max-width: 52%; }
+
+/* ---------- Protokoll ---------- */
+.fund.protokoll { background: #f3ead6 url("../funde/fund_formular.webp") center / cover no-repeat; font-family: var(--schreibmaschine); border: 1px solid #b09a74; }
+.fund.protokoll .fund-kopf { text-transform: uppercase; letter-spacing: 0.08em; border-bottom: 2px solid #333; padding-bottom: 6px; font-size: 1.05em; }
+.fund-frage, .fund-antwort { margin: 6px 0; }
+.fund-frage b, .fund-antwort b { display: inline-block; min-width: 4.6em; font-size: 0.78em; text-transform: uppercase; letter-spacing: 0.06em; }
+.fund-antwort { margin-left: 18px; color: #1a3a7a; }
+.fund.protokoll .fund-fuss { margin-top: 16px; padding-top: 8px; border-top: 1px solid #333; font-family: var(--hand); font-style: italic; }
+
+/* ---------- Hinweisschild ---------- */
+.fund.schild {
+  background: #dfe5e8 url("../funde/fund_metallschild.webp") center / cover no-repeat;
+  border: 10px solid #6a757a; border-radius: 14px; font-family: system-ui, sans-serif; font-weight: 700;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55), inset 0 0 0 3px #f4f7f8; text-align: center;
+}
+.fund.schild::before, .fund.schild::after { content: ""; position: absolute; top: 12px; width: 12px; height: 12px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #fff, #8a959a); box-shadow: 0 1px 2px #0006; }
+.fund.schild::before { left: 12px; }
+.fund.schild::after { right: 12px; }
+.fund.schild .fund-kopf { text-transform: uppercase; letter-spacing: 0.08em; color: #8a1f1f; font-size: 1.15em; }
+.fund.schild .fund-fuss { text-transform: uppercase; letter-spacing: 0.06em; color: #8a1f1f; border-top: 3px solid #8a1f1f; padding-top: 8px; }
+
+/* ---------- Rezeptkarte / Einkaufszettel ---------- */
+.fund.rezept { background: #fff7e6; border: 3px dashed #d8a060; font-family: var(--serif); transform: rotate(0.9deg); }
+.fund.rezept .fund-kopf { font-style: italic; font-size: 1.5em; color: #9a4a12; text-align: center; border-bottom: 2px solid #e8c493; padding-bottom: 6px; }
+.fund.rezept .fund-fuss { font-style: italic; color: #8a5a2a; text-align: center; }
+.fund.rezept .fund-zeile:first-child { font-weight: 700; }
+
+/* ---------- Handy-Chat ---------- */
+.fund.chat { background: #131c24; border: 10px solid #2c3944; border-radius: 30px; width: min(420px, 100%); color: #fff; font-family: system-ui, sans-serif; padding: 0 16px 14px; transform: rotate(0.6deg); }
+.fund.chat .fund-kopf { margin: 0 -16px 12px; padding: 12px 18px; background: #1c8a5a; border-radius: 18px 18px 0 0; font-size: 1.02em; }
+.fund-chat { display: grid; gap: 10px; }
+.fund-blase { max-width: 84%; padding: 8px 12px 10px; border-radius: 16px; line-height: 1.3; }
+.fund-blase small { display: block; font-size: 0.7em; opacity: 0.75; margin-bottom: 2px; }
+.fund-blase.links { justify-self: start; background: #2c3944; border-bottom-left-radius: 4px; }
+.fund-blase.rechts { justify-self: end; background: #1c8a5a; border-bottom-right-radius: 4px; }
+.fund.chat .fund-fuss { text-align: right; font-size: 0.75em; color: #9ad6b5; margin-top: 8px; }
+.fund.chat .fund-fuss::after { content: " ✓✓"; }
+.fund.chat .fund-buch { color: #aab; }
+
+/* ---------- Dosenetikett ---------- */
+.fund.etikett { background: #f1e1b4; border: 5px double #7a5a2a; border-radius: 16px; font-family: var(--serif); }
+.fund.etikett .fund-kopf { text-align: center; text-transform: uppercase; letter-spacing: 0.12em; font-size: 1.35em; color: #6a3a12; border-bottom: 3px double #7a5a2a; padding-bottom: 8px; }
+.fund.etikett .fund-felder-liste dt { color: #6a3a12; }
+.fund.etikett .fund-fuss { text-align: center; font-size: 0.78em; letter-spacing: 0.04em; border-top: 1px solid #7a5a2a; padding-top: 6px; }
+
+/* ---------- Mini-Karten (Pinnwand) ---------- */
+.fund-mini {
+  position: relative; display: grid; grid-template-columns: 34px 1fr; gap: 2px 10px; align-items: center; text-align: left;
+  width: 190px; min-height: 76px; padding: 14px 12px 10px; border-radius: 6px;
+  background: color-mix(in srgb, var(--fund-farbe) 24%, #fffdf4); border: 2px solid var(--fund-farbe); color: #1d1d1d;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.45); line-height: 1.15;
+}
+.fund-mini .fund-icon { grid-row: span 2; color: #1d1d1d; }
+.fund-mini strong { font-size: calc(15px * var(--font-scale)); }
+.fund-mini small { font-size: calc(13px * var(--font-scale)); opacity: 0.75; }
+.fund-pin { position: absolute; top: -9px; left: 50%; width: 16px; height: 16px; margin-left: -8px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #ff8a80, #b3261e 70%); box-shadow: 0 2px 3px #0008; }
+.fund-mini.zusatz { border-style: dashed; border-color: #8f5cc0; }
+.fund-mini.zusatz .fund-pin { background: radial-gradient(circle at 35% 30%, #d6b3ff, #6b2fa8 70%); }
+.fund-mini.neu { animation: fund-pop 0.6s ease-out; }
+
+/* ---------- Pinnwand im Notizbuch ---------- */
+.pinnwand {
+  position: relative; padding: 18px 16px 22px; border-radius: 12px; border: 8px solid #6b4423;
+  background: #b4845a url("../funde/pinnwand_kork.webp") center / cover;
+  background-image: url("../funde/pinnwand_kork.webp"), radial-gradient(circle at 20% 30%, #c79a6c 0 3px, transparent 4px), radial-gradient(circle at 70% 60%, #9c6f45 0 3px, transparent 4px);
+  background-size: cover, 38px 38px, 53px 53px;
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.35);
+}
+.pinnwand { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px 22px; align-items: start; }
+.pinnwand > .pin-summe { grid-column: 1 / -1; justify-self: start; }
+.pin-raum { position: relative; margin-bottom: 8px; }
+.pin-raum h3 { display: inline-block; margin: 0 0 14px; padding: 4px 14px; background: #fffdf2; color: #1d1d1d; border-radius: 4px; font-family: var(--hand); transform: rotate(-1.5deg); box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4); font-size: calc(18px * var(--font-scale)); }
+.pin-karten { position: relative; z-index: 1; display: flex; flex-wrap: wrap; gap: 22px 14px; }
+.pin-karten > .fund-mini { width: calc(50% - 8px); min-width: 140px; box-sizing: border-box; }
+.pin-karten > :nth-child(3n+1) { transform: rotate(-2.2deg); }
+.pin-karten > :nth-child(3n+2) { transform: rotate(1.6deg); margin-top: 6px; }
+.pin-karten > :nth-child(3n) { transform: rotate(-0.8deg); }
+.pin-karten > .pin-offen { transform: none; flex: 1 1 100%; margin: 0; padding: 8px 12px; border-radius: 6px; border: 2px dashed rgba(255, 255, 255, 0.55); background: rgba(0, 0, 0, 0.28); color: #f1e6d6; font-size: calc(14px * var(--font-scale)); line-height: 1.2; }
+.pin-offen.nur-extra { border-color: #d6b3ff; color: #ecdcff; }
+.pin-faeden { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: visible; }
+.pin-faeden path { fill: none; stroke: #c0392b; stroke-width: 2.5; stroke-linecap: round; opacity: 0.85; filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.5)); }
+.pin-summe { margin: 0 0 12px; padding: 6px 12px; display: inline-block; background: rgba(0, 0, 0, 0.45); color: #fff; border-radius: 999px; font-size: calc(15px * var(--font-scale)); }

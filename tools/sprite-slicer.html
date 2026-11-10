@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Protein-Gym: Grafik-Werkzeug</title>
+  <style>
+    :root { color-scheme: dark; --bg: #0b1517; --panel: #12262a; --ink: #f3f1e7; --muted: #a9bcbc; --accent: #f08a24; --ok: #9be3b0; --bad: #ff9c92; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; padding: 16px; }
+    main { max-width: 1100px; margin: 0 auto; }
+    h1 { color: var(--accent); margin: 0 0 4px; }
+    .hint { color: var(--muted); margin: 4px 0; }
+    .tabs, .row { display: flex; gap: 8px; flex-wrap: wrap; margin: 10px 0; align-items: center; }
+    button, select, input { font: inherit; color: inherit; min-height: 42px; padding: 6px 12px; border-radius: 10px; border: 2px solid #35656b; background: #1a3a40; }
+    input[type=range] { padding: 0; min-height: 30px; }
+    input[type=number], input[type=text] { background: #0d1d20; width: 110px; }
+    button { cursor: pointer; }
+    button[aria-pressed="true"], button.primary { background: var(--accent); border-color: #ffb866; color: #1d1305; font-weight: 700; }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+    .panel { background: var(--panel); border: 2px solid #35656b; border-radius: 12px; padding: 10px 14px; margin: 10px 0; }
+    .drop { border: 3px dashed #35656b; border-radius: 12px; padding: 18px; text-align: center; color: var(--muted); }
+    .drop.over { border-color: var(--accent); color: var(--ink); }
+    canvas { max-width: 100%; image-rendering: pixelated; background: repeating-conic-gradient(#2a3a3d 0% 25%, #1d2b2e 0% 50%) 0 0 / 16px 16px; border-radius: 8px; }
+    .grid { display: flex; flex-wrap: wrap; gap: 10px; }
+    .tile { display: grid; gap: 4px; justify-items: center; font-size: 14px; color: var(--muted); }
+    .ok { color: var(--ok); } .warn { color: var(--bad); }
+    label { display: inline-flex; gap: 6px; align-items: center; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Grafik-Werkzeug</h1>
+  <p class="hint">Macht aus den ChatGPT-Bildern Spieldateien: Magenta freistellen, Figuren erkennen und ausrichten, Sheets teilen, Szenen verkleinern. Alles läuft in diesem Fenster, nichts wird hochgeladen. Danach die Dateien in den angegebenen Ordner legen und <code>node tools/precache.mjs</code> ausführen.</p>
+
+  <div class="tabs" role="group" aria-label="Aufgabe" id="tabs">
+    <button data-mode="walk" aria-pressed="true">Lauf-Streifen (Figur)</button>
+    <button data-mode="single" aria-pressed="false">Einzel-Sprite (NPC, Objekt)</button>
+    <button data-mode="sheet" aria-pressed="false">Sheet teilen (Porträts, Icons)</button>
+    <button data-mode="scene" aria-pressed="false">Szene umwandeln</button>
+  </div>
+
+  <div class="drop" id="drop">Bild hierher ziehen, einfügen (Strg+V) oder <button id="pick" type="button">Datei wählen</button><input id="file" type="file" accept="image/*" hidden></div>
+  <p id="info" class="hint" role="status"></p>
+
+  <section id="opt-walk" class="panel">
+    <strong>Lauf-Streifen:</strong> ein Bild mit 4 Lauf-Bildern der Figur auf Magenta (Prompt 8). Ergebnis nach <code>assets/figuren/</code>.
+    <div class="row">
+      <label>Richtung <select id="w-dir"><option>down</option><option>up</option><option>left</option><option>right</option></select></label>
+      <label>Figur-Variante <input id="w-var" type="number" min="1" max="3" value="1"></label>
+      <label>Bilder <input id="w-n" type="number" min="1" max="8" value="4"></label>
+      <label>Magenta-Toleranz <input id="w-tol" type="range" min="30" max="180" value="90"></label>
+      <label>Rand (px) <input id="w-pad" type="number" min="0" max="20" value="4"></label>
+    </div>
+    <div class="row"><label>Vorschau mit Shirtfarbe <select id="w-shirt"><option value="">unverändert</option><option value="#d9453b">Rot</option><option value="#3b78d9">Blau</option><option value="#e8b923">Gelb</option><option value="#3aa060">Grün</option></select></label>
+      <button id="w-save" class="primary" disabled>Streifen speichern</button></div>
+  </section>
+
+  <section id="opt-single" class="panel" hidden>
+    <strong>Einzel-Sprite:</strong> eine Figur oder ein Gegenstand auf Magenta. Ergebnis nach <code>assets/figuren/</code>.
+    <div class="row">
+      <label>Art <select id="s-kind"><option value="npc">NPC (npc_…)</option><option value="obj">Objekt (obj_…)</option></select></label>
+      <label>Name <input id="s-name" type="text" value="trainer"></label>
+      <label>Magenta-Toleranz <input id="s-tol" type="range" min="30" max="180" value="90"></label>
+      <label>Rand (px) <input id="s-pad" type="number" min="0" max="20" value="2"></label>
+      <button id="s-save" class="primary" disabled>Speichern</button>
+    </div>
+    <p class="hint">NPC-Namen wie im Spiel: trainer, alex, hannes, zoe, desi, kurt (Datei <code>npc_trainer.png</code>).</p>
+  </section>
+
+  <section id="opt-sheet" class="panel" hidden>
+    <strong>Sheet teilen:</strong> gleichmäßiges Raster, zum Beispiel vier Porträts in einer Reihe. Ergebnis für Porträts nach <code>assets/portraits/</code> (Dateien <code>trainer_0.png</code>, <code>trainer_1.png</code> …, im Dialog z. B. <code>"portrait": "trainer_1"</code>).
+    <div class="row">
+      <label>Spalten <input id="h-cols" type="number" min="1" max="10" value="4"></label>
+      <label>Zeilen <input id="h-rows" type="number" min="1" max="10" value="1"></label>
+      <label>Name <input id="h-name" type="text" value="trainer"></label>
+      <label>Kantenlänge (px, 0 = original) <input id="h-size" type="number" min="0" max="1024" value="256"></label>
+      <label><input id="h-quad" type="checkbox" checked> quadratisch zuschneiden</label>
+      <label><input id="h-key" type="checkbox"> Magenta freistellen (Icons)</label>
+      <button id="h-save" class="primary" disabled>Alle speichern</button>
+    </div>
+    <div class="grid" id="h-grid"></div>
+  </section>
+
+  <section id="opt-scene" class="panel" hidden>
+    <strong>Szene umwandeln:</strong> Szenenbild auf Spielgröße bringen und als WebP speichern (klein genug für den Offline-Speicher). Ergebnis nach <code>assets/szenen/</code>.
+    <div class="row">
+      <label>Name <input id="c-name" type="text" value="trainingsflaeche"></label>
+      <label>Breite <input id="c-w" type="number" value="1536"></label>
+      <label>Höhe <input id="c-h" type="number" value="1024"></label>
+      <label>Qualität <input id="c-q" type="range" min="50" max="100" value="88"></label>
+      <button id="c-save" class="primary" disabled>Speichern</button>
+    </div>
+  </section>
+
+  <div class="panel"><strong>Vorschau</strong>
+    <div class="row"><canvas id="prev" width="10" height="10"></canvas><canvas id="anim" width="10" height="10" hidden></canvas></div>
+  </div>
+</main>
+
+<script type="module">
+  import { keyOutMagenta, detectFrames, frameStrip, trimAlpha, splitEqual, cropImage, createImage } from './sprite-core.mjs';
+  import { recolorShirt, hexToRgb } from '../src/engine/recolor.js';
+
+  const $ = (s) => document.querySelector(s);
+  let mode = 'walk';
+  let src = null;          // { width, height, data }
+  let srcName = '';
+  let result = null;       // je Modus anders
+  let animTimer = null;
+
+  const toCanvas = (img) => { const c = document.createElement('canvas'); c.width = img.width; c.height = img.height; c.getContext('2d').putImageData(new ImageData(new Uint8ClampedArray(img.data), img.width, img.height), 0, 0); return c; };
+  const toImage = (c) => { const g = c.getContext('2d'); return g.getImageData(0, 0, c.width, c.height); };
+  const info = (t, cls = '') => { const e = $('#info'); e.textContent = t; e.className = `hint ${cls}`; };
+
+  async function loadFile(file) {
+    const bmp = await createImageBitmap(file);
+    const c = document.createElement('canvas'); c.width = bmp.width; c.height = bmp.height;
+    const g = c.getContext('2d'); g.drawImage(bmp, 0, 0);
+    src = g.getImageData(0, 0, c.width, c.height);
+    srcName = file.name || 'bild';
+    info(`${srcName}: ${src.width} × ${src.height} Pixel geladen.`, 'ok');
+    run();
+  }
+
+  function download(canvas, name, type = 'image/png', quality) {
+    return new Promise((res) => canvas.toBlob((blob) => {
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob); a.download = name; document.body.append(a); a.click();
+      setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); res(blob.size); }, 50);
+    }, type, quality));
+  }
+
+  function preview(img) {
+    const c = $('#prev');
+    c.width = img.width; c.height = img.height;
+    c.getContext('2d').putImageData(new ImageData(new Uint8ClampedArray(img.data), img.width, img.height), 0, 0);
+    c.style.height = `${Math.min(420, Math.max(120, img.height * 2))}px`;
+    c.style.width = 'auto';
+  }
+
+  function stopAnim() { if (animTimer) clearInterval(animTimer); animTimer = null; $('#anim').hidden = true; }
+
+  function run() {
+    ['walk', 'single', 'sheet', 'scene'].forEach((m) => { $(`#opt-${m}`).hidden = m !== mode; });
+    if (!src) return;
+    stopAnim();
+    $('#h-grid').replaceChildren();
+    result = null;
+    if (mode === 'walk') runWalk(); else if (mode === 'single') runSingle(); else if (mode === 'sheet') runSheet(); else runScene();
+  }
+
+  function runWalk() {
+    const n = Number($('#w-n').value) || 4;
+    const keyed = keyOutMagenta(src, { tol: Number($('#w-tol').value) });
+    const res = detectFrames(keyed, n);
+    const strip = frameStrip(res.frames, { pad: Number($('#w-pad').value) || 0 });
+    let img = strip.image;
+    const shirt = $('#w-shirt').value;
+    if (shirt) img = recolorShirt(img, hexToRgb(shirt));
+    result = { img, strip, n };
+    preview(img);
+    $('#w-save').disabled = false;
+    if (res.mode === 'flaechen') info(`${n} Figuren erkannt (Feld ${strip.frameWidth} × ${strip.frameHeight} Pixel). Prüfe die Animation unten.`, 'ok');
+    else info(`Achtung: Es wurden ${res.gefunden} statt ${n} Flächen gefunden. Das Bild wurde in ${n} gleich breite Spalten geteilt. Prüfe die Vorschau; sonst Toleranz ändern oder das Bild neu erzeugen.`, 'warn');
+    const a = $('#anim'); a.hidden = false;
+    a.width = strip.frameWidth; a.height = strip.frameHeight;
+    a.style.height = `${Math.max(120, strip.frameHeight * 3)}px`; a.style.width = 'auto';
+    const g = a.getContext('2d');
+    const full = toCanvas(img);
+    let f = 0;
+    animTimer = setInterval(() => { g.clearRect(0, 0, a.width, a.height); g.drawImage(full, f * strip.frameWidth, 0, strip.frameWidth, strip.frameHeight, 0, 0, strip.frameWidth, strip.frameHeight); f = (f + 1) % n; }, 130);
+  }
+
+  function runSingle() {
+    const keyed = keyOutMagenta(src, { tol: Number($('#s-tol').value) });
+    const img = trimAlpha(keyed, { pad: Number($('#s-pad').value) || 0 });
+    result = { img };
+    preview(img);
+    $('#s-save').disabled = false;
+    info(`Zugeschnitten auf ${img.width} × ${img.height} Pixel.`, 'ok');
+  }
+
+  function squareCrop(img) {
+    const s = Math.min(img.width, img.height);
+    const x0 = Math.floor((img.width - s) / 2), y0 = Math.floor((img.height - s) / 2);
+    return cropImage(img, { x0, y0, x1: x0 + s - 1, y1: y0 + s - 1 });
+  }
+
+  function scaled(img, w, h) {
+    const c = document.createElement('canvas'); c.width = w; c.height = h;
+    const g = c.getContext('2d'); g.imageSmoothingQuality = 'high';
+    g.drawImage(toCanvas(img), 0, 0, w, h);
+    return c;
+  }
+
+  function runSheet() {
+    const cols = Number($('#h-cols').value) || 1, rows = Number($('#h-rows').value) || 1;
+    let parts = splitEqual($('#h-key').checked ? keyOutMagenta(src) : src, cols, rows);
+    if ($('#h-key').checked) parts = parts.map((p) => trimAlpha(p, { pad: 2 }));
+    if ($('#h-quad').checked && !$('#h-key').checked) parts = parts.map(squareCrop);
+    const size = Number($('#h-size').value) || 0;
+    const name = $('#h-name').value.trim() || 'bild';
+    const canvases = parts.map((p) => (size ? scaled(p, size, size) : toCanvas(p)));
+    result = { canvases, name };
+    const grid = $('#h-grid');
+    canvases.forEach((c, i) => {
+      const t = document.createElement('div'); t.className = 'tile';
+      c.style.height = '120px'; c.style.width = 'auto';
+      const b = document.createElement('button'); b.type = 'button'; b.textContent = `${name}_${i}.png`;
+      b.addEventListener('click', () => download(c, `${name}_${i}.png`));
+      t.append(c, b); grid.append(t);
+    });
+    preview(src);
+    $('#h-save').disabled = false;
+    info(`${canvases.length} Teile (${cols} × ${rows}). Prüfe, ob die Schnitte passen.`, 'ok');
+  }
+
+  function runScene() {
+    const w = Number($('#c-w').value) || 1536, h = Number($('#c-h').value) || 1024;
+    const c = document.createElement('canvas'); c.width = w; c.height = h;
+    const g = c.getContext('2d'); g.imageSmoothingQuality = 'high';
+    const k = Math.max(w / src.width, h / src.height); // füllt die Fläche, überstehendes wird abgeschnitten
+    const dw = src.width * k, dh = src.height * k;
+    g.drawImage(toCanvas(src), (w - dw) / 2, (h - dh) / 2, dw, dh);
+    result = { canvas: c };
+    const p = $('#prev'); p.width = w; p.height = h; p.getContext('2d').drawImage(c, 0, 0); p.style.width = 'min(100%, 700px)'; p.style.height = 'auto';
+    $('#c-save').disabled = false;
+    const ratio = src.width / src.height, want = w / h;
+    info(`Auf ${w} × ${h} gebracht.${Math.abs(ratio - want) > 0.02 ? ` Achtung: Das Seitenverhältnis weicht ab (${ratio.toFixed(2)} statt ${want.toFixed(2)}), es wird beschnitten.` : ''}`, Math.abs(ratio - want) > 0.02 ? 'warn' : 'ok');
+  }
+
+  // ---- Bedienung ----
+  $('#tabs').addEventListener('click', (e) => {
+    const b = e.target.closest('button'); if (!b) return;
+    mode = b.dataset.mode;
+    document.querySelectorAll('#tabs button').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    run();
+  });
+  document.querySelectorAll('section.panel input, section.panel select').forEach((el) => el.addEventListener('input', run));
+  $('#pick').addEventListener('click', () => $('#file').click());
+  $('#file').addEventListener('change', (e) => e.target.files[0] && loadFile(e.target.files[0]));
+  const drop = $('#drop');
+  drop.addEventListener('dragover', (e) => { e.preventDefault(); drop.classList.add('over'); });
+  drop.addEventListener('dragleave', () => drop.classList.remove('over'));
+  drop.addEventListener('drop', (e) => { e.preventDefault(); drop.classList.remove('over'); const f = e.dataTransfer.files[0]; if (f) loadFile(f); });
+  window.addEventListener('paste', (e) => { const f = [...(e.clipboardData?.files || [])].find((x) => x.type.startsWith('image/')); if (f) loadFile(f); });
+
+  $('#w-save').addEventListener('click', () => download(toCanvas(result.img), `figur_v${$('#w-var').value}_walk_${$('#w-dir').value}.png`));
+  $('#s-save').addEventListener('click', () => download(toCanvas(result.img), `${$('#s-kind').value}_${$('#s-name').value.trim() || 'sprite'}.png`));
+  $('#h-save').addEventListener('click', async () => { for (let i = 0; i < result.canvases.length; i++) { await download(result.canvases[i], `${result.name}_${i}.png`); await new Promise((r) => setTimeout(r, 250)); } });
+  $('#c-save').addEventListener('click', async () => { const size = await download(result.canvas, `szene_${$('#c-name').value.trim() || 'szene'}.webp`, 'image/webp', Number($('#c-q').value) / 100); info(`Gespeichert (${Math.round(size / 1024)} KB).`, 'ok'); });
+
+  window.__slicer = { loadBitmapFile: loadFile, get result() { return result; }, setMode(m) { document.querySelector(`#tabs [data-mode=${m}]`).click(); } };
+</script>
+</body>
+</html>

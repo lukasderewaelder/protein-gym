@@ -1,0 +1,45 @@
+{
+  "hinweis": "Das Produkt ist frei erfunden. Die Texte enthalten keine Körperideale und keine Zahlen zu Gewicht oder Kalorien.",
+  "produkt": {
+    "name": "Muskel-Blitz Shake",
+    "zutaten": ["Milcheiweiß (Molkenprotein)", "Kakao", "Zitronensäure", "Süßstoff"]
+  },
+  "urteile": ["stimmt", "stimmt teilweise", "stimmt nicht"],
+  "aussagen": [
+    {
+      "text": "„Protein“ ist etwas ganz anderes als Eiweiß.",
+      "urteil": 2,
+      "begruendungen": ["Protein und Eiweiß sind zwei Wörter für denselben Stoff.", "Protein ist pflanzlich, Eiweiß ist tierisch.", "Protein ist ein Fett."],
+      "richtig": 0,
+      "erklaerung": "Protein ist das Fremdwort, Eiweiß das deutsche Wort. Gemeint ist derselbe Stoff."
+    },
+    {
+      "text": "Nie erhitzen, sonst ist das Eiweiß zerstört!",
+      "urteil": 2,
+      "begruendungen": ["Erhitzen lässt Eiweiß nur gerinnen (denaturieren), die Aminosäuren bleiben.", "Beim Erhitzen zerfallen alle Aminosäuren.", "Erhitztes Eiweiß wird beim Abkühlen wieder klar."],
+      "richtig": 0,
+      "erklaerung": "Beim Erhitzen gerinnt das Eiweiß: Die Struktur ändert sich, die Aminosäuren bleiben erhalten."
+    },
+    {
+      "text": "Eiweiß aus Nahrung ist wertlos, nur Aminosäuren aus Pulver wirken.",
+      "urteil": 2,
+      "begruendungen": ["Der Körper baut Nahrungseiweiß unverändert ein.", "Aminosäuren aus Pulver sind die einzige Quelle.", "Nahrungseiweiß wird zu Aminosäuren abgebaut, aus denen der Körper sein eigenes Eiweiß baut."],
+      "richtig": 2,
+      "erklaerung": "Auch Nahrungseiweiß wird bei der Verdauung zu Aminosäuren abgebaut. Es ist also nicht wertlos."
+    },
+    {
+      "text": "Wenn Zitrone den Shake ausflocken lässt, ist er verdorben und gefährlich.",
+      "urteil": 2,
+      "begruendungen": ["Das Eiweiß ist nur geronnen (denaturiert), es ist nicht verdorben.", "Geronnenes Eiweiß ist giftig.", "Dann sind alle Aminosäuren weg."],
+      "richtig": 0,
+      "erklaerung": "Säure lässt Eiweiß gerinnen. Das ist nicht gefährlich, die Aminosäuren bleiben erhalten."
+    },
+    {
+      "text": "Im Pulver steckt Eiweiß aus Milch, wie in Quark.",
+      "urteil": 0,
+      "begruendungen": ["Milcheiweiß ist Eiweiß, wie es auch in Quark steckt.", "Das Pulver enthält gar kein Eiweiß.", "Das Pulver besteht nur aus Zucker."],
+      "richtig": 0,
+      "erklaerung": "Die Zutatenliste nennt Milcheiweiß. Das Pulver ist ein getrocknetes Eiweiß-Lebensmittel, kein Zaubermittel."
+    }
+  ]
+}

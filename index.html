@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <meta name="theme-color" content="#0b1517">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>Protein-Gym</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="assets/icons/icon.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/icons/icon-192.png" type="image/png" sizes="192x192">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="assets/css/app.css">
+  <link rel="stylesheet" href="assets/css/game.css">
+  <link rel="stylesheet" href="assets/css/funde.css">
+</head>
+<body>
+  <canvas id="stage" aria-label="Spielfläche"></canvas>
+
+  <div id="hud" hidden>
+    <span id="room-chip" class="chip"></span>
+    <div class="hud-right">
+      <button id="btn-notebook" class="icon-btn" type="button">Spind</button>
+      <button id="btn-menu" class="icon-btn" type="button" aria-label="Menü">☰</button>
+    </div>
+  </div>
+
+  <div id="tray" class="tray" aria-label="Hinweiskärtchen in diesem Raum" hidden></div>
+
+  <div id="task" class="task" hidden>
+    <div class="task-card" role="dialog" aria-modal="true" aria-labelledby="task-title">
+      <header class="task-head">
+        <h2 id="task-title"></h2>
+        <button id="task-close" type="button" aria-label="Aufgabe schließen">✕</button>
+      </header>
+      <p class="task-meta"></p>
+      <div class="task-levels" role="group" aria-label="Niveau"></div>
+      <p class="task-auftrag"></p>
+      <p class="task-steps"></p>
+      <div class="task-body"></div>
+      <p class="task-feedback" role="status" aria-live="polite"></p>
+      <div class="task-help" hidden></div>
+      <footer class="task-foot"></footer>
+    </div>
+  </div>
+
+  <dialog id="fund" aria-label="Hinweiskärtchen"><div id="fund-inhalt" class="fund-fenster"></div></dialog>
+
+  <dialog id="notebook">
+    <header class="task-head spind-kopf">
+      <h2>Spind · Ermittlungszentrale</h2>
+      <button class="nb-close" type="button" aria-label="Spind schließen">✕</button>
+    </header>
+    <div class="nb-tabs" role="group" aria-label="Bereich">
+      <button type="button" data-tab="karten">Pinnwand</button>
+      <button type="button" data-tab="glossar">Glossar</button>
+      <button type="button" data-tab="hefter">Hefter</button>
+    </div>
+    <div class="nb-body"></div>
+  </dialog>
+
+  <button id="call" class="call" type="button" hidden>
+    <span class="call-big">✋ Trainer:in kommt gleich!</span>
+    <span>Halte dein Tablet hoch. Tippe, wenn Hilfe da war.</span>
+  </button>
+
+  <section id="zert" class="zert" hidden aria-label="Zertifikat">
+    <div class="zert-karte" id="zert-karte">
+      <p class="zert-klein">Protein-Gym · Probetraining abgeschlossen</p>
+      <h2>Mitgliedskarte</h2>
+      <p class="zert-namen" id="zert-namen"></p>
+      <p>hat das Probetraining „Eiweiße und Aminosäuren“ geschafft, den Fall gelöst und alle Räume abgeschlossen:</p>
+      <ul class="zert-liste">
+        <li>Labor: Versuch, Beobachtung, Protokoll</li>
+        <li>Sauna: Gerinnen im Alltag</li>
+        <li>Trainingsfläche: Bau der Eiweiße und Aminosäuren</li>
+        <li>Shake-Bar: Werbung prüfen</li>
+      </ul>
+      <p id="zert-quiz"></p>
+      <p class="zert-datum" id="zert-datum"></p>
+      <p class="zert-code-label">Code zum Ablesen für die Lehrkraft:</p>
+      <p class="code" id="zert-code"></p>
+      <p class="zert-klein">Das Zertifikat zeigt nur, was im Spiel geschafft wurde, und ersetzt keine Note.</p>
+    </div>
+    <div class="zert-knoepfe">
+      <button type="button" id="zert-druck" class="primary">Drucken oder als PDF speichern</button>
+      <button type="button" id="zert-zu">Zurück zum Spiel</button>
+    </div>
+  </section>
+
+  <dialog id="info">
+    <h2 id="info-title"></h2>
+    <div id="info-body"></div>
+    <div class="menu-row"><button type="button" id="info-close" class="primary">Schließen</button></div>
+  </dialog>
+
+  <div id="dialog" class="dialog" hidden role="dialog" aria-live="polite">
+    <div class="dialog-box">
+      <div class="dialog-portrait" aria-hidden="true"></div>
+      <div class="dialog-main">
+        <div class="dialog-name"></div>
+        <p class="dialog-text"></p>
+      </div>
+      <button class="dialog-next" type="button">Weiter →</button>
+    </div>
+  </div>
+
+  <section id="start" class="screen" hidden>
+    <div class="card">
+      <h1>Protein-Gym</h1>
+      <p class="lead">Probetraining mit Fall: Wer hat den Eiweiß-Vorrat des Studios zum Gerinnen gebracht?</p>
+      <form id="start-form" autocomplete="off">
+        <fieldset>
+          <legend>Wer spielt? (1 bis 3 Namen oder ein Gruppenname)</legend>
+          <input class="name-input" name="n1" maxlength="12" placeholder="Name 1" aria-label="Name 1" required>
+          <input class="name-input" name="n2" maxlength="12" placeholder="Name 2 (optional)" aria-label="Name 2">
+          <input class="name-input" name="n3" maxlength="12" placeholder="Name 3 (optional)" aria-label="Name 3">
+        </fieldset>
+        <button class="primary" type="submit">Los geht's</button>
+      </form>
+      <button id="btn-restore" class="link" type="button">Ich habe einen Fortschrittscode</button>
+      <form id="restore-form" autocomplete="off" hidden>
+        <input class="name-input" name="code" placeholder="Code, z. B. PG-1A2B-3C4D-5E6F7" aria-label="Fortschrittscode" required>
+        <input class="name-input" name="r1" maxlength="12" placeholder="Name 1" aria-label="Name 1 zum Code">
+        <input class="name-input" name="r2" maxlength="12" placeholder="Name 2 (optional)" aria-label="Name 2 zum Code">
+        <input class="name-input" name="r3" maxlength="12" placeholder="Name 3 (optional)" aria-label="Name 3 zum Code">
+        <p id="restore-msg" class="error" role="alert"></p>
+        <button class="primary" type="submit">Weiterspielen</button>
+      </form>
+      <p class="hint">Dein Spielstand bleibt auf diesem Gerät. Es werden keine Daten gesendet.</p>
+    </div>
+  </section>
+
+  <div id="rotate-hint" class="screen">
+    <div class="card"><h2>Bitte das Gerät drehen</h2><p>Das Spiel läuft im Querformat.</p></div>
+  </div>
+
+  <dialog id="menu">
+    <h2>Menü</h2>
+    <div class="menu-row">
+      <span>Schriftgröße</span>
+      <button type="button" id="font-down" aria-label="Schrift kleiner">A−</button>
+      <button type="button" id="font-up" aria-label="Schrift größer">A+</button>
+    </div>
+    <div class="menu-row">
+      <button type="button" id="btn-code">Fortschrittscode anzeigen</button>
+      <button type="button" id="btn-zert" hidden>Zertifikat anzeigen</button>
+    </div>
+    <div class="menu-row">
+      <button type="button" id="btn-reset" class="danger">Neues Spiel: Daten auf diesem Gerät löschen</button>
+    </div>
+    <div class="menu-row"><button type="button" id="menu-close" class="primary">Schließen</button></div>
+  </dialog>
+
+  <div id="fade" aria-hidden="true"></div>
+
+  <div id="editor-bar" hidden></div>
+  <textarea id="editor-out" hidden readonly aria-label="Ausgegebene Szene als JSON"></textarea>
+
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>

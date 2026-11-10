@@ -1,0 +1,874 @@
+{
+  "konstanten": {
+    "anzahlAminosaeuren": 22
+  },
+  "niveaus": [
+    {
+      "id": "A",
+      "name": "Leicht",
+      "text": "Schritt für Schritt mit Hilfen"
+    },
+    {
+      "id": "B",
+      "name": "Mittel",
+      "text": "Regelanforderung"
+    },
+    {
+      "id": "C",
+      "name": "Schwer",
+      "text": "Transfer und Zusatzfragen"
+    }
+  ],
+  "molekuele": {
+    "glycin": {
+      "name": "Glycin",
+      "kurz": "Gly",
+      "rest": "H",
+      "mid": "CH₂"
+    },
+    "alanin": {
+      "name": "Alanin",
+      "kurz": "Ala",
+      "rest": "CH₃",
+      "mid": "CH(CH₃)"
+    },
+    "valin": {
+      "name": "Valin",
+      "kurz": "Val",
+      "rest": "CH(CH₃)₂",
+      "mid": "CH(CH(CH₃)₂)"
+    },
+    "cystein": {
+      "name": "Cystein",
+      "kurz": "Cys",
+      "rest": "CH₂SH",
+      "mid": "CH(CH₂SH)"
+    }
+  },
+  "raeume": {
+    "empfang": {
+      "titel": "Empfang",
+      "aufgaben": ["a0"],
+      "pflicht": ["a0"],
+      "pflichtSchwer": [],
+      "fertigFlag": "empfang_done"
+    },
+    "labor": {
+      "titel": "Labor",
+      "aufgaben": ["a4"],
+      "pflicht": ["a4"],
+      "pflichtSchwer": [],
+      "fertigFlag": "labor_done"
+    },
+    "sauna": {
+      "titel": "Sauna",
+      "aufgaben": ["a5"],
+      "pflicht": ["a5"],
+      "pflichtSchwer": [],
+      "fertigFlag": "sauna_done"
+    },
+    "training": {
+      "titel": "Trainingsfläche",
+      "aufgaben": ["a3", "a1", "a2"],
+      "pflicht": ["a3", "a1"],
+      "pflichtSchwer": [],
+      "fertigFlag": "training_done"
+    },
+    "shakebar": {
+      "titel": "Shake-Bar",
+      "aufgaben": ["a6", "z1"],
+      "pflicht": ["a6"],
+      "pflichtSchwer": [],
+      "fertigFlag": "shakebar_done"
+    },
+    "abschluss": {
+      "titel": "Abschlussquiz",
+      "aufgaben": ["quiz"],
+      "pflicht": ["quiz"],
+      "pflichtSchwer": [],
+      "fertigFlag": "quiz_done"
+    }
+  },
+  "aufgaben": {
+    "a0": {
+      "titel": "Aufgabe 1: Einweisung",
+      "zeit": "ca. 4 Minuten",
+      "flag": "a0_done",
+      "braucht": ["spind_gesehen", "k_protein", "k_wichtig"],
+      "auftrag": "Du hast den Spind geöffnet und die ersten Hinweise gefunden. Zeig, was du schon weißt.",
+      "tipp": "Die Hinweise „Protein = Eiweiß“ und „Warum Eiweiße wichtig sind“ liegen im Spind.",
+      "hilfekarte": {
+        "titel": "Hilfekarte: Einweisung",
+        "zeilen": ["Protein = Eiweiß (zwei Wörter für dasselbe).", "Eiweiß baut Muskeln, Haut und Haare auf, transportiert Stoffe und schützt vor Krankheitserregern."]
+      },
+      "loesung": "Protein und Eiweiß sind dasselbe. Eiweiß baut Muskeln, Haut und Haare auf, es transportiert Stoffe wie Sauerstoff und schützt als Antikörper vor Krankheitserregern.",
+      "niveaus": {
+        "alle": [
+          {
+            "type": "zuordnen",
+            "auftrag": "Wofür braucht dein Körper Eiweiß? Tippe pro Beispiel an, welche Aufgabe gemeint ist.",
+            "optionen": ["Aufbau", "Transport", "Abwehr"],
+            "paare": [
+              {
+                "text": "Muskeln wachsen und werden repariert",
+                "richtig": "Aufbau"
+              },
+              {
+                "text": "Sauerstoff im Blut wird zu den Muskeln gebracht",
+                "richtig": "Transport"
+              },
+              {
+                "text": "Antikörper bekämpfen Krankheitserreger",
+                "richtig": "Abwehr"
+              },
+              {
+                "text": "Haare und Haut bestehen daraus",
+                "richtig": "Aufbau"
+              }
+            ]
+          },
+          {
+            "type": "luecken",
+            "auftrag": "Ergänze den Satz.",
+            "text": "Protein und {1} sind zwei Wörter für denselben Stoff. Eiweiß hilft zum Beispiel beim {2} von Muskeln.",
+            "loesungen": ["Eiweiß", "Aufbau"],
+            "optionen": ["Eiweiß", "Aufbau", "Zucker", "Abbau"]
+          }
+        ]
+      }
+    },
+    "a1": {
+      "titel": "Aufgabe 5: Baustein-Check",
+      "zeit": "ca. 5 Minuten",
+      "flag": "a1_done",
+      "braucht": ["k_bauplan", "k_rest"],
+      "auftrag": "Protein oder Eiweiß? Und woraus besteht es? Prüfe, was du aus den Karten mitgenommen hast.",
+      "tipp": "Schau in den Spind: „So entstehen Eiweiße“ und „So ist eine Aminosäure gebaut“.",
+      "hilfekarte": {
+        "titel": "Hilfekarte: Proteine und Aminosäuren",
+        "zeilen": ["Protein = Eiweiß (zwei Wörter für dasselbe).", "Proteine bestehen aus vielen Aminosäuren.", "Aminosäuren sind die Bausteine der Proteine.", "Satzbaustein: „Proteine bestehen aus …, sie sind die …“"]
+      },
+      "loesung": "Protein und Eiweiß sind dasselbe. Proteine bestehen aus Aminosäuren, die Aminosäuren sind ihre Bausteine. Jetzt versuchst du es mit der nächsten Aufgabe noch einmal.",
+      "niveaus": {
+        "A": [
+          {
+            "type": "zeigen",
+            "molekuel": "glycin",
+            "auftrag": "So sieht eine Aminosäure aus (hier Glycin). Tippe auf die Teile, dann siehst du, wie sie heißen. Du musst dir die Gruppen nicht merken: Wichtig ist nur, dass Aminosäuren die Bausteine der Proteine sind."
+          },
+          {
+            "type": "luecken",
+            "auftrag": "Ergänze den Satz.",
+            "text": "Protein und {1} sind zwei Wörter für dasselbe. Proteine bestehen aus {2}.",
+            "loesungen": ["Eiweiß", "Aminosäuren"],
+            "optionen": ["Eiweiß", "Aminosäuren", "Zucker", "Fett"]
+          }
+        ],
+        "B": [
+          {
+            "type": "zeigen",
+            "molekuel": "alanin",
+            "auftrag": "Das ist Alanin. Es sieht fast aus wie Glycin: Nur der Rest R oben ist anders. Alle Aminosäuren haben dasselbe Grundgerüst. Du musst die Gruppen nicht merken."
+          },
+          {
+            "type": "waehlen",
+            "frage": "Auf einem Riegel steht „Protein“, auf einem anderen „Eiweiß“. Was stimmt?",
+            "optionen": ["Das ist dasselbe: Protein ist das Fremdwort für Eiweiß.", "Protein ist pflanzlich, Eiweiß ist tierisch.", "Protein ist ein Fett, Eiweiß ein Zucker.", "Eiweiß ist gesünder als Protein."],
+            "richtig": 0,
+            "erklaerung": "Protein und Eiweiß sind zwei Wörter für denselben Stoff."
+          },
+          {
+            "type": "waehlen",
+            "frage": "Welche Aussage über Aminosäuren stimmt?",
+            "optionen": ["Aminosäuren sind die Bausteine der Proteine.", "Aminosäuren sind die Bausteine der Fette.", "Aminosäuren sind winzige Hantelscheiben aus Metall.", "Aminosäuren sind Vitamine."],
+            "richtig": 0,
+            "erklaerung": "Proteine (Eiweiße) sind aus Aminosäuren aufgebaut."
+          },
+          {
+            "type": "waehlen",
+            "frage": "Glycin ist eine Aminosäure. Warum ist Glycin allein kein Eiweiß?",
+            "optionen": ["Es ist nur ein einzelner Baustein. Ein Eiweiß ist eine lange Kette aus vielen Bausteinen.", "Glycin ist keine Aminosäure.", "Glycin ist zu groß für ein Eiweiß.", "Glycin enthält kein Wasser."],
+            "richtig": 0,
+            "erklaerung": "Ein Eiweiß besteht aus vielen Aminosäuren, die in einer Kette verbunden sind. Glycin allein ist nur ein Baustein. Deshalb zeigt auch der Biuret-Test bei Glycin kein Violett."
+          }
+        ],
+        "C": [
+          {
+            "type": "zeigen",
+            "molekuel": "alanin",
+            "auftrag": "Das ist Alanin. Es sieht fast aus wie Glycin: Nur der Rest R oben ist anders. Alle Aminosäuren haben dasselbe Grundgerüst. Du musst die Gruppen nicht merken."
+          },
+          {
+            "type": "waehlen",
+            "frage": "Auf einem Riegel steht „Protein“, auf einem anderen „Eiweiß“. Was stimmt?",
+            "optionen": ["Das ist dasselbe: Protein ist das Fremdwort für Eiweiß.", "Protein ist pflanzlich, Eiweiß ist tierisch.", "Protein ist ein Fett, Eiweiß ein Zucker.", "Eiweiß ist gesünder als Protein."],
+            "richtig": 0,
+            "erklaerung": "Protein und Eiweiß sind zwei Wörter für denselben Stoff."
+          },
+          {
+            "type": "zuordnen",
+            "auftrag": "Gehört das zur Aminosäure oder zum Protein (Eiweiß)? Tippe pro Aussage an, in beliebiger Reihenfolge.",
+            "optionen": ["Aminosäure", "Protein (Eiweiß)"],
+            "paare": [
+              {
+                "text": "Ein einzelner Baustein",
+                "richtig": "Aminosäure"
+              },
+              {
+                "text": "Lange Kette aus vielen Bausteinen",
+                "richtig": "Protein (Eiweiß)"
+              },
+              {
+                "text": "Glycin und Alanin sind Beispiele dafür",
+                "richtig": "Aminosäure"
+              },
+              {
+                "text": "Eiklar besteht neben Wasser fast nur daraus",
+                "richtig": "Protein (Eiweiß)"
+              }
+            ]
+          },
+          {
+            "type": "waehlen",
+            "frage": "Glycin ist eine Aminosäure. Warum ist Glycin allein kein Eiweiß?",
+            "optionen": ["Es ist nur ein einzelner Baustein. Ein Eiweiß ist eine lange Kette aus vielen Bausteinen.", "Glycin ist keine Aminosäure.", "Glycin ist zu groß für ein Eiweiß.", "Glycin enthält kein Wasser."],
+            "richtig": 0,
+            "erklaerung": "Ein Eiweiß besteht aus vielen Aminosäuren, die in einer Kette verbunden sind. Glycin allein ist nur ein Baustein. Deshalb zeigt auch der Biuret-Test bei Glycin kein Violett."
+          }
+        ]
+      }
+    },
+    "a2": {
+      "titel": "Zusatz: Peptidbindung und Dipeptide",
+      "zeit": "ca. 6 Minuten",
+      "flag": "a2_done",
+      "braucht": ["z_peptid"],
+      "auftrag": "Zusatzwissen für Schnelle (freiwillig): So verbinden sich Aminosäuren, und so wächst eine Kette.",
+      "tipp": "Die Zusatzkarte „Peptidbindung und Dipeptide“ im Spind hilft dir.",
+      "hilfekarte": {
+        "titel": "Hilfekarte: Peptidbindung",
+        "zeilen": ["Zwei Aminosäuren verbinden sich, dabei wird Wasser abgespalten (Kondensation).", "Die Verbindung –CO–NH– heißt Peptidbindung.", "Bei n Bausteinen gibt es n − 1 Peptidbindungen und n − 1 Wassermoleküle.", "Gly–Ala und Ala–Gly sind verschiedene Dipeptide."]
+      },
+      "loesung": "Zwei Aminosäuren verbinden sich über die Peptidbindung –CO–NH–, dabei wird Wasser frei. Bei n Aminosäuren gibt es n − 1 Peptidbindungen. Die Reihenfolge zählt: Gly–Ala und Ala–Gly sind zwei verschiedene Dipeptide, bei 22 Sorten gibt es 22 · 22 = 484.",
+      "niveaus": {
+        "A": [
+          {
+            "type": "luecken",
+            "auftrag": "Ergänze den Satz.",
+            "text": "Die Bindung zwischen den Aminosäuren heißt {1}. Zwei verbundene Aminosäuren sind ein {2}. Dabei wird {3} abgespalten.",
+            "loesungen": ["Peptidbindung", "Dipeptid", "Wasser"],
+            "optionen": ["Peptidbindung", "Dipeptid", "Wasser", "Kohlenstoffdioxid", "Tripeptid", "Esterbindung"]
+          },
+          {
+            "type": "waehlen",
+            "frage": "Du hängst drei Aminosäuren zu einer Kette zusammen. Wie viele Wassermoleküle entstehen?",
+            "bild": {
+              "kette": 3
+            },
+            "optionen": ["1", "2", "3", "4"],
+            "richtig": 1,
+            "erklaerung": "Zwischen drei Bausteinen gibt es zwei Verbindungsstellen, also entstehen 2 Wassermoleküle."
+          }
+        ],
+        "B": [
+          {
+            "type": "luecken",
+            "auftrag": "Beschreibe die Bildung des Dipeptids mit Satzbausteinen.",
+            "text": "Die {1}gruppe des einen reagiert mit der {2}gruppe des anderen. Dabei entsteht ein {3} und es wird {4} frei. Man nennt das eine {5}.",
+            "loesungen": ["Carboxy", "Amino", "Dipeptid", "Wasser", "Kondensation"],
+            "optionen": ["Carboxy", "Amino", "Dipeptid", "Wasser", "Kondensation", "Hydrolyse", "Methyl", "Sauerstoff"],
+            "austauschbar": [
+              [1, 2]
+            ]
+          },
+          {
+            "type": "waehlen",
+            "frage": "Welche Regel gilt für eine Kette aus n Aminosäuren?",
+            "optionen": ["n + 1 Wassermoleküle", "n Wassermoleküle", "n − 1 Wassermoleküle", "2n Wassermoleküle"],
+            "richtig": 2,
+            "erklaerung": "Eine Kette aus n Bausteinen hat n − 1 Verbindungsstellen, also n − 1 Wassermoleküle."
+          },
+          {
+            "type": "waehlen",
+            "frage": "Wie viele Wassermoleküle entstehen bei einer Kette aus vier Aminosäuren?",
+            "bild": {
+              "kette": 4
+            },
+            "optionen": ["2", "3", "4", "5"],
+            "richtig": 1,
+            "erklaerung": "Vier Bausteine haben 3 Verbindungsstellen: 4 − 1 = 3."
+          }
+        ],
+        "C": [
+          {
+            "type": "waehlen",
+            "frage": "Wie viele verschiedene Dipeptide lassen sich aus 22 verschiedenen Aminosäuren bilden? Die Reihenfolge zählt (Gly–Ala ≠ Ala–Gly).",
+            "optionen": ["44", "242", "484", "22"],
+            "richtig": 2,
+            "erklaerung": "22 Möglichkeiten für den ersten Baustein mal 22 für den zweiten: 22 · 22 = 484."
+          },
+          {
+            "type": "waehlen",
+            "frage": "Sind Gly–Ala und Ala–Gly dasselbe Dipeptid?",
+            "optionen": ["Nein, die Reihenfolge zählt: Es sind zwei verschiedene Dipeptide.", "Ja, die beiden Bausteine sind ja dieselben.", "Nur wenn man die Kette umdreht und kühlt.", "Das lässt sich nicht sagen."],
+            "richtig": 0,
+            "erklaerung": "Die Reihenfolge der Bausteine entscheidet, welches Dipeptid entsteht."
+          },
+          {
+            "type": "waehlen",
+            "frage": "Wie viele Peptidbindungen hat eine Kette aus sechs Aminosäuren?",
+            "bild": {
+              "kette": 6
+            },
+            "optionen": ["5", "6", "7", "12"],
+            "richtig": 0,
+            "erklaerung": "Sechs Bausteine haben 5 Verbindungsstellen: 6 − 1 = 5."
+          }
+        ]
+      }
+    },
+    "a3": {
+      "titel": "Aufgabe 4: Bau und Faltung",
+      "zeit": "ca. 10 Minuten",
+      "flag": "a3_done",
+      "braucht": ["k_kette", "k_bauplan", "k_struktur"],
+      "auftrag": "Wie ist ein Eiweiß aufgebaut, und was passiert beim Gerinnen? Damit löst du die Frage vom Anfang.",
+      "tipp": "Schau in den Spind: „So entstehen Eiweiße“, „Eine Kette aus Bausteinen“ und „Gefaltet und fest: die Struktur“.",
+      "hilfekarte": {
+        "titel": "Hilfekarte: Bau und Faltung",
+        "zeilen": ["Aminosäuren verbinden sich unter Wasserabspaltung (Kondensation) zu einer langen Kette.", "Die Kette ist zu einer festen Form gefaltet. Schwache Verbindungen halten die Falten.", "Beim Gerinnen lösen sich diese Verbindungen: Die Kette entfaltet sich und verklumpt.", "Die Aminosäuren bleiben, das Eiweiß verliert seine Wirkung."]
+      },
+      "loesung": "Viele Aminosäuren verbinden sich unter Wasserabspaltung zu einer langen Kette. Die Kette ist gefaltet, schwache Verbindungen halten die Falten. Hitze, Säure, Alkohol oder Schwermetallsalze lösen sie, die Kette entfaltet sich und verklumpt: Das Eiweiß gerinnt. Die Aminosäuren bleiben, aber ohne die Form ist die Wirkung weg und die Form kommt nicht zurück.",
+      "niveaus": {
+        "A": [
+          {
+            "type": "luecken",
+            "auftrag": "Ergänze den Satz.",
+            "text": "Viele {1} verbinden sich zu einer langen {2}. Dabei wird {3} abgespalten.",
+            "loesungen": ["Aminosäuren", "Kette", "Wasser"],
+            "optionen": ["Aminosäuren", "Kette", "Wasser", "Zucker", "Fette", "Salz"]
+          },
+          {
+            "type": "reihenfolge",
+            "auftrag": "Wie gerinnt ein Eiweiß? Tippe die Schritte in der richtigen Reihenfolge an.",
+            "korrekt": ["Das Eiweiß hat eine gefaltete Form, schwache Verbindungen in der Kette halten sie.", "Hitze, Säure, Alkohol oder Schwermetallsalz lösen diese Verbindungen.", "Die Kette entfaltet sich, die Form ist zerstört.", "Die entfalteten Ketten verklumpen: Das Eiweiß gerinnt (trüb, fest)."],
+            "anzeige": [2, 0, 3, 1]
+          },
+          {
+            "type": "waehlen",
+            "bild": "denat",
+            "frage": "Warum lässt sich das Gerinnen nicht rückgängig machen?",
+            "optionen": ["Die entfalteten Ketten verklumpen und falten sich nicht von allein zur alten Form zurück.", "Beim Abkühlen entsteht die Struktur neu.", "Die Aminosäuren sind verschwunden.", "Es war nur zu wenig Wasser im Ei."],
+            "richtig": 0,
+            "erklaerung": "Die Aminosäuren sind noch da, aber die Form ist weg und kommt nicht von selbst zurück."
+          },
+          {
+            "type": "rueckblick",
+            "zwischen": true
+          }
+        ],
+        "B": [
+          {
+            "type": "luecken",
+            "auftrag": "Ergänze den Satz.",
+            "text": "Viele {1} verbinden sich zu einer langen {2}. Dabei wird {3} abgespalten.",
+            "loesungen": ["Aminosäuren", "Kette", "Wasser"],
+            "optionen": ["Aminosäuren", "Kette", "Wasser", "Zucker", "Fette", "Salz"]
+          },
+          {
+            "type": "reihenfolge",
+            "auftrag": "Wie gerinnt ein Eiweiß? Tippe die Schritte in der richtigen Reihenfolge an.",
+            "korrekt": ["Das Eiweiß hat eine gefaltete Form, schwache Verbindungen in der Kette halten sie.", "Hitze, Säure, Alkohol oder Schwermetallsalz lösen diese Verbindungen.", "Die Kette entfaltet sich, die Form ist zerstört.", "Die entfalteten Ketten verklumpen: Das Eiweiß gerinnt (trüb, fest)."],
+            "anzeige": [2, 0, 3, 1]
+          },
+          {
+            "type": "waehlen",
+            "bild": "denat",
+            "frage": "Warum lässt sich das Gerinnen nicht rückgängig machen?",
+            "optionen": ["Die entfalteten Ketten verklumpen und falten sich nicht von allein zur alten Form zurück.", "Beim Abkühlen entsteht die Struktur neu.", "Die Aminosäuren sind verschwunden.", "Es war nur zu wenig Wasser im Ei."],
+            "richtig": 0,
+            "erklaerung": "Die Aminosäuren sind noch da, aber die Form ist weg und kommt nicht von selbst zurück."
+          },
+          {
+            "type": "waehlen",
+            "frage": "Warum verliert ein Eiweiß beim Gerinnen seine Wirkung?",
+            "optionen": ["Seine Wirkung hängt von der gefalteten Form ab, und die ist zerstört.", "Die Aminosäuren werden zu Zucker.", "Es bekommt plötzlich zu viel Wasser.", "Es wird durch das Erhitzen schwerer."],
+            "richtig": 0,
+            "erklaerung": "Nur mit der richtigen Form kann ein Eiweiß seine Aufgabe erfüllen."
+          },
+          {
+            "type": "rueckblick",
+            "zwischen": true
+          }
+        ],
+        "C": [
+          {
+            "type": "luecken",
+            "auftrag": "Ergänze den Satz.",
+            "text": "Viele {1} verbinden sich zu einer langen {2}. Dabei wird {3} abgespalten.",
+            "loesungen": ["Aminosäuren", "Kette", "Wasser"],
+            "optionen": ["Aminosäuren", "Kette", "Wasser", "Zucker", "Fette", "Salz"]
+          },
+          {
+            "type": "reihenfolge",
+            "auftrag": "Wie gerinnt ein Eiweiß? Tippe die Schritte in der richtigen Reihenfolge an.",
+            "korrekt": ["Das Eiweiß hat eine gefaltete Form, schwache Verbindungen in der Kette halten sie.", "Hitze, Säure, Alkohol oder Schwermetallsalz lösen diese Verbindungen.", "Die Kette entfaltet sich, die Form ist zerstört.", "Die entfalteten Ketten verklumpen: Das Eiweiß gerinnt (trüb, fest)."],
+            "anzeige": [2, 0, 3, 1]
+          },
+          {
+            "type": "waehlen",
+            "bild": "denat",
+            "frage": "Warum lässt sich das Gerinnen nicht rückgängig machen?",
+            "optionen": ["Die entfalteten Ketten verklumpen und falten sich nicht von allein zur alten Form zurück.", "Beim Abkühlen entsteht die Struktur neu.", "Die Aminosäuren sind verschwunden.", "Es war nur zu wenig Wasser im Ei."],
+            "richtig": 0,
+            "erklaerung": "Die Aminosäuren sind noch da, aber die Form ist weg und kommt nicht von selbst zurück."
+          },
+          {
+            "type": "waehlen",
+            "frage": "Warum verliert ein Eiweiß beim Gerinnen seine Wirkung?",
+            "optionen": ["Seine Wirkung hängt von der gefalteten Form ab, und die ist zerstört.", "Die Aminosäuren werden zu Zucker.", "Es bekommt plötzlich zu viel Wasser.", "Es wird durch das Erhitzen schwerer."],
+            "richtig": 0,
+            "erklaerung": "Nur mit der richtigen Form kann ein Eiweiß seine Aufgabe erfüllen."
+          },
+          {
+            "type": "waehlen",
+            "frage": "Was hält die Falten in einem Eiweiß zusammen?",
+            "optionen": ["Schwache Verbindungen (Wasserstoffbrücken) zwischen Teilen der Kette.", "Ein Klebstoff aus Zucker.", "Die Hitze der Umgebung.", "Eine Hülle aus Fett."],
+            "richtig": 0,
+            "erklaerung": "Wasserstoffbrücken sind schwache Verbindungen. Schon Hitze, Säure, Alkohol oder Schwermetallsalze können sie lösen."
+          },
+          {
+            "type": "rueckblick",
+            "zwischen": true
+          }
+        ]
+      }
+    },
+    "a4": {
+      "titel": "Aufgabe 2: Vorhersagen, beobachten, deuten",
+      "zeit": "ca. 20 Minuten (Versuch am Tisch)",
+      "flag": "a4_done",
+      "braucht": ["lab_frei", "k_denat", "k_ausloeser", "k_biuret"],
+      "auftrag": "Erst vermuten, dann den Versuch am Tisch machen, beobachten, protokollieren und deuten. Das Tablet bereitet vor und wertet aus, es ersetzt den Versuch nicht.",
+      "tipp": "Schau in den Spind: „Denaturieren heißt Gerinnen“, „Die vier Auslöser“ und „Der Biuret-Nachweis“. Ausgeflockt heißt geronnen, also denaturiert.",
+      "hilfekarte": {
+        "titel": "Hilfekarte: Versuch deuten",
+        "zeilen": ["Auslöser fürs Gerinnen (Denaturieren): Hitze, Säure, Alkohol, Schwermetallsalz.", "Kontrolle ohne Zusatz (Wasser): Hier verändert sich nichts.", "Biuret: Eiweiß wird violett, Wasser und Zuckerlösung bleiben blau.", "Satzbaustein: „Die Beobachtung zeigt …, weil …“"]
+      },
+      "loesung": "Ausgeflockt heißt geronnen (denaturiert): Hitze, Säure, Ethanol und Schwermetallsalz lassen das Eiweiß gerinnen, Wasser nicht. Der Vorgang ist nicht umkehrbar. Eiweiß färbt sich im Biuret-Test violett, Wasser und Zuckerlösung bleiben blau.",
+      "niveaus": {
+        "A": [
+          {
+            "type": "vermutung"
+          },
+          {
+            "type": "anleitung",
+            "auftrag": "Plane den Versuch mit der Schritt-für-Schritt-Anleitung. Hake jeden Schritt ab, wenn du ihn gelesen hast.",
+            "schritte": ["Schutzbrille und Handschuhe anziehen.", "Fünf Reagenzgläser beschriften (1 bis 5) und in den Ständer stellen.", "In jedes Glas gleich viel Eiklarlösung geben (Menge laut Lehrbuch S. 21–22, Exp. 14–16, oder Anleitung der Lehrkraft).", "Probe 1 im Wasserbad erhitzen (die Lehrkraft stellt es bereit).", "Zu den Proben 2 bis 4 Essigsäure, Kupfersulfat-Lösung und Ethanol geben. Ethanol gibt nur die Lehrkraft aus, keine offene Flamme.", "Zu Probe 5 Wasser geben (Kontrolle).", "Beobachten und im Protokoll festhalten. Danach den Biuret-Nachweis mit Eiklarlösung, Wasser und Zuckerlösung an der Nachweis-Station machen."]
+          },
+          {
+            "type": "simulation"
+          },
+          {
+            "type": "versuch"
+          },
+          {
+            "type": "beobachtung"
+          },
+          {
+            "type": "luecken",
+            "auftrag": "Deute den Versuch.",
+            "text": "Das Eiweiß ist {1} (Fachwort: {2}). Aus klarem Eiklar wird {3} Eiweiß. Der Vorgang ist {4}.",
+            "loesungen": ["geronnen", "denaturiert", "festes", "nicht umkehrbar"],
+            "optionen": ["geronnen", "denaturiert", "gelöst", "festes", "flüssiges", "nicht umkehrbar", "umkehrbar", "violett"],
+            "austauschbar": [
+              [1, 2]
+            ]
+          },
+          {
+            "type": "waehlen",
+            "frage": "Im Biuret-Test wird die Eiklar-Probe violett, die Probe mit Wasser bleibt blau. Was zeigt das?",
+            "optionen": ["Nur die Eiklar-Probe enthält Eiweiß.", "Wasser enthält Eiweiß.", "Der Test funktioniert nicht.", "Beide Proben sind gleich."],
+            "richtig": 0,
+            "erklaerung": "Violett zeigt Eiweiß an. Wasser enthält keins und bleibt blau."
+          },
+          {
+            "type": "export"
+          }
+        ],
+        "B": [
+          {
+            "type": "vermutung"
+          },
+          {
+            "type": "reihenfolge",
+            "auftrag": "Plane den Versuch selbst. Material: Reagenzgläser und Ständer, Eiklarlösung, Essigsäure, Kupfersulfat-Lösung, Ethanol (von der Lehrkraft), Wasser, Wasserbad, Schutzbrille, Handschuhe. Tippe die Schritte in der richtigen Reihenfolge an.",
+            "korrekt": ["Schutzbrille und Handschuhe anziehen.", "Reagenzgläser beschriften und in den Ständer stellen.", "Eiklarlösung in jedes Glas geben.", "Zu jedem Glas einen anderen Zusatz geben (Probe 5 nur Wasser).", "Beobachten und im Protokoll festhalten.", "Lösungen richtig entsorgen (Kupfer in den Sammelbehälter)."],
+            "anzeige": [3, 0, 5, 2, 4, 1],
+            "gleichwertig": [
+              [1, 2]
+            ]
+          },
+          {
+            "type": "simulation"
+          },
+          {
+            "type": "versuch"
+          },
+          {
+            "type": "beobachtung"
+          },
+          {
+            "type": "luecken",
+            "auftrag": "Deute den Versuch.",
+            "text": "Das Eiweiß ist {1} (Fachwort: {2}). Aus klarem Eiklar wird {3} Eiweiß. Der Vorgang ist {4}.",
+            "loesungen": ["geronnen", "denaturiert", "festes", "nicht umkehrbar"],
+            "optionen": ["geronnen", "denaturiert", "gelöst", "festes", "flüssiges", "nicht umkehrbar", "umkehrbar", "violett"],
+            "austauschbar": [
+              [1, 2]
+            ]
+          },
+          {
+            "type": "waehlen",
+            "frage": "Im Biuret-Test wird die Eiklar-Probe violett, die Probe mit Wasser bleibt blau. Was zeigt das?",
+            "optionen": ["Nur die Eiklar-Probe enthält Eiweiß.", "Wasser enthält Eiweiß.", "Der Test funktioniert nicht.", "Beide Proben sind gleich."],
+            "richtig": 0,
+            "erklaerung": "Violett zeigt Eiweiß an. Wasser enthält keins und bleibt blau."
+          },
+          {
+            "type": "export"
+          }
+        ],
+        "C": [
+          {
+            "type": "vermutung"
+          },
+          {
+            "type": "reihenfolge",
+            "auftrag": "Plane den Versuch selbst. Material: Reagenzgläser und Ständer, Eiklarlösung, Essigsäure, Kupfersulfat-Lösung, Ethanol (von der Lehrkraft), Wasser, Zuckerlösung, Natronlauge, Wasserbad, Schutzbrille, Handschuhe. Tippe die Schritte in der richtigen Reihenfolge an. Gleichwertige Schritte dürfen vertauscht werden.",
+            "korrekt": ["Schutzbrille und Handschuhe anziehen.", "Fünf Reagenzgläser beschriften und in den Ständer stellen.", "In jedes Glas gleich viel Eiklarlösung geben.", "Probe 5 bekommt nur Wasser (Kontrolle).", "Den Proben 1 bis 4 je einen Auslöser zugeben: Hitze, Säure, Ethanol, Kupfersulfat-Lösung.", "Beobachten und im Protokoll festhalten.", "Für den Biuret-Nachweis Eiklarlösung, Wasser und Zuckerlösung mit Natronlauge und Kupfersulfat-Lösung versetzen.", "Lösungen richtig entsorgen (Kupfer in den Sammelbehälter)."],
+            "anzeige": [4, 7, 1, 0, 6, 3, 2, 5],
+            "gleichwertig": [
+              [1, 2],
+              [3, 4]
+            ]
+          },
+          {
+            "type": "simulation"
+          },
+          {
+            "type": "versuch"
+          },
+          {
+            "type": "beobachtung"
+          },
+          {
+            "type": "luecken",
+            "auftrag": "Deute den Versuch.",
+            "text": "Das Eiweiß ist {1} (Fachwort: {2}). Aus klarem Eiklar wird {3} Eiweiß. Der Vorgang ist {4}.",
+            "loesungen": ["geronnen", "denaturiert", "festes", "nicht umkehrbar"],
+            "optionen": ["geronnen", "denaturiert", "gelöst", "festes", "flüssiges", "nicht umkehrbar", "umkehrbar", "violett"],
+            "austauschbar": [
+              [1, 2]
+            ]
+          },
+          {
+            "type": "waehlen",
+            "frage": "Im Biuret-Test wird die Eiklar-Probe violett, die Probe mit Wasser bleibt blau. Was zeigt das?",
+            "optionen": ["Nur die Eiklar-Probe enthält Eiweiß.", "Wasser enthält Eiweiß.", "Der Test funktioniert nicht.", "Beide Proben sind gleich."],
+            "richtig": 0,
+            "erklaerung": "Violett zeigt Eiweiß an. Wasser enthält keins und bleibt blau."
+          },
+          {
+            "type": "export"
+          }
+        ]
+      }
+    },
+    "a5": {
+      "titel": "Aufgabe 3: Gerinnen im Alltag",
+      "zeit": "ca. 8 Minuten",
+      "flag": "a5_done",
+      "braucht": ["k_hitze", "k_umkehr", "k_haltbar"],
+      "auftrag": "Eiweiß gerinnt im Alltag ständig, zum Beispiel beim Frühstücksei. Ordne die Situationen den Auslösern zu und beantworte kurze Fragen.",
+      "tipp": "Die Karten „Hitze und Eiweiß“, „Nicht umkehrbar“ und „Erhitzen macht haltbar“ im Spind helfen dir. Die vier Auslöser stehen auf der Karte „Die vier Auslöser“.",
+      "hilfekarte": {
+        "titel": "Hilfekarte: Gerinnen im Alltag",
+        "zeilen": ["Auslöser: Hitze, Säure, Alkohol, Schwermetallsalz.", "Aus klarem Eiklar wird beim Gerinnen festes, weißes Eiweiß.", "Gerinnen ist nicht umkehrbar.", "Erhitzen lässt auch die Eiweiße von Keimen gerinnen."]
+      },
+      "loesung": "Spiegelei braten: Hitze. Milch mit Zitronensaft: Säure. Hände mit Ethanol desinfizieren: Alkohol. Kupfersulfat: Schwermetallsalz. Gerinntes Eiweiß lässt sich nicht zurückverwandeln. Hitze macht Essen haltbar, weil auch die Eiweiße der Keime gerinnen.",
+      "niveaus": {
+        "A": [
+          {
+            "type": "zuordnen",
+            "auftrag": "Welcher Auslöser steckt dahinter? Tippe pro Situation einen Auslöser an.",
+            "optionen": ["Hitze", "Säure", "Alkohol", "Schwermetallsalz"],
+            "paare": [
+              {
+                "text": "Spiegelei in der Pfanne braten",
+                "richtig": "Hitze"
+              },
+              {
+                "text": "Milch mit Zitronensaft oder Essig versetzen",
+                "richtig": "Säure"
+              },
+              {
+                "text": "Hände mit Ethanol desinfizieren",
+                "richtig": "Alkohol"
+              },
+              {
+                "text": "Kupfersulfat-Lösung im Versuch",
+                "richtig": "Schwermetallsalz"
+              }
+            ]
+          },
+          {
+            "type": "waehlen",
+            "frage": "Kann man aus einem gebratenen Ei wieder rohes Eiklar machen?",
+            "optionen": ["Nein, das Gerinnen ist nicht umkehrbar.", "Ja, wenn es wieder abkühlt.", "Ja, mit etwas Wasser.", "Nur in der Sauna."],
+            "richtig": 0,
+            "erklaerung": "Wenn Eiweiß gerinnt, verändert es sich dauerhaft. Es wird nicht wieder klar, auch nicht beim Abkühlen."
+          }
+        ],
+        "B": [
+          {
+            "type": "zuordnen",
+            "auftrag": "Welcher Auslöser steckt dahinter? Tippe pro Situation einen Auslöser an.",
+            "optionen": ["Hitze", "Säure", "Alkohol", "Schwermetallsalz"],
+            "paare": [
+              {
+                "text": "Spiegelei in der Pfanne braten",
+                "richtig": "Hitze"
+              },
+              {
+                "text": "Milch mit Zitronensaft oder Essig versetzen",
+                "richtig": "Säure"
+              },
+              {
+                "text": "Hände mit Ethanol desinfizieren",
+                "richtig": "Alkohol"
+              },
+              {
+                "text": "Kupfersulfat-Lösung im Versuch",
+                "richtig": "Schwermetallsalz"
+              }
+            ]
+          },
+          {
+            "type": "waehlen",
+            "frage": "Kann man aus einem gebratenen Ei wieder rohes Eiklar machen?",
+            "optionen": ["Nein, das Gerinnen ist nicht umkehrbar.", "Ja, wenn es wieder abkühlt.", "Ja, mit etwas Wasser.", "Nur in der Sauna."],
+            "richtig": 0,
+            "erklaerung": "Wenn Eiweiß gerinnt, verändert es sich dauerhaft. Es wird nicht wieder klar, auch nicht beim Abkühlen."
+          },
+          {
+            "type": "waehlen",
+            "frage": "Warum macht Erhitzen Lebensmittel haltbar?",
+            "optionen": ["Auch Keime bestehen aus Eiweißen. Hitze lässt sie gerinnen, und die Keime verlieren ihre Wirkung.", "Hitze verwandelt Eiweiß in Zucker.", "Erhitzte Lebensmittel enthalten kein Wasser mehr.", "Keime schlafen bei Hitze nur ein."],
+            "richtig": 0,
+            "erklaerung": "Hitze lässt die Eiweiße der Keime gerinnen, deshalb wirken die Keime nicht mehr."
+          }
+        ],
+        "C": [
+          {
+            "type": "zuordnen",
+            "auftrag": "Welcher Auslöser steckt dahinter? Tippe pro Situation einen Auslöser an.",
+            "optionen": ["Hitze", "Säure", "Alkohol", "Schwermetallsalz"],
+            "paare": [
+              {
+                "text": "Spiegelei in der Pfanne braten",
+                "richtig": "Hitze"
+              },
+              {
+                "text": "Milch mit Zitronensaft oder Essig versetzen",
+                "richtig": "Säure"
+              },
+              {
+                "text": "Hände mit Ethanol desinfizieren",
+                "richtig": "Alkohol"
+              },
+              {
+                "text": "Kupfersulfat-Lösung im Versuch",
+                "richtig": "Schwermetallsalz"
+              }
+            ]
+          },
+          {
+            "type": "waehlen",
+            "frage": "Kann man aus einem gebratenen Ei wieder rohes Eiklar machen?",
+            "optionen": ["Nein, das Gerinnen ist nicht umkehrbar.", "Ja, wenn es wieder abkühlt.", "Ja, mit etwas Wasser.", "Nur in der Sauna."],
+            "richtig": 0,
+            "erklaerung": "Wenn Eiweiß gerinnt, verändert es sich dauerhaft. Es wird nicht wieder klar, auch nicht beim Abkühlen."
+          },
+          {
+            "type": "waehlen",
+            "frage": "Warum macht Erhitzen Lebensmittel haltbar?",
+            "optionen": ["Auch Keime bestehen aus Eiweißen. Hitze lässt sie gerinnen, und die Keime verlieren ihre Wirkung.", "Hitze verwandelt Eiweiß in Zucker.", "Erhitzte Lebensmittel enthalten kein Wasser mehr.", "Keime schlafen bei Hitze nur ein."],
+            "richtig": 0,
+            "erklaerung": "Hitze lässt die Eiweiße der Keime gerinnen, deshalb wirken die Keime nicht mehr."
+          },
+          {
+            "type": "luecken",
+            "auftrag": "Ergänze den Merksatz.",
+            "text": "Eiweiß gerinnt durch {1}, {2}, {3} und {4}. Das Gerinnen ist {5}.",
+            "loesungen": ["Hitze", "Säure", "Alkohol", "Schwermetallsalze", "nicht umkehrbar"],
+            "optionen": ["Hitze", "Säure", "Alkohol", "Schwermetallsalze", "nicht umkehrbar", "Wasser", "Zucker", "umkehrbar"],
+            "austauschbar": [
+              [1, 2, 3, 4]
+            ]
+          }
+        ]
+      }
+    },
+    "a6": {
+      "titel": "Aufgabe 6: Shake-Check",
+      "zeit": "ca. 8 Minuten",
+      "flag": "a6_done",
+      "braucht": ["k_dose", "k_abbau", "k_geronnen"],
+      "auftrag": "Alex will einen Eiweiß-Shake kaufen und fragt, ob die Werbung stimmt. Prüfe die Aussagen mit deinem Wissen und gib ihm dann einen Rat.",
+      "tipp": "Nutze die Karten „Protein = Eiweiß“, „Was ist in der Dose?“, „Abbau im Körper“ und „Geronnen heißt nicht verdorben“ im Spind.",
+      "hilfekarte": {
+        "titel": "Hilfekarte: Werbung prüfen",
+        "zeilen": ["Protein = Eiweiß, es ist derselbe Stoff.", "Nahrungseiweiß wird zu Aminosäuren abgebaut, daraus baut der Körper sein eigenes Eiweiß.", "Erhitzen lässt Eiweiß gerinnen (denaturieren), die Aminosäuren bleiben.", "Satzbaustein: „Ich rate dir …, weil …“"]
+      },
+      "loesung": "Aussage 1 bis 4 stimmen nicht: Protein und Eiweiß sind dasselbe, Erhitzen lässt Eiweiß nur gerinnen, Nahrungseiweiß wird zu Aminosäuren abgebaut, und geronnenes Eiweiß ist nicht verdorben. Aussage 5 stimmt: Im Pulver steckt Milcheiweiß wie in Quark.",
+      "niveaus": {
+        "A": [
+          {
+            "type": "werbung"
+          },
+          {
+            "type": "luecken",
+            "auftrag": "Stelle deinen Rat aus Satzbausteinen zusammen.",
+            "text": "Alex, „Protein“ ist dasselbe wie {1}. Erhitztes Eiweiß ist nicht {2}, es ist nur {3}. Auch normales Essen wie {4} liefert Eiweiß.",
+            "loesungen": ["Eiweiß", "wertlos", "geronnen", "Milch"],
+            "optionen": ["Eiweiß", "Zucker", "wertlos", "nützlich", "geronnen", "gespeichert", "Milch", "Wasser"]
+          }
+        ],
+        "B": [
+          {
+            "type": "werbung"
+          },
+          {
+            "type": "luecken",
+            "auftrag": "Stelle deinen Rat aus Satzbausteinen zusammen.",
+            "text": "Alex, lass dich nicht vom Wort „Protein“ blenden: Es ist dasselbe wie {1}. Erhitztes Eiweiß ist nicht {2}, es ist nur {3}. Dein Körper zerlegt es in {4} und baut daraus sein eigenes Eiweiß. {5} liefert zum Beispiel viel Eiweiß, ein Shake ist daher kein {6}.",
+            "loesungen": ["Eiweiß", "wertlos", "geronnen", "Aminosäuren", "Milch", "Muss"],
+            "optionen": ["Eiweiß", "Zucker", "wertlos", "nützlich", "geronnen", "gespeichert", "Aminosäuren", "Fetten", "Milch", "Wasser", "Muss", "Wundermittel"]
+          }
+        ],
+        "C": [
+          {
+            "type": "werbung"
+          },
+          {
+            "type": "luecken",
+            "auftrag": "Stelle deinen Rat aus Satzbausteinen zusammen.",
+            "text": "Alex, lass dich nicht vom Wort „Protein“ blenden: Es ist dasselbe wie {1}. Erhitztes Eiweiß ist nicht {2}, es ist nur {3}. Dein Körper zerlegt es in {4} und baut daraus sein eigenes Eiweiß. {5} liefert zum Beispiel viel Eiweiß, ein Shake ist daher kein {6}.",
+            "loesungen": ["Eiweiß", "wertlos", "geronnen", "Aminosäuren", "Milch", "Muss"],
+            "optionen": ["Eiweiß", "Zucker", "wertlos", "nützlich", "geronnen", "gespeichert", "Aminosäuren", "Fetten", "Milch", "Wasser", "Muss", "Wundermittel"]
+          },
+          {
+            "type": "waehlen",
+            "frage": "Der Verkäufer sagt: „Unser Pulver ist besser als Essen, denn Essen muss erst zerlegt werden.“ Was stimmt?",
+            "optionen": ["Auch Eiweiß aus Pulver wird zerlegt: Jedes Eiweiß wird im Körper zu Aminosäuren abgebaut.", "Das stimmt, Essen kann der Körper nicht nutzen.", "Pulver enthält keine Aminosäuren.", "Nur Pulver gerinnt nicht."],
+            "richtig": 0,
+            "erklaerung": "Jedes Nahrungseiweiß, ob aus Pulver oder Essen, wird bei der Verdauung zu Aminosäuren abgebaut."
+          }
+        ]
+      }
+    },
+    "z1": {
+      "titel": "Zusatz: Spurensicherung mit Ninhydrin",
+      "zeit": "ca. 4 Minuten",
+      "flag": "z1_done",
+      "braucht": ["z_ninhydrin", "k_biuret"],
+      "auftrag": "Zusatzwissen für Schnelle (freiwillig): Wie macht die Spurensicherung Fingerabdrücke sichtbar?",
+      "tipp": "Die Zusatzkarte „Fingerabdrücke mit Ninhydrin“ im Spind hilft dir. Ninhydrin reagiert mit Aminosäuren.",
+      "hilfekarte": {
+        "titel": "Hilfekarte: Ninhydrin",
+        "zeilen": ["Schweiß enthält winzige Mengen Aminosäuren.", "Ninhydrin reagiert mit Aminosäuren und färbt sie violett.", "Ninhydrin weist Aminosäuren nach, Biuret weist Eiweiß nach."]
+      },
+      "loesung": "Im Schweiß eines Fingers stecken Aminosäuren. Ninhydrin reagiert mit ihnen und färbt sie violett, so wird der Abdruck sichtbar. Ninhydrin weist Aminosäuren nach, Biuret weist Eiweiß nach.",
+      "niveaus": {
+        "alle": [
+          {
+            "type": "fingerabdruck",
+            "auftrag": "Auf dem Papier liegt ein unsichtbarer Fingerabdruck. Besprühe ihn mit Ninhydrin."
+          },
+          {
+            "type": "waehlen",
+            "frage": "Warum wird der Fingerabdruck mit Ninhydrin sichtbar?",
+            "optionen": ["Im Schweiß stecken Aminosäuren, die mit Ninhydrin violett reagieren.", "Ninhydrin klebt am Fett der Haut fest.", "Ninhydrin lässt das Papier gerinnen."],
+            "richtig": 0,
+            "erklaerung": "Aminosäuren aus dem Schweiß reagieren mit Ninhydrin zu einem violetten Farbstoff."
+          },
+          {
+            "type": "luecken",
+            "auftrag": "Ergänze den Satz.",
+            "text": "Ninhydrin weist {1} nach, der Biuret-Test weist {2} nach.",
+            "loesungen": ["Aminosäuren", "Eiweiß"],
+            "optionen": ["Aminosäuren", "Eiweiß", "Zucker", "Wasser"]
+          }
+        ]
+      }
+    },
+    "quiz": {
+      "titel": "Auflösung: Der Fall",
+      "zeit": "ca. 10 Minuten",
+      "flag": "quiz_task",
+      "braucht": ["shakebar_done"],
+      "zaehlen": true,
+      "auftrag": "Der Fall ist fast gelöst. Beantworte vier Fragen und benenne dann den Verdächtigen. Nach jeder Antwort siehst du die Begründung.",
+      "tipp": "Der Spind hilft dir, auch mit den Hefter-Einträgen und den Hinweisen zum Fall.",
+      "hilfekarte": {
+        "titel": "Hilfekarte: Auflösung",
+        "zeilen": ["Protein = Eiweiß. Aminosäuren sind die Bausteine.", "Gerinnen (Denaturieren): Die gefaltete Form geht verloren, die Aminosäuren bleiben, nicht umkehrbar.", "Auslöser: Hitze, Säure, Alkohol, Schwermetallsalz.", "Biuret: Eiweiß wird violett.", "Der Verdächtige hat kein Alibi."]
+      },
+      "loesung": "Siehe die Begründung bei der jeweiligen Frage.",
+      "niveaus": {
+        "alle": [
+          {
+            "type": "waehlen",
+            "zaehlt": true,
+            "frage": "Welche Aussage stimmt?",
+            "optionen": ["Protein und Eiweiß sind dasselbe, und Aminosäuren sind die Bausteine der Proteine.", "Protein ist pflanzlich, Eiweiß tierisch, beide bestehen aus Fettsäuren.", "Eiweiß besteht aus Zucker, Protein aus Aminosäuren.", "Aminosäuren sind winzige Hantelscheiben."],
+            "richtig": 0,
+            "erklaerung": "„Protein“ ist das Fremdwort für „Eiweiß“. Proteine bestehen aus Aminosäuren, den Bausteinen."
+          },
+          {
+            "type": "waehlen",
+            "zaehlt": true,
+            "frage": "Was passiert beim Gerinnen (Denaturieren) eines Eiweißes?",
+            "optionen": ["Die räumliche Struktur wird zerstört, die Aminosäuren bleiben.", "Die Aminosäuren verschwinden.", "Das Eiweiß wird zu Zucker.", "Es wird wieder klar, wenn es abkühlt."],
+            "richtig": 0,
+            "erklaerung": "Die gefaltete Form geht verloren, die Ketten verklumpen. Die Aminosäuren bleiben, und das Gerinnen ist nicht umkehrbar."
+          },
+          {
+            "type": "mehrfach",
+            "zaehlt": true,
+            "frage": "Nenne zwei Auslöser, bei denen Eiweiß gerinnt (denaturiert). Wähle zwei aus.",
+            "optionen": ["Hitze", "Wasser", "Säure", "Zucker", "Alkohol"],
+            "richtig": [0, 2, 4],
+            "anzahl": 2,
+            "erklaerung": "Eiweiße gerinnen durch Hitze, Säuren, Alkohol und Schwermetallsalze."
+          },
+          {
+            "type": "waehlen",
+            "zaehlt": true,
+            "frage": "Welche Farbe zeigt die Biuret-Probe bei Eiweiß?",
+            "optionen": ["Rot", "Violett", "Grün", "Gelb"],
+            "richtig": 1,
+            "erklaerung": "Eiweiß färbt sich mit Natronlauge und Kupfersulfat-Lösung violett."
+          },
+          {
+            "type": "verdaechtige"
+          },
+          {
+            "type": "rueckblick"
+          }
+        ]
+      }
+    }
+  }
+}

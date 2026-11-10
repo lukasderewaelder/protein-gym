@@ -1,0 +1,133 @@
+{
+  "verdaechtige": {
+    "desi": { "name": "Desi", "ort": "Empfang", "ausloeser": "Alkohol", "portrait": "desi" },
+    "kurt": { "name": "Kupfer-Kurt", "ort": "Labor", "ausloeser": "Schwermetallsalz", "portrait": "kurt" },
+    "hannes": { "name": "Hitze-Hannes", "ort": "Sauna", "ausloeser": "Hitze", "portrait": "hannes" },
+    "zoe": { "name": "Zitrus-Zoe", "ort": "Shake-Bar", "ausloeser": "Säure", "portrait": "zoe" }
+  },
+  "hinweise": {
+    "labor": {
+      "raumName": "Labor",
+      "ort": "Chemikalienschrank",
+      "titel": "Beim Chemikalienschrank",
+      "medium": "protokoll",
+      "kopf": "Befragung · Chemikalienschrank",
+      "alibi": {
+        "zeilen": [
+          "F: Wer hat in der Nacht an den Chemikalien gearbeitet?",
+          "A: Niemand. Das Siegel am Kupfersulfat-Behälter ist unbeschädigt.",
+          "F: Was heißt das für Kupfer-Kurt?",
+          "A: Er hat nichts angerührt. Sein Verdacht ist damit entkräftet."
+        ],
+        "fuss": "Alibi für Kupfer-Kurt"
+      },
+      "beweis": {
+        "zeilen": [
+          "F: Wer hat in der Nacht an den Chemikalien gearbeitet?",
+          "A: Jemand war am Schrank. Das Siegel am Kupfersulfat-Behälter ist aufgebrochen.",
+          "F: Wer hat den Schlüssel?",
+          "A: Kupfer-Kurt. Und der war erstaunlich nervös."
+        ],
+        "fuss": "Belastet Kupfer-Kurt"
+      }
+    },
+    "sauna": {
+      "raumName": "Sauna",
+      "ort": "Schaltuhr",
+      "titel": "Die Schaltuhr der Sauna",
+      "medium": "bericht",
+      "kopf": "Protokoll: Schaltuhr der Sauna",
+      "alibi": {
+        "zeilen": [
+          "Fundort: Wandlampe mit Schaltuhr",
+          "Befund: Der Ofen war die ganze Nacht aus.",
+          "Ergebnis: Die Sauna war kalt, als der Vorrat gerann.",
+          "Hinweis: Das entlastet Hitze-Hannes."
+        ],
+        "fuss": "GEPRÜFT"
+      },
+      "beweis": {
+        "zeilen": [
+          "Fundort: Wandlampe mit Schaltuhr",
+          "Befund: Der Ofen lief die ganze Nacht auf höchster Stufe.",
+          "Ergebnis: Die Wärme zog bis in den Vorratsraum.",
+          "Hinweis: Das belastet Hitze-Hannes."
+        ],
+        "fuss": "AUFFÄLLIG"
+      }
+    },
+    "training": {
+      "raumName": "Trainingsfläche",
+      "ort": "Putzplan am Bildschirm",
+      "titel": "Der Putzplan",
+      "medium": "laborzettel",
+      "kopf": "Putzplan der Trainingsfläche",
+      "alibi": {
+        "zeilen": [
+          "Bereich: Empfang und Trainingsfläche",
+          "Aufgabe: Gerätegriffe abwischen.",
+          "Hinweis: Desi hat nur die Geräte abgewischt und nichts in der Kühlvitrine angerührt.",
+          "Befund: Das entlastet Desi."
+        ],
+        "fuss": "ABGEHAKT"
+      },
+      "beweis": {
+        "zeilen": [
+          "Bereich: Kühlvitrine in der Shake-Bar",
+          "Aufgabe: Mit Desinfektionsmittel einsprühen.",
+          "Hinweis: Desi hat die Vitrine gestern Abend selbst desinfiziert.",
+          "Befund: Das belastet Desi."
+        ],
+        "fuss": "ERLEDIGT"
+      }
+    },
+    "shakebar": {
+      "raumName": "Shake-Bar",
+      "ort": "Lieferschein am Barhocker",
+      "titel": "Lieferschein der Zitronen",
+      "medium": "rezept",
+      "kopf": "Lieferschein: Zitronen",
+      "alibi": {
+        "zeilen": [
+          "Geliefert: eine Kiste Zitronen",
+          "Die Kiste ist noch zugeklebt.",
+          "Niemand hat sie geöffnet, auch nicht Zoe.",
+          "Das entlastet Zitrus-Zoe."
+        ],
+        "fuss": "unberührt"
+      },
+      "beweis": {
+        "zeilen": [
+          "Geliefert: eine Kiste Zitronen",
+          "Die Kiste ist offen, einige Zitronen fehlen.",
+          "Zitronensaft stand über Nacht beim Vorrat.",
+          "Das belastet Zitrus-Zoe."
+        ],
+        "fuss": "geöffnet"
+      }
+    }
+  },
+  "aufloesung": {
+    "desi": [
+      "Es war Desi! Sie hat den Vorrat mit Desinfektionsmittel eingesprüht. Das enthält Alkohol.",
+      "Alkohol lässt Eiweiß gerinnen. Deshalb desinfiziert er auch: Das Eiweiß der Keime gerinnt, und sie sind unschädlich.",
+      "Desi wollte nur helfen. Sie wusste nicht, dass das auch dem Eiweiß im Vorrat schadet."
+    ],
+    "kurt": [
+      "Es war Kupfer-Kurt! Kupfersulfat ist ein Schwermetallsalz und ist im Vorrat gelandet.",
+      "Schwermetallsalze lassen Eiweiß gerinnen. Deshalb gehören sie in den Sammelbehälter und nicht in den Ausguss.",
+      "Kurt wollte nur ordentlich arbeiten. Der Fehler war ein offener Behälter in der Nähe."
+    ],
+    "hannes": [
+      "Es war Hitze-Hannes! Die Sauna lief über Nacht, und die Wärme erreichte den Vorrat.",
+      "Hitze lässt Eiweiß gerinnen, wie beim Spiegelei: Aus klarem Eiklar wird fest und weiß.",
+      "Hannes wollte nur aufheizen. An den Vorrat hatte er nicht gedacht."
+    ],
+    "zoe": [
+      "Es war Zitrus-Zoe! Ihr Zitronensaft stand in der Nähe des Vorrats.",
+      "Säuren lassen Eiweiß gerinnen. Deshalb flockt Milch aus, wenn Zitronensaft hineinkommt.",
+      "Zoe wollte nur den Shake verfeinern. Dass die Säure das Eiweiß verändert, wusste sie nicht."
+    ]
+  },
+  "fehlerText": "Das stimmt noch nicht. Schau dir die Hinweise im Spind an: Wer hat kein Alibi?"
+}

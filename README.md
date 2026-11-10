@@ -1,0 +1,67 @@
+# Protein-Gym
+
+**Spielen:** <https://lukasderewaelder.github.io/protein-gym/> (am besten im Querformat auf Tablet oder Computer)
+
+Lernspiel zu Eiweißen und Aminosäuren (Chemie Klasse 10, Oberschule Sachsen). Du bist neu im Fitnessstudio, der Eiweiß-Vorrat ist geronnen, und vier Verdächtige (Hitze, Säure, Alkohol, Schwermetallsalz) stehen unter Verdacht. Ablauf: Empfang → Labor → Sauna → Trainingsfläche → Shake-Bar → Auflösung beim Coach und Zertifikat, rund 90 Minuten.
+
+Statische Webseite (HTML, CSS, JavaScript-Module), läuft ohne Login, ohne Server und ohne Tracking. Alle Daten bleiben im Browser des Geräts.
+
+## Rechte
+Alle Rechte vorbehalten. Der Quelltext ist öffentlich einsehbar, damit das Spiel über GitHub Pages ausgeliefert werden kann. Eine Nutzung im eigenen Unterricht ist willkommen, eine Weitergabe, Veränderung oder kommerzielle Nutzung bitte nur nach Absprache. Grafiken sind mit KI erzeugt, Lehrbuchtexte sind nicht übernommen.
+
+## Aktualisieren und Veröffentlichen
+- Das Spiel wird aus dem Branch `main` über **GitHub Pages** ausgeliefert. Jeder Push veröffentlicht sich nach etwa ein bis zwei Minuten (GitHub hält Dateien bis zu zehn Minuten im Zwischenspeicher).
+- Die Offline-Liste `sw.js` erneuert eine **GitHub Action** (`.github/workflows/ci.yml`) bei jedem Push selbst (`node tools/precache.mjs`) und führt die Tests aus. Lokal gilt weiter: nach Änderungen an `src/`, `data/`, `assets/` `node tools/precache.mjs` ausführen.
+- **Der Laborcode steht im Quelltext** (`data/versuch.json`, `freigabeCode`) und ist damit öffentlich lesbar. Vor dem Einsatz ändern; er ist nur eine Hürde für die Klasse, keine Sicherheitsfreigabe. Das gilt auch für Lösungen und den Fall in `data/`.
+
+## Lernziele (Fachtiefe)
+- Aminosäuren sind die **Bausteine der Proteine**. Die funktionellen Gruppen (Aminogruppe, Carboxygruppe, Rest R) werden nur gezeigt, **nie abgefragt**.
+- **Protein und Eiweiß sind dasselbe.**
+- **Denaturieren = Gerinnen** als Spirale: erst Was und Wann (Labor, Sauna: vier Auslöser, nicht umkehrbar, einfache Idee „die Form geht verloren“), dann Wie und Warum (Trainingsfläche: gefaltete Form, schwache Verbindungen, Entfalten, Verklumpen, Wirkung weg).
+- **Biuret-Nachweis** (violett = Eiweiß; Kontrollen Wasser und Zuckerlösung bleiben blau). Dass ein einzelner Baustein wie Glycin kein Eiweiß ist, kommt erst bei den Aminosäuren in der Trainingsfläche.
+- **Aufbau:** Aminosäuren sind die Bausteine (Monomere), sie verbinden sich unter Wasserabspaltung (Fachwort Kondensation, nur lesen) zu langen Ketten (Polymere).
+- **Zusatzwissen (freiwillig):** Peptide, Dipeptide und Peptidbindung; Ninhydrin und Fingerabdrücke; essentielle Aminosäuren; Eiweißquellen.
+
+## Stand
+- **Grafiken:** Eingebaut sind die fünf Szenenbilder und das Titelbild (`assets/szenen/*.webp`), die Spielfigur (vier Lauf-Streifen), Trainer:in, Alex, Hannes, Zoe und Kurt als Sprites und mit Porträt-Ausdrücken (`assets/figuren`, `assets/portraits`), Desi als Porträt, der Zertifikat-Rahmen, das App-Icon (PNG in `assets/icons`) und die Haftnotiz-Textur (`assets/funde`), alles aus `grafik/*.png`. Objekte und Icons (`obj_pfanne_0..2` leer/roh/gebraten, `obj_scheibe_0..1` Vorder-/Seitenansicht, `obj_sonstiges_0..3` Thermometer/Dose/Shaker/Handtuch, `icons_quellen_0..5` Ei/Milch/Quark/Linsen/Fisch/Nüsse, `icons_struktur_0..2` Haar/Spinne/Sehne) sind aufbereitet, liegen in `assets/figuren` und sind noch nicht im Spiel verwendet. Es fehlen der Sprite von Desi und die Papiertexturen Nr 32–37; dafür gibt es Platzhalter bzw. Farbflächen (Prompts: `grafik/PROMPTS.md` und `grafik/PROMPTS_KOPIEREN.md`).
+- **Spielfluss (Stufen):** 1 Ankommen im **Empfang** (Coach, Story, Spind-Tour, Einweisung) → 2 **Labor** und **Sauna** (Eigenschaften: Denaturieren, Auslöser, Biuret) → 3 und 4 **Trainingsfläche** (Bau und Faltung, dann Aminosäuren als Bausteine) → **Shake-Bar** (Anwendung) → **Auflösung** beim Coach. Start (1–3 Namen, Weiterspielen per **Fortschrittscode**; **nur eine Spielfigur**), Laufen per Tippen mit Wegsuche und Kollision, gesperrte Türen (jeder Raum öffnet nach dem vorigen), Dialoge, Menü (Schriftgröße, Neues Spiel), Editiermodus, Offline-Service-Worker.
+- **Erkunden:** Hinweis-Objekte sind nicht markiert. Kommt die Figur in die Nähe, funkelt das Objekt; wer es antippt, bekommt ein neues **Hinweiskärtchen**. Gefundene Kärtchen bleiben dauerhaft in der Leiste oben links (je Raum, „Hinweise: 2 von 4“) und an der **Pinnwand** im Notizbuch (Kork, Pinnadeln, roter Faden) und lassen sich jederzeit wieder antippen. Jeder Fund hat eine eigene **Fundart** mit eigenem Aussehen und Tonfall: Haftnotiz, Karteikarte, Steckbrief, Whiteboard, Heftseite, Plakat, Zeitungsartikel, Laborzettel, Befragungsprotokoll, Spurenbericht, Hinweisschild, Rezept/Einkaufszettel, Handy-Chat, Dosenetikett. Gefundene Objekte zeigen im Bild das Symbol ihrer Fundart (Zusatz mit lila Rand). Türen, Stationen und Personen sind immer markiert. Im Editiermodus sieht man alle Hotspots.
+- **Empfang – Aufgabe 1 Einweisung:** Coach-Dialog mit Story und „warum Eiweiße wichtig sind“, Spind öffnen, zwei Hinweise finden, kurze Zuordnung und Lückentext; Eingangsvermutung „Warum wird Eiklar fest?“.
+- **Labor – Aufgabe 2 Versuch:** Tafel mit Lehrkraft-Code, Vermutung, Planung nach Niveau, Simulation, Beobachtungsprotokoll (Eiklar, Wasser, Zuckerlösung), Deutung, Textexport.
+- **Sauna – Aufgabe 3 Gerinnen im Alltag:** Alltag den vier Auslösern zuordnen, nicht umkehrbar, Hitze macht haltbar (noch ohne Aminosäuren und Faltung).
+- **Trainingsfläche – Aufgabe 4 Bau und Faltung** (Kette, Wasserabspaltung, Ablauf des Gerinnens, Zwischenfazit zur Eingangsfrage) und **Aufgabe 5 Baustein-Check** (Formel zeigen, Lückentext, Auswahl, Zuordnen). **Zusatz:** Peptidbindung und Dipeptide.
+- **Shake-Bar – Aufgabe 6 Shake-Check:** fünf Werbeaussagen eines frei erfundenen Shakes prüfen (Urteil und Begründung), Rat an Alex als Lückentext. **Zusatz:** Spurensicherung mit Ninhydrin (Fingerabdruck am Barhocker).
+- **Spind (Empfang):** Innenseite des Spinds als Ermittlungszentrale (Querformat): Pinnwand mit den Hinweisen (Räume nebeneinander), Glossar (Begriffe erscheinen erst, wenn der passende Hinweis gefunden ist) und zwei **Hefter-Einträgen mit Abschreibaufträgen** und Haken „abgeschrieben“ (nur auf dem Gerät, blockiert nichts).
+- **Der Fall und die Auflösung:** Wer den Vorrat zum Gerinnen gebracht hat (Desi/Alkohol, Kurt/Schwermetallsalz, Hannes/Hitze oder Zoe/Säure), wird **beim Spielstart zufällig gewürfelt** und steckt im Fortschrittscode. In jedem der vier Räume liegt ein Hinweis, der entweder belastet (Beweis) oder entlastet (Alibi). Nach allen Räumen löst man den Fall beim Coach: vier Fragen zu den Lernzielen, den Verdächtigen benennen, Rückblick auf die Eingangsfrage, Zertifikat (Mitgliedskarte) zum Drucken oder als PDF.
+- **Beliebige Reihenfolge:** Alle Antworten dürfen in jeder Reihenfolge gegeben werden (Lücken, Zuordnen, Werbung, Auswahl); austauschbare Lücken und gleichwertige Ablauf-Schritte sind in den Daten markiert (`austauschbar`, `gleichwertig`).
+- Hilfen in jeder Aufgabe: Spind/Glossar immer, Tipp und Hilfekarte nach 2 Fehlern, Lösungsbeispiel nach 3 Fehlern, danach eine **Ähnlichkeitsaufgabe** (`data/aehnlich.json`), „Trainer:in rufen“-Signal. Es gibt bewusst keine Punkte und keinen Rang.
+- **Lehrkraft-Auswertung:** `lehrkraft.html` liest Fortschrittscodes der Klasse ein (ein Code pro Zeile, optional mit Namen davor) und zeigt je Person Räume, Pflichtaufgaben, Zusatz, Karten, Quizergebnis und Niveaus sowie die Klassensumme; Export als CSV. Alles läuft im Browser, nichts wird gesendet.
+- **Grafik-Werkzeug:** `tools/sprite-slicer.html` macht aus den ChatGPT-Bildern Spieldateien (Magenta freistellen, Figuren erkennen und ausrichten, Sheets teilen, Szenen als WebP). Das Spiel lädt echte Sprites automatisch.
+- 122 Unit-Tests (u. a. Vorwissen: Karten und Glossar nennen nur Begriffe aus früheren Räumen; Fall: Beweis/Alibi, Auflösung, Täter im Code).
+- **Noch offen:** Desi-Sprite, Papiertexturen, Einbau der Objekt-/Icon-Bilder, Pilot mit Zeitmessung und iPad-Prüfung.
+
+## Entwickeln
+```bash
+node tools/serve.mjs 4195     # http://localhost:4195/
+npm test                      # Unit-Tests
+node tools/precache.mjs       # nach jeder Änderung an src/, data/, assets/ (Offline-Liste)
+```
+- `?edit=1`: Editiermodus (Sperrzonen ziehen, Hotspots setzen, JSON ausgeben).
+- `?sw=1`: Service Worker auch auf localhost einschalten.
+- Konsole: `__pg.unlockAll()` öffnet alle Türen, `__pg.goto('labor')` wechselt den Raum, `__pg.allCards()` sammelt alle Karten, `__pg.openTask('a1', 'training')` öffnet eine Aufgabe.
+
+## Für Lehrkräfte
+- **Laborcode** an der Tafel „Versuch frei?“: steht in `data/versuch.json` (`freigabeCode`, derzeit 4711, vor dem Einsatz ändern). Er steht im Quelltext, ist also nur eine Hürde für die Klasse und **keine Sicherheitsfreigabe**. Sicherheitsunterweisung und Gefährdungsbeurteilung bleiben Sache der Lehrkraft; das Spiel nennt keine Mengen oder Konzentrationen, die kommen aus Buch (Fokus S. 21, Exp. 14–16) oder Anleitung.
+- **Erwartungen vor dem Unterricht real testen:** Zuckerlösung und Wasser im Biuret-Test (bleiben blau), Essigsäure auf Eiklarlösung (Fällung kann schwach sein). Erwartung, Treffer-Liste (`passt`) und Simulationsfarbe je Probe stehen in `data/versuch.json` und lassen sich ohne Code ändern.
+- **Biuret-Protokoll:** Das Spiel verweist im Hefter darauf, dass die Lernenden das Protokoll zum Biuret-Nachweis bei der Lehrkraft abholen.
+- **Ninhydrin** ist im Spiel nur Zusatzwissen und eine virtuelle Spur. Kein Schülerversuch.
+- **Texte prüfen:** Wissenskarten, Hefter-Einträge und Shake-Aussagen (`data/wissen.json`, `data/hefter.json`, `data/werbung.json`) sind Vorschläge in eigenen Worten mit Seitenverweisen auf Fokus Chemie; bitte gegen das Buch und den Lehrplan abgleichen.
+- **Freitext** gibt es nicht mehr; Erklärungen laufen über Lückentexte, Auswahl und Ablauf ordnen. Abschreibaufträge (Merksätze, Skizze von Glycin und Alanin) stehen im Hefter-Reiter des Spinds.
+- **Auswertung der Klasse:** Die Lernenden lesen den Fortschrittscode vom Zertifikat ab oder fotografieren ihn. Die Lehrkraft fügt die Codes in `lehrkraft.html` ein und sieht, wer welche Räume geschafft hat und wie das Quiz lief. Einzelne Fehler sind darin nicht enthalten.
+- **Protokoll und Ergebnisse:** Das Versuchsprotokoll liegt nur auf dem Gerät und lässt sich als Text kopieren, teilen oder abfotografieren. Das Zertifikat zeigt Namen, geschaffte Räume, Quizergebnis und den Fortschrittscode zum Ablesen. Es ersetzt keine Note.
+- **Gemeinsame Tablets:** Menü → „Neues Spiel“ löscht Namen, Fortschritt, Protokoll und Hefter-Haken auf dem Gerät. Zwischen zwei Klassen bitte nutzen.
+- **Datenschutz:** Keine Anmeldung, kein Tracking, keine externen Schriften oder Dienste. Beim Hosting auf GitHub Pages sieht GitHub als Host die IP-Adressen der Besucher; das gehört in die Abstimmung mit der Datenschutzbeauftragten der Schule. Schulfilter können `github.io` sperren, vorher prüfen.
+- **Gerätetest vor dem Einsatz:** iPad mit Safari und ein Android- oder Chromebook-Gerät mit Chrome, jeweils Querformat; Spielstand löschen und mit dem Code weiterspielen; Offline-Start nach einmaligem Laden (Flugmodus); Zertifikat drucken oder als PDF speichern; Schriftgröße im Menü ändern.
+
+## Hinweis zu alten Fortschrittscodes
+Mit der neuen Spielstruktur ist die Codeversion 4. Codes aus früheren Versionen sind ungültig; der Code trägt jetzt auch den gewürfelten Täter des Falls.

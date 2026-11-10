@@ -1,0 +1,94 @@
+{
+  "welt": { "w": 1536, "h": 1024 },
+  "szenen": [
+    {
+      "id": "empfang",
+      "name": "Empfang",
+      "bg": "szene_empfang",
+      "spawn": [768, 800],
+      "blocked": [[0, 0, 1536, 365], [0, 365, 40, 635], [40, 345, 325, 320], [0, 665, 70, 325], [1145, 300, 265, 155], [1410, 365, 126, 90], [1470, 455, 66, 545], [0, 1000, 1536, 24]],
+      "hotspots": [
+        { "id": "trainer", "label": "Trainer:in", "type": "npc", "x": 560, "y": 640, "r": 80, "dialog": "empfang.trainer", "aktion": "coach", "color": "#1f8a8a" },
+        { "id": "desi", "label": "Desi", "type": "npc", "x": 1020, "y": 700, "r": 80, "dialog": "empfang.desi", "color": "#6aa8d8" },
+        { "id": "spind", "label": "Spind", "type": "dialog", "x": 780, "y": 385, "r": 90, "aktion": "notizbuch" },
+        { "id": "tresen", "label": "Empfangstresen", "type": "dialog", "x": 390, "y": 540, "r": 80, "karte": "k_protein" },
+        { "id": "spiegel", "label": "Spiegel", "type": "dialog", "x": 335, "y": 330, "r": 70, "karte": "k_wichtig" },
+        { "id": "poster", "label": "Poster", "type": "dialog", "x": 1118, "y": 415, "r": 70, "karte": "z_protein" },
+        { "id": "brett", "label": "Schwarzes Brett", "type": "dialog", "x": 1400, "y": 520, "r": 70, "karte": "z_struktur" },
+        { "id": "tuer_training", "label": "Trainingsfläche", "type": "door", "x": 290, "y": 930, "r": 90, "to": "training", "requires": "sauna_done", "lockedText": "Die Trainingsfläche ist noch zu. Erst muss die Sauna durch sein." },
+        { "id": "tuer_labor", "label": "Labor", "type": "door", "x": 610, "y": 930, "r": 90, "to": "labor", "requires": "empfang_done", "lockedText": "Das Labor ist noch zu. Mach zuerst die Einweisung beim Coach und öffne den Spind." },
+        { "id": "tuer_sauna", "label": "Sauna", "type": "door", "x": 925, "y": 930, "r": 90, "to": "sauna", "requires": "labor_done", "lockedText": "Die Sauna ist noch zu. Erst muss der Versuch im Labor durch sein." },
+        { "id": "tuer_shakebar", "label": "Shake-Bar", "type": "door", "x": 1240, "y": 930, "r": 90, "to": "shakebar", "requires": "training_done", "lockedText": "Die Shake-Bar öffnet erst nach der Trainingsfläche." }
+      ]
+    },
+    {
+      "id": "training",
+      "name": "Trainingsfläche",
+      "bg": "szene_trainingsflaeche",
+      "spawn": [768, 820],
+      "blocked": [[0, 0, 1536, 350], [0, 350, 215, 145], [0, 495, 205, 290], [0, 785, 110, 200], [1265, 350, 271, 410], [1430, 760, 106, 225], [0, 945, 1536, 79]],
+      "hotspots": [
+        { "id": "scheiben", "label": "Hantelständer", "type": "dialog", "x": 768, "y": 370, "r": 100, "karte": "k_bauplan" },
+        { "id": "spiegel", "label": "Schautafel", "type": "dialog", "x": 425, "y": 365, "r": 70, "karte": "k_rest" },
+        { "id": "plan", "label": "Trainingsplan", "type": "dialog", "x": 1060, "y": 365, "r": 70, "karte": "k_kette" },
+        { "id": "poster", "label": "Poster", "type": "dialog", "x": 1238, "y": 365, "r": 70, "karte": "z_essentiell" },
+        { "id": "bau", "label": "Bau-Station", "type": "task", "x": 1235, "y": 570, "r": 90, "dialog": "training.bau", "task": "training_menu" },
+        { "id": "aushang", "label": "Aushang", "type": "dialog", "x": 275, "y": 335, "r": 70, "karte": "k_struktur" },
+        { "id": "putzplan", "label": "Putzplan", "type": "dialog", "x": 1330, "y": 400, "r": 80, "karte": "f_training" },
+        { "id": "bank", "label": "Bank", "type": "dialog", "x": 250, "y": 600, "r": 80, "karte": "z_peptid" },
+        { "id": "tuer_zurueck", "label": "Zum Empfang", "type": "door", "x": 768, "y": 900, "r": 90, "to": "empfang" }
+      ]
+    },
+    {
+      "id": "labor",
+      "name": "Labor",
+      "bg": "szene_labor",
+      "spawn": [768, 820],
+      "blocked": [[0, 0, 1536, 300], [0, 300, 25, 580], [1511, 300, 25, 580], [20, 335, 315, 510], [1200, 335, 310, 510], [1365, 745, 105, 155], [0, 880, 1536, 144]],
+      "hotspots": [
+        { "id": "tafel", "label": "Tafel: Versuch frei?", "type": "dialog", "x": 810, "y": 315, "r": 100, "aktion": "freigabe" },
+        { "id": "hitze", "label": "Hitze-Station", "type": "task", "x": 385, "y": 540, "r": 90, "dialog": "labor.hitze", "task": "labor_menu" },
+        { "id": "nachweis", "label": "Nachweis-Station", "type": "task", "x": 1160, "y": 580, "r": 90, "dialog": "labor.nachweis", "task": "labor_menu" },
+        { "id": "kuehlschrank", "label": "Kühlschrank", "type": "dialog", "x": 1165, "y": 335, "r": 80, "karte": "k_denat" },
+        { "id": "plakat", "label": "Plakat: Nachweise", "type": "dialog", "x": 545, "y": 315, "r": 70, "karte": "k_biuret" },
+        { "id": "kurt", "label": "Kupfer-Kurt", "type": "npc", "x": 700, "y": 640, "r": 80, "karte": "k_ausloeser", "color": "#c97b3c" },
+        { "id": "schrank", "label": "Chemikalienschrank", "type": "dialog", "x": 350, "y": 330, "r": 70, "karte": "f_labor" },
+        { "id": "tuer_zurueck", "label": "Zum Empfang", "type": "door", "x": 768, "y": 850, "r": 90, "to": "empfang" }
+      ]
+    },
+    {
+      "id": "sauna",
+      "name": "Sauna",
+      "bg": "szene_sauna",
+      "spawn": [768, 820],
+      "blocked": [[0, 0, 1536, 395], [0, 300, 300, 285], [275, 430, 110, 145], [0, 585, 260, 375], [1500, 395, 36, 600], [1230, 340, 285, 420], [0, 950, 1536, 74]],
+      "hotspots": [
+        { "id": "ofen", "label": "Saunaofen", "type": "dialog", "x": 330, "y": 610, "r": 80, "karte": "k_hitze" },
+        { "id": "thermometer", "label": "Thermometer", "type": "dialog", "x": 768, "y": 420, "r": 70, "karte": "k_umkehr" },
+        { "id": "schaltuhr", "label": "Schaltuhr", "type": "dialog", "x": 1180, "y": 400, "r": 70, "karte": "f_sauna" },
+        { "id": "pfanne", "label": "Pfanne mit Spiegelei", "type": "task", "x": 1180, "y": 560, "r": 90, "dialog": "sauna.pfanne", "task": "sauna_menu" },
+        { "id": "hannes", "label": "Hitze-Hannes", "type": "npc", "x": 640, "y": 650, "r": 80, "dialog": "sauna.hannes", "karte": "k_haltbar", "color": "#d9632b" },
+        { "id": "tuer_zurueck", "label": "Zum Empfang", "type": "door", "x": 768, "y": 915, "r": 90, "to": "empfang" }
+      ]
+    },
+    {
+      "id": "shakebar",
+      "name": "Shake-Bar",
+      "bg": "szene_shakebar",
+      "spawn": [768, 820],
+      "blocked": [[0, 0, 1536, 432], [0, 432, 170, 120], [0, 552, 120, 150], [0, 702, 60, 183], [1370, 432, 166, 100], [1440, 532, 96, 200], [1500, 732, 36, 153], [0, 885, 1536, 139]],
+      "hotspots": [
+        { "id": "werbetafel", "label": "Werbetafel", "type": "task", "x": 175, "y": 560, "r": 70, "dialog": "shakebar.werbetafel", "task": "shake_menu" },
+        { "id": "mixer", "label": "Mixer", "type": "dialog", "x": 768, "y": 450, "r": 90, "karte": "k_abbau" },
+        { "id": "regal", "label": "Regal mit Dosen", "type": "dialog", "x": 390, "y": 450, "r": 70, "karte": "k_dose" },
+        { "id": "vitrine", "label": "Kühlvitrine", "type": "dialog", "x": 1255, "y": 455, "r": 70, "karte": "k_geronnen" },
+        { "id": "zitrus", "label": "Obstschale", "type": "dialog", "x": 1090, "y": 450, "r": 70, "karte": "z_quellen" },
+        { "id": "spur", "label": "Spurensicherung", "type": "dialog", "x": 495, "y": 480, "r": 70, "dialog": "shakebar.spur", "karte": "z_ninhydrin" },
+        { "id": "hocker", "label": "Lieferschein", "type": "dialog", "x": 945, "y": 480, "r": 70, "karte": "f_shakebar" },
+        { "id": "alex", "label": "Alex", "type": "npc", "x": 900, "y": 660, "r": 80, "dialog": "shakebar.alex", "task": "shake_menu", "color": "#7a7a8c" },
+        { "id": "zoe", "label": "Zitrus-Zoe", "type": "npc", "x": 1190, "y": 700, "r": 80, "dialog": "shakebar.zoe", "color": "#e8c32a" },
+        { "id": "tuer_zurueck", "label": "Zum Empfang", "type": "door", "x": 768, "y": 850, "r": 90, "to": "empfang" }
+      ]
+    }
+  ]
+}

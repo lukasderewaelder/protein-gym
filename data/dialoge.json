@@ -1,0 +1,193 @@
+{
+  "empfang.intro": {
+    "speaker": "Trainer:in",
+    "portrait": "trainer",
+    "setFlag": "intro_done",
+    "lines": [
+      "Hey {name}, willkommen im Protein-Gym! Ich bin dein:e Coach für das Probetraining.",
+      "Gleich ein Problem: Unser Eiweiß-Vorrat ist über Nacht geronnen. Eier, Quark, Shakes: alles trüb und fest. Vier Leute hatten Zugang, und du hilfst mir, den Fall zu klären.",
+      "Zuerst dein Spind: Das ist deine Ermittlungszentrale. Dort sammelst du alle Hinweise, schlägst Begriffe nach und findest Texte für deinen Hefter. Tippe auf den Spind in der Mitte der Wand.",
+      "Warum der ganze Aufwand? Eiweiße sind überall: Muskeln, Haut und Haare bestehen aus ihnen, sie transportieren Stoffe im Blut, und Antikörper schützen dich vor Krankheiten. Protein und Eiweiß sind übrigens dasselbe.",
+      "Tippe auf den Boden, um zu laufen, und auf funkelnde Dinge, um sie zu untersuchen. Schau dich hier um, öffne den Spind und komm dann zu mir für die Einweisung.",
+      "Eine Frage vorab: Warum wird Eiklar in der Pfanne eigentlich fest? Merk dir deine Idee, wir kommen darauf zurück."
+    ]
+  },
+  "empfang.trainer": {
+    "speaker": "Trainer:in",
+    "portrait": "trainer",
+    "lines": [
+      "Alles klar? Such in jedem Raum zuerst die Hinweise an den funkelnden Dingen, dann klappt die Aufgabe."
+    ]
+  },
+  "empfang.desi": {
+    "speaker": "Desi",
+    "portrait": "desi",
+    "lines": [
+      "Ich? Ich sprühe hier nur Desinfektionsmittel. Das ist doch harmlos!",
+      "Na gut, ein bisschen Alkohol ist schon drin. Aber das heißt ja nichts, oder?"
+    ]
+  },
+  "empfang.spind": {
+    "speaker": "Spind",
+    "lines": [
+      "Dein Spind. Hier ist deine Ermittlungszentrale: Pinnwand mit allen Hinweisen, Glossar und die Hefter-Texte zum Abschreiben."
+    ]
+  },
+  "empfang.poster": {
+    "speaker": "Poster",
+    "lines": [
+      "Ein Wandposter mit Zusatzwissen für Neugierige."
+    ]
+  },
+  "empfang.brett": {
+    "speaker": "Schwarzes Brett",
+    "lines": [
+      "Am Schwarzen Brett hängt Zusatzwissen, zum Beispiel über Spinnenseide."
+    ]
+  },
+  "training.scheiben": {
+    "speaker": "Hantelständer",
+    "lines": [
+      "Bunte Scheiben für jede Übung. Aber Vorsicht: Eine Aminosäure ist keine Hantelscheibe. Sie hat zwei Enden, mit denen sie sich verbinden kann."
+    ]
+  },
+  "training.poster": {
+    "speaker": "Poster",
+    "lines": [
+      "Ein Poster mit Zusatzwissen über essentielle Aminosäuren."
+    ]
+  },
+  "training.bau": {
+    "speaker": "Bau-Station",
+    "lines": [
+      "Hier prüfst du, wie ein Eiweiß aufgebaut ist und was Aminosäuren sind. Sammle vorher die Hinweise im Raum, dann geht es leichter."
+    ]
+  },
+  "labor.tafel": {
+    "speaker": "Tafel",
+    "lines": [
+      "Versuch frei? Die Lehrkraft nennt den Code, wenn Material und Sicherheitsunterweisung bereit sind."
+    ]
+  },
+  "labor.hitze": {
+    "speaker": "Hitze-Station",
+    "lines": [
+      "Hier landen die fünf Proben für das Gerinnen. Bereite zuerst alles am Tablet vor."
+    ]
+  },
+  "labor.nachweis": {
+    "speaker": "Nachweis-Station",
+    "lines": [
+      "Hier machst du den Biuret-Nachweis und trägst deine Beobachtung ins Protokoll ein."
+    ]
+  },
+  "labor.kuehlschrank": {
+    "speaker": "Kühlschrank",
+    "lines": [
+      "Eier, Eier, Eier. Für den Versuch genug."
+    ]
+  },
+  "labor.kurt": {
+    "speaker": "Kupfer-Kurt",
+    "portrait": "kurt",
+    "lines": [
+      "Ich bin nur der Techniker. Kupfer? Das gehört in den Sammelbehälter und nicht in den Ausguss, das weiß doch jeder!"
+    ]
+  },
+  "sauna.ofen": {
+    "speaker": "Saunaofen",
+    "lines": [
+      "Heiß. Sehr heiß. Hitze ist einer der vier Verdächtigen."
+    ]
+  },
+  "sauna.thermometer": {
+    "speaker": "Thermometer",
+    "lines": [
+      "Das Thermometer zeigt die Temperatur. Eiklar gerinnt schon deutlich unter 100 Grad."
+    ]
+  },
+  "sauna.pfanne": {
+    "speaker": "Pfanne",
+    "lines": [
+      "Die Pfanne mit dem Spiegelei. Hier erkennst du das Gerinnen im Alltag."
+    ]
+  },
+  "sauna.hannes": {
+    "speaker": "Hitze-Hannes",
+    "portrait": "hannes",
+    "lines": [
+      "Ich habe nur aufgeheizt! Dafür ist eine Sauna doch da.",
+      "Und noch ein Gedanke: Auch Stoffe, die Reaktionen im Körper beschleunigen, sind Eiweiße. Wie das geht, lernt ihr später."
+    ]
+  },
+  "shakebar.werbetafel": {
+    "speaker": "Werbetafel",
+    "lines": [
+      "Die Werbetafel für den Shake. Prüfe, ob die Aussagen stimmen, dann gibst du Alex einen Rat."
+    ]
+  },
+  "shakebar.mixer": {
+    "speaker": "Mixer",
+    "lines": [
+      "Der Mixer rührt den Shake durch."
+    ]
+  },
+  "shakebar.alex": {
+    "speaker": "Alex",
+    "portrait": "alex",
+    "lines": [
+      "Ich will mir einen Eiweiß-Shake kaufen. Stimmt die Werbung eigentlich?"
+    ]
+  },
+  "shakebar.zoe": {
+    "speaker": "Zitrus-Zoe",
+    "portrait": "zoe",
+    "lines": [
+      "Zitrone gehört in jeden guten Shake. Dass sie Eiweiß gerinnen lässt? Davon wusste ich nichts!"
+    ]
+  },
+  "empfang.coach.spind": {
+    "speaker": "Trainer:in",
+    "portrait": "trainer",
+    "lines": [
+      "Zuerst dein Spind: Das ist deine Ermittlungszentrale. Tippe auf den Spind in der Mitte der Wand und sieh dich dort um.",
+      "Danach findest du hier im Empfang noch zwei Hinweise. Komm dann wieder zu mir."
+    ]
+  },
+  "empfang.coach.labor": {
+    "speaker": "Trainer:in",
+    "portrait": "trainer",
+    "lines": [
+      "Gut! Weiter ins Labor, die Tür mit dem Reagenzglas. Dort findest du heraus, was Eiweiß zum Gerinnen bringt und wie man Eiweiß nachweist.",
+      "Such zuerst die Hinweise an den funkelnden Dingen, dann klappt die Aufgabe."
+    ]
+  },
+  "empfang.coach.sauna": {
+    "speaker": "Trainer:in",
+    "portrait": "trainer",
+    "lines": [
+      "Als Nächstes die Sauna, die Tür mit der Dampfwolke. Dort siehst du, wie Hitze Eiweiß verändert und wo du das im Alltag erkennst."
+    ]
+  },
+  "empfang.coach.training": {
+    "speaker": "Trainer:in",
+    "portrait": "trainer",
+    "lines": [
+      "Jetzt zur Trainingsfläche, die Tür mit der Hantel. Dort erfährst du, wie ein Eiweiß aufgebaut ist, warum es beim Gerinnen seine Form verliert und was Aminosäuren sind."
+    ]
+  },
+  "empfang.coach.shakebar": {
+    "speaker": "Trainer:in",
+    "portrait": "trainer",
+    "lines": [
+      "Zum Schluss die Shake-Bar, die Tür mit dem Becher. Dort wendest du dein Wissen an. Danach lösen wir den Fall gemeinsam: Komm zu mir, wenn du in allen Räumen warst."
+    ]
+  },
+  "shakebar.spur": {
+    "speaker": "Barhocker",
+    "lines": [
+      "Am Barhocker klebt ein verschmierter Fleck. Ein Fingerabdruck? Mit bloßem Auge sieht man kaum etwas.",
+      "Zitrus-Zoe murmelt: „Das war ich nicht! Ich trage immer Handschuhe.“"
+    ]
+  }
+}

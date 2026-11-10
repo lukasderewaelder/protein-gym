@@ -1,0 +1,9 @@
+node_modules/
+*.log
+.DS_Store
+Thumbs.db
+# Quell-Bilder aus ChatGPT (groß, liegen nur lokal)
+grafik/*.png
+# interne Planung und Notizen, nur lokal
+planung/
+print/

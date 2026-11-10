@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Protein-Gym: Auswertung</title>
+  <link rel="icon" href="assets/icons/icon.svg" type="image/svg+xml">
+  <style>
+    :root { color-scheme: dark; --bg: #0b1517; --panel: #12262a; --ink: #f3f1e7; --muted: #a9bcbc; --accent: #f08a24; --ok: #9be3b0; --bad: #ff9c92; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font: 17px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; padding: 16px; }
+    main { max-width: 1100px; margin: 0 auto; }
+    h1 { color: var(--accent); margin: 0 0 4px; }
+    p.hint { color: var(--muted); margin: 4px 0 12px; }
+    textarea { width: 100%; min-height: 150px; padding: 10px 12px; border-radius: 10px; border: 2px solid #35656b; background: #0d1d20; color: inherit; font: 16px ui-monospace, "Courier New", monospace; }
+    button { min-height: 44px; padding: 8px 16px; border-radius: 10px; border: 2px solid #35656b; background: #1a3a40; color: inherit; font: inherit; cursor: pointer; }
+    button.primary { background: var(--accent); border-color: #ffb866; color: #1d1305; font-weight: 700; }
+    .row { display: flex; gap: 10px; flex-wrap: wrap; margin: 10px 0; }
+    .karten { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 14px 0; }
+    .karte { background: var(--panel); border: 2px solid #35656b; border-radius: 12px; padding: 8px 12px; }
+    .karte strong { display: block; font-size: 26px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; background: var(--panel); border-radius: 12px; overflow: hidden; }
+    th, td { padding: 8px 10px; border-bottom: 1px solid #25444a; text-align: left; font-size: 16px; }
+    th { background: #1a3a40; }
+    .ja { color: var(--ok); font-weight: 700; }
+    .nein { color: var(--muted); }
+    .fehler { color: var(--bad); }
+    .scroll { overflow-x: auto; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Protein-Gym: Auswertung</h1>
+    <p class="hint">Füge die Fortschrittscodes der Klasse ein, einen pro Zeile. Wenn du möchtest, schreibe den Namen davor („Mia: PG-…“). Die Codes enthalten keine Namen. Alles wird nur in diesem Fenster berechnet, es wird nichts gesendet oder gespeichert.</p>
+    <label for="eingabe" class="hint">Codes</label>
+    <textarea id="eingabe" spellcheck="false" placeholder="Mia: PG-201P-1022-1011-AB&#10;Tom: PG-…"></textarea>
+    <div class="row">
+      <button id="los" class="primary" type="button">Auswerten</button>
+      <button id="csv" type="button" disabled>Als Tabelle kopieren (CSV)</button>
+      <button id="leer" type="button">Leeren</button>
+    </div>
+    <p id="meldung" class="hint" role="status"></p>
+    <div id="summe" class="karten"></div>
+    <div class="scroll"><table id="tabelle" hidden>
+      <thead><tr><th>Name</th><th>Empfang</th><th>Labor</th><th>Sauna</th><th>Trainings-fläche</th><th>Shake-Bar</th><th>Aufgaben</th><th>Zusatz</th><th>Karten</th><th>Auflösung</th><th>Fall</th><th>Niveau (L / S / T / B)</th></tr></thead>
+      <tbody></tbody>
+    </table></div>
+    <p class="hint">Hinweis: Der Code zeigt, was geschafft wurde, nicht die einzelnen Antworten. Freitexte werden vom Spiel nicht gespeichert. Das Ergebnis ersetzt keine Note.</p>
+  </main>
+  <script type="module">
+    import { parseZeilen, auswertungZeile, zusammenfassung, csvText, RAUM_NAMEN } from './src/state/auswertung.js';
+    const $ = (s) => document.querySelector(s);
+    let rows = [];
+    function zelle(text, cls) { const td = document.createElement('td'); td.textContent = text; if (cls) td.className = cls; return td; }
+    function render() {
+      const z = zusammenfassung(rows);
+      $('#summe').replaceChildren(...[
+        ['Codes', `${z.gueltig} von ${z.gesamt} gültig`],
+        ...Object.entries(RAUM_NAMEN).map(([k, n]) => [n, `${z.proRaum[k]} von ${z.gueltig}`]),
+        ['Zertifikat erreicht', `${z.fertig} von ${z.gueltig}`],
+        ['Auflösung, Durchschnitt', z.quizSchnitt === null ? '–' : `${String(z.quizSchnitt).replace('.', ',')} von 4`],
+      ].map(([k, v]) => { const d = document.createElement('div'); d.className = 'karte'; const s = document.createElement('strong'); s.textContent = v; d.append(s, k); return d; }));
+      const tb = $('#tabelle tbody'); tb.replaceChildren();
+      for (const r of rows) {
+        const tr = document.createElement('tr');
+        tr.append(zelle(r.name || `Zeile ${r.nr}`));
+        if (!r.res.ok) { const td = zelle(r.res.reason, 'fehler'); td.colSpan = 8; tr.append(td); tb.append(tr); continue; }
+        const a = auswertungZeile(r.res.state);
+        for (const k of Object.keys(RAUM_NAMEN)) tr.append(zelle(a.raeume[k] ? '✓ ja' : '– nein', a.raeume[k] ? 'ja' : 'nein'));
+        tr.append(zelle(`${a.aufgaben} von 6`), zelle(`${a.zusatz} von 2`), zelle(String(a.karten)), zelle(a.quiz === null ? '–' : `${a.quiz} von 4`), zelle(a.fall), zelle(['labor', 'sauna', 'training', 'shakebar'].map((k) => a.niveaus[k][0]).join(' / ')));
+        tb.append(tr);
+      }
+      $('#tabelle').hidden = !rows.length;
+      $('#csv').disabled = !rows.length;
+    }
+    $('#los').addEventListener('click', () => {
+      rows = parseZeilen($('#eingabe').value);
+      $('#meldung').textContent = rows.length ? '' : 'Bitte füge mindestens einen Code ein.';
+      render();
+    });
+    $('#leer').addEventListener('click', () => { $('#eingabe').value = ''; rows = []; $('#meldung').textContent = ''; render(); });
+    $('#csv').addEventListener('click', async () => {
+      const t = csvText(rows);
+      try { await navigator.clipboard.writeText(t); $('#meldung').textContent = 'Tabelle kopiert. In Excel oder LibreOffice einfügen (Trennzeichen Semikolon).'; }
+      catch { $('#eingabe').value = t; $('#meldung').textContent = 'Kopieren ging nicht. Die Tabelle steht im Textfeld, bitte von dort kopieren.'; }
+    });
+    window.__auswertung = { parseZeilen, zusammenfassung };
+  </script>
+</body>
+</html>
