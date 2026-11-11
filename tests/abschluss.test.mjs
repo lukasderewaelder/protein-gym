@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { checkMehrfach, quizErgebnis, raumFertig, fehlendeKarten } from '../src/tasks/check.js';
 import { FLAG_LIST } from '../src/state/progress.js';
+import { flagsVon } from '../src/state/zugang.js';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (f) => JSON.parse(readFileSync(join(root, 'data', f), 'utf8'));
@@ -32,10 +33,11 @@ test('Räume: alle fünf Raumeinträge haben Aufgaben und eigene Flags', () => {
 test('Türen: Freischaltung folgt der Reihenfolge Empfang → Labor → Sauna → Trainingsfläche → Shake-Bar', () => {
   const tueren = S.szenen.find((s) => s.id === 'empfang').hotspots.filter((h) => h.type === 'door');
   const req = Object.fromEntries(tueren.map((t) => [t.to, t.requires || null]));
-  assert.equal(req.labor, A.raeume.empfang.fertigFlag);
-  assert.equal(req.sauna, A.raeume.labor.fertigFlag);
-  assert.equal(req.training, A.raeume.sauna.fertigFlag);
-  assert.equal(req.shakebar, A.raeume.training.fertigFlag);
+  // Labor und Sauna brauchen zusätzlich Ausweis bzw. Saunacode (Liste, alle Flags nötig); der Raum davor muss immer dabei sein
+  assert.ok(flagsVon(req.labor).includes(A.raeume.empfang.fertigFlag));
+  assert.ok(flagsVon(req.sauna).includes(A.raeume.labor.fertigFlag));
+  assert.ok(flagsVon(req.training).includes(A.raeume.sauna.fertigFlag));
+  assert.ok(flagsVon(req.shakebar).includes(A.raeume.training.fertigFlag));
 });
 
 test('Jede Aufgabe fordert nur Karten aus ihrem Raum oder Vorgängerräumen, und die Karten sind dort erreichbar', () => {

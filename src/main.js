@@ -15,6 +15,7 @@ import { createTaskPanel } from './ui/taskpanel.js';
 import { encodeProgress } from './state/progress.js';
 import { alleFallKarten } from './state/fall.js';
 import { merkePosition, holePosition } from './state/zwischenstand.js';
+import { erfuellt, istSichtbar } from './state/zugang.js';
 import { h, clear } from './ui/dom.js';
 import { renderFund, fundIcon } from './ui/funde.js';
 import { fundart, istZusatz } from './ui/funde-core.js';
@@ -194,7 +195,7 @@ function applyFontScale() {
 }
 
 function isLocked(hs) {
-  return Boolean(hs.requires) && !store.hasFlag(hs.requires);
+  return !erfuellt(hs.requires, (f) => store.hasFlag(f));
 }
 
 async function loadNpcs(scene) {
@@ -507,8 +508,9 @@ async function boot() {
       start.hide();
       begin();
     },
-    onRestore: async ({ names, shirt, hair, skin, scene, flags, levels, quiz, fall }) => {
-      Object.assign(store.state, { names, shirt, hair, skin, scene, flags, levels, quiz, fall, pos: null, taskProgress: {} });
+    onRestore: async ({ names, shirt, hair, skin, scene, flags, levels, quiz, fall, codes }) => {
+      Object.assign(store.state, { names, shirt, hair, skin, scene, flags, levels, quiz, fall, codes, pos: null, taskProgress: {} });
+      store.ensureCodes();
       store.save();
       buildFallCards();
       await refreshFigure();

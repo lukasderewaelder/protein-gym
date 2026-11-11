@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { buildGrid, findPath, isBlockedAt } from '../src/engine/grid.js';
 import { FALL_FLAGS } from '../src/state/fall.js';
+import { flagsVon } from '../src/state/zugang.js';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const szenen = JSON.parse(readFileSync(join(root, 'data/szenen.json'), 'utf8'));
@@ -13,7 +14,7 @@ const wissen = JSON.parse(readFileSync(join(root, 'data/wissen.json'), 'utf8'));
 const kartenIds = new Set([...wissen.karten.map((k) => k.id), ...FALL_FLAGS]); // Fall-Hinweise entstehen zur Laufzeit aus data/fall.json
 const { w, h } = szenen.welt;
 const ids = new Set(szenen.szenen.map((s) => s.id));
-const FLAGS = new Set(['empfang_done', 'training_done', 'labor_done', 'sauna_done']);
+const FLAGS = new Set(['empfang_done', 'training_done', 'labor_done', 'sauna_done', 'labor_offen', 'sauna_offen']);
 
 test('fünf Räume mit eindeutiger ID', () => {
   assert.equal(szenen.szenen.length, 5);
@@ -30,11 +31,11 @@ for (const s of szenen.szenen) {
       assert.ok(!seen.has(hs.id), `doppelte Hotspot-ID ${hs.id}`);
       seen.add(hs.id);
       assert.ok(hs.x >= 0 && hs.x <= w && hs.y >= 0 && hs.y <= h, `${hs.id} liegt in der Welt`);
-      assert.ok(['dialog', 'npc', 'door', 'task'].includes(hs.type), `${hs.id}: Typ`);
+      assert.ok(['dialog', 'npc', 'door', 'task', 'geraet', 'fach'].includes(hs.type), `${hs.id}: Typ`);
       if (hs.type === 'door') {
         assert.ok(ids.has(hs.to), `${hs.id}: Zielraum ${hs.to}`);
         if (hs.requires) {
-          assert.ok(FLAGS.has(hs.requires), `${hs.id}: unbekannte Freischaltung`);
+          for (const f of flagsVon(hs.requires)) assert.ok(FLAGS.has(f), `${hs.id}: unbekannte Freischaltung ${f}`);
           assert.ok(hs.lockedText, `${hs.id}: Text für gesperrte Tür fehlt`);
         }
       }

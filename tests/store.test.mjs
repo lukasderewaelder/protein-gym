@@ -35,10 +35,11 @@ test('beschädigter Speicher führt zu einem frischen Spiel', () => {
   const st = fakeStorage({ [STORAGE_KEY]: '{kaputt' });
   const s = createStore(st);
   s.load();
-  const { fall, ...rest } = s.state;
-  const { fall: _f, ...erwartet } = defaultState();
+  const { fall, codes, ...rest } = s.state;
+  const { fall: _f, codes: _c, ...erwartet } = defaultState();
   assert.deepEqual(rest, erwartet);
   assert.ok(['desi', 'kurt', 'hannes', 'zoe'].includes(fall.taeter), 'Täter wird beim Start gewürfelt');
+  assert.ok(/^[1-9][0-9]{3}$/.test(codes.sauna), 'Saunacode wird beim Start gewürfelt');
 });
 
 test('Zurücksetzen löscht alles', () => {

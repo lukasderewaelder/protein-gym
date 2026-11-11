@@ -2,6 +2,7 @@
 // wenn der Speicher gesperrt ist (privates Fenster, Schulgeräte mit Einschränkung).
 
 import { wuerfleTaeter, istTaeter } from './fall.js';
+import { wuerfleSaunaCode, istSaunaCode, migriereZweiNull } from './zugang.js';
 
 export const STORAGE_KEY = 'protein-gym:v1';
 
@@ -18,6 +19,7 @@ export function defaultState() {
     scene: 'empfang',
     flags: {},          // Fortschritt und gesehene Dialoge
     fall: { taeter: null }, // Täter des Krimis, wird beim Spielstart gewürfelt (siehe ensureFall)
+    codes: { sauna: null }, // Saunacode (4 Ziffern), wird beim Spielstart gewürfelt (siehe ensureCodes)
     taskProgress: {},   // Zwischenstand je Aufgabe: { Niveau, Schritt, richtige Erstversuche } (nur auf dem Gerät)
     pos: null,          // Position der Figur { scene, x, y } (nur auf dem Gerät)
     fontScale: 1,
@@ -32,6 +34,12 @@ export function createStore(storage, zufall = Math.random) {
   /** Täter würfeln, falls noch keiner feststeht (neuer Spielstand oder Speicher aus einer älteren Version). */
   function ensureFall() {
     if (!state.fall || !istTaeter(state.fall.taeter)) state.fall = { taeter: wuerfleTaeter(zufall) };
+  }
+
+  /** Saunacode würfeln, falls noch keiner feststeht (neuer Spielstand oder Speicher aus der Zeit vor 2.0). */
+  function ensureCodes() {
+    if (!state.codes || typeof state.codes !== 'object') state.codes = { sauna: null };
+    if (!istSaunaCode(state.codes.sauna)) state.codes.sauna = wuerfleSaunaCode(zufall);
   }
 
   function readRaw() {
@@ -54,10 +62,12 @@ export function createStore(storage, zufall = Math.random) {
         const data = JSON.parse(raw);
         if (data && typeof data === 'object') {
           state = { ...state, ...data, flags: { ...(data.flags || {}) } };
+          if (!data.codes) migriereZweiNull(state); // gespeicherter Stand aus der Zeit vor 2.0: Ausweis und offene Türen nachrüsten
         }
       } catch { /* beschädigt: neu beginnen */ }
     }
     ensureFall();
+    ensureCodes();
     return state;
   }
 
@@ -65,8 +75,9 @@ export function createStore(storage, zufall = Math.random) {
     load,
     get state() { return state; },
     save() { writeRaw(JSON.stringify(state)); },
-    reset() { removeRaw(); state = defaultState(); ensureFall(); return state; },
+    reset() { removeRaw(); state = defaultState(); ensureFall(); ensureCodes(); return state; },
     ensureFall,
+    ensureCodes,
     setFlag(name, value = true) { state.flags[name] = value; this.save(); },
     hasFlag(name) { return Boolean(state.flags[name]); },
     hasNames() { return state.names.length > 0; },
