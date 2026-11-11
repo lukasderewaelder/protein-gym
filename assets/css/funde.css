@@ -56,8 +56,9 @@ dialog#fund::backdrop { background: rgba(0, 0, 0, 0.62); }
   /* Heftlinien: Text steht auf den Linien, deshalb haben Zeilenhöhe und Linienabstand dieselbe Größe */
   --zeile: calc(34px * var(--font-scale));
   background-color: #fffdf2;
-  background-image: url("../funde/fund_karteikarte.webp"), repeating-linear-gradient(transparent 0 calc(var(--zeile) - 5px), #b6d4ee calc(var(--zeile) - 5px) calc(var(--zeile) - 4px), transparent calc(var(--zeile) - 4px) var(--zeile));
-  background-size: cover, auto; background-position: center, 0 0; background-repeat: no-repeat, repeat; background-attachment: local, local;
+  /* Die Linien liegen über der Papiertextur (die Textur hat keine eigenen Linien), damit sie zur Zeilenhöhe passen */
+  background-image: repeating-linear-gradient(transparent 0 calc(var(--zeile) - 5px), #b6d4ee calc(var(--zeile) - 5px) calc(var(--zeile) - 4px), transparent calc(var(--zeile) - 4px) var(--zeile)), url("../funde/fund_karteikarte.webp");
+  background-size: auto, cover; background-position: 0 0, center; background-repeat: repeat, no-repeat; background-attachment: local, local;
   border-top: 8px solid #d94c4c; font-family: "Trebuchet MS", system-ui, sans-serif; transform: rotate(0.8deg);
   padding-top: var(--zeile); line-height: var(--zeile);
 }
@@ -93,8 +94,8 @@ dialog#fund::backdrop { background: rgba(0, 0, 0, 0.62); }
 /* ---------- Heftseite ---------- */
 .fund.heft {
   background-color: #fffef6;
-  background-image: url("../funde/fund_heft.webp"), linear-gradient(90deg, transparent 54px, #e07b7b 54px 56px, transparent 56px), repeating-linear-gradient(#fffef6 0 23px, #c8dcef 23px 24px), repeating-linear-gradient(90deg, transparent 0 23px, #c8dcef 23px 24px);
-  background-size: cover, auto, auto, auto;
+  background-image: linear-gradient(90deg, transparent 54px, #e07b7b 54px 56px, transparent 56px), repeating-linear-gradient(transparent 0 23px, #c8dcef 23px 24px), repeating-linear-gradient(90deg, transparent 0 23px, #c8dcef 23px 24px), url("../funde/fund_heft.webp");
+  background-size: auto, auto, auto, cover;
   padding-left: 72px; font-family: var(--hand); color: #1f3d99; transform: rotate(1.1deg); line-height: 1.5;
 }
 .fund.heft .fund-kopf { text-decoration: underline; text-underline-offset: 5px; }

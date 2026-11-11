@@ -48,10 +48,9 @@ Ein Chat pro Gruppe: Szenen in einem Chat, Spielfigur in einem Chat, jede NPC-Fi
 | 38 | obj_ausweis.png | - |
 | 39 | obj_leser_0.png … obj_leser_1.png | - |
 | 40 | obj_tastenfeld.png | - |
-| 41 | obj_zettel.png | - |
-| 42 | icon_tasche.png | - |
-| 43 | obj_fach_0.png … obj_fach_1.png | - |
-| 44 | obj_aufkleber_0.png … obj_aufkleber_3.png | - |
+| 41 | icon_tasche.png | - |
+| 42 | obj_fach_0.png … obj_fach_1.png | - |
+| 43 | obj_tattoo_0.png … obj_tattoo_1.png | - |
 
 ## Szenen
 
@@ -276,7 +275,7 @@ Speichern als: `npc_kurt.png`
 **Anhängen:** figur_v1_ref.png (damit Proportionen und Stil passen)
 
 ```
-Pixel art look, three-quarter top-down view like a classic 16-bit adventure game, chunky visible pixels, dark outlines, soft cel shading, warm friendly colours (teal, off-white, warm wood brown, signal orange, soft grey, a little yellow), clean readable shapes. No text, no letters, no numbers, no logos, no watermark, no photorealism, no blur. Friendly, school-appropriate mood. Use the attached character sheet only as reference for the pixel art style, proportions (chibi-like, about 3 heads tall) and line work. Create a different character: a single full-body sprite of a laboratory technician wearing a white lab coat with copper-coloured safety goggles pushed up on the forehead, an old copper kettle standing at their side, standing relaxed. Standing facing the viewer. Flat pure magenta background (#FF00FF) without gradient, texture or shadow. Nothing cropped. No ground shadow under the figure. No text.
+Pixel art look, three-quarter top-down view like a classic 16-bit adventure game, chunky visible pixels, dark outlines, soft cel shading, warm friendly colours (teal, off-white, warm wood brown, signal orange, soft grey, a little yellow), clean readable shapes. No text, no letters, no numbers, no logos, no watermark, no photorealism, no blur. Friendly, school-appropriate mood. Use the attached character sheet only as reference for the pixel art style, proportions (chibi-like, about 3 heads tall) and line work. Create a different character: a single full-body sprite of a scientist wearing a white lab coat with copper-coloured safety goggles pushed up on the forehead, an old copper kettle standing at their side, standing relaxed. Standing facing the viewer. Flat pure magenta background (#FF00FF) without gradient, texture or shadow. Nothing cropped. No ground shadow under the figure. No text.
 ```
 
 ### Nr 23: Kupfer-Kurt (Labor, Verdächtiger „Schwermetallsalz“): Porträt-Sheet (3 Ausdrücke)
@@ -465,17 +464,7 @@ Speichern als: `obj_tastenfeld.png`
 Pixel art look, three-quarter top-down view like a classic 16-bit adventure game, chunky visible pixels, dark outlines, soft cel shading, warm friendly colours (teal, off-white, warm wood brown, signal orange, soft grey, a little yellow), clean readable shapes. No text, no letters, no numbers, no logos, no watermark, no photorealism, no blur. Friendly, school-appropriate mood. A door keypad with a small empty dark display on top and twelve identical blank rounded keys below in a grid of 3 columns and 4 rows, metal frame, seen straight from the front. The keys carry no numbers and no symbols. No text. Flat pure magenta background (#FF00FF) without gradient, texture or shadow. Nothing cropped. No ground shadow under the figure.
 ```
 
-### Nr 41: Zettel mit Gekritzel
-
-Speichern als: `obj_zettel.png`
-
-**Anhängen:** nichts
-
-```
-Pixel art look, three-quarter top-down view like a classic 16-bit adventure game, chunky visible pixels, dark outlines, soft cel shading, warm friendly colours (teal, off-white, warm wood brown, signal orange, soft grey, a little yellow), clean readable shapes. No text, no letters, no numbers, no logos, no watermark, no photorealism, no blur. Friendly, school-appropriate mood. A small crooked yellow paper note with a few abstract wavy pencil scribble lines on it that do not form letters or numbers, a little tape on the top edge. No readable writing. Flat pure magenta background (#FF00FF) without gradient, texture or shadow. Nothing cropped. No ground shadow under the figure.
-```
-
-### Nr 42: Taschensymbol (Inventar)
+### Nr 41: Taschensymbol (Inventar)
 
 Speichern als: `icon_tasche.png`
 
@@ -485,7 +474,7 @@ Speichern als: `icon_tasche.png`
 Pixel art look, three-quarter top-down view like a classic 16-bit adventure game, chunky visible pixels, dark outlines, soft cel shading, warm friendly colours (teal, off-white, warm wood brown, signal orange, soft grey, a little yellow), clean readable shapes. No text, no letters, no numbers, no logos, no watermark, no photorealism, no blur. Friendly, school-appropriate mood. A single small icon of a teal gym duffel bag with an orange zipper and a short carrying strap, side view, bold simple shapes, readable at small size. No text, no logo. Flat pure magenta background (#FF00FF) without gradient, texture or shadow. Nothing cropped. No ground shadow under the figure.
 ```
 
-### Nr 43: Schließfach (zu und offen)
+### Nr 42: Schließfach (zu und offen)
 
 Speichern als: `obj_fach_sheet.png` (das Grafik-Werkzeug teilt es danach in obj_fach_0.png … obj_fach_1.png)
 
@@ -495,14 +484,14 @@ Speichern als: `obj_fach_sheet.png` (das Grafik-Werkzeug teilt es danach in obj_
 Pixel art look, three-quarter top-down view like a classic 16-bit adventure game, chunky visible pixels, dark outlines, soft cel shading, warm friendly colours (teal, off-white, warm wood brown, signal orange, soft grey, a little yellow), clean readable shapes. No text, no letters, no numbers, no logos, no watermark, no photorealism, no blur. Friendly, school-appropriate mood. Two views of the same small locker door in a row, equal size and spacing: left closed, with a blank keypad lock on the door, right with the door swung open showing an empty teal interior. Teal metal, no numbers, no text, no stickers. Flat pure magenta background (#FF00FF) without gradient, texture or shadow. Nothing cropped. No ground shadow under the figure.
 ```
 
-### Nr 44: Aufkleber (vier Stück)
+### Nr 43: Klebe-Tattoos (zwei Stück)
 
-Speichern als: `obj_aufkleber_sheet.png` (das Grafik-Werkzeug teilt es danach in obj_aufkleber_0.png … obj_aufkleber_3.png)
+Speichern als: `obj_tattoo_sheet.png` (das Grafik-Werkzeug teilt es danach in obj_tattoo_0.png … obj_tattoo_1.png)
 
 **Anhängen:** nichts
 
 ```
-Pixel art look, three-quarter top-down view like a classic 16-bit adventure game, chunky visible pixels, dark outlines, soft cel shading, warm friendly colours (teal, off-white, warm wood brown, signal orange, soft grey, a little yellow), clean readable shapes. No text, no letters, no numbers, no logos, no watermark, no photorealism, no blur. Friendly, school-appropriate mood. Four round sticker badges in one row, same size, equal spacing, each with a thick white outline: (1) a yellow star, (2) a small dumbbell, (3) a test tube with green liquid, (4) an orange lightning bolt. No text, no numbers. Flat pure magenta background (#FF00FF) without gradient, texture or shadow. Nothing cropped. No ground shadow under the figure.
+Pixel art look, three-quarter top-down view like a classic 16-bit adventure game, chunky visible pixels, dark outlines, soft cel shading, warm friendly colours (teal, off-white, warm wood brown, signal orange, soft grey, a little yellow), clean readable shapes. No text, no letters, no numbers, no logos, no watermark, no photorealism, no blur. Friendly, school-appropriate mood. Two temporary tattoo stickers in one row, same size, equal spacing, each on a small rectangular piece of glossy backing paper with a slightly peeled corner: (1) a bold black-and-teal dumbbell, (2) a shiny golden flexed biceps arm wearing tiny cool sunglasses, playful and friendly. No text, no numbers, no skulls. Flat pure magenta background (#FF00FF) without gradient, texture or shadow. Nothing cropped. No ground shadow under the figure.
 ```
 
 ## Nachbesserungen (im selben Chat direkt nach dem Bild senden)

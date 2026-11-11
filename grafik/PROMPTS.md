@@ -82,10 +82,9 @@ Flat pure magenta background (#FF00FF) without gradient, texture or shadow. Noth
 | 38 | Labor-Ausweis (Karte) | obj_ausweis.png | assets/figuren/ | Einzel-Sprite (Art Objekt, Name obj_ausweis), Magenta freistellen |
 | 39 | Kartenlesegerät (Lämpchen rot und grün) | obj_leser_0.png … obj_leser_1.png | assets/figuren/ | Sheet teilen (Spalten 2, Magenta freistellen, Name obj_leser) |
 | 40 | Zahlenschloss-Tastenfeld | obj_tastenfeld.png | assets/figuren/ | Einzel-Sprite (Art Objekt, Name obj_tastenfeld), Magenta freistellen |
-| 41 | Zettel mit Gekritzel | obj_zettel.png | assets/figuren/ | Einzel-Sprite (Art Objekt, Name obj_zettel), Magenta freistellen |
-| 42 | Taschensymbol (Inventar) | icon_tasche.png | assets/icons/ | Einzel-Sprite (Art Icon, Name icon_tasche), Magenta freistellen |
-| 43 | Schließfach (zu und offen) | obj_fach_0.png … obj_fach_1.png | assets/figuren/ | Sheet teilen (Spalten 2, Magenta freistellen, Name obj_fach) |
-| 44 | Aufkleber (vier Stück) | obj_aufkleber_0.png … obj_aufkleber_3.png | assets/figuren/ | Sheet teilen (Spalten 4, Magenta freistellen, Name obj_aufkleber) |
+| 41 | Taschensymbol (Inventar) | icon_tasche.png | assets/icons/ | Einzel-Sprite (Art Icon, Name icon_tasche), Magenta freistellen |
+| 42 | Schließfach (zu und offen) | obj_fach_0.png … obj_fach_1.png | assets/figuren/ | Sheet teilen (Spalten 2, Magenta freistellen, Name obj_fach) |
+| 43 | Klebe-Tattoos (zwei Stück) | obj_tattoo_0.png … obj_tattoo_1.png | assets/figuren/ | Sheet teilen (Spalten 2, Magenta freistellen, Name obj_tattoo) |
 
 ## 4. Szenen
 
@@ -556,12 +555,12 @@ Pixel art look, frontal view in the style of a classic 16-bit adventure game dia
 - **Zielordner:** `assets/figuren/`
 - **Verarbeiten mit:** Einzel-Sprite (Art NPC, Name kurt)
 - **Referenzbild anhängen:** figur_v1_ref.png (damit Proportionen und Stil passen)
-- **Stil:** Labortechniker im weißen Kittel, kupferfarbene Schutzbrille auf der Stirn, alter Kupferkessel an der Seite. Freundlich, keine Karikatur. Gleicher Chibi-Stil (ca. 3 Köpfe hoch) und gleiche Pixel-Optik wie die Spielfigur.
+- **Stil:** Wissenschaftler im weißen Kittel, kupferfarbene Schutzbrille auf der Stirn, alter Kupferkessel an der Seite. Freundlich, keine Karikatur. Gleicher Chibi-Stil (ca. 3 Köpfe hoch) und gleiche Pixel-Optik wie die Spielfigur.
 
 **Prompt:**
 
 ```
-Pixel art look, three-quarter top-down view like a classic 16-bit adventure game, chunky visible pixels, dark outlines, soft cel shading, warm friendly colours (teal, off-white, warm wood brown, signal orange, soft grey, a little yellow), clean readable shapes. No text, no letters, no numbers, no logos, no watermark, no photorealism, no blur. Friendly, school-appropriate mood. Use the attached character sheet only as reference for the pixel art style, proportions (chibi-like, about 3 heads tall) and line work. Create a different character: a single full-body sprite of a laboratory technician wearing a white lab coat with copper-coloured safety goggles pushed up on the forehead, an old copper kettle standing at their side, standing relaxed. Standing facing the viewer. Flat pure magenta background (#FF00FF) without gradient, texture or shadow. Nothing cropped. No ground shadow under the figure. No text.
+Pixel art look, three-quarter top-down view like a classic 16-bit adventure game, chunky visible pixels, dark outlines, soft cel shading, warm friendly colours (teal, off-white, warm wood brown, signal orange, soft grey, a little yellow), clean readable shapes. No text, no letters, no numbers, no logos, no watermark, no photorealism, no blur. Friendly, school-appropriate mood. Use the attached character sheet only as reference for the pixel art style, proportions (chibi-like, about 3 heads tall) and line work. Create a different character: a single full-body sprite of a scientist wearing a white lab coat with copper-coloured safety goggles pushed up on the forehead, an old copper kettle standing at their side, standing relaxed. Standing facing the viewer. Flat pure magenta background (#FF00FF) without gradient, texture or shadow. Nothing cropped. No ground shadow under the figure. No text.
 ```
 
 **Prüfliste:**
@@ -925,25 +924,7 @@ Pixel art look, three-quarter top-down view like a classic 16-bit adventure game
 
 - [ ] Zwölf Tasten im Raster 3 mal 4, alle leer (keine Ziffern), Anzeige leer.
 
-### Nr 41: Zettel mit Gekritzel
-
-- **Dateiname:** `obj_zettel.png`
-- **Zielordner:** `assets/figuren/`
-- **Verarbeiten mit:** Einzel-Sprite (Art Objekt, Name obj_zettel), Magenta freistellen
-- **Referenzbild anhängen:** keins
-- **Stil:** Kleiner gelber Zettel, leicht schief, mit angedeutetem Gekritzel aus unleserlichen Strichen. Den echten Code schreibt das Spiel darauf. Das Spiel zeichnet dieses Objekt zunächst selbst im Code; das Bild ist nur eine schönere Alternative.
-
-**Prompt:**
-
-```
-Pixel art look, three-quarter top-down view like a classic 16-bit adventure game, chunky visible pixels, dark outlines, soft cel shading, warm friendly colours (teal, off-white, warm wood brown, signal orange, soft grey, a little yellow), clean readable shapes. No text, no letters, no numbers, no logos, no watermark, no photorealism, no blur. Friendly, school-appropriate mood. A small crooked yellow paper note with a few abstract wavy pencil scribble lines on it that do not form letters or numbers, a little tape on the top edge. No readable writing. Flat pure magenta background (#FF00FF) without gradient, texture or shadow. Nothing cropped. No ground shadow under the figure.
-```
-
-**Prüfliste:**
-
-- [ ] Das Gekritzel sieht nicht wie Buchstaben oder Zahlen aus.
-
-### Nr 42: Taschensymbol (Inventar)
+### Nr 41: Taschensymbol (Inventar)
 
 - **Dateiname:** `icon_tasche.png`
 - **Zielordner:** `assets/icons/`
@@ -961,7 +942,7 @@ Pixel art look, three-quarter top-down view like a classic 16-bit adventure game
 
 - [ ] Auch klein noch als Tasche erkennbar, keine Schrift.
 
-### Nr 43: Schließfach (zu und offen)
+### Nr 42: Schließfach (zu und offen)
 
 - **Dateiname:** `obj_fach_0.png … obj_fach_1.png`
 - **Zielordner:** `assets/figuren/`
@@ -979,23 +960,23 @@ Pixel art look, three-quarter top-down view like a classic 16-bit adventure game
 
 - [ ] Zwei Bilder: zu und offen, gleiche Größe, keine Ziffern am Schloss.
 
-### Nr 44: Aufkleber (vier Stück)
+### Nr 43: Klebe-Tattoos (zwei Stück)
 
-- **Dateiname:** `obj_aufkleber_0.png … obj_aufkleber_3.png`
+- **Dateiname:** `obj_tattoo_0.png … obj_tattoo_1.png`
 - **Zielordner:** `assets/figuren/`
-- **Verarbeiten mit:** Sheet teilen (Spalten 4, Magenta freistellen, Name obj_aufkleber)
+- **Verarbeiten mit:** Sheet teilen (Spalten 2, Magenta freistellen, Name obj_tattoo)
 - **Referenzbild anhängen:** keins
-- **Stil:** Vier runde Aufkleber als Belohnung für Bonusfächer: Stern, Hantel, Reagenzglas, Blitz. Gleiche Größe, ohne Schrift. Das Spiel zeichnet dieses Objekt zunächst selbst im Code; das Bild ist nur eine schönere Alternative.
+- **Stil:** Zwei Klebe-Tattoos auf Trägerpapier als ironische Belohnung „für wirklich harte Typen“ (Bonusfächer 3 und 6): links eine Hantel, rechts ein goldener Bizeps mit Sonnenbrille. Gleiche Größe, ohne Schrift, nichts Bedrohliches. Das Spiel zeichnet dieses Objekt zunächst selbst im Code; das Bild ist nur eine schönere Alternative.
 
 **Prompt:**
 
 ```
-Pixel art look, three-quarter top-down view like a classic 16-bit adventure game, chunky visible pixels, dark outlines, soft cel shading, warm friendly colours (teal, off-white, warm wood brown, signal orange, soft grey, a little yellow), clean readable shapes. No text, no letters, no numbers, no logos, no watermark, no photorealism, no blur. Friendly, school-appropriate mood. Four round sticker badges in one row, same size, equal spacing, each with a thick white outline: (1) a yellow star, (2) a small dumbbell, (3) a test tube with green liquid, (4) an orange lightning bolt. No text, no numbers. Flat pure magenta background (#FF00FF) without gradient, texture or shadow. Nothing cropped. No ground shadow under the figure.
+Pixel art look, three-quarter top-down view like a classic 16-bit adventure game, chunky visible pixels, dark outlines, soft cel shading, warm friendly colours (teal, off-white, warm wood brown, signal orange, soft grey, a little yellow), clean readable shapes. No text, no letters, no numbers, no logos, no watermark, no photorealism, no blur. Friendly, school-appropriate mood. Two temporary tattoo stickers in one row, same size, equal spacing, each on a small rectangular piece of glossy backing paper with a slightly peeled corner: (1) a bold black-and-teal dumbbell, (2) a shiny golden flexed biceps arm wearing tiny cool sunglasses, playful and friendly. No text, no numbers, no skulls. Flat pure magenta background (#FF00FF) without gradient, texture or shadow. Nothing cropped. No ground shadow under the figure.
 ```
 
 **Prüfliste:**
 
-- [ ] Vier Aufkleber, gleich groß, klarer Abstand, keine Schrift.
+- [ ] Zwei Tattoos auf Trägerpapier, gleich groß, klarer Abstand, keine Schrift, wirkt lustig statt hart.
 
 ## 10. Nachbesserungs-Prompts (kurz, höchstens zweimal pro Bild)
 

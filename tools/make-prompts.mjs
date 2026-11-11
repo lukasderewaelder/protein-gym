@@ -231,12 +231,6 @@ add({
   pruef: ['Zwölf Tasten im Raster 3 mal 4, alle leer (keine Ziffern), Anzeige leer.'],
 });
 add({
-  gruppe: A2, titel: 'Zettel mit Gekritzel', datei: 'obj_zettel.png', ordner: 'assets/figuren/', werkzeug: 'Einzel-Sprite (Art Objekt, Name obj_zettel), Magenta freistellen', ref: null,
-  stil: 'Kleiner gelber Zettel, leicht schief, mit angedeutetem Gekritzel aus unleserlichen Strichen. Den echten Code schreibt das Spiel darauf.' + A2_NOTE,
-  body: 'A small crooked yellow paper note with a few abstract wavy pencil scribble lines on it that do not form letters or numbers, a little tape on the top edge. No readable writing.' + SPRITE,
-  pruef: ['Das Gekritzel sieht nicht wie Buchstaben oder Zahlen aus.'],
-});
-add({
   gruppe: A2, titel: 'Taschensymbol (Inventar)', datei: 'icon_tasche.png', ordner: 'assets/icons/', werkzeug: 'Einzel-Sprite (Art Icon, Name icon_tasche), Magenta freistellen', ref: null,
   stil: 'Kleine Sporttasche in Türkis mit orangem Reißverschluss, Seitenansicht, gut lesbar auch in klein.' + A2_NOTE,
   body: 'A single small icon of a teal gym duffel bag with an orange zipper and a short carrying strap, side view, bold simple shapes, readable at small size. No text, no logo.' + SPRITE,
@@ -249,14 +243,15 @@ add({
   pruef: ['Zwei Bilder: zu und offen, gleiche Größe, keine Ziffern am Schloss.'],
 });
 add({
-  gruppe: A2, titel: 'Aufkleber (vier Stück)', datei: 'obj_aufkleber_0.png … obj_aufkleber_3.png', ordner: 'assets/figuren/', werkzeug: 'Sheet teilen (Spalten 4, Magenta freistellen, Name obj_aufkleber)', ref: null,
-  stil: 'Vier runde Aufkleber als Belohnung für Bonusfächer: Stern, Hantel, Reagenzglas, Blitz. Gleiche Größe, ohne Schrift.' + A2_NOTE,
-  body: 'Four round sticker badges in one row, same size, equal spacing, each with a thick white outline: (1) a yellow star, (2) a small dumbbell, (3) a test tube with green liquid, (4) an orange lightning bolt. No text, no numbers.' + SPRITE,
-  pruef: ['Vier Aufkleber, gleich groß, klarer Abstand, keine Schrift.'],
+  gruppe: A2, titel: 'Klebe-Tattoos (zwei Stück)', datei: 'obj_tattoo_0.png … obj_tattoo_1.png', ordner: 'assets/figuren/', werkzeug: 'Sheet teilen (Spalten 2, Magenta freistellen, Name obj_tattoo)', ref: null,
+  stil: 'Zwei Klebe-Tattoos auf Trägerpapier als ironische Belohnung „für wirklich harte Typen“ (Bonusfächer 3 und 6): links eine Hantel, rechts ein goldener Bizeps mit Sonnenbrille. Gleiche Größe, ohne Schrift, nichts Bedrohliches.' + A2_NOTE,
+  body: 'Two temporary tattoo stickers in one row, same size, equal spacing, each on a small rectangular piece of glossy backing paper with a slightly peeled corner: (1) a bold black-and-teal dumbbell, (2) a shiny golden flexed biceps arm wearing tiny cool sunglasses, playful and friendly. No text, no numbers, no skulls.' + SPRITE,
+  pruef: ['Zwei Tattoos auf Trägerpapier, gleich groß, klarer Abstand, keine Schrift, wirkt lustig statt hart.'],
 });
 
 // ---------- Status: Quelle der Wahrheit für OFFEN.md ----------
-const OFFEN_DATEIEN = new Set(['npc_desi.png', 'fund_karteikarte.png', 'fund_zeitung.png', 'fund_heft.png', 'fund_formular.png', 'fund_metallschild.png', 'pinnwand_kork.png']);
+// Alle Pflichtbilder sind eingebaut (Desi, Papierflächen und Korkwand seit dem 11.11.); offen sind nur noch die optionalen Objekte (A2).
+const OFFEN_DATEIEN = new Set([]);
 assets.forEach((a) => { a.status = a.gruppe === A2 ? 'optional' : OFFEN_DATEIEN.has(a.datei) ? 'offen' : 'fertig'; });
 
 // ---------- Datei bauen ----------

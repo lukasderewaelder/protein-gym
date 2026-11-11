@@ -2,7 +2,7 @@
 // Der Block zwischen den Marken wird von tools/precache.mjs erzeugt (node tools/precache.mjs).
 
 // >>> precache
-const VERSION = '0312682a3e';
+const VERSION = '74858476d2';
 const ASSETS = [
   './',
   './assets/css/app.css',
@@ -24,6 +24,7 @@ const ASSETS = [
   './assets/figuren/icons_struktur_1.webp',
   './assets/figuren/icons_struktur_2.webp',
   './assets/figuren/npc_alex.webp',
+  './assets/figuren/npc_desi.webp',
   './assets/figuren/npc_hannes.webp',
   './assets/figuren/npc_kurt.webp',
   './assets/figuren/npc_trainer.webp',
@@ -37,7 +38,13 @@ const ASSETS = [
   './assets/figuren/obj_sonstiges_1.webp',
   './assets/figuren/obj_sonstiges_2.webp',
   './assets/figuren/obj_sonstiges_3.webp',
+  './assets/funde/fund_formular.webp',
   './assets/funde/fund_haftnotiz.webp',
+  './assets/funde/fund_heft.webp',
+  './assets/funde/fund_karteikarte.webp',
+  './assets/funde/fund_metallschild.webp',
+  './assets/funde/fund_zeitung.webp',
+  './assets/funde/pinnwand_kork.webp',
   './assets/icons/apple-touch-icon.png',
   './assets/icons/icon-192.png',
   './assets/icons/icon-512.png',

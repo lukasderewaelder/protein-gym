@@ -2,153 +2,18 @@
 
 Diese Datei enthält **nur** Bilder, die noch fehlen. Alles Fertige steht in `PROMPTS_KOPIEREN.md` und ist hier nicht mehr aufgeführt. Die Nummern sind dieselben wie dort. Je Bild: Block kopieren, in ChatGPT einfügen, bei „Anhängen“ das genannte Bild mitschicken, Ergebnis unter dem Dateinamen speichern, danach `node tools/precache.mjs` ausführen. Höchstens zwei Nachbesserungen je Bild (die kurzen Sätze stehen unten).
 
-**Ohne diese Bilder läuft das Spiel vollständig:** es zeichnet die fehlenden Papierflächen als Farbflächen und die fehlende Figur als Platzhalter. Offen sind 7 Bilder, optional 7.
+**Ohne diese Bilder läuft das Spiel vollständig:** es zeichnet die fehlenden Papierflächen als Farbflächen und die fehlende Figur als Platzhalter. Offen sind 0 Bilder, optional 6.
 
 | Nr | Datei | Anhängen | Status |
 |---|---|---|---|
-| 20 | npc_desi.png | figur_v1_ref.png (damit Proportionen und Stil passen) | offen |
-| 32 | fund_karteikarte.png | - | offen |
-| 33 | fund_zeitung.png | - | offen |
-| 34 | fund_heft.png | - | offen |
-| 35 | fund_formular.png | - | offen |
-| 36 | fund_metallschild.png | - | offen |
-| 37 | pinnwand_kork.png | - | offen |
 | 38 | obj_ausweis.png | - | optional |
 | 39 | obj_leser_0.png … obj_leser_1.png | - | optional |
 | 40 | obj_tastenfeld.png | - | optional |
-| 41 | obj_zettel.png | - | optional |
-| 42 | icon_tasche.png | - | optional |
-| 43 | obj_fach_0.png … obj_fach_1.png | - | optional |
-| 44 | obj_aufkleber_0.png … obj_aufkleber_3.png | - | optional |
+| 41 | icon_tasche.png | - | optional |
+| 42 | obj_fach_0.png … obj_fach_1.png | - | optional |
+| 43 | obj_tattoo_0.png … obj_tattoo_1.png | - | optional |
 
 ## Offen (fehlt im Spiel)
-
-### Nr 20: Desi (Empfang, Verdächtige „Alkohol“): Sprite (Stehbild)
-
-Speichern als: `npc_desi.png` in `assets/figuren/`
-
-**Werkzeug:** Einzel-Sprite (Art NPC, Name desi)
-
-**Anhängen:** figur_v1_ref.png (damit Proportionen und Stil passen)
-
-```
-Pixel art look, three-quarter top-down view like a classic 16-bit adventure game, chunky visible pixels, dark outlines, soft cel shading, warm friendly colours (teal, off-white, warm wood brown, signal orange, soft grey, a little yellow), clean readable shapes. No text, no letters, no numbers, no logos, no watermark, no photorealism, no blur. Friendly, school-appropriate mood. Use the attached character sheet only as reference for the pixel art style, proportions (chibi-like, about 3 heads tall) and line work. Create a different character: a single full-body sprite of a tidy hygiene helper wearing a light blue tunic, holding a spray bottle with a completely blank bottle, standing relaxed. Standing facing the viewer. Flat pure magenta background (#FF00FF) without gradient, texture or shadow. Nothing cropped. No ground shadow under the figure. No text.
-```
-
-**Prüfen:**
-
-- [ ] Hintergrund ist einfarbiges Magenta, ohne Verlauf und ohne Schatten.
-- [ ] Figur vollständig sichtbar, nicht abgeschnitten.
-- [ ] Gleicher Stil und gleiche Proportionen wie die Spielfigur, aber erkennbar eine andere Person.
-- [ ] Keine Beschriftung auf Kleidung, Flaschen oder Gegenständen.
-
-### Nr 32: Karteikarte (Linien, rote Kopflinie)
-
-Speichern als: `fund_karteikarte.png` in `assets/funde/`
-
-**Werkzeug:** Mit Pillow zu WebP umwandeln (Breite 1024, Höhe 683), Zieldatei fund_karteikarte.webp
-
-**Anhängen:** nichts
-
-```
-Pixel art look, flat straight-on view in the style of a classic 16-bit adventure game, no perspective, chunky visible pixels, dark outlines, soft cel shading, warm friendly colours (teal, off-white, warm wood brown, signal orange, soft grey, a little yellow), clean readable shapes. No text, no letters, no numbers, no logos, no watermark, no photorealism, no blur. Friendly, school-appropriate mood. A close-up of an off-white index card, faint light-blue horizontal ruled lines across the whole card and one thin red line along the top edge. 3:2 landscape image. The surface fills the entire image edge to edge. No text, no letters, no numbers, no pictures, no objects on it.
-```
-
-**Prüfen:**
-
-- [ ] Kein Text, keine Buchstaben, keine Zahlen, keine Pseudoschrift, keine Bilder auf dem Papier.
-- [ ] Die Fläche füllt das ganze Bild bis an den Rand (keine Tischplatte, keine Hand, kein Rahmen drumherum).
-- [ ] Die Mitte ist weitgehend ruhig und hell genug, damit dort Text gut lesbar bleibt.
-
-### Nr 33: Zeitungspapier
-
-Speichern als: `fund_zeitung.png` in `assets/funde/`
-
-**Werkzeug:** Mit Pillow zu WebP umwandeln (Breite 1024, Höhe 683), Zieldatei fund_zeitung.webp
-
-**Anhängen:** nichts
-
-```
-Pixel art look, flat straight-on view in the style of a classic 16-bit adventure game, no perspective, chunky visible pixels, dark outlines, soft cel shading, warm friendly colours (teal, off-white, warm wood brown, signal orange, soft grey, a little yellow), clean readable shapes. No text, no letters, no numbers, no logos, no watermark, no photorealism, no blur. Friendly, school-appropriate mood. A close-up of aged cream-grey newsprint paper with visible paper fibres and faint fold lines. Completely blank: absolutely no printed text, no headlines, no columns of letters, no photos. 3:2 landscape image. The surface fills the entire image edge to edge. No text, no letters, no numbers, no pictures, no objects on it.
-```
-
-**Prüfen:**
-
-- [ ] Kein Text, keine Buchstaben, keine Zahlen, keine Pseudoschrift, keine Bilder auf dem Papier.
-- [ ] Die Fläche füllt das ganze Bild bis an den Rand (keine Tischplatte, keine Hand, kein Rahmen drumherum).
-- [ ] Die Mitte ist weitgehend ruhig und hell genug, damit dort Text gut lesbar bleibt.
-
-### Nr 34: Karo-Heftseite
-
-Speichern als: `fund_heft.png` in `assets/funde/`
-
-**Werkzeug:** Mit Pillow zu WebP umwandeln (Breite 1024, Höhe 683), Zieldatei fund_heft.webp
-
-**Anhängen:** nichts
-
-```
-Pixel art look, flat straight-on view in the style of a classic 16-bit adventure game, no perspective, chunky visible pixels, dark outlines, soft cel shading, warm friendly colours (teal, off-white, warm wood brown, signal orange, soft grey, a little yellow), clean readable shapes. No text, no letters, no numbers, no logos, no watermark, no photorealism, no blur. Friendly, school-appropriate mood. A close-up of squared school notebook paper with a light-blue grid and one pink vertical margin line near the left edge. 3:2 landscape image. The surface fills the entire image edge to edge. No text, no letters, no numbers, no pictures, no objects on it.
-```
-
-**Prüfen:**
-
-- [ ] Kein Text, keine Buchstaben, keine Zahlen, keine Pseudoschrift, keine Bilder auf dem Papier.
-- [ ] Die Fläche füllt das ganze Bild bis an den Rand (keine Tischplatte, keine Hand, kein Rahmen drumherum).
-- [ ] Die Mitte ist weitgehend ruhig und hell genug, damit dort Text gut lesbar bleibt.
-
-### Nr 35: Formularpapier
-
-Speichern als: `fund_formular.png` in `assets/funde/`
-
-**Werkzeug:** Mit Pillow zu WebP umwandeln (Breite 1024, Höhe 683), Zieldatei fund_formular.webp
-
-**Anhängen:** nichts
-
-```
-Pixel art look, flat straight-on view in the style of a classic 16-bit adventure game, no perspective, chunky visible pixels, dark outlines, soft cel shading, warm friendly colours (teal, off-white, warm wood brown, signal orange, soft grey, a little yellow), clean readable shapes. No text, no letters, no numbers, no logos, no watermark, no photorealism, no blur. Friendly, school-appropriate mood. A close-up of pale off-white form paper with very faint blue-grey thin lines and empty table boxes, like a blank lab form. 3:2 landscape image. The surface fills the entire image edge to edge. No text, no letters, no numbers, no pictures, no objects on it.
-```
-
-**Prüfen:**
-
-- [ ] Kein Text, keine Buchstaben, keine Zahlen, keine Pseudoschrift, keine Bilder auf dem Papier.
-- [ ] Die Fläche füllt das ganze Bild bis an den Rand (keine Tischplatte, keine Hand, kein Rahmen drumherum).
-- [ ] Die Mitte ist weitgehend ruhig und hell genug, damit dort Text gut lesbar bleibt.
-
-### Nr 36: Emailleschild (Metall)
-
-Speichern als: `fund_metallschild.png` in `assets/funde/`
-
-**Werkzeug:** Mit Pillow zu WebP umwandeln (Breite 1024, Höhe 683), Zieldatei fund_metallschild.webp
-
-**Anhängen:** nichts
-
-```
-Pixel art look, flat straight-on view in the style of a classic 16-bit adventure game, no perspective, chunky visible pixels, dark outlines, soft cel shading, warm friendly colours (teal, off-white, warm wood brown, signal orange, soft grey, a little yellow), clean readable shapes. No text, no letters, no numbers, no logos, no watermark, no photorealism, no blur. Friendly, school-appropriate mood. A close-up of a light-grey worn enamel metal plate with a subtle raised rim and four round screw heads, one in each corner. 3:2 landscape image. The surface fills the entire image edge to edge. No text, no letters, no numbers, no pictures, no objects on it.
-```
-
-**Prüfen:**
-
-- [ ] Kein Text, keine Buchstaben, keine Zahlen, keine Pseudoschrift, keine Bilder auf dem Papier.
-- [ ] Die Fläche füllt das ganze Bild bis an den Rand (keine Tischplatte, keine Hand, kein Rahmen drumherum).
-- [ ] Die Mitte ist weitgehend ruhig und hell genug, damit dort Text gut lesbar bleibt.
-
-### Nr 37: Korkwand (Pinnwand)
-
-Speichern als: `pinnwand_kork.png` in `assets/funde/`
-
-**Werkzeug:** Mit Pillow zu WebP umwandeln (Breite 1024, Höhe 683), Zieldatei pinnwand_kork.webp
-
-**Anhängen:** nichts
-
-```
-Pixel art look, flat straight-on view in the style of a classic 16-bit adventure game, no perspective, chunky visible pixels, dark outlines, soft cel shading, warm friendly colours (teal, off-white, warm wood brown, signal orange, soft grey, a little yellow), clean readable shapes. No text, no letters, no numbers, no logos, no watermark, no photorealism, no blur. Friendly, school-appropriate mood. A close-up of a warm brown cork board surface with fine speckled grain, evenly lit, no frame, no pins, no notes. 3:2 landscape image. The surface fills the entire image edge to edge. No text, no letters, no numbers, no pictures, no objects on it.
-```
-
-**Prüfen:**
-
-- [ ] Kein Text, keine Buchstaben, keine Zahlen, keine Pseudoschrift, keine Bilder auf dem Papier.
-- [ ] Die Fläche füllt das ganze Bild bis an den Rand (keine Tischplatte, keine Hand, kein Rahmen drumherum).
-- [ ] Die Mitte ist weitgehend ruhig und hell genug, damit dort Text gut lesbar bleibt.
 
 ## Optional (Adventure-Erweiterung, Spiel zeichnet es sonst selbst im Code)
 
@@ -200,23 +65,7 @@ Pixel art look, three-quarter top-down view like a classic 16-bit adventure game
 
 - [ ] Zwölf Tasten im Raster 3 mal 4, alle leer (keine Ziffern), Anzeige leer.
 
-### Nr 41: Zettel mit Gekritzel
-
-Speichern als: `obj_zettel.png` in `assets/figuren/`
-
-**Werkzeug:** Einzel-Sprite (Art Objekt, Name obj_zettel), Magenta freistellen
-
-**Anhängen:** nichts
-
-```
-Pixel art look, three-quarter top-down view like a classic 16-bit adventure game, chunky visible pixels, dark outlines, soft cel shading, warm friendly colours (teal, off-white, warm wood brown, signal orange, soft grey, a little yellow), clean readable shapes. No text, no letters, no numbers, no logos, no watermark, no photorealism, no blur. Friendly, school-appropriate mood. A small crooked yellow paper note with a few abstract wavy pencil scribble lines on it that do not form letters or numbers, a little tape on the top edge. No readable writing. Flat pure magenta background (#FF00FF) without gradient, texture or shadow. Nothing cropped. No ground shadow under the figure.
-```
-
-**Prüfen:**
-
-- [ ] Das Gekritzel sieht nicht wie Buchstaben oder Zahlen aus.
-
-### Nr 42: Taschensymbol (Inventar)
+### Nr 41: Taschensymbol (Inventar)
 
 Speichern als: `icon_tasche.png` in `assets/icons/`
 
@@ -232,7 +81,7 @@ Pixel art look, three-quarter top-down view like a classic 16-bit adventure game
 
 - [ ] Auch klein noch als Tasche erkennbar, keine Schrift.
 
-### Nr 43: Schließfach (zu und offen)
+### Nr 42: Schließfach (zu und offen)
 
 Speichern als: `obj_fach_sheet.png` (das Grafik-Werkzeug teilt es danach in obj_fach_0.png … obj_fach_1.png)
 
@@ -248,21 +97,21 @@ Pixel art look, three-quarter top-down view like a classic 16-bit adventure game
 
 - [ ] Zwei Bilder: zu und offen, gleiche Größe, keine Ziffern am Schloss.
 
-### Nr 44: Aufkleber (vier Stück)
+### Nr 43: Klebe-Tattoos (zwei Stück)
 
-Speichern als: `obj_aufkleber_sheet.png` (das Grafik-Werkzeug teilt es danach in obj_aufkleber_0.png … obj_aufkleber_3.png)
+Speichern als: `obj_tattoo_sheet.png` (das Grafik-Werkzeug teilt es danach in obj_tattoo_0.png … obj_tattoo_1.png)
 
-**Werkzeug:** Sheet teilen (Spalten 4, Magenta freistellen, Name obj_aufkleber)
+**Werkzeug:** Sheet teilen (Spalten 2, Magenta freistellen, Name obj_tattoo)
 
 **Anhängen:** nichts
 
 ```
-Pixel art look, three-quarter top-down view like a classic 16-bit adventure game, chunky visible pixels, dark outlines, soft cel shading, warm friendly colours (teal, off-white, warm wood brown, signal orange, soft grey, a little yellow), clean readable shapes. No text, no letters, no numbers, no logos, no watermark, no photorealism, no blur. Friendly, school-appropriate mood. Four round sticker badges in one row, same size, equal spacing, each with a thick white outline: (1) a yellow star, (2) a small dumbbell, (3) a test tube with green liquid, (4) an orange lightning bolt. No text, no numbers. Flat pure magenta background (#FF00FF) without gradient, texture or shadow. Nothing cropped. No ground shadow under the figure.
+Pixel art look, three-quarter top-down view like a classic 16-bit adventure game, chunky visible pixels, dark outlines, soft cel shading, warm friendly colours (teal, off-white, warm wood brown, signal orange, soft grey, a little yellow), clean readable shapes. No text, no letters, no numbers, no logos, no watermark, no photorealism, no blur. Friendly, school-appropriate mood. Two temporary tattoo stickers in one row, same size, equal spacing, each on a small rectangular piece of glossy backing paper with a slightly peeled corner: (1) a bold black-and-teal dumbbell, (2) a shiny golden flexed biceps arm wearing tiny cool sunglasses, playful and friendly. No text, no numbers, no skulls. Flat pure magenta background (#FF00FF) without gradient, texture or shadow. Nothing cropped. No ground shadow under the figure.
 ```
 
 **Prüfen:**
 
-- [ ] Vier Aufkleber, gleich groß, klarer Abstand, keine Schrift.
+- [ ] Zwei Tattoos auf Trägerpapier, gleich groß, klarer Abstand, keine Schrift, wirkt lustig statt hart.
 
 ## Nachbesserungen (im selben Chat direkt nach dem Bild senden)
 
