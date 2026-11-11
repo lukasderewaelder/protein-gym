@@ -78,8 +78,9 @@ dialog#fund::backdrop { background: rgba(0, 0, 0, 0.62); }
 .tafel-formel text { font-family: ui-monospace, "Courier New", monospace; }
 .fund .tafel-formel .bond { stroke: #1d1d1d; stroke-width: 5; stroke-linecap: round; }
 .fund.schautafel .fund-fuss { font-weight: 700; color: #1f4a66; }
-.fund.schautafel .chip { position: relative; padding-left: 30px; }
-.fund.schautafel .chip::before { content: ""; position: absolute; left: 0; top: 0.35em; width: 20px; height: 20px; border-radius: 5px; border: 2px solid #8a959a; background: #dde1e4; }
+.fund.schautafel .chip { position: relative; padding: 10px 14px 10px 40px; margin: 8px 0; background: #fffdf5; color: #1d1d1d; border: 2px solid #8a959a; border-radius: 10px; font-family: system-ui, sans-serif; font-weight: 600; line-height: 1.45; }
+.fund.schautafel .chip-orange { border-color: #e5701f; }
+.fund.schautafel .chip::before { content: ""; position: absolute; left: 10px; top: 0.75em; width: 20px; height: 20px; border-radius: 5px; border: 2px solid #8a959a; background: #dde1e4; }
 .fund.schautafel .chip-orange::before { border-color: #e5701f; background: #ffd8a8; }
 @media (max-width: 520px) { .fund-tafeln { grid-template-columns: 1fr; } }
 

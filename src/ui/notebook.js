@@ -11,7 +11,7 @@ const RAUM_NAMEN = { empfang: 'Empfang', training: 'Trainingsfläche', labor: 'L
 
 const AB_TEXT = { sauna_done: 'die Sauna', training_done: 'die Trainingsfläche', shakebar_done: 'die Shake-Bar', lieferung_done: 'die Prüfung der neuen Lieferung' };
 
-export function createNotebook({ dialogEl, wissen, glossar, hefter, inventar, store, onFund, onOpen, extras, onCode, onInventar }) {
+export function createNotebook({ dialogEl, wissen, glossar, hefter, inventar, store, onFund, onOpen, extras, onCode, onZettel, onInventar }) {
   const body = dialogEl.querySelector('.nb-body');
   const tabs = dialogEl.querySelector('.nb-tabs');
   let tab = 'karten';
@@ -24,6 +24,15 @@ export function createNotebook({ dialogEl, wissen, glossar, hefter, inventar, st
     const found = wissen.karten.filter((k) => flags[k.id]).length;
     const wand = h('div', 'pinnwand');
     wand.append(h('p', 'pin-summe', `${found} von ${wissen.karten.length} Funden an der Wand`));
+    // Ganz oben an der Pinnwand: der Zettel mit dem Saunacode, sobald Markus gesagt hat, dass die Sauna verriegelt ist
+    const saunaCode = store.state.codes && store.state.codes.sauna;
+    if (flags.sauna_info && saunaCode) {
+      wand.append(h('button', { type: 'button', class: 'pin-zettel-oben', 'aria-label': `Zettel: Saunacode ${saunaCode.split('').join(' ')}. Antippen zum Vergrößern.`, onclick: () => onCode && onCode() },
+        h('span', 'pin-zettel-kopf', 'Saunatür'),
+        h('span', 'pin-zettel-code', saunaCode.split('').join(' ')),
+        h('span', 'pin-zettel-fuss', 'Diesen Code tippst du am Zahlenschloss ein.')));
+      if (onZettel) onZettel();
+    }
     for (const raum of RAUM_REIHENFOLGE) {
       const list = wissen.karten.filter((k) => k.raum === raum).sort((x, y) => (x.typ === y.typ ? 0 : x.typ === 'pflicht' ? -1 : 1));
       if (!list.length) continue;

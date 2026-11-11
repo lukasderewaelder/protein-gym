@@ -419,7 +419,12 @@ function saunaZettel() {
   return { id: 'zettel_sauna', medium: 'haftnotiz', titel: 'Saunacode', kopf: 'Saunacode', raum: 'sauna', typ: 'extra', zeilen: ['Zugangscode der Saunatür:', store.state.codes.sauna, 'Stand auf einem Aufkleber hinter der Pinnwand, auf der Innenseite der Spindtür.'] };
 }
 function extraKarten() {
-  return store.hasFlag('sauna_code_gesehen') ? [saunaZettel()] : [];
+  // Nach Markus’ Hinweis hängt der Zettel ohnehin ganz oben an der Pinnwand; die Notiz unten gibt es nur für den frühen Blick hinter die Ecke
+  return store.hasFlag('sauna_code_gesehen') && !store.hasFlag('sauna_info') ? [saunaZettel()] : [];
+}
+/** Der Zettel oben an der Pinnwand ist zu sehen: der Code gilt als gesehen (die Hilfe fragt dann nicht mehr danach). */
+function saunaZettelGesehen() {
+  if (!store.hasFlag('sauna_code_gesehen')) store.setFlag('sauna_code_gesehen');
 }
 function codeAnsehen() {
   const neu = !store.hasFlag('sauna_code_gesehen');
@@ -644,7 +649,7 @@ async function boot() {
   $('#btn-weiter').addEventListener('click', () => { $('#menu').close(); weiterDialog(); });
   store.onFlag(() => taschePruefen());
   taschePruefen(false);
-  notebook = createNotebook({ onOpen: () => store.setFlag('spind_gesehen'), onFund: (k) => showFund(k, false), inventar: DATA.inventar, onInventar: inventarGesehen, extras: extraKarten, onCode: codeAnsehen, dialogEl: $('#notebook'), wissen: DATA.wissen, glossar: DATA.glossar, hefter: DATA.hefter, store });
+  notebook = createNotebook({ onOpen: () => store.setFlag('spind_gesehen'), onFund: (k) => showFund(k, false), inventar: DATA.inventar, onInventar: inventarGesehen, extras: extraKarten, onCode: codeAnsehen, onZettel: saunaZettelGesehen, dialogEl: $('#notebook'), wissen: DATA.wissen, glossar: DATA.glossar, hefter: DATA.hefter, store });
   taskPanel = createTaskPanel({
     root: $('#task'),
     data: { aufgaben: DATA.aufgaben, wissen: DATA.wissen, versuch: DATA.versuch, werbung: DATA.werbung, aehnlich: DATA.aehnlich, fall: DATA.fall },
