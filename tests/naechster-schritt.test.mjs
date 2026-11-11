@@ -44,6 +44,7 @@ test('Einzelne Spielstände', () => {
   assert.equal(schritt(mit('empfang_done', 'lf_bestanden', 'labor_offen')), 'labor_hinweise');
   assert.equal(schritt(mit('empfang_done', 'labor_done')), 'sauna_code_suchen', 'auch ohne Führerschein-Flags, wer das Labor schon hatte');
   assert.equal(schritt(mit('empfang_done', 'labor_done', 'sauna_code_gesehen')), 'saunatuer');
+  assert.equal(schritt(mit('empfang_done', 'sauna_code_gesehen')), 'fuehrerschein', 'Code früh entdeckt: erst das Labor, die Tür bleibt bis dahin zu');
   assert.equal(schritt(mit('empfang_done', 'labor_done', 'sauna_offen', 'sauna_done')), 'training_hinweise');
   assert.equal(schritt(mit('empfang_done', 'labor_done', 'sauna_done', 'training_done', 'shakebar_done')), 'aufloesung');
 });

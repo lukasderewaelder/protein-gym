@@ -34,15 +34,7 @@
     "portrait": "trainer",
     "setFlag": "sauna_info",
     "lines": [
-      "Hier ist Markus. Der Versuch im Labor ist geschafft, stark!",
-      "Kleine Planänderung: Die Sauna ist gesperrt. Die Tür hat ein Zahlenschloss, und ich habe den Code vergessen.",
-      "Ich habe ihn mir irgendwo in der Ecke deines Spinds hingekritzelt. Schau nach, dann kommst du in die Sauna."
-    ]
-  },
-  "empfang.sauna.ok": {
-    "speaker": "Saunatür",
-    "lines": [
-      "Klick! Das Zahlenschloss springt auf und die Saunatür gleitet zur Seite."
+      "Gute Arbeit! Der nächste Hinweis liegt in der Sauna. Allerdings hat jemand die elektronische Tür verriegelt. Ich weiß nur, dass der Zugangscode in deinem Spind versteckt ist."
     ]
   },
   "tuer.tuer_labor.verriegelt": {
@@ -226,7 +218,7 @@
     "portrait": "trainer",
     "lines": [
       "Als Nächstes die Sauna, die Tür mit der Dampfwolke. Dort siehst du, wie Hitze Eiweiß verändert und wo du das im Alltag erkennst.",
-      "Die Saunatür hat ein Zahlenschloss. Den Code habe ich dir in die Ecke deines Spinds gekritzelt."
+      "Die Saunatür ist elektronisch verriegelt. Der Zugangscode ist in deinem Spind versteckt."
     ]
   },
   "empfang.coach.training": {

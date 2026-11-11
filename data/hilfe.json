@@ -44,13 +44,18 @@
     },
     "sauna_code_suchen": {
       "ort": "Spind",
-      "grob": "Die Sauna ist gesperrt. Den Code für das Zahlenschloss habe ich dir in den Spind gekritzelt.",
-      "konkret": "Öffne den Spind (Knopf oben rechts) und tippe in der oberen rechten Ecke der Pinnwand auf das Gekritzel."
+      "grob": "Schau in deinen persönlichen Spind.",
+      "konkret": "Hast du die Pinnwand schon genauer untersucht?",
+      "stufe3": {
+        "knopf": "Zeig mir die Stelle",
+        "aktion": "pinnecke",
+        "text": "Die bewegliche Ecke der Pinnwand blinkt jetzt kurz. Tippe darauf, dann klappt die Pinnwand hoch."
+      }
     },
     "saunatuer": {
       "ort": "Empfang",
       "grob": "Du kennst den Saunacode. Gib ihn am Zahlenschloss der Saunatür ein.",
-      "konkret": "Tippe im Empfang auf die Saunatür (die dritte von links, mit der Dampfwolke). Den Code siehst du im Spind auf dem Zettel „Saunacode“."
+      "konkret": "Tippe im Empfang auf die Saunatür (die dritte von links, mit der Dampfwolke). Den Code findest du im Spind: als Notiz „Saunacode“ an der Pinnwand."
     },
     "sauna_hinweise": {
       "ort": "Sauna",

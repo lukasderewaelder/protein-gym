@@ -67,6 +67,7 @@ async function loadData() {
   DATA.inventar = inventar;
   DATA.faecher = faecher;
   DATA.hilfe = hilfe;
+  store.verbieteCodes([String(versuch.freigabeCode)]); // der Saunacode darf nie der Code der Lehrkraft sein
   // Inhalte der Bonus-Schließfächer landen als Gegenstände in der Tasche
   for (const f of faecher.faecher) inventar.gegenstaende.push({ id: `fach${f.id}`, name: f.name, text: f.text, emoji: f.emoji, symbol: 'emoji', hat: f.flag });
   DATA.fall = fall;
@@ -342,17 +343,19 @@ function sperre(hs) {
   }
   if (hs.sperre === 'sauna') {
     if (!store.hasFlag('labor_done')) { text(); return; }
+    if (store.hasFlag('sauna_offen')) { enterScene(hs.to); return; }
     zugang.tastenfeld({
-      titel: 'Zahlenschloss der Sauna',
-      text: 'Die Saunatür hat ein Zahlenschloss. Gib den vierstelligen Code ein.',
+      titel: 'Tür der Sauna',
+      text: 'Zugang gesperrt. Bitte vierstelligen Sicherheitscode eingeben.',
       stellen: 4,
       code: store.state.codes.sauna,
-      hinweis: 'Markus hat den Code in die Ecke deines Spinds gekritzelt. Schau dort nach.',
+      falschText: 'Falscher Code. Vielleicht solltest du die Innenseite deines Spinds genauer untersuchen.',
+      richtigText: 'Code erkannt. Sauna entriegelt!',
       beiRichtig: () => {
         store.setFlag('sauna_offen');
         tuerAnim = { id: hs.id, t0: performance.now() };
         busy = true;
-        setTimeout(() => { busy = false; tuerAnim = null; playDialog('empfang.sauna.ok'); }, 1100);
+        setTimeout(() => { busy = false; tuerAnim = null; }, 1100);
       },
     });
     return;
@@ -363,7 +366,11 @@ function sperre(hs) {
 /** „Wie geht’s weiter?“: Markus nennt die nächste Station, auf Wunsch genauer. */
 function weiterDialog() {
   const id = naechsterSchritt(store.state.flags, { aufgaben: DATA.aufgaben, karten: DATA.wissen.karten });
-  zugang.hilfe({ titel: DATA.hilfe.titel, knopf: DATA.hilfe.stufe2Knopf, schritt: DATA.hilfe.schritte[id] });
+  zugang.hilfe({
+    titel: DATA.hilfe.titel, knopf: DATA.hilfe.stufe2Knopf, schritt: DATA.hilfe.schritte[id],
+    // Hilfe 3 beim Saunacode: Spind öffnen, die bewegliche Ecke der Pinnwand blinkt kurz
+    beiStufe3: (aktion) => { if (aktion === 'pinnecke') { zugang.schliesse(); notebook.open('karten', { hervorheben: true }); } },
+  });
 }
 
 /** Zettel mit einem Fachcode: wird beim ersten Ansehen gefunden und bleibt als Haken im Raum. */
@@ -399,17 +406,17 @@ function taschenFenster() {
   inventarGesehen();
 }
 
-/** Zettel mit dem Saunacode: hängt an der Pinnwand, sobald das Gekritzel im Spind einmal angesehen wurde. */
+/** Notiz mit dem Saunacode: hängt an der Pinnwand, sobald der Aufkleber hinter der Pinnwand einmal gesehen wurde. */
 function saunaZettel() {
-  return { id: 'zettel_sauna', medium: 'haftnotiz', titel: 'Saunacode', kopf: 'Saunacode', raum: 'sauna', typ: 'extra', zeilen: ['Zahlenschloss der Sauna:', store.state.codes.sauna, 'Von Markus in die Ecke des Spinds gekritzelt.'] };
+  return { id: 'zettel_sauna', medium: 'haftnotiz', titel: 'Saunacode', kopf: 'Saunacode', raum: 'sauna', typ: 'extra', zeilen: ['Zugangscode der Saunatür:', store.state.codes.sauna, 'Stand auf einem Aufkleber hinter der Pinnwand, auf der Innenseite der Spindtür.'] };
 }
 function extraKarten() {
   return store.hasFlag('sauna_code_gesehen') ? [saunaZettel()] : [];
 }
-function kritzelAnsehen() {
+function codeAnsehen() {
   const neu = !store.hasFlag('sauna_code_gesehen');
   if (neu) store.setFlag('sauna_code_gesehen');
-  showFund(saunaZettel(), neu);
+  zugang.codeGross(store.state.codes.sauna, neu);
   notebook.refresh();
 }
 
@@ -616,7 +623,7 @@ async function boot() {
   $('#btn-weiter').addEventListener('click', () => { $('#menu').close(); weiterDialog(); });
   store.onFlag(() => taschePruefen());
   taschePruefen(false);
-  notebook = createNotebook({ onOpen: () => store.setFlag('spind_gesehen'), onFund: (k) => showFund(k, false), inventar: DATA.inventar, onInventar: inventarGesehen, extras: extraKarten, onKritzel: kritzelAnsehen, dialogEl: $('#notebook'), wissen: DATA.wissen, glossar: DATA.glossar, hefter: DATA.hefter, store });
+  notebook = createNotebook({ onOpen: () => store.setFlag('spind_gesehen'), onFund: (k) => showFund(k, false), inventar: DATA.inventar, onInventar: inventarGesehen, extras: extraKarten, onCode: codeAnsehen, dialogEl: $('#notebook'), wissen: DATA.wissen, glossar: DATA.glossar, hefter: DATA.hefter, store });
   taskPanel = createTaskPanel({
     root: $('#task'),
     data: { aufgaben: DATA.aufgaben, wissen: DATA.wissen, versuch: DATA.versuch, werbung: DATA.werbung, aehnlich: DATA.aehnlich, fall: DATA.fall },

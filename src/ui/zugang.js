@@ -18,6 +18,13 @@ export function ausweisKarte(namen, klein = false) {
         h('span', 'ausweis-linie kurz'))));
 }
 
+/** Aufkleber mit dem Saunacode, wie er auf der Innenseite der Spindtür klebt. gross = vergrößerte, gut lesbare Ansicht. */
+export function aufkleber(code, gross = false) {
+  return h('div', { class: `aufkleber${gross ? ' gross' : ''}`, role: 'img', 'aria-label': `Aufkleber: Zugangscode der Sauna ${String(code).split('').join(' ')}` },
+    h('small', {}, 'ZUGANGSCODE · SAUNA'),
+    h('span', 'aufkleber-zahl', code));
+}
+
 export function createZugang({ dlg, store, daten }) {
   const inhalt = dlg.querySelector('#zugang-inhalt');
   let beiSchliessen = null;
@@ -146,13 +153,13 @@ export function createZugang({ dlg, store, daten }) {
       if (pruefeCode(eingabe, opts.code)) {
         anzeige.classList.add('ok');
         meldung.className = 'zugang-fb gut';
-        meldung.textContent = '✓ Richtig!';
+        meldung.textContent = `✓ ${opts.richtigText || 'Richtig!'}`;
         karte.querySelectorAll('button').forEach((b) => { b.disabled = true; });
-        setTimeout(() => { schliesse(); if (opts.beiRichtig) opts.beiRichtig(); }, 650);
+        setTimeout(() => { schliesse(); if (opts.beiRichtig) opts.beiRichtig(); }, opts.richtigText ? 1000 : 650);
       } else {
         fehler++;
         meldung.className = 'zugang-fb schlecht';
-        meldung.textContent = fehler >= 3 && opts.hinweis ? `✗ Nicht richtig. ${opts.hinweis}` : '✗ Nicht richtig. Versuch es noch einmal.';
+        meldung.textContent = opts.falschText ? `✗ ${opts.falschText}` : (fehler >= 3 && opts.hinweis ? `✗ Nicht richtig. ${opts.hinweis}` : '✗ Nicht richtig. Versuch es noch einmal.');
         eingabe = '';
         karte.classList.remove('wackeln');
         void karte.offsetWidth;
@@ -173,18 +180,32 @@ export function createZugang({ dlg, store, daten }) {
 
   // ---------- Hilfe von Markus ----------
   /** Zwei Stufen: erst grob, dann auf Knopfdruck konkret. Keine automatischen Hinweise. */
-  function hilfe({ titel, knopf, schritt }) {
+  function hilfe({ titel, knopf, schritt, beiStufe3 }) {
     const karte = h('div', 'zugang-karte');
     const stufe2 = h('p', 'hilfe-konkret', schritt.konkret);
     stufe2.hidden = true;
-    const mehr = h('button', { type: 'button', onclick: () => { stufe2.hidden = false; mehr.hidden = true; } }, knopf);
+    const s3 = schritt.stufe3;
+    const stufe3 = s3 ? h('p', 'hilfe-konkret', s3.text) : null;
+    if (stufe3) stufe3.hidden = true;
+    const mehr3 = s3 ? h('button', { type: 'button', hidden: true, onclick: () => { mehr3.hidden = true; stufe3.hidden = false; if (beiStufe3) beiStufe3(s3.aktion); } }, s3.knopf || 'Zeig mir die Stelle') : null;
+    const mehr = h('button', { type: 'button', onclick: () => { stufe2.hidden = false; mehr.hidden = true; if (mehr3) mehr3.hidden = false; } }, knopf);
     karte.append(
       h('p', 'zugang-sprecher', h('strong', {}, 'Markus'), h('span', 'chip chip-grau', schritt.ort)),
       h('p', {}, schritt.grob),
       stufe2,
-      h('div', 'zugang-knoepfe', mehr, h('button', { class: 'primary', type: 'button', onclick: () => schliesse() }, 'Danke')));
+      ...(stufe3 ? [stufe3] : []),
+      h('div', 'zugang-knoepfe', mehr, ...(mehr3 ? [mehr3] : []), h('button', { class: 'primary', type: 'button', onclick: () => schliesse() }, 'Danke')));
     zeige(titel, karte);
   }
 
-  return { zeige, schliesse, fuehrerschein, tastenfeld, fach, hilfe, get offen() { return dlg.open; } };
+  /** Vergrößerte Ansicht des Aufklebers. Nach dem Ansehen ist der Code als Notiz an der Pinnwand gespeichert. */
+  function codeGross(code, neu) {
+    zeige('Zugangscode der Sauna', h('div', 'zugang-karte',
+      aufkleber(code, true),
+      h('p', 'hint', neu ? 'Der Code ist jetzt als Notiz an deiner Pinnwand gespeichert. Du findest ihn dort jederzeit wieder.' : 'Der Code hängt als Notiz an deiner Pinnwand.'),
+      h('p', 'hint', 'Das ist der Sicherheitscode der Saunatür und nicht der Code der Lehrkraft für den Versuch im Labor.'),
+      h('button', { class: 'primary', type: 'button', onclick: () => schliesse() }, 'Schließen')));
+  }
+
+  return { zeige, schliesse, fuehrerschein, tastenfeld, fach, hilfe, codeGross, get offen() { return dlg.open; } };
 }

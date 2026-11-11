@@ -1,5 +1,6 @@
 // Protein-Gym 2.0: Zugang (Laborführerschein, Ausweis, Saunacode), Migration alter Stände, Codeversion 5.
 import { test } from 'node:test';
+import { readFileSync } from 'node:fs';
 import assert from 'node:assert/strict';
 import { erfuellt, flagsVon, istSichtbar, wuerfleSaunaCode, istSaunaCode, pruefeCode, migriereZweiNull, ZUGANG_FLAGS } from '../src/state/zugang.js';
 import { encodeProgress, decodeProgress, FLAG_LIST, CODE_VERSION } from '../src/state/progress.js';
@@ -143,8 +144,28 @@ test('Türen: Labor und Sauna haben eine eigene Sperre, die Dialoge dazu sind vo
   assert.equal(labor.sperre, 'labor');
   assert.equal(sauna.sperre, 'sauna');
   assert.equal(dialoge['labor.markus.sauna'].setFlag, 'sauna_info', 'Markus sagt, dass die Sauna gesperrt ist');
-  assert.match(dialoge['labor.markus.sauna'].lines.join(' '), /Sauna ist gesperrt.*Zahlenschloss.*Spind/);
-  assert.ok(dialoge['empfang.sauna.ok']);
+  assert.equal(dialoge['labor.markus.sauna'].lines.join(' '), 'Gute Arbeit! Der nächste Hinweis liegt in der Sauna. Allerdings hat jemand die elektronische Tür verriegelt. Ich weiß nur, dass der Zzugangscode in deinem Spind versteckt ist.'.replace('Zzugangscode', 'Zugangscode'));
   const leser = szenen.szenen.find((s) => s.id === 'empfang').hotspots.find((h) => h.type === 'geraet');
   assert.equal(leser.aktion, 'leser');
+});
+
+test('Der Saunacode ist nie der Code der Lehrkraft für den Versuch (und wird bei Kollision neu gewürfelt)', () => {
+  const versuch = JSON.parse(readFileSync(new URL('../data/versuch.json', import.meta.url), 'utf8'));
+  const lk = String(versuch.freigabeCode);
+  for (let i = 0; i < 3000; i++) assert.notEqual(wuerfleSaunaCode(Math.random, [lk]), lk);
+  assert.notEqual(wuerfleSaunaCode(() => (4711 - 1000 + 0.5) / 9000, ['4711']), '4711', 'auch wenn der Zufall genau den Lehrkraft-Code liefert');
+  const alt = fakeStorage();
+  alt.setItem(STORAGE_KEY, JSON.stringify({ names: ['Mia'], scene: 'empfang', flags: {}, codes: { sauna: '4711' } }));
+  const s = createStore(alt);
+  s.load();
+  s.verbieteCodes(['4711']);
+  assert.notEqual(s.state.codes.sauna, '4711', 'ein gespeicherter Code, der kollidiert, wird ersetzt');
+  assert.ok(istSaunaCode(s.state.codes.sauna));
+});
+
+test('Türtexte und Hilfe des Saunacodes stehen wie im Auftrag (Hilfe 1 bis 3)', () => {
+  const hilfe = JSON.parse(readFileSync(new URL('../data/hilfe.json', import.meta.url), 'utf8')).schritte.sauna_code_suchen;
+  assert.equal(hilfe.grob, 'Schau in deinen persönlichen Spind.');
+  assert.equal(hilfe.konkret, 'Hast du die Pinnwand schon genauer untersucht?');
+  assert.equal(hilfe.stufe3.aktion, 'pinnecke', 'Hilfe 3 hebt die bewegliche Ecke der Pinnwand hervor');
 });

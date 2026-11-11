@@ -32,6 +32,7 @@ export function createStore(storage, zufall = Math.random) {
   let mem = null;
   let state = defaultState();
   const hoerer = [];
+  let verboten = []; // Codes, die der Saunacode nicht sein darf (Code der Lehrkraft)
 
   /** Täter würfeln, falls noch keiner feststeht (neuer Spielstand oder Speicher aus einer älteren Version). */
   function ensureFall() {
@@ -41,7 +42,7 @@ export function createStore(storage, zufall = Math.random) {
   /** Saunacode würfeln, falls noch keiner feststeht (neuer Spielstand oder Speicher aus der Zeit vor 2.0). */
   function ensureCodes() {
     if (!state.codes || typeof state.codes !== 'object') state.codes = { sauna: null };
-    if (!istSaunaCode(state.codes.sauna)) state.codes.sauna = wuerfleSaunaCode(zufall);
+    if (!istSaunaCode(state.codes.sauna) || verboten.includes(state.codes.sauna)) state.codes.sauna = wuerfleSaunaCode(zufall, verboten);
   }
 
   function readRaw() {
@@ -80,6 +81,8 @@ export function createStore(storage, zufall = Math.random) {
     reset() { removeRaw(); state = defaultState(); ensureFall(); ensureCodes(); return state; },
     ensureFall,
     ensureCodes,
+    /** Codes festlegen, die der Saunacode nie sein darf; ein bereits gewürfelter, der damit kollidiert, wird neu gewürfelt. */
+    verbieteCodes(liste) { verboten = liste.map(String); ensureCodes(); this.save(); },
     setFlag(name, value = true) { state.flags[name] = value; this.save(); hoerer.forEach((f) => f(name, value)); },
     /** Auf gesetzte Flags hören (zum Beispiel für die Tasche). */
     onFlag(fn) { hoerer.push(fn); },

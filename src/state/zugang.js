@@ -7,8 +7,8 @@ export const ZUGANG_FLAGS = [
   'item_ausweis',          // Ausweis liegt im Inventar
   'item_ausweis_benutzt',  // Ausweis am Lesegerät benutzt
   'labor_offen',           // Labortür ist entriegelt
-  'sauna_info',            // Markus hat gesagt, dass die Sauna gesperrt ist und der Code im Spind steht
-  'sauna_code_gesehen',    // der Code im Spind wurde angesehen (Zettel hängt an der Pinnwand)
+  'sauna_info',            // Markus hat gesagt, dass die Sauna verriegelt ist und der Code im Spind versteckt ist
+  'sauna_code_gesehen',    // der Aufkleber hinter der Pinnwand wurde gesehen (Notiz hängt an der Pinnwand)
   'sauna_offen',           // Saunatür ist entriegelt
   'bonus_1', 'bonus_2', 'bonus_3', 'bonus_4', 'bonus_5', 'bonus_6',  // Bonus-Schließfächer geöffnet
   'bz_1', 'bz_2', 'bz_3', 'bz_4', 'bz_5', 'bz_6',                    // Zahlenzettel gefunden
@@ -34,14 +34,15 @@ export function istSichtbar(hs, hat) {
   return true;
 }
 
-/** Zufälliger vierstelliger Saunacode als Text: keine vier gleichen Ziffern, weder 1234 noch 4321 noch mit Null am Anfang. */
-export function wuerfleSaunaCode(zufall = Math.random) {
+/** Zufälliger vierstelliger Saunacode als Text: keine vier gleichen Ziffern, weder 1234 noch 4321 noch mit Null am Anfang.
+ *  verboten: Codes, die er nicht sein darf (der Code der Lehrkraft für die Versuche, damit beide nie verwechselt werden). */
+export function wuerfleSaunaCode(zufall = Math.random, verboten = []) {
   for (let i = 0; i < 200; i++) {
     const n = 1000 + Math.floor(zufall() * 9000);
     const s = String(n);
-    if (istSaunaCode(s)) return s;
+    if (istSaunaCode(s) && !verboten.includes(s)) return s;
   }
-  return '4826';
+  return ['4826', '5937', '6048'].find((c) => !verboten.includes(c));
 }
 
 export function istSaunaCode(s) {

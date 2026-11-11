@@ -4,16 +4,19 @@
 import { h, clear } from './dom.js';
 import { renderMini } from './funde.js';
 import { renderInventar } from './inventar.js';
+import { aufkleber } from './zugang.js';
 
 const RAUM_REIHENFOLGE = ['empfang', 'labor', 'sauna', 'training', 'shakebar'];
 const RAUM_NAMEN = { empfang: 'Empfang', training: 'Trainingsfläche', labor: 'Labor', sauna: 'Sauna', shakebar: 'Shake-Bar' };
 
 const AB_TEXT = { sauna_done: 'die Sauna', training_done: 'die Trainingsfläche', shakebar_done: 'die Shake-Bar' };
 
-export function createNotebook({ dialogEl, wissen, glossar, hefter, inventar, store, onFund, onOpen, extras, onKritzel, onInventar }) {
+export function createNotebook({ dialogEl, wissen, glossar, hefter, inventar, store, onFund, onOpen, extras, onCode, onInventar }) {
   const body = dialogEl.querySelector('.nb-body');
   const tabs = dialogEl.querySelector('.nb-tabs');
   let tab = 'karten';
+  let umgeklappt = false;   // Pinnwand ist hochgeklappt, die Innenseite der Spindtür ist zu sehen
+  let hervor = false;       // Hilfe 3: die bewegliche Ecke kurz hervorheben
 
   /** Pinnwand im Krimi-Stil: gefundene Funde hängen schief mit Pinnadeln, rote Fäden verbinden sie je Raum. */
   function renderKarten() {
@@ -44,12 +47,29 @@ export function createNotebook({ dialogEl, wissen, glossar, hefter, inventar, st
     if (notizen.length) {
       wand.append(h('section', 'pin-raum', h('h3', {}, 'Notizen'), h('div', 'pin-karten', notizen.map((k) => renderMini(k, { onclick: () => onFund && onFund(k) })))));
     }
-    // Gekritzel in der Ecke des Spinds: Markus hat den Saunacode hingeschrieben
-    if ((store.hasFlag('sauna_info') || store.hasFlag('labor_done')) && store.state.codes && store.state.codes.sauna) {
-      wand.prepend(h('button', { type: 'button', class: 'spind-kritzel', 'aria-label': 'Gekritzel in der Ecke des Spinds ansehen', onclick: () => onKritzel && onKritzel() },
-        h('span', 'kritzel-zahl', store.state.codes.sauna), h('small', {}, 'hingekritzelt')));
-    }
-    return [wand];
+    // Bewegliche Ecke: Die Pinnwand lässt sich hochklappen, dahinter klebt auf der Spindtür der Saunacode (jederzeit, auch vor dem Labor)
+    const code = store.state.codes && store.state.codes.sauna;
+    const flip = h('div', { class: `spind-flip${umgeklappt ? ' offen' : ''}` });
+    const ecke = h('button', {
+      type: 'button', class: `pin-ecke${hervor ? ' hervor' : ''}`,
+      'aria-label': 'Pinnwand hochklappen: Innenseite der Spindtür ansehen',
+      onclick: () => {
+        if (umgeklappt) return;
+        umgeklappt = true;
+        hervor = false;
+        flip.classList.add('offen');
+        ecke.classList.remove('hervor');
+        const kurz = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        setTimeout(() => { if (onCode) onCode(); }, kurz ? 50 : 750);
+      },
+    });
+    const innen = h('div', 'tuer-innen',
+      h('p', 'tuer-text', 'Innenseite der Spindtür'),
+      h('button', { type: 'button', class: 'aufkleber-knopf', 'aria-label': 'Aufkleber vergrößern', onclick: () => onCode && onCode() }, code ? aufkleber(code) : null),
+      h('button', { type: 'button', class: 'zurueck', onclick: () => { umgeklappt = false; flip.classList.remove('offen'); } }, 'Pinnwand zurückklappen'));
+    wand.append(ecke);
+    flip.append(innen, wand);
+    return [flip];
   }
 
   /** Roter Wollfaden zwischen den Pinnadeln gefundener Funde (nach dem Anzeigen, wenn die Maße bekannt sind). */
@@ -133,12 +153,14 @@ export function createNotebook({ dialogEl, wissen, glossar, hefter, inventar, st
   dialogEl.querySelector('.nb-close').addEventListener('click', () => dialogEl.close());
 
   return {
-    open(which = 'karten') {
+    open(which = 'karten', { hervorheben = false } = {}) {
       if (onOpen) onOpen();
       tab = which;
+      hervor = hervorheben && !umgeklappt;
       render();
       if (!dialogEl.open) dialogEl.showModal();
       if (tab === 'karten') requestAnimationFrame(zieheFaeden);
+      if (hervor) setTimeout(() => { hervor = false; }, 4000);
     },
     refresh() { if (dialogEl.open) render(); },
     get isOpen() { return dialogEl.open; },
