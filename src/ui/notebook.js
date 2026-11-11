@@ -3,13 +3,14 @@
 
 import { h, clear } from './dom.js';
 import { renderMini } from './funde.js';
+import { renderInventar } from './inventar.js';
 
 const RAUM_REIHENFOLGE = ['empfang', 'labor', 'sauna', 'training', 'shakebar'];
 const RAUM_NAMEN = { empfang: 'Empfang', training: 'Trainingsfläche', labor: 'Labor', sauna: 'Sauna', shakebar: 'Shake-Bar' };
 
 const AB_TEXT = { sauna_done: 'die Sauna', training_done: 'die Trainingsfläche', shakebar_done: 'die Shake-Bar' };
 
-export function createNotebook({ dialogEl, wissen, glossar, hefter, store, onFund, onOpen, extras, onKritzel }) {
+export function createNotebook({ dialogEl, wissen, glossar, hefter, inventar, store, onFund, onOpen, extras, onKritzel, onInventar }) {
   const body = dialogEl.querySelector('.nb-body');
   const tabs = dialogEl.querySelector('.nb-tabs');
   let tab = 'karten';
@@ -122,7 +123,8 @@ export function createNotebook({ dialogEl, wissen, glossar, hefter, store, onFun
   function render() {
     clear(body);
     body.dataset.tab = tab;
-    body.append(...(tab === 'karten' ? renderKarten() : tab === 'hefter' ? renderHefter() : renderGlossar()));
+    body.append(...(tab === 'karten' ? renderKarten() : tab === 'hefter' ? renderHefter() : tab === 'inventar' ? renderInventar({ daten: inventar, store }) : renderGlossar()));
+    if (tab === 'inventar' && onInventar) onInventar();
     tabs.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.tab === tab)));
     if (tab === 'karten' && dialogEl.open) requestAnimationFrame(zieheFaeden);
   }

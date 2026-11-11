@@ -17,6 +17,8 @@ import { alleFallKarten } from './state/fall.js';
 import { merkePosition, holePosition } from './state/zwischenstand.js';
 import { erfuellt, istSichtbar } from './state/zugang.js';
 import { createZugang, ausweisKarte } from './ui/zugang.js';
+import { liste as inventarListe, neuAnzahl, markiereGesehen } from './state/inventar.js';
+import { renderInventar } from './ui/inventar.js';
 import { h, clear } from './ui/dom.js';
 import { renderFund, fundIcon } from './ui/funde.js';
 import { fundart, istZusatz } from './ui/funde-core.js';
@@ -56,11 +58,12 @@ const tasks = {
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 async function loadData() {
-  const [scenes, dialogs, wissen, aufgaben, glossar, versuch, werbung, hefter, aehnlich, fall, fuehrerschein] = await Promise.all(
-    ['szenen', 'dialoge', 'wissen', 'aufgaben', 'glossar', 'versuch', 'werbung', 'hefter', 'aehnlich', 'fall', 'fuehrerschein'].map((n) => fetch(`data/${n}.json`).then((r) => r.json())),
+  const [scenes, dialogs, wissen, aufgaben, glossar, versuch, werbung, hefter, aehnlich, fall, fuehrerschein, inventar] = await Promise.all(
+    ['szenen', 'dialoge', 'wissen', 'aufgaben', 'glossar', 'versuch', 'werbung', 'hefter', 'aehnlich', 'fall', 'fuehrerschein', 'inventar'].map((n) => fetch(`data/${n}.json`).then((r) => r.json())),
   );
   DATA.aehnlich = aehnlich;
   DATA.fuehrerschein = fuehrerschein;
+  DATA.inventar = inventar;
   DATA.fall = fall;
   DATA.versuch = versuch;
   DATA.werbung = werbung;
@@ -350,6 +353,30 @@ function sperre(hs) {
   text();
 }
 
+/** Tasche: Zählpunkt für neue Gegenstände, Knopf poppt beim Einsammeln. */
+let neuZuletzt = 0;
+function taschePruefen(pop = true) {
+  if (!DATA.inventar) return;
+  const items = inventarListe(DATA.inventar.gegenstaende, (f) => store.hasFlag(f));
+  const neu = neuAnzahl(items, store.state.inventarGesehen);
+  const zahl = $('#tasche-zahl');
+  zahl.hidden = neu === 0;
+  zahl.textContent = String(neu);
+  const knopf = $('#btn-tasche');
+  if (pop && neu > neuZuletzt) { knopf.classList.remove('pop'); void knopf.offsetWidth; knopf.classList.add('pop'); }
+  neuZuletzt = neu;
+}
+function inventarGesehen() {
+  const items = inventarListe(DATA.inventar.gegenstaende, (f) => store.hasFlag(f));
+  store.state.inventarGesehen = markiereGesehen(items, store.state.inventarGesehen || {});
+  store.save();
+  taschePruefen(false);
+}
+function taschenFenster() {
+  zugang.zeige('Tasche', h('div', 'tasche-liste', ...renderInventar({ daten: DATA.inventar, store })));
+  inventarGesehen();
+}
+
 /** Zettel mit dem Saunacode: hängt an der Pinnwand, sobald das Gekritzel im Spind einmal angesehen wurde. */
 function saunaZettel() {
   return { id: 'zettel_sauna', medium: 'haftnotiz', titel: 'Saunacode', kopf: 'Saunacode', raum: 'sauna', typ: 'extra', zeilen: ['Zahlenschloss der Sauna:', store.state.codes.sauna, 'Von Markus in die Ecke des Spinds gekritzelt.'] };
@@ -561,7 +588,10 @@ async function boot() {
   await refreshFigure();
   zugang = createZugang({ dlg: $('#zugang'), store, daten: { fuehrerschein: DATA.fuehrerschein } });
   $('#zugang-zu').addEventListener('click', () => zugang.schliesse());
-  notebook = createNotebook({ onOpen: () => store.setFlag('spind_gesehen'), onFund: (k) => showFund(k, false), extras: extraKarten, onKritzel: kritzelAnsehen, dialogEl: $('#notebook'), wissen: DATA.wissen, glossar: DATA.glossar, hefter: DATA.hefter, store });
+  $('#btn-tasche').addEventListener('click', taschenFenster);
+  store.onFlag(() => taschePruefen());
+  taschePruefen(false);
+  notebook = createNotebook({ onOpen: () => store.setFlag('spind_gesehen'), onFund: (k) => showFund(k, false), inventar: DATA.inventar, onInventar: inventarGesehen, extras: extraKarten, onKritzel: kritzelAnsehen, dialogEl: $('#notebook'), wissen: DATA.wissen, glossar: DATA.glossar, hefter: DATA.hefter, store });
   taskPanel = createTaskPanel({
     root: $('#task'),
     data: { aufgaben: DATA.aufgaben, wissen: DATA.wissen, versuch: DATA.versuch, werbung: DATA.werbung, aehnlich: DATA.aehnlich, fall: DATA.fall },

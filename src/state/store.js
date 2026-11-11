@@ -23,6 +23,7 @@ export function defaultState() {
     taskProgress: {},   // Zwischenstand je Aufgabe: { Niveau, Schritt, richtige Erstversuche } (nur auf dem Gerät)
     pos: null,          // Position der Figur { scene, x, y } (nur auf dem Gerät)
     fontScale: 1,
+    inventarGesehen: {}, // Gegenstände, die die Tasche schon gezeigt hat (nur auf dem Gerät)
     vollbild: false,    // Vollbild war zuletzt an: nach dem Neuladen beim ersten Tippen wieder anfordern (nur auf dem Gerät)
   };
 }
@@ -30,6 +31,7 @@ export function defaultState() {
 export function createStore(storage, zufall = Math.random) {
   let mem = null;
   let state = defaultState();
+  const hoerer = [];
 
   /** Täter würfeln, falls noch keiner feststeht (neuer Spielstand oder Speicher aus einer älteren Version). */
   function ensureFall() {
@@ -78,7 +80,9 @@ export function createStore(storage, zufall = Math.random) {
     reset() { removeRaw(); state = defaultState(); ensureFall(); ensureCodes(); return state; },
     ensureFall,
     ensureCodes,
-    setFlag(name, value = true) { state.flags[name] = value; this.save(); },
+    setFlag(name, value = true) { state.flags[name] = value; this.save(); hoerer.forEach((f) => f(name, value)); },
+    /** Auf gesetzte Flags hören (zum Beispiel für die Tasche). */
+    onFlag(fn) { hoerer.push(fn); },
     hasFlag(name) { return Boolean(state.flags[name]); },
     hasNames() { return state.names.length > 0; },
   };

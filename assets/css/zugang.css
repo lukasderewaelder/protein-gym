@@ -32,6 +32,25 @@ dialog#zugang h2 { margin: 0 0 10px; font-size: calc(24px * var(--font-scale)); 
 .kritzel-zahl { font: italic 22px "Segoe Script", "Bradley Hand", "Comic Sans MS", cursive; letter-spacing: 0.1em; opacity: 0.9; }
 .spind-kritzel small { font-size: 10px; color: #4a3826; }
 
+/* Tasche und Inventar */
+dialog#notebook .nb-body[data-tab="inventar"] { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 0 14px; align-content: start; }
+dialog#notebook .nb-body[data-tab="inventar"] > .nb-summe { grid-column: 1 / -1; margin: 0 0 4px; }
+.inv-karte { display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: center; }
+.inv-karte.benutzt { opacity: 0.6; }
+.inv-karte.benutzt .inv-bild { filter: grayscale(0.85); }
+.inv-bild { display: grid; place-items: center; min-width: 64px; }
+.inv-emoji { font-size: 44px; line-height: 1; }
+.inv-text h4 { margin: 0 0 4px; }
+.inv-text p { margin: 2px 0; }
+.inv-hinweis { color: #ffd24a; }
+.inv-status { color: #9be3b0; }
+#btn-tasche { position: relative; }
+.badge { position: absolute; top: -6px; right: -6px; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; background: #f08a24; color: #1d1305; font: 700 13px/20px system-ui, sans-serif; text-align: center; }
+.badge[hidden] { display: none; }
+#btn-tasche.pop { animation: tasche-pop 0.7s ease-out; }
+@keyframes tasche-pop { 0% { transform: scale(1); } 30% { transform: scale(1.35) rotate(-8deg); } 60% { transform: scale(0.95) rotate(4deg); } 100% { transform: scale(1); } }
+@media (prefers-reduced-motion: reduce) { #btn-tasche.pop { animation: none; } }
+
 /* Labor-Ausweis */
 .ausweis {
   width: min(320px, 100%); margin: 4px auto; background: #f3efe0; color: #1a2a2c;

@@ -1,0 +1,15 @@
+{
+  "leer": "Deine Tasche ist noch leer. Wer Dinge findet oder bekommt, legt sie hier hinein.",
+  "gegenstaende": [
+    {
+      "id": "ausweis",
+      "name": "Labor-Ausweis",
+      "symbol": "ausweis",
+      "text": "Dein Ausweis fürs Labor, ausgestellt nach dem Laborführerschein.",
+      "hat": "item_ausweis",
+      "benutzt": "item_ausweis_benutzt",
+      "hinweisNeu": "Halte ihn an das Kartenlesegerät neben der Labortür.",
+      "hinweisBenutzt": "Benutzt: Die Labortür ist offen."
+    }
+  ]
+}
