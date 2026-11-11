@@ -69,7 +69,8 @@ async function loadData() {
   DATA.inventar = inventar;
   DATA.faecher = faecher;
   DATA.hilfe = hilfe;
-  store.verbieteCodes([String(versuch.freigabeCode)]); // der Saunacode darf nie der Code der Lehrkraft sein
+  // der Saunacode darf nie ein Code der Lehrkraft sein
+  store.verbieteCodes([versuch.stationA, versuch.lieferung].map((st) => String(st.codeNachVersuch)));
   // Inhalte der Bonus-Schließfächer landen als Gegenstände in der Tasche
   for (const f of faecher.faecher) inventar.gegenstaende.push({ id: `fach${f.id}`, name: f.name, text: f.text, emoji: f.emoji, symbol: 'emoji', hat: f.flag });
   DATA.fall = fall;
@@ -128,25 +129,9 @@ function showCall() {
   el.focus({ preventScroll: true });
 }
 
-/** Tafel „Versuch frei?“: Die Lehrkraft nennt den Code. Nur eine Hürde, keine Sicherheitsfreigabe. */
+/** Tafel im Labor: Plakat mit den Sicherheitsregeln. Den Code gibt es erst nach dem Versuch (Schritt „versuch“). */
 function openFreigabe() {
-  if (store.hasFlag('lab_frei')) { showFund(tafelKarte(DATA.versuch, true), false); return; }
-  const input = h('input', { class: 'name-input', type: 'text', inputmode: 'numeric', autocomplete: 'off', maxlength: '12', 'aria-label': 'Code der Lehrkraft', placeholder: 'Code' });
-  const msg = h('p', { class: 'error', role: 'alert' });
-  const submit = () => {
-    if (input.value.trim().toLowerCase() === String(DATA.versuch.freigabeCode).toLowerCase()) {
-      store.setFlag('lab_frei');
-      showFund(tafelKarte(DATA.versuch, true), false);
-    } else {
-      msg.textContent = 'Das ist nicht der Code der Lehrkraft.';
-    }
-  };
-  input.addEventListener('keydown', (e) => { if (e.key === 'Enter') submit(); });
-  // Die Tafel ist ein Plakat wie die anderen Hinweise; Eingabefeld und Knopf stehen darunter im selben Fenster
-  showFund(tafelKarte(DATA.versuch, false), false, [input, msg,
-    h('button', { class: 'primary', type: 'button', onclick: submit }, 'Freigeben'),
-    h('p', 'hint', DATA.versuch.hinweisCode)]);
-  input.focus({ preventScroll: true });
+  showFund(tafelKarte(DATA.versuch), false);
 }
 
 function collectCard(id) {
@@ -770,7 +755,7 @@ async function boot() {
     setSprites: (s) => { figureSprites = s; },
     unlockAll: () => ['empfang_done', 'labor_done', 'sauna_done', 'training_done', 'spind_gesehen', 'lf_bestanden', 'item_ausweis', 'item_ausweis_benutzt', 'labor_offen', 'sauna_info', 'sauna_code_gesehen', 'sauna_offen'].forEach((f) => store.setFlag(f)),
     setFall: (id) => { store.state.fall = { taeter: id }; store.save(); buildFallCards(); },
-    allCards: () => { DATA.wissen.karten.forEach((k) => store.setFlag(k.id)); store.setFlag('lab_frei'); },
+    allCards: () => { DATA.wissen.karten.forEach((k) => store.setFlag(k.id)); },
     openTask: (id, room) => taskPanel.openTask(id, room),
     raumGeschafft,
     openMenu: (room) => taskPanel.openMenu(room),

@@ -135,19 +135,33 @@ function simulation(host, step, api, ctx) {
   return { reveal() {} };
 }
 
+/** Versuch bei der Lehrkraft: Gläser, drei Sicherheitspunkte, danach der Code der Lehrkraft (Texte in data/versuch.json). */
 function versuch(host, step, api, ctx) {
-  const gewaehlt = stationenVon(ctx.versuch, step.stationen);
+  const v = ctx.versuch;
+  const t = v.versuchSchritt;
+  const gewaehlt = stationenVon(v, step.stationen);
   const stationen = gewaehlt.map((st) => h('div', 'probe',
     h('strong', {}, `${st.name}: ${st.titel}`),
     h('p', 'hint', st.regel || ''),
     h('ul', {}, st.proben.map((pr) => h('li', {}, `Glas ${pr.nr}: ${probenName(pr)}`)))));
+  // Die allgemeine Entsorgungsregel (letzter Punkt) ersetzt die Station durch ihre eigene
+  const entsorgung = gewaehlt.map((st) => st.entsorgung).filter(Boolean);
+  const sicherheit = entsorgung.length ? [...v.sicherheit.slice(0, -1), ...entsorgung] : v.sicherheit;
+  const zeit = gewaehlt.map((st) => [t.zeit.replace('{zeit}', st.zeit), st.zeitHinweis].filter(Boolean).join(' ')).join(' ');
+  const codes = gewaehlt.map((st) => String(st.codeNachVersuch || '')).filter(Boolean);
+  const input = h('input', { class: 'name-input', type: 'text', inputmode: 'numeric', autocomplete: 'off', maxlength: '8', 'aria-label': 'Code deiner Lehrkraft', placeholder: t.codePlatzhalter });
+  const pruefe = () => {
+    // Ein falscher Code zählt nicht als Fehler (api.say), damit das Lösungsbeispiel den Code nie überspringt
+    if (codes.includes(input.value.trim())) { input.disabled = true; api.ok(t.codeRichtig); } else api.say(`✗ ${t.codeFalsch}`);
+  };
+  input.addEventListener('keydown', (e) => { if (e.key === 'Enter') pruefe(); });
   host.append(
-    h('p', 'frage', 'Jetzt geht es zu deiner Lehrkraft: Dort machst du den Versuch in echt. Lege das Tablet trocken zur Seite.'),
+    h('p', 'frage', t.einleitung),
     ...stationen,
-    h('h3', {}, 'Sicherheit'),
-    h('ul', {}, [...(ctx.versuch.sicherheitAllgemein || ctx.versuch.sicherheit), ...gewaehlt.map((st) => st.stoffhinweis).filter(Boolean)].map((s) => h('li', {}, s))),
-    h('p', 'hint', `Zeit: ${gewaehlt.map((st) => `${st.name} ${st.zeit}`).join(', ')}.${gewaehlt.some((st) => st.id === 'A') ? ' Die Lehrkraft stellt Glas 1 im Wasserbad vorab bereit, um Zeit zu sparen.' : ''}`),
-    h('button', { class: 'primary', type: 'button', onclick: () => api.ok('Versuch beendet. Jetzt trägst du deine Beobachtungen ein.') }, 'Versuch fertig: zum Protokoll'),
+    h('h3', {}, t.sicherheitTitel),
+    h('ul', {}, sicherheit.map((s) => h('li', {}, s))),
+    h('p', 'hint', zeit),
+    h('div', 'probe', h('p', {}, t.codeFrage), h('div', 'zeile', input, h('button', { class: 'primary', type: 'button', onclick: pruefe }, t.codeKnopf))),
   );
   return { reveal() {} };
 }

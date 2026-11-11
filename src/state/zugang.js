@@ -76,16 +76,10 @@ export function migriereZweiNull(state) {
   return state;
 }
 
-/** Tafel im Labor als Plakat-Karte (nur zum Ansehen, kein Flag, nicht in der Leiste). `frei` false: Aufforderung zur Freigabe, true: die Sicherheitsregeln. */
-export function tafelKarte(versuch, frei) {
-  if (!frei) {
-    return {
-      id: 'tafel_frage', medium: 'plakat', titel: 'Versuch frei?', kopf: 'Tafel: Versuch frei?',
-      zeilen: ['Die Lehrkraft nennt dir den Code, wenn Material und Sicherheitseinweisung bereit sind.'],
-    };
-  }
+/** Tafel im Labor als Plakat-Karte mit den drei Sicherheitspunkten (nur zum Ansehen, kein Flag, nicht in der Leiste). */
+export function tafelKarte(versuch) {
   return {
-    id: 'tafel_sicherheit', medium: 'plakat', titel: 'Sicherheit im Labor', kopf: 'Versuch frei: Sicherheit im Labor',
+    id: 'tafel_sicherheit', medium: 'plakat', titel: 'Sicherheit im Labor', kopf: 'Sicherheit im Labor',
     zeilen: [...versuch.sicherheit, 'Den Versuch machst du mit deiner Lehrkraft in echt.'],
   };
 }

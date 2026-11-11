@@ -22,7 +22,7 @@ test('Ganzer Spielverlauf: die Station wechselt in der richtigen Reihenfolge', (
   setze('intro_done', 'spind_gesehen');
   setze('k_protein', 'k_wichtig', 'a0_done', 'empfang_done');
   setze('lf_bestanden', 'item_ausweis', 'item_ausweis_benutzt', 'labor_offen');
-  setze('k_denat', 'k_ausloeser', 'k_biuret', 'lab_frei', 'a4_done', 'labor_done');
+  setze('k_denat', 'k_ausloeser', 'k_biuret', 'a4_done', 'labor_done');
   setze('sauna_info', 'sauna_code_gesehen', 'sauna_offen');
   setze('k_hitze', 'k_umkehr', 'k_haltbar', 'a5_done', 'sauna_done');
   setze('k_bauplan', 'k_rest', 'k_kette', 'k_struktur', 'a3_done', 'a1_done', 'training_done');
@@ -32,7 +32,7 @@ test('Ganzer Spielverlauf: die Station wechselt in der richtigen Reihenfolge', (
   setze('quiz2_task', 'quiz2_done');
   assert.deepEqual(verlauf, [
     'spind', 'empfang_hinweise', 'einweisung', 'fuehrerschein', 'leser',
-    'labor_hinweise', 'labor_freigabe', 'labor_aufgabe',
+    'labor_hinweise', 'labor_aufgabe',
     'sauna_code_suchen', 'saunatuer', 'sauna_hinweise', 'sauna_aufgabe',
     'training_hinweise', 'training_aufgabe', 'shakebar_hinweise', 'shakebar_aufgabe',
     'aufloesung', 'lieferung_labor', 'schlussquiz', 'fertig',
@@ -56,7 +56,7 @@ test('Jede Station hat grobe und konkrete Hilfe von Markus', () => {
   const f = {};
   // alle möglichen Stationen einsammeln: Flags nacheinander setzen, außerdem die festen Stationen
   for (const t of Object.values(A.aufgaben)) f[t.flag] = false;
-  const alle = ['spind', 'empfang_hinweise', 'einweisung', 'fuehrerschein', 'leser', 'labor_hinweise', 'labor_freigabe', 'labor_aufgabe', 'sauna_code_suchen', 'saunatuer',
+  const alle = ['spind', 'empfang_hinweise', 'einweisung', 'fuehrerschein', 'leser', 'labor_hinweise', 'labor_aufgabe', 'sauna_code_suchen', 'saunatuer',
     'sauna_hinweise', 'sauna_aufgabe', 'training_hinweise', 'training_aufgabe', 'shakebar_hinweise', 'shakebar_aufgabe', 'aufloesung', 'lieferung_labor', 'schlussquiz', 'fertig'];
   for (const id of alle) {
     const s = H.schritte[id];
@@ -86,5 +86,5 @@ test('Die Hilfe gibt den Ort der Hinweise genau an (Hotspots stimmen mit den Kar
 test('Fall-Hinweise (Laufzeit-Karten) bringen die Hilfe nicht durcheinander', () => {
   const fall = lies('fall');
   const mitFall = { aufgaben: A, karten: [...W.karten, ...alleFallKarten('desi', fall)] };
-  assert.equal(naechsterSchritt({ empfang_done: true, lf_bestanden: true, labor_offen: true, k_denat: true, k_ausloeser: true, k_biuret: true, lab_frei: true }, mitFall), 'labor_aufgabe');
+  assert.equal(naechsterSchritt({ empfang_done: true, lf_bestanden: true, labor_offen: true, k_denat: true, k_ausloeser: true, k_biuret: true }, mitFall), 'labor_aufgabe');
 });

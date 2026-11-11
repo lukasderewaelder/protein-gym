@@ -1,18 +1,20 @@
 {
-  "freigabeCode": "4711",
-  "hinweisCode": "Der Code steht im Quelltext und ist nur eine Hürde für die Klasse, keine Sicherheitsfreigabe. Die Sicherheitsunterweisung und die Gefährdungsbeurteilung gelten unabhängig vom Spiel.",
+  "codeHinweis": "Die Codes nach dem Versuch (codeNachVersuch je Station) stehen im Quelltext. Sie sind nur eine Hürde, damit niemand ohne den echten Versuch weiterspielt, keine Sicherheitsfreigabe.",
   "sicherheit": [
-    "Kittel und Schutzbrille tragen.",
-    "Natronlauge ist ätzend, Salzsäure je nach Konzentration reizend bis ätzend, Kupfersulfat-Lösung (Fehling I) gesundheitsschädlich, Ethanol leicht entzündlich. Die Einstufung und die Gefährdungsbeurteilung deiner Schule gelten.",
-    "Ethanol nur in kleinen Mengen und nur von der Lehrkraft, keine offene Flamme in der Nähe.",
-    "Kupferhaltige Lösungen gehören in den Sammelbehälter, nicht in den Ausguss.",
-    "Tablet trocken halten und beim Versuch zur Seite legen."
+    "Kittel und Schutzbrille an.",
+    "Tablet weglegen, damit nichts draufspritzt.",
+    "Gläser mit Kupfersulfat-Lösung (Fehling I) kommen in den Sammelbehälter, alles andere in den Ausguss."
   ],
-  "sicherheitAllgemein": [
-    "Kittel und Schutzbrille tragen.",
-    "Kupferhaltige Lösungen gehören in den Sammelbehälter, nicht in den Ausguss.",
-    "Tablet trocken halten und beim Versuch zur Seite legen."
-  ],
+  "versuchSchritt": {
+    "einleitung": "Ab zu deiner Lehrkraft! Dort machst du den Versuch in echt.",
+    "sicherheitTitel": "Sicherheit",
+    "zeit": "Dauert etwa {zeit}.",
+    "codeFrage": "Nach dem Versuch nennt dir deine Lehrkraft einen Code. Erst damit geht es weiter.",
+    "codePlatzhalter": "Code",
+    "codeKnopf": "Code eingeben",
+    "codeFalsch": "Das ist nicht der Code. Frag deine Lehrkraft.",
+    "codeRichtig": "Versuch erledigt. Jetzt trägst du ein, was du gesehen hast."
+  },
   "beobachtungOptionen": ["klar", "trüb", "trüb und fest", "ausgeflockt", "geronnen", "violett", "blau (kein Violett)", "hellblau", "etwas anderes"],
   "abweichung": "Weicht deine Beobachtung vom Skript ab? Das ist kein Fehler. Notiere, was du gesehen hast, und überlege mit deiner Gruppe mögliche Gründe (Menge, Konzentration, Dauer).",
   "stationA": {
@@ -20,9 +22,11 @@
     "name": "Hitze-Station",
     "titel": "Denaturierung von Eiweiß",
     "spalte": "Einfluss",
-    "regel": "In jedes Glas kommt nur ein Versuch.",
-    "stoffhinweis": "Salzsäure ist je nach Konzentration reizend bis ätzend, Kupfersulfat-Lösung (Fehling I) gesundheitsschädlich, Ethanol leicht entzündlich. Ethanol nur in kleinen Mengen und nur von der Lehrkraft, keine offene Flamme in der Nähe.",
-    "zeit": "ca. 8 Minuten",
+    "regel": "Ein Glas, ein Versuch:",
+    "entsorgung": "Glas 3 mit Kupfersulfat-Lösung (Fehling I) kommt in den Sammelbehälter, alles andere in den Ausguss.",
+    "zeit": "8 Minuten",
+    "zeitHinweis": "Glas 1 steht schon im Wasserbad.",
+    "codeNachVersuch": "2638",
     "vermutungOptionen": ["klar", "trüb oder fest"],
     "proben": [
       { "id": "p1", "nr": 1, "einfluss": "Hitze im Wasserbad", "erwartung": "trüb, fest", "passt": ["trüb", "trüb und fest", "ausgeflockt", "geronnen"], "sim": { "farbe": "#f4efe0", "flocken": 0, "trueb": 1 } },
@@ -37,9 +41,10 @@
     "name": "Nachweis-Station",
     "titel": "Neue Lieferung: Biuret-Nachweis",
     "spalte": "Inhalt",
-    "regel": "In jedes Glas kommt nur eine Probe und nur dieser eine Nachweis: Natronlauge, dann Kupfersulfat-Lösung (Fehling I).",
-    "stoffhinweis": "Natronlauge ist ätzend, Kupfersulfat-Lösung (Fehling I) gesundheitsschädlich. Die Einstufung und die Gefährdungsbeurteilung deiner Schule gelten.",
-    "zeit": "ca. 6 Minuten",
+    "regel": "Ein Glas, eine Probe, ein Nachweis: erst Natronlauge, dann Kupfersulfat-Lösung (Fehling I).",
+    "entsorgung": "Alle Gläser enthalten Kupfersulfat-Lösung (Fehling I) und kommen in den Sammelbehälter.",
+    "zeit": "6 Minuten",
+    "codeNachVersuch": "5917",
     "vermutungOptionen": ["violett", "nicht violett"],
     "proben": [
       { "id": "b1", "nr": 1, "probe": "Eiweißshake", "erwartung": "violett", "passt": ["violett"], "sim": { "farbe": "#8f5cc0", "flocken": 0, "trueb": 0 } },

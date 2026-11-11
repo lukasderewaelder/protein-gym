@@ -32,14 +32,9 @@
       "grob": "Im Labor fehlen dir noch Hinweise. Such sie zuerst, dann klappt die Aufgabe.",
       "konkret": "Die Hinweise liegen am Kühlschrank, am Plakat und bei Kupfer-Kurt. Geh nah heran und tippe auf das Funkeln."
     },
-    "labor_freigabe": {
-      "ort": "Labor",
-      "grob": "Für den Versuch braucht es die Freigabe deiner Lehrkraft.",
-      "konkret": "Tippe an der Tafel an der Wand oben auf „Versuch frei?“ und frag deine Lehrkraft nach dem Code."
-    },
     "labor_aufgabe": {
       "ort": "Labor",
-      "grob": "Du hast alle Hinweise und die Freigabe. Jetzt kannst du die Aufgabe im Labor machen.",
+      "grob": "Du hast alle Hinweise. Jetzt kannst du die Aufgabe im Labor machen. Nach dem echten Versuch nennt dir deine Lehrkraft einen Code.",
       "konkret": "Tippe auf die Station mit dem Ausrufezeichen, den Herd links, und wähle die Aufgabe."
     },
     "sauna_code_suchen": {

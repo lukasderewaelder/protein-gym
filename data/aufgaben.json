@@ -472,7 +472,6 @@
       "zeit": "ca. 15 Minuten (Versuch am Tisch)",
       "flag": "a4_done",
       "braucht": [
-        "lab_frei",
         "k_denat",
         "k_ausloeser"
       ],
@@ -570,7 +569,7 @@
               "Eiklarlösung in jedes Glas geben.",
               "In jedes Glas nur einen Versuch machen: Hitze, Salzsäure, Kupfersulfat-Lösung (Fehling I) oder Ethanol (Probe 5 nur Wasser).",
               "Beobachten und im Protokoll festhalten.",
-              "Lösungen richtig entsorgen (Kupfer in den Sammelbehälter)."
+              "Entsorgen: Glas mit Kupfersulfat-Lösung (Fehling I) in den Sammelbehälter, den Rest in den Ausguss."
             ],
             "anzeige": [
               3,
@@ -650,7 +649,7 @@
               "Probe 5 bekommt nur Wasser (Kontrolle).",
               "In die Gläser 1 bis 4 je nur einen Versuch machen: Hitze, Salzsäure, Kupfersulfat-Lösung (Fehling I), Ethanol.",
               "Beobachten und im Protokoll festhalten.",
-              "Lösungen richtig entsorgen (Kupfer in den Sammelbehälter)."
+              "Entsorgen: Glas mit Kupfersulfat-Lösung (Fehling I) in den Sammelbehälter, den Rest in den Ausguss."
             ],
             "anzeige": [
               4,
@@ -954,8 +953,7 @@
       "flag": "a7_done",
       "braucht": [
         "quiz_done",
-        "k_biuret",
-        "lab_frei"
+        "k_biuret"
       ],
       "auftrag": "Eine neue Lieferung ist da. Enthält sie Eiweiß? Vermute, mache den Biuret-Nachweis bei deiner Lehrkraft, beobachte und deute.",
       "tipp": "Schau in den Spind: „Nachweis von Eiweiß: Biuret-Probe“ und im Hefter den Eintrag dazu. Violett zeigt Eiweiß an.",
@@ -986,7 +984,7 @@
               "In jedes Glas eine andere Probe geben: Eiweißshake, Zuckerlösung, Wasser (Menge laut Lehrbuch S. 22, Exp. 15, oder Anleitung der Lehrkraft).",
               "Zu jeder Probe erst Natronlauge, dann Kupfersulfat-Lösung (Fehling I) geben. In jedes Glas kommt nur dieser eine Nachweis.",
               "Beobachten und im Protokoll festhalten.",
-              "Lösungen richtig entsorgen (Kupfer in den Sammelbehälter)."
+              "Entsorgen: alle Gläser in den Sammelbehälter."
             ]
           },
           {
@@ -1036,7 +1034,7 @@
               "In jedes Glas eine andere Probe geben.",
               "In jedes Glas erst Natronlauge, dann Kupfersulfat-Lösung (Fehling I) geben.",
               "Beobachten und im Protokoll festhalten.",
-              "Lösungen richtig entsorgen (Kupfer in den Sammelbehälter)."
+              "Entsorgen: alle Gläser in den Sammelbehälter."
             ],
             "anzeige": [
               3,
@@ -1101,7 +1099,7 @@
               "Natronlauge zugeben.",
               "Kupfersulfat-Lösung (Fehling I) zugeben.",
               "Beobachten und im Protokoll festhalten.",
-              "Lösungen richtig entsorgen (Kupfer in den Sammelbehälter)."
+              "Entsorgen: alle Gläser in den Sammelbehälter."
             ],
             "anzeige": [
               4,

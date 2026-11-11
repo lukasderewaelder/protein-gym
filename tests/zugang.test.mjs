@@ -151,8 +151,8 @@ test('Türen: Labor und Sauna haben eine eigene Sperre, die Dialoge dazu sind vo
 
 test('Der Saunacode ist nie der Code der Lehrkraft für den Versuch (und wird bei Kollision neu gewürfelt)', () => {
   const versuch = JSON.parse(readFileSync(new URL('../data/versuch.json', import.meta.url), 'utf8'));
-  const lk = String(versuch.freigabeCode);
-  for (let i = 0; i < 3000; i++) assert.notEqual(wuerfleSaunaCode(Math.random, [lk]), lk);
+  const lks = [versuch.stationA.codeNachVersuch, versuch.lieferung.codeNachVersuch].map(String);
+  for (let i = 0; i < 3000; i++) assert.ok(!lks.includes(wuerfleSaunaCode(Math.random, lks)));
   assert.notEqual(wuerfleSaunaCode(() => (4711 - 1000 + 0.5) / 9000, ['4711']), '4711', 'auch wenn der Zufall genau den Lehrkraft-Code liefert');
   const alt = fakeStorage();
   alt.setItem(STORAGE_KEY, JSON.stringify({ names: ['Mia'], scene: 'empfang', flags: {}, codes: { sauna: '4711' } }));
@@ -170,14 +170,12 @@ test('Türtexte und Hilfe des Saunacodes stehen wie im Auftrag (Hilfe 1 bis 3)',
   assert.equal(hilfe.stufe3.aktion, 'pinnecke', 'Hilfe 3 hebt die bewegliche Ecke der Pinnwand hervor');
 });
 
-test('Tafel im Labor: Plakat-Karte mit Aufforderung und mit den Sicherheitsregeln', () => {
+test('Tafel im Labor: Plakat-Karte mit den drei Sicherheitsregeln, ohne Code', () => {
   const versuch = JSON.parse(readFileSync(new URL('../data/versuch.json', import.meta.url), 'utf8'));
-  const frage = tafelKarte(versuch, false);
-  assert.equal(frage.medium, 'plakat');
-  assert.match(frage.kopf, /Versuch frei\?/);
-  const frei = tafelKarte(versuch, true);
+  const frei = tafelKarte(versuch);
   assert.equal(frei.medium, 'plakat');
-  assert.match(frei.kopf, /Versuch frei/);
+  assert.match(frei.kopf, /Sicherheit/);
+  assert.equal(frei.zeilen.length, versuch.sicherheit.length + 1);
   assert.deepEqual(frei.zeilen.slice(0, versuch.sicherheit.length), versuch.sicherheit);
   assert.match(frei.zeilen.at(-1), /mit deiner Lehrkraft in echt/);
   assert.match(frei.zeilen[0], /Kittel und Schutzbrille/);

@@ -11,7 +11,6 @@ import { merkeFortschritt, holeFortschritt, loescheFortschritt } from '../state/
 
 /** Namen für Freigaben, die keine Wissenskarte sind (Anzeige im gesperrten Menüeintrag). */
 const FLAG_TEXTE = {
-  lab_frei: 'die Freigabe der Lehrkraft an der Tafel',
   spind_gesehen: 'den Spind im Empfang einmal öffnen',
   shakebar_done: 'alle vier Räume',
   quiz_done: 'die Auflösung des Falls bei Markus',

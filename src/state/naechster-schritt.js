@@ -1,7 +1,7 @@
 // „Wie geht’s weiter?“: aus dem Spielstand die nächste Station ableiten. Reine Logik ohne Browser.
 // Die Texte (grob und konkret) stehen in data/hilfe.json unter dem Schlüssel der Station.
 
-/** Karten eines Raums, die für die nächste Pflichtaufgabe noch fehlen, und ob die Freigabe der Lehrkraft fehlt. */
+/** Karten eines Raums, die für die nächste Pflichtaufgabe noch fehlen. */
 function fehlendes(raum, flags, { aufgaben, karten }) {
   const rd = aufgaben.raeume[raum];
   const offen = rd.pflicht.filter((id) => !flags[aufgaben.aufgaben[id].flag]);
@@ -9,12 +9,11 @@ function fehlendes(raum, flags, { aufgaben, karten }) {
   const kartenIds = new Set(karten.map((k) => k.id));
   return {
     spind: braucht.includes('spind_gesehen') && !flags.spind_gesehen,
-    freigabe: braucht.includes('lab_frei') && !flags.lab_frei,
     karten: braucht.filter((b) => kartenIds.has(b) && !flags[b]),
   };
 }
 
-/** Station je Raum: erst Hinweise sammeln, dann (Labor) Freigabe, dann die Aufgabe. */
+/** Station je Raum: erst Hinweise sammeln, dann die Aufgabe. */
 function raumStation(raum, flags, daten) {
   const f = fehlendes(raum, flags, daten);
   if (raum === 'empfang') {
@@ -22,7 +21,6 @@ function raumStation(raum, flags, daten) {
     return f.karten.length ? 'empfang_hinweise' : 'einweisung';
   }
   if (f.karten.length) return `${raum}_hinweise`;
-  if (f.freigabe) return `${raum}_freigabe`;
   return `${raum}_aufgabe`;
 }
 

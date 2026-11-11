@@ -34,7 +34,7 @@ test('Je Glas nur ein Versuch: Station A hat fünf verschiedene Einflüsse, Salz
   assert.equal(new Set(namen).size, 5);
   assert.deepEqual(namen.map((n) => n.split(' ')[0]), ['Hitze', 'Salzsäure', 'Kupfersulfat-Lösung', 'Ethanol', 'Wasser']);
   assert.doesNotMatch(JSON.stringify([V, A.aufgaben.a4]), /Essigsäure/);
-  assert.match(V.stationA.regel + V.lieferung.regel, /nur ein/);
+  assert.match(V.stationA.regel + V.lieferung.regel, /Ein Glas, ein/);
   for (const p of V.lieferung.proben) assert.ok(!/ \+ | und /.test(probenName(p)), `${p.id}: nur eine Probe im Glas`);
 });
 
@@ -42,6 +42,7 @@ test('Schutzkleidung im Labor: Kittel und Schutzbrille, keine Handschuhe', () =>
   const alles = JSON.stringify([V, A, read('fuehrerschein.json'), read('dialoge.json'), read('hefter.json'), read('glossar.json')]);
   assert.doesNotMatch(alles, /Handschuh/i);
   assert.match(V.sicherheit[0], /Kittel und Schutzbrille/);
+  assert.equal(V.sicherheit.length, 3, 'nur drei Sicherheitspunkte');
   assert.match(read('fuehrerschein.json').fragen[0].richtig, /Kittel/);
 });
 
@@ -125,13 +126,13 @@ test('Protokolltext funktioniert auch ohne jede Eingabe', () => {
   assert.equal(t.split('\n').filter((l) => /^\d \|/.test(l)).length, 8);
 });
 
-test('Labor: Aufgabe 4 ist im Raum eingetragen, braucht Freigabe und drei Karten, Flags existieren', () => {
+test('Labor: Aufgabe 4 ist im Raum eingetragen, braucht keine Freigabe vorher, Karten erreichbar, Flags existieren', () => {
   assert.deepEqual(A.raeume.labor.aufgaben, ['a4']);
   assert.deepEqual(A.raeume.labor.pflicht, ['a4']);
   assert.deepEqual(A.raeume.shakebar.aufgaben, ['a6', 'z1'], 'Spurensicherung ist freiwillig und liegt in der Shake-Bar');
   assert.equal(A.raeume.labor.fertigFlag, 'labor_done');
   for (const f of A.aufgaben.a4.braucht) assert.ok(FLAG_LIST.includes(f), f);
-  assert.ok(A.aufgaben.a4.braucht.includes('lab_frei'));
+  for (const id of ['a4', 'a7']) assert.ok(!A.aufgaben[id].braucht.includes('lab_frei'), `${id}: kein Code vor dem Versuch`);
   const kartenHotspots = S.szenen.find((s) => s.id === 'labor').hotspots.map((h) => h.karte).filter(Boolean);
   for (const k of A.aufgaben.a4.braucht.filter((f) => f.startsWith('k_'))) assert.ok(kartenHotspots.includes(k), `${k} im Labor erreichbar`);
 });
@@ -148,11 +149,28 @@ test('Labor: alle drei Niveaus haben dieselben Stationsschritte und enden mit Ex
   assert.equal(A.aufgaben.a4.niveaus.C[1].type, 'reihenfolge');
 });
 
-test('Sicherheitstexte nennen Schutz, Ätzendes und Entsorgung und geben keine Mengen vor', () => {
+test('Sicherheit: drei kurze Punkte (Kittel und Schutzbrille, Tablet, Entsorgung), keine Mengen, kein KI-Ton', () => {
   const s = V.sicherheit.join(' ');
-  assert.match(s, /Schutzbrille/);
-  assert.match(s, /ätzend/);
+  assert.match(s, /Kittel und Schutzbrille/);
+  assert.match(s, /Tablet/);
   assert.match(s, /Sammelbehälter/);
+  assert.match(s, /Ausguss/);
+  for (const st of [V.stationA, V.lieferung]) assert.match(st.entsorgung, /Sammelbehälter/, `${st.id}: Entsorgung`);
+  assert.match(V.stationA.entsorgung, /Ausguss/, 'Rest der Hitze-Station in den Ausguss');
+  const texte = JSON.stringify([V.sicherheit, V.versuchSchritt, V.stationA, V.lieferung]);
+  assert.doesNotMatch(texte, /vorab|um Zeit zu sparen|Gefährdungsbeurteilung|nur von der Lehrkraft/);
   assert.doesNotMatch(JSON.stringify(A.aufgaben.a4), /\d+\s?(ml|mL|g|mol)/, 'keine erfundenen Mengen');
-  assert.match(V.hinweisCode, /keine Sicherheitsfreigabe/);
+  assert.match(V.codeHinweis, /keine Sicherheitsfreigabe/);
+});
+
+test('Code der Lehrkraft erst nach dem Versuch: je Versuch ein eigener vierstelliger Code, kein 4711', () => {
+  assert.equal(V.freigabeCode, undefined, 'kein Code vor dem Versuch');
+  const codes = [V.stationA.codeNachVersuch, V.lieferung.codeNachVersuch];
+  for (const c of codes) assert.match(c, /^[0-9]{4}$/);
+  assert.notEqual(codes[0], codes[1]);
+  assert.ok(!codes.includes('4711'));
+  for (const id of ['a4', 'a7']) for (const n of Object.values(A.aufgaben[id].niveaus)) {
+    const i = n.findIndex((s) => s.type === 'versuch');
+    assert.ok(i > 0 && n[i + 1].type === 'beobachtung', `${id}: Beobachtung direkt nach dem Versuch (mit Code)`);
+  }
 });

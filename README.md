@@ -12,7 +12,7 @@ Alle Rechte vorbehalten. Der Quelltext ist öffentlich einsehbar, damit das Spie
 ## Aktualisieren und Veröffentlichen
 - Das Spiel wird aus dem Branch `main` über **GitHub Pages** ausgeliefert. Jeder Push veröffentlicht sich nach etwa ein bis zwei Minuten (GitHub hält Dateien bis zu zehn Minuten im Zwischenspeicher).
 - Die Offline-Liste `sw.js` erneuert eine **GitHub Action** (`.github/workflows/ci.yml`) bei jedem Push selbst (`node tools/precache.mjs`) und führt die Tests aus. Lokal gilt weiter: nach Änderungen an `src/`, `data/`, `assets/` `node tools/precache.mjs` ausführen.
-- **Der Laborcode steht im Quelltext** (`data/versuch.json`, `freigabeCode`) und ist damit öffentlich lesbar. Vor dem Einsatz ändern; er ist nur eine Hürde für die Klasse, keine Sicherheitsfreigabe. Das gilt auch für Lösungen und den Fall in `data/`.
+- **Die Codes nach dem Versuch stehen im Quelltext** (`data/versuch.json`, `codeNachVersuch` je Station) und sind damit öffentlich lesbar. Vor dem Einsatz ändern; er ist nur eine Hürde für die Klasse, keine Sicherheitsfreigabe. Das gilt auch für Lösungen und den Fall in `data/`.
 
 ## Lernziele (Fachtiefe)
 - Aminosäuren sind die **Bausteine der Proteine**. Die funktionellen Gruppen (Aminogruppe, Carboxygruppe, Rest R) werden nur gezeigt, **nie abgefragt**.
@@ -53,7 +53,7 @@ node tools/precache.mjs       # nach jeder Änderung an src/, data/, assets/ (Of
 - Konsole: `__pg.unlockAll()` öffnet alle Türen, `__pg.goto('labor')` wechselt den Raum, `__pg.allCards()` sammelt alle Karten, `__pg.openTask('a1', 'training')` öffnet eine Aufgabe.
 
 ## Für Lehrkräfte
-- **Laborcode** an der Tafel „Versuch frei?“: steht in `data/versuch.json` (`freigabeCode`, derzeit 4711, vor dem Einsatz ändern). Er steht im Quelltext, ist also nur eine Hürde für die Klasse und **keine Sicherheitsfreigabe**. Sicherheitsunterweisung und Gefährdungsbeurteilung bleiben Sache der Lehrkraft; das Spiel nennt keine Mengen oder Konzentrationen, die kommen aus Buch (Fokus S. 21, Exp. 14–16) oder Anleitung.
+- **Code nach dem echten Versuch:** Nach dem Versuch bei der Lehrkraft geben die Lernenden im Schritt „Versuch“ einen Code ein, erst dann geht es zur Beobachtung (Hitze-Versuch a4: `stationA.codeNachVersuch`, derzeit 2638; Lieferung a7: `lieferung.codeNachVersuch`, derzeit 5917; in `data/versuch.json`, vor dem Einsatz ändern). Vor dem Versuch gibt es keinen Code mehr; die Tafel im Labor zeigt nur die drei Sicherheitspunkte. Die Codes stehen im Quelltext, sind also nur eine Hürde und **keine Sicherheitsfreigabe**. Sicherheitsunterweisung und Gefährdungsbeurteilung bleiben Sache der Lehrkraft; das Spiel nennt keine Mengen oder Konzentrationen, die kommen aus Buch (Fokus S. 21, Exp. 14–16) oder Anleitung.
 - **Erwartungen vor dem Unterricht real testen:** Zuckerlösung und Wasser im Biuret-Test (bleiben blau), Salzsäure auf Eiklarlösung (stärkerer Effekt als Essig). Erwartung, Treffer-Liste (`passt`) und Simulationsfarbe je Probe stehen in `data/versuch.json` und lassen sich ohne Code ändern.
 - **Biuret-Protokoll:** Das Spiel verweist im Hefter darauf, dass die Lernenden das Protokoll zum Biuret-Nachweis bei der Lehrkraft abholen.
 - **Ninhydrin** ist im Spiel nur Zusatzwissen und eine virtuelle Spur. Kein Schülerversuch.

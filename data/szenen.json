@@ -56,7 +56,7 @@
       "spawn": [768, 820],
       "blocked": [[0, 0, 1536, 300], [0, 300, 25, 580], [1511, 300, 25, 580], [20, 335, 315, 510], [1200, 335, 310, 510], [1365, 745, 105, 155], [0, 880, 1536, 144]],
       "hotspots": [
-        { "id": "tafel", "label": "Tafel: Versuch frei?", "type": "dialog", "x": 810, "y": 315, "r": 100, "aktion": "freigabe" },
+        { "id": "tafel", "label": "Tafel: Sicherheit", "type": "dialog", "x": 810, "y": 315, "r": 100, "aktion": "freigabe" },
         { "id": "hitze", "label": "Hitze-Station", "type": "task", "x": 385, "y": 540, "r": 90, "dialog": "labor.hitze", "task": "labor_menu" },
         { "id": "nachweis_leer", "label": "Nachweis-Station", "type": "dialog", "x": 1160, "y": 580, "r": 90, "dialog": "labor.nachweis.spaeter", "nicht": "quiz_done" },
         { "id": "nachweis", "label": "Nachweis-Station", "type": "task", "x": 1160, "y": 580, "r": 90, "dialog": "labor.nachweis", "task": "lieferung_menu", "wenn": "quiz_done" },
