@@ -112,17 +112,17 @@
     },
     {
       "id": "k_ausloeser", "typ": "pflicht", "raum": "labor", "ort": "Kupfer-Kurt",
-      "titel": "Was Eiweiß gerinnen lässt",
+      "titel": "Was wir im Versuch testen",
       "medium": "protokoll", "kopf": "Gespräch mit Kupfer-Kurt",
       "zeilen": [
         "F: Was macht Hitze mit Eiweiß?",
-        "A: Hitze (ab etwa 60 Grad) lässt Eiweiß denaturieren, also gerinnen bzw. stocken.",
-        "F: Und Säuren?",
-        "A: Säuren wie Salzsäure lassen Eiweiß ebenfalls denaturieren.",
-        "F: Und Alkohol?",
-        "A: Auch Alkohol (Ethanol) lässt Eiweiß denaturieren.",
-        "F: Und Schwermetallsalze?",
-        "A: Schwermetallsalze wie Kupfersulfat ebenso. Die Kupfersulfat-Lösung heißt auch Fehling I."
+        "A: Hitze (ab etwa 60 Grad) lässt Eiweiß denaturieren, also gerinnen bzw. stocken. Das siehst du beim Spiegelei.",
+        "F: Was prüfen wir im Versuch noch?",
+        "A: Salzsäure (eine Säure), Ethanol (ein Alkohol) und Kupfersulfat-Lösung (ein Schwermetallsalz, bei uns auch Fehling I genannt). Was sie mit Eiweiß machen, findest du selbst heraus.",
+        "F: Und wozu das Wasser?",
+        "A: Wasser ist die Kontrollprobe. Sie zeigt, wie das Eiweiß ohne einen Stoff aussieht. Nur was sich davon unterscheidet, hat etwas bewirkt.",
+        "F: Woran sehe ich, dass Eiweiß denaturiert ist?",
+        "A: Aus klarer Eiklarlösung wird etwas Trübes, Milchig-Weißes oder Festes."
       ],
       "fuss": "Notiert nach dem Gespräch mit Kupfer-Kurt, Labortechnik"
     },

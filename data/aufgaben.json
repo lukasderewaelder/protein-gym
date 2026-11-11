@@ -477,12 +477,12 @@
         "k_ausloeser"
       ],
       "auftrag": "Erst vermuten, dann den Versuch am Tisch machen, beobachten, protokollieren und deuten. Das Tablet bereitet vor und wertet aus, es ersetzt den Versuch nicht.",
-      "tipp": "Schau in den Spind: „Denaturieren heißt Gerinnen“ und „Was Eiweiß gerinnen lässt“. Ausgeflockt heißt geronnen, also denaturiert.",
+      "tipp": "Schau in den Spind: „Denaturieren heißt Gerinnen“ und „Was wir im Versuch testen“. Vergleiche jede Probe mit der Kontrollprobe: Was ist anders?",
       "hilfekarte": {
         "titel": "Hilfekarte: Versuch deuten",
         "zeilen": [
-          "Gerinnen (denaturieren) lassen: Hitze, Säure, Alkohol, Schwermetallsalz.",
-          "Kontrolle mit Wasser: Hier verändert sich nichts.",
+          "Denaturiert (geronnen) heißt: Die Probe ist trüb, milchig weiß oder fest geworden.",
+          "Vergleiche jede Probe mit der Kontrollprobe (Wasser): Was ist anders?",
           "Satzbaustein: „Die Beobachtung zeigt …, weil …“"
         ]
       },
@@ -726,7 +726,7 @@
       "flag": "a5_done",
       "braucht": ["k_hitze", "k_umkehr", "k_haltbar"],
       "auftrag": "Eiweiß gerinnt im Alltag ständig, zum Beispiel beim Frühstücksei. Finde heraus, was das Eiweiß jeweils gerinnen lässt, und beantworte kurze Fragen.",
-      "tipp": "Die Karten „Hitze und Eiweiß“, „Nicht umkehrbar“ und „Erhitzen macht haltbar“ im Spind helfen dir. Was Eiweiß gerinnen lässt, steht auf der Karte „Was Eiweiß gerinnen lässt“.",
+      "tipp": "Die Karten „Hitze und Eiweiß“, „Nicht umkehrbar“ und „Erhitzen macht haltbar“ im Spind helfen dir. Was Eiweiß gerinnen lässt, hast du im Versuch im Labor selbst herausgefunden; im Glossar steht es als „Was Eiweiß gerinnen lässt“.",
       "hilfekarte": {
         "titel": "Hilfekarte: Gerinnen im Alltag",
         "zeilen": ["Gerinnen lassen: Hitze, Säure, Alkohol, Schwermetallsalz.", "Aus klarem Eiklar wird beim Gerinnen festes, weißes Eiweiß.", "Gerinnen ist nicht umkehrbar.", "Erhitzen lässt auch die Eiweiße von Keimen gerinnen."]
