@@ -66,11 +66,12 @@ export function macheSeiten(host, { nav, ignorieren = () => false, kleben = () =
   zurueck.addEventListener('click', () => zeige(aktuelle - 1));
   vor.addEventListener('click', () => zeige(aktuelle + 1));
 
-  const sichtbar = (k) => !k.hasAttribute('data-seite-weg') && getComputedStyle(k).display !== 'none';
+  // Auf einer anderen Seite heißt: Attribut data-seite-aus (nicht hidden, damit logisch verborgene Teile wie die Hilfe verborgen bleiben)
+  const sichtbar = (k) => !k.hidden && getComputedStyle(k).display !== 'none';
 
   function zeige(i) {
     aktuelle = Math.max(0, Math.min(seiten.length - 1, i));
-    blocks.forEach((k, bi) => { k.hidden = !seiten[aktuelle].includes(bi); });
+    blocks.forEach((k, bi) => { k.toggleAttribute('data-seite-aus', !seiten[aktuelle].includes(bi)); });
     nav.hidden = seiten.length <= 1;
     text.textContent = `Seite ${aktuelle + 1} von ${seiten.length}`;
     zurueck.disabled = aktuelle === 0;
@@ -82,17 +83,28 @@ export function macheSeiten(host, { nav, ignorieren = () => false, kleben = () =
   function neu() {
     const merk = blocks[seiten[aktuelle][0]] || null;
     const kinder = [...host.children].filter((k) => !ignorieren(k));
-    kinder.forEach((k) => { k.hidden = false; });
+    kinder.forEach((k) => { k.removeAttribute('data-seite-aus'); });
     blocks = kinder.filter(sichtbar);
     // Zum Messen füllt der Container den ganzen freien Platz (Klasse „seiten-voll“), unabhängig vom Inhalt
     host.classList.add('seiten-voll');
     const messen = () => {
-      const hoehen = blocks.map((k, i) => {
-        const nachbar = blocks[i + 1];
-        const unten = nachbar ? nachbar.offsetTop : k.offsetTop + k.offsetHeight + parseFloat(getComputedStyle(k).marginBottom || '0');
-        return unten - k.offsetTop;
+      // Zeilen bilden: Blöcke mit gleicher Oberkante stehen nebeneinander (Raster mit mehreren Spalten) und bleiben zusammen
+      const zeilen = [];
+      for (const [i, k] of blocks.entries()) {
+        const z = zeilen.at(-1);
+        if (z && Math.abs(blocks[z[0]].offsetTop - k.offsetTop) < 2) z.push(i); else zeilen.push([i]);
+      }
+      const hoehen = zeilen.map((z, zi) => {
+        const oben = blocks[z[0]].offsetTop;
+        const naechste = zeilen[zi + 1];
+        if (naechste) return blocks[naechste[0]].offsetTop - oben;
+        return Math.max(...z.map((i) => blocks[i].offsetTop + blocks[i].offsetHeight + parseFloat(getComputedStyle(blocks[i]).marginBottom || '0'))) - oben;
       });
-      return verteileSeiten(hoehen, host.clientHeight, blocks.map((k, i) => i < blocks.length - 1 && kleben(k)));
+      const cs = getComputedStyle(host);
+      // 4 Pixel Reserve gegen Rundung (offsetTop ist ganzzahlig)
+      const platz = host.clientHeight - parseFloat(cs.paddingTop || '0') - parseFloat(cs.paddingBottom || '0') - 4;
+      const proZeile = verteileSeiten(hoehen, platz, zeilen.map((z, zi) => zi < zeilen.length - 1 && kleben(blocks[z.at(-1)])));
+      return proZeile.map((seite) => seite.flatMap((zi) => zeilen[zi]));
     };
     // Erst normal versuchen, dann mit engeren Abständen (Klasse „kompakt“), erst danach auf mehrere Seiten verteilen
     host.classList.remove('kompakt');
@@ -131,6 +143,6 @@ export function macheSeiten(host, { nav, ignorieren = () => false, kleben = () =
     zeigeBlock(el) { const i = blocks.indexOf(el); if (i >= 0) zeige(seiteVon(seiten, i)); },
     get seite() { return aktuelle; },
     get anzahl() { return seiten.length; },
-    ende() { beobachter.disconnect(); groesse.disconnect(); (doc.defaultView || window).removeEventListener('keydown', onKey); },
+    ende() { [...host.children].forEach((k) => k.removeAttribute('data-seite-aus')); host.classList.remove('seiten-voll', 'kompakt'); beobachter.disconnect(); groesse.disconnect(); (doc.defaultView || window).removeEventListener('keydown', onKey); },
   };
 }

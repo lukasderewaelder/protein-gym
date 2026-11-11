@@ -5,6 +5,7 @@ import { h, clear } from './dom.js';
 import { renderMini } from './funde.js';
 import { renderInventar } from './inventar.js';
 import { aufkleber } from './zugang.js';
+import { macheSeiten } from './seiten.js';
 
 const RAUM_REIHENFOLGE = ['empfang', 'labor', 'sauna', 'training', 'shakebar'];
 const RAUM_NAMEN = { empfang: 'Empfang', training: 'Trainingsfläche', labor: 'Labor', sauna: 'Sauna', shakebar: 'Shake-Bar' };
@@ -17,6 +18,10 @@ export function createNotebook({ dialogEl, wissen, glossar, hefter, inventar, st
   let tab = 'karten';
   let umgeklappt = false;   // Pinnwand ist hochgeklappt, die Innenseite der Spindtür ist zu sehen
   let hervor = false;       // Hilfe 3: die bewegliche Ecke kurz hervorheben
+  // Kein Scrollen: Blättern in Pinnwand, Glossar, Hefter und Inventar; „Seite x von y“ steht rechts in der Reiterleiste
+  const nav = h('nav', { class: 'nb-nav', 'aria-label': 'Seiten', hidden: true });
+  tabs.append(nav);
+  let seiten = null;
 
   /** Pinnwand im Krimi-Stil: gefundene Funde hängen schief mit Pinnadeln, rote Fäden verbinden sie je Raum. */
   function renderKarten() {
@@ -158,6 +163,23 @@ export function createNotebook({ dialogEl, wissen, glossar, hefter, inventar, st
     if (tab === 'inventar' && onInventar) onInventar();
     tabs.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.tab === tab)));
     if (tab === 'karten' && dialogEl.open) requestAnimationFrame(zieheFaeden);
+    blaettern();
+  }
+
+  /** Seiten für den aktuellen Reiter einrichten (Pinnwand: Räume, Hefter: Blöcke des Blatts, Glossar/Inventar: Einträge). */
+  function blaettern() {
+    if (seiten) { seiten.ende(); seiten = null; }
+    nav.hidden = true;
+    const host = tab === 'karten' ? body.querySelector('.pinnwand') : tab === 'hefter' ? body.querySelector('.blatt') : body;
+    if (!host) return;
+    seiten = macheSeiten(host, {
+      nav,
+      kompakt: false,
+      ignorieren: (k) => k.classList.contains('pin-ecke') || k.classList.contains('pin-faeden'),
+      kleben: (k) => k.matches('.pin-summe, .pin-zettel-oben, .nb-summe, h3, h4, .blatt-hinweis:first-of-type'),
+      beiWechsel: () => { if (tab === 'karten') requestAnimationFrame(zieheFaeden); },
+    });
+    if (dialogEl.open) requestAnimationFrame(() => seiten && seiten.neu());
   }
 
   tabs.querySelectorAll('button').forEach((b) => b.addEventListener('click', () => { tab = b.dataset.tab; render(); }));
@@ -171,6 +193,7 @@ export function createNotebook({ dialogEl, wissen, glossar, hefter, inventar, st
       render();
       if (!dialogEl.open) dialogEl.showModal();
       if (tab === 'karten') requestAnimationFrame(zieheFaeden);
+      requestAnimationFrame(() => seiten && seiten.neu());
       if (hervor) setTimeout(() => { hervor = false; }, 4000);
     },
     refresh() { if (dialogEl.open) render(); },

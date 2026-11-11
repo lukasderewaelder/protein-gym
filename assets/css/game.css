@@ -231,3 +231,20 @@ svg.formel .denat-text { fill: var(--muted); font-family: system-ui, sans-serif;
 .fall-person span { font-size: 0.8em; opacity: 0.8; }
 .fall-person.richtig { border-color: #3aa060; background: #102a1b; }
 .fall-aufloesung { margin-top: 8px; padding: 4px 14px 8px; background: #102a1b; border: 2px solid #3aa060; border-radius: 12px; font-size: calc(18px * var(--font-scale)); }
+
+/* ---------- Kein Scrollen im Spind: Blättern statt Scrollen ---------- */
+dialog#notebook .nb-body { overflow: hidden; }
+dialog#notebook:has(.seiten-voll) { height: calc(100dvh - 24px); }
+dialog#notebook .nb-tabs { align-items: center; }
+.nb-nav { margin-left: auto; }
+.nb-nav button { min-height: 40px; padding: 4px 12px; }
+.nb-nav .seiten-text { color: #fff; }
+dialog#notebook .nb-body[data-tab="karten"] { display: flex; flex-direction: column; }
+dialog#notebook .nb-body[data-tab="karten"] > .spind-flip { flex: 1 1 auto; min-height: 0; grid-template-rows: minmax(0, 1fr); }
+dialog#notebook .nb-body[data-tab="karten"] .pinnwand { min-height: 0; overflow: hidden; align-content: start; }
+dialog#notebook .nb-body[data-tab="hefter"] > .blatt { height: 100%; min-height: 0; overflow: hidden; }
+dialog#notebook .nb-body[data-tab="glossar"], dialog#notebook .nb-body[data-tab="inventar"] { align-content: start; }
+/* Zertifikat mit Rahmenbild (3:2) passt immer auf den Bildschirm, darunter bleiben die Knöpfe sichtbar */
+.zert { overflow: hidden; }
+.zert-karte.mit-rahmen { width: min(960px, 100%, calc((100dvh - 110px) * 1.5)); min-height: 0; overflow: hidden; }
+.zert-karte:not(.mit-rahmen) { max-height: calc(100dvh - 110px); overflow: hidden; }

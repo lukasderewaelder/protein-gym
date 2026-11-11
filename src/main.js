@@ -22,6 +22,7 @@ import { renderInventar } from './ui/inventar.js';
 import { naechsterSchritt } from './state/naechster-schritt.js';
 import { h, clear } from './ui/dom.js';
 import { renderFund, fundIcon } from './ui/funde.js';
+import { macheSeiten } from './ui/seiten.js';
 import { fundart, istZusatz } from './ui/funde-core.js';
 
 const $ = (sel) => document.querySelector(sel);
@@ -157,9 +158,12 @@ function collectCard(id) {
 }
 
 /** Fund in seiner Fundart (Haftnotiz, Zeitung, Chat …) groß anzeigen. Neue Funde mit „Einstecken“, sie bleiben in Leiste und Pinnwand. */
+let fundSeiten = null;
 function showFund(card, isNew = false, extra = []) {
   const dlg = $('#fund');
   const box = $('#fund-inhalt');
+  if (fundSeiten) { fundSeiten.ende(); fundSeiten = null; }
+  dlg.classList.remove('breit');
   clear(box);
   // Kein null an append geben: Es würde als Text „null“ über der Karte erscheinen
   box.append(...[
@@ -169,6 +173,35 @@ function showFund(card, isNew = false, extra = []) {
     h('button', { class: 'primary', type: 'button', onclick: () => dlg.close() }, isNew ? 'Einstecken' : 'Schließen'),
   ].filter(Boolean));
   if (!dlg.open) dlg.showModal();
+  passeFundEin(box.querySelector('article.fund'));
+}
+
+/** Kein Scrollen: Ist eine Karte zu lang, wird das Fenster erst breiter, dann werden ihre Zeilen auf Seiten verteilt. */
+function passeFundEin(art) {
+  if (!art) return;
+  const zuLang = () => art.scrollHeight > art.clientHeight + 1;
+  requestAnimationFrame(() => {
+    if (!zuLang()) return;
+    $('#fund').classList.add('breit');
+    if (!zuLang()) return;
+    const liste = art.querySelector('.fund-text, .fund-liste, .fund-verhoer, .fund-chat, .fund-spalten, .fund-felder-liste');
+    if (!liste) return;
+    art.classList.add('geblaettert');
+    liste.classList.add('fund-seiten');
+    const nav = h('nav', { class: 'fund-nav', 'aria-label': 'Seiten der Karte' });
+    art.after(nav);
+    fundSeiten = macheSeiten(liste, { nav, kompakt: false, kleben: (k) => k.tagName === 'DT' || k.classList.contains('fund-frage') });
+    fundSeiten.neu();
+    // Reicht das nicht (zum Beispiel große Formeln auf der Schautafel), wird die ganze Karte Block für Block geblättert
+    requestAnimationFrame(() => {
+      if (!zuLang() && liste.scrollHeight <= liste.clientHeight + 1) return;
+      fundSeiten.ende();
+      liste.classList.remove('fund-seiten', 'seiten-voll');
+      art.classList.add('ganz');
+      fundSeiten = macheSeiten(art, { nav, kompakt: false, ignorieren: (k) => k.classList.contains('fund-deko'), kleben: (k) => k.classList.contains('fund-kopf') || k.classList.contains('fund-vorspann') });
+      fundSeiten.neu();
+    });
+  });
 }
 
 function trayKarte(k, neu) {
@@ -307,6 +340,17 @@ async function showZertifikat() {
   $('#zert-karte').classList.toggle('mit-rahmen', Boolean(rahmen));
   $('#zert').hidden = false;
   $('#zert-zu').focus({ preventScroll: true });
+  passeZertifikatEin();
+}
+
+/** Kein Scrollen: Passt der Text nicht in die Urkunde, wird nur die Urkunde etwas kleiner gesetzt (die Druckansicht bleibt unberührt). */
+function passeZertifikatEin() {
+  const karte = $('#zert-karte');
+  karte.style.removeProperty('--font-scale');
+  requestAnimationFrame(() => {
+    const basis = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--font-scale')) || 1;
+    for (let f = basis; f > 0.6 && karte.scrollHeight > karte.clientHeight + 1; f -= 0.05) karte.style.setProperty('--font-scale', f.toFixed(2));
+  });
 }
 
 function trigger(hs) {

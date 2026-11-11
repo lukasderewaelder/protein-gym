@@ -12,7 +12,7 @@ export function probleme(root) {
   const out = [];
   for (const e of [root, ...root.querySelectorAll('*')]) {
     const cs = getComputedStyle(e);
-    if (cs.display === 'none' || cs.visibility === 'hidden' || e.closest('[hidden]')) continue;
+    if (cs.display === 'none' || cs.visibility === 'hidden' || e.closest('[hidden], [data-seite-aus]')) continue;
     if (cs.overflowY !== 'visible' && e.scrollHeight > e.clientHeight + 1) out.push(`${e.tagName.toLowerCase()}.${(e.className || e.id || '').toString().split(' ')[0]} ${e.scrollHeight}>${e.clientHeight}`);
   }
   const r = root.getBoundingClientRect();
