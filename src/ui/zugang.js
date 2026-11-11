@@ -202,12 +202,11 @@ export function createZugang({ dlg, store, daten }) {
     zeige(titel, karte);
   }
 
-  /** Vergrößerte Ansicht des Aufklebers. Nach dem Ansehen ist der Code als Notiz an der Pinnwand gespeichert. */
+  /** Vergrößerte Ansicht des Saunazettels. */
   function codeGross(code, neu) {
     zeige('Zugangscode der Sauna', h('div', 'zugang-karte',
       aufkleber(code, true),
-      h('p', 'hint', neu ? 'Der Code ist jetzt als Notiz an deiner Pinnwand gespeichert. Du findest ihn dort jederzeit wieder.' : 'Der Code hängt als Notiz an deiner Pinnwand.'),
-      h('p', 'hint', 'Das ist der Sicherheitscode der Saunatür und nicht der Code der Lehrkraft für den Versuch im Labor.'),
+      h('p', 'hint', 'Der Zettel hängt rechts oben an deiner Pinnwand.'),
       h('button', { class: 'primary', type: 'button', onclick: () => schliesse() }, 'Schließen')));
   }
 

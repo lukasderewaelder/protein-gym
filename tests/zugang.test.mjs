@@ -144,7 +144,8 @@ test('Türen: Labor und Sauna haben eine eigene Sperre, die Dialoge dazu sind vo
   assert.equal(labor.sperre, 'labor');
   assert.equal(sauna.sperre, 'sauna');
   assert.equal(dialoge['labor.markus.sauna'].setFlag, 'sauna_info', 'Markus sagt, dass die Sauna gesperrt ist');
-  assert.equal(dialoge['labor.markus.sauna'].lines.join(' '), 'Gute Arbeit! Der nächste Hinweis liegt in der Sauna. Allerdings hat jemand die elektronische Tür verriegelt. Ich weiß nur, dass der Zzugangscode in deinem Spind versteckt ist.'.replace('Zzugangscode', 'Zugangscode'));
+  assert.equal(dialoge['labor.markus.sauna'].lines.join(' '), 'Gute Arbeit! Der nächste Hinweis liegt in der Sauna. Allerdings hat jemand die elektronische Tür verriegelt. Ohne Zahlencode geht da nichts.');
+  for (const id of ['labor.markus.sauna', 'empfang.coach.sauna']) assert.doesNotMatch(JSON.stringify(dialoge[id]), /Spind/, `${id}: kein Hinweis auf den Spind`);
   const leser = szenen.szenen.find((s) => s.id === 'empfang').hotspots.find((h) => h.type === 'geraet');
   assert.equal(leser.aktion, 'leser');
 });
@@ -167,7 +168,10 @@ test('Türtexte und Hilfe des Saunacodes stehen wie im Auftrag (Hilfe 1 bis 3)',
   const hilfe = JSON.parse(readFileSync(new URL('../data/hilfe.json', import.meta.url), 'utf8')).schritte.sauna_code_suchen;
   assert.equal(hilfe.grob, 'Schau in deinen persönlichen Spind.');
   assert.equal(hilfe.konkret, 'Hast du die Pinnwand schon genauer untersucht?');
-  assert.equal(hilfe.stufe3.aktion, 'pinnecke', 'Hilfe 3 hebt die bewegliche Ecke der Pinnwand hervor');
+  assert.equal(hilfe.stufe3.aktion, 'saunazettel', 'Hilfe 3 lässt den Zettel rechts oben an der Pinnwand blinken');
+  const nb = readFileSync(new URL('../src/ui/notebook.js', import.meta.url), 'utf8');
+  assert.doesNotMatch(nb, /flags\.sauna_info && saunaCode/, 'der Zettel hängt ohne Bedingung an der Pinnwand');
+  assert.doesNotMatch(nb, /pin-ecke|spind-flip/, 'keine hochklappbare Ecke mehr');
 });
 
 test('Tafel im Labor: Plakat-Karte mit den drei Sicherheitsregeln, ohne Code', () => {

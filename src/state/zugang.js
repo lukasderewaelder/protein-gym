@@ -7,8 +7,8 @@ export const ZUGANG_FLAGS = [
   'item_ausweis',          // Ausweis liegt im Inventar
   'item_ausweis_benutzt',  // Ausweis am Lesegerät benutzt
   'labor_offen',           // Labortür ist entriegelt
-  'sauna_info',            // Markus hat gesagt, dass die Sauna verriegelt ist und der Code im Spind versteckt ist
-  'sauna_code_gesehen',    // der Aufkleber hinter der Pinnwand wurde gesehen (Notiz hängt an der Pinnwand)
+  'sauna_info',            // Markus hat gesagt, dass die Sauna verriegelt ist
+  'sauna_code_gesehen',    // der Zettel mit dem Saunacode (rechts oben an der Pinnwand) wurde gesehen
   'sauna_offen',           // Saunatür ist entriegelt
   'bonus_1', 'bonus_2', 'bonus_3', 'bonus_4', 'bonus_5', 'bonus_6',  // Bonus-Schließfächer geöffnet
   'bz_1', 'bz_2', 'bz_3', 'bz_4', 'bz_5', 'bz_6',                    // Zahlenzettel gefunden

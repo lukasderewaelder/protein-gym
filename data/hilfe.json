@@ -43,14 +43,14 @@
       "konkret": "Hast du die Pinnwand schon genauer untersucht?",
       "stufe3": {
         "knopf": "Zeig mir die Stelle",
-        "aktion": "pinnecke",
-        "text": "Die bewegliche Ecke der Pinnwand blinkt jetzt kurz. Tippe darauf, dann klappt die Pinnwand hoch."
+        "aktion": "saunazettel",
+        "text": "Schau mal rechts oben an die Pinnwand: Der kleine Zettel blinkt jetzt kurz. Tippe darauf, dann siehst du ihn groß."
       }
     },
     "saunatuer": {
       "ort": "Empfang",
       "grob": "Du kennst den Saunacode. Gib ihn am Zahlenschloss der Saunatür ein.",
-      "konkret": "Tippe im Empfang auf die Saunatür (die dritte von links, mit der Dampfwolke). Den Code findest du im Spind: als Notiz „Saunacode“ an der Pinnwand."
+      "konkret": "Tippe im Empfang auf die Saunatür (die dritte von links, mit der Dampfwolke) und gib dort den Code ein."
     },
     "sauna_hinweise": {
       "ort": "Sauna",

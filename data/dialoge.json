@@ -42,7 +42,7 @@
     "portrait": "trainer",
     "setFlag": "sauna_info",
     "lines": [
-      "Gute Arbeit! Der nächste Hinweis liegt in der Sauna. Allerdings hat jemand die elektronische Tür verriegelt. Ich weiß nur, dass der Zugangscode in deinem Spind versteckt ist."
+      "Gute Arbeit! Der nächste Hinweis liegt in der Sauna. Allerdings hat jemand die elektronische Tür verriegelt. Ohne Zahlencode geht da nichts."
     ]
   },
   "tuer.tuer_labor.verriegelt": {
@@ -242,7 +242,7 @@
     "portrait": "trainer",
     "lines": [
       "Weiter zur Sauna, die Tür mit der Dampfwolke. Dort siehst du, wie Hitze Eiweiß verändert und wo dir das im Alltag begegnet.",
-      "Die Saunatür ist elektronisch verriegelt. Der Zugangscode ist in deinem Spind versteckt."
+      "Die Saunatür ist elektronisch verriegelt. Ohne Zahlencode geht da nichts."
     ]
   },
   "empfang.coach.training": {

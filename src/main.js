@@ -384,7 +384,7 @@ function sperre(hs) {
       text: 'Zugang gesperrt. Bitte vierstelligen Sicherheitscode eingeben.',
       stellen: 4,
       code: store.state.codes.sauna,
-      falschText: 'Falscher Code. Vielleicht solltest du die Innenseite deines Spinds genauer untersuchen.',
+      falschText: 'Falscher Code.',
       richtigText: 'Code erkannt. Sauna entriegelt!',
       beiRichtig: () => {
         store.setFlag('sauna_offen');
@@ -403,8 +403,8 @@ function weiterDialog() {
   const id = naechsterSchritt(store.state.flags, { aufgaben: DATA.aufgaben, karten: DATA.wissen.karten });
   zugang.hilfe({
     titel: DATA.hilfe.titel, knopf: DATA.hilfe.stufe2Knopf, schritt: DATA.hilfe.schritte[id],
-    // Hilfe 3 beim Saunacode: Spind öffnen, die bewegliche Ecke der Pinnwand blinkt kurz
-    beiStufe3: (aktion) => { if (aktion === 'pinnecke') { zugang.schliesse(); notebook.open('karten', { hervorheben: true }); } },
+    // Hilfe 3 beim Saunacode: Spind öffnen, der kleine Zettel rechts oben an der Pinnwand blinkt kurz
+    beiStufe3: (aktion) => { if (aktion === 'saunazettel') { zugang.schliesse(); notebook.open('karten', { hervorheben: true }); } },
   });
 }
 
@@ -441,15 +441,11 @@ function taschenFenster() {
   inventarGesehen();
 }
 
-/** Notiz mit dem Saunacode: hängt an der Pinnwand, sobald der Aufkleber hinter der Pinnwand einmal gesehen wurde. */
-function saunaZettel() {
-  return { id: 'zettel_sauna', medium: 'haftnotiz', titel: 'Saunacode', kopf: 'Saunacode', raum: 'sauna', typ: 'extra', zeilen: ['Zugangscode der Saunatür:', store.state.codes.sauna, 'Stand auf einem Aufkleber hinter der Pinnwand, auf der Innenseite der Spindtür.'] };
-}
+/** Notizen, die im Spielverlauf an der Pinnwand entstehen (derzeit keine: der Saunazettel hängt immer rechts oben). */
 function extraKarten() {
-  // Nach Markus’ Hinweis hängt der Zettel ohnehin ganz oben an der Pinnwand; die Notiz unten gibt es nur für den frühen Blick hinter die Ecke
-  return store.hasFlag('sauna_code_gesehen') && !store.hasFlag('sauna_info') ? [saunaZettel()] : [];
+  return [];
 }
-/** Der Zettel oben an der Pinnwand ist zu sehen: der Code gilt als gesehen (die Hilfe fragt dann nicht mehr danach). */
+/** Der Zettel rechts oben an der Pinnwand wurde nach Markus’ Hinweis gesehen: der Code gilt als gesehen (die Hilfe fragt dann nicht mehr danach). */
 function saunaZettelGesehen() {
   if (!store.hasFlag('sauna_code_gesehen')) store.setFlag('sauna_code_gesehen');
 }
@@ -655,7 +651,7 @@ function sichereZwischenstand() {
 /** Ein Raum ist geschafft: im Labor meldet sich Markus per Funk, nach dem Schlussquiz gibt es das Zertifikat. true = das Aufgabenfenster zeigt nichts weiter an. */
 function raumGeschafft(room) {
   if (room === 'labor') {
-    // Sauna gesperrt, Code im Spind. Danach zeigt das Fenster den Fortschrittscode.
+    // Sauna gesperrt (Markus verrät nicht, wo der Code ist). Danach zeigt das Fenster den Fortschrittscode.
     taskPanel.close();
     playDialog('labor.markus.sauna', undefined, () => taskPanel.showRoomDone('labor'));
     return true;

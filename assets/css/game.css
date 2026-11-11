@@ -240,7 +240,7 @@ dialog#notebook .nb-tabs { align-items: center; }
 .nb-nav button { min-height: 40px; padding: 4px 12px; }
 .nb-nav .seiten-text { color: #fff; }
 dialog#notebook .nb-body[data-tab="karten"] { display: flex; flex-direction: column; }
-dialog#notebook .nb-body[data-tab="karten"] > .spind-flip { flex: 1 1 auto; min-height: 0; grid-template-rows: minmax(0, 1fr); }
+dialog#notebook .nb-body[data-tab="karten"] > .pinnwand { flex: 1 1 auto; }
 dialog#notebook .nb-body[data-tab="karten"] .pinnwand { min-height: 0; overflow: hidden; align-content: start; }
 dialog#notebook .nb-body[data-tab="hefter"] > .blatt { height: 100%; min-height: 0; overflow: hidden; }
 dialog#notebook .nb-body[data-tab="glossar"], dialog#notebook .nb-body[data-tab="inventar"] { align-content: start; }

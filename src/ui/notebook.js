@@ -4,7 +4,6 @@
 import { h, clear } from './dom.js';
 import { renderMini } from './funde.js';
 import { renderInventar } from './inventar.js';
-import { aufkleber } from './zugang.js';
 import { macheSeiten } from './seiten.js';
 
 const RAUM_REIHENFOLGE = ['empfang', 'labor', 'sauna', 'training', 'shakebar'];
@@ -16,8 +15,7 @@ export function createNotebook({ dialogEl, wissen, glossar, hefter, inventar, st
   const body = dialogEl.querySelector('.nb-body');
   const tabs = dialogEl.querySelector('.nb-tabs');
   let tab = 'karten';
-  let umgeklappt = false;   // Pinnwand ist hochgeklappt, die Innenseite der Spindtür ist zu sehen
-  let hervor = false;       // Hilfe 3: die bewegliche Ecke kurz hervorheben
+  let hervor = false;       // Hilfe 3: den Saunazettel kurz blinken lassen
   // Kein Scrollen: Blättern in Pinnwand, Glossar, Hefter und Inventar; „Seite x von y“ steht rechts in der Reiterleiste
   const nav = h('nav', { class: 'nb-nav', 'aria-label': 'Seiten', hidden: true });
   tabs.append(nav);
@@ -29,14 +27,14 @@ export function createNotebook({ dialogEl, wissen, glossar, hefter, inventar, st
     const found = wissen.karten.filter((k) => flags[k.id]).length;
     const wand = h('div', 'pinnwand');
     wand.append(h('p', 'pin-summe', `${found} von ${wissen.karten.length} Funden an der Wand`));
-    // Ganz oben an der Pinnwand: der Zettel mit dem Saunacode, sobald Markus gesagt hat, dass die Sauna verriegelt ist
+    // Rechts oben an der Pinnwand hängt die ganze Zeit ein kleiner Zettel mit dem Saunacode (niemand weist darauf hin).
+    // Er steht auf jeder Seite der Pinnwand; als gesehen gilt er, sobald Markus von der verriegelten Sauna erzählt hat.
     const saunaCode = store.state.codes && store.state.codes.sauna;
-    if (flags.sauna_info && saunaCode) {
-      wand.append(h('button', { type: 'button', class: 'pin-zettel-oben', 'aria-label': `Zettel: Saunacode ${saunaCode.split('').join(' ')}. Antippen zum Vergrößern.`, onclick: () => onCode && onCode() },
-        h('span', 'pin-zettel-kopf', 'Saunatür'),
-        h('span', 'pin-zettel-code', saunaCode.split('').join(' ')),
-        h('span', 'pin-zettel-fuss', 'Diesen Code tippst du am Zahlenschloss ein.')));
-      if (onZettel) onZettel();
+    if (saunaCode) {
+      wand.append(h('button', { type: 'button', class: `pin-zettel-oben${hervor ? ' hervor' : ''}`, 'aria-label': `Zettel: Sauna ${saunaCode.split('').join(' ')}. Antippen zum Vergrößern.`, onclick: () => onCode && onCode() },
+        h('span', 'pin-zettel-kopf', 'Sauna'),
+        h('span', 'pin-zettel-code', saunaCode)));
+      if (flags.sauna_info && onZettel) onZettel();
     }
     for (const raum of RAUM_REIHENFOLGE) {
       const list = wissen.karten.filter((k) => k.raum === raum).sort((x, y) => (x.typ === y.typ ? 0 : x.typ === 'pflicht' ? -1 : 1));
@@ -61,29 +59,7 @@ export function createNotebook({ dialogEl, wissen, glossar, hefter, inventar, st
     if (notizen.length) {
       wand.append(h('section', 'pin-raum', h('h3', {}, 'Notizen'), h('div', 'pin-karten', notizen.map((k) => renderMini(k, { onclick: () => onFund && onFund(k) })))));
     }
-    // Bewegliche Ecke: Die Pinnwand lässt sich hochklappen, dahinter klebt auf der Spindtür der Saunacode (jederzeit, auch vor dem Labor)
-    const code = store.state.codes && store.state.codes.sauna;
-    const flip = h('div', { class: `spind-flip${umgeklappt ? ' offen' : ''}` });
-    const ecke = h('button', {
-      type: 'button', class: `pin-ecke${hervor ? ' hervor' : ''}`,
-      'aria-label': 'Pinnwand hochklappen: Innenseite der Spindtür ansehen',
-      onclick: () => {
-        if (umgeklappt) return;
-        umgeklappt = true;
-        hervor = false;
-        flip.classList.add('offen');
-        ecke.classList.remove('hervor');
-        const kurz = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        setTimeout(() => { if (onCode) onCode(); }, kurz ? 50 : 750);
-      },
-    });
-    const innen = h('div', 'tuer-innen',
-      h('p', 'tuer-text', 'Innenseite der Spindtür'),
-      h('button', { type: 'button', class: 'aufkleber-knopf', 'aria-label': 'Aufkleber vergrößern', onclick: () => onCode && onCode() }, code ? aufkleber(code) : null),
-      h('button', { type: 'button', class: 'zurueck', onclick: () => { umgeklappt = false; flip.classList.remove('offen'); } }, 'Pinnwand zurückklappen'));
-    wand.append(ecke);
-    flip.append(innen, wand);
-    return [flip];
+    return [wand];
   }
 
   /** Roter Wollfaden zwischen den Pinnadeln gefundener Funde (nach dem Anzeigen, wenn die Maße bekannt sind). */
@@ -175,8 +151,8 @@ export function createNotebook({ dialogEl, wissen, glossar, hefter, inventar, st
     seiten = macheSeiten(host, {
       nav,
       kompakt: false,
-      ignorieren: (k) => k.classList.contains('pin-ecke') || k.classList.contains('pin-faeden'),
-      kleben: (k) => k.matches('.pin-summe, .pin-zettel-oben, .nb-summe, h3, h4, .blatt-hinweis:first-of-type'),
+      ignorieren: (k) => k.classList.contains('pin-zettel-oben') || k.classList.contains('pin-faeden'),
+      kleben: (k) => k.matches('.pin-summe, .nb-summe, h3, h4, .blatt-hinweis:first-of-type'),
       beiWechsel: () => { if (tab === 'karten') requestAnimationFrame(zieheFaeden); },
     });
     if (dialogEl.open) requestAnimationFrame(() => seiten && seiten.neu());
@@ -189,7 +165,7 @@ export function createNotebook({ dialogEl, wissen, glossar, hefter, inventar, st
     open(which = 'karten', { hervorheben = false } = {}) {
       if (onOpen) onOpen();
       tab = which;
-      hervor = hervorheben && !umgeklappt;
+      hervor = hervorheben;
       render();
       if (!dialogEl.open) dialogEl.showModal();
       if (tab === 'karten') requestAnimationFrame(zieheFaeden);
