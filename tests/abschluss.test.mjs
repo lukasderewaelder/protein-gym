@@ -108,7 +108,21 @@ test('Quiz-Antworten entsprechen den Lernzielen', () => {
   assert.match(s[0].optionen[s[0].richtig], /Protein und Eiweiß sind dasselbe, und Aminosäuren sind die Bausteine/);
   assert.match(s[1].optionen[s[1].richtig], /Struktur wird zerstört, die Aminosäuren bleiben/);
   assert.deepEqual(s[2].richtig.map((i) => s[2].optionen[i]).sort(), ['Alkohol', 'Hitze', 'Säure']);
-  assert.equal(s[3].optionen[s[3].richtig], 'Violett');
+  assert.match(s[3].optionen[s[3].richtig], /einzelner Baustein.*lange Kette/);
+  assert.doesNotMatch(JSON.stringify(s), /Biuret/, 'der Nachweis wird erst nach der Auflösung geprüft und im Schlussquiz abgefragt');
+});
+
+test('Schlussquiz: zwei gewertete Fragen zum Nachweis, eigener Raum, kommt nach der Prüfung der Lieferung', () => {
+  const t = A.aufgaben.quiz2;
+  const steps = t.niveaus.alle;
+  assert.equal(steps.filter((s) => s.zaehlt).length, 2);
+  for (const s of steps) assert.ok(s.erklaerung, 'Kurzbegründung fehlt');
+  assert.equal(t.zaehlen, 'quiz2');
+  assert.deepEqual(t.braucht, ['lieferung_done']);
+  assert.equal(A.raeume.schluss.fertigFlag, 'quiz2_done');
+  assert.deepEqual(quizErgebnis(steps, [true, false]), { richtig: 1, von: 2 });
+  assert.match(steps[0].optionen[steps[0].richtig], /Violett/);
+  assert.match(steps[1].optionen[steps[1].richtig], /kein Eiweiß/);
 });
 
 test('Mehrfachwahl: Anzahl und Richtigkeit', () => {
@@ -119,18 +133,26 @@ test('Mehrfachwahl: Anzahl und Richtigkeit', () => {
   assert.equal(checkMehrfach(step, [0, 2, 4]).reason, 'anzahl');
 });
 
-test('Hefter: zwei Einträge, frei nach Raum, mit Merksätzen und Lehrbuch-Verweis im Abschreibauftrag', () => {
-  assert.equal(H.eintraege.length, 2);
+test('Hefter: drei Einträge, frei nach Raum, nur Wichtiges als Merksatz, Lehrbuch-Verweis im Abschreibauftrag', () => {
+  assert.equal(H.eintraege.length, 3);
   assert.equal(H.eintraege[0].ab, A.raeume.sauna.fertigFlag);
   assert.equal(H.eintraege[1].ab, A.raeume.training.fertigFlag);
+  assert.equal(H.eintraege[2].ab, A.raeume.lieferung.fertigFlag, 'der Biuret-Eintrag erscheint erst nach der Prüfung der Lieferung');
+  assert.equal(H.blatt.titel, '1.2 Eiweiße');
   for (const e of H.eintraege) {
-    assert.ok(e.teile.some((t) => t.typ === 'merksatz'));
     assert.ok(e.teile.some((t) => t.typ === 'auftrag'), 'Abschreibauftrag fehlt');
     assert.match(JSON.stringify(e.teile), /Lehrbuch S\. \d/);
+    const merksaetze = e.teile.filter((t) => t.typ === 'merksatz');
+    for (const m of merksaetze) assert.ok(m.merke, 'Merksatz braucht den Begriff für „Merke: …“');
+    assert.ok(merksaetze.length < e.teile.filter((t) => t.typ !== 'auftrag').length, 'nicht alles darf ein Merksatz sein');
+    for (const t of e.teile.filter((x) => x.typ === 'auftrag')) assert.ok(t.ueb, 'grüne Überschrift fehlt');
   }
+  const merke = H.eintraege.flatMap((e) => e.teile).filter((t) => t.typ === 'merksatz').map((t) => t.merke);
+  assert.deepEqual(merke, ['Denaturieren', 'Aminosäuren'], 'nur die wichtigen Pflichtinhalte sind Merksätze');
   assert.match(JSON.stringify(H.eintraege[1]), /Glycin.*Alanin/);
   assert.doesNotMatch(JSON.stringify(H.eintraege[1].teile.filter((t) => t.typ === 'auftrag')), /Valin|Cystein/, 'Skizze nur Glycin und Alanin');
-  assert.match(JSON.stringify(H.eintraege[0]), /Biuret.*Lehrkraft ab/);
+  assert.match(JSON.stringify(H.eintraege[2]), /Biuret.*Lehrkraft ab/);
+  assert.doesNotMatch(JSON.stringify(H.eintraege[0]), /Biuret/, 'Eintrag 1 handelt nur vom Gerinnen');
 });
 
 test('Gating: Quiz nur nach der Shake-Bar, Räume schließen unabhängig voneinander', () => {

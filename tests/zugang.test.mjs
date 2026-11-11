@@ -70,8 +70,8 @@ test('Migration: Labor schon betreten, Labor fertig, Sauna fertig', () => {
   assert.deepEqual(doppelt, alles, 'zweites Mal ändert nichts');
 });
 
-test('Fortschrittscode Version 5: Saunacode und neue Flags überstehen den Rundlauf', () => {
-  assert.equal(CODE_VERSION, 5);
+test('Fortschrittscode Version 6: Saunacode und neue Flags überstehen den Rundlauf', () => {
+  assert.equal(CODE_VERSION, 6);
   const flags = { empfang_done: true, lf_bestanden: true, item_ausweis: true, labor_offen: true, bz_3: true, bonus_6: true };
   const res = decodeProgress(encodeProgress({ scene: 'labor', flags, codes: { sauna: '4826' } }));
   assert.equal(res.ok, true);

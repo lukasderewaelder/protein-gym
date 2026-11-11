@@ -52,6 +52,7 @@ const tasks = {
   empfang_menu: () => taskPanel.openMenu('empfang'),
   training_menu: () => taskPanel.openMenu('training'),
   labor_menu: () => taskPanel.openMenu('labor'),
+  lieferung_menu: () => taskPanel.openMenu('lieferung'),
   sauna_menu: () => taskPanel.openMenu('sauna'),
   shake_menu: () => taskPanel.openMenu('shakebar'),
 };
@@ -89,7 +90,7 @@ function buildFallCards() {
   for (const k of alleFallKarten(store.state.fall.taeter, DATA.fall)) { karten.push(k); DATA.cards.set(k.id, k); }
 }
 
-/** Markus, der Trainer im Empfang: Einweisung, danach Hinweise zum nächsten Raum, am Ende die Auflösung des Falls. */
+/** Markus, der Trainer im Empfang: Einweisung, danach Hinweise zum nächsten Raum, am Ende die Auflösung des Falls, die Prüfung der neuen Lieferung und das Schlussquiz. */
 function coach() {
   if (!store.hasFlag('empfang_done')) {
     if (!store.hasFlag('spind_gesehen')) playDialog('empfang.coach.spind');
@@ -97,8 +98,11 @@ function coach() {
     return;
   }
   if (store.hasFlag('shakebar_done')) {
-    if (store.hasFlag('quiz_done')) showZertifikat();
-    else taskPanel.openTask('quiz', 'abschluss');
+    // Auflösung → neue Lieferung im Labor prüfen → Schlussquiz → Zertifikat
+    if (!store.hasFlag('quiz_done')) taskPanel.openTask('quiz', 'abschluss');
+    else if (!store.hasFlag('lieferung_done')) playDialog('empfang.coach.lieferung');
+    else if (!store.hasFlag('quiz2_done')) playDialog('empfang.coach.schlussquiz', undefined, () => taskPanel.openTask('quiz2', 'schluss'));
+    else showZertifikat();
     return;
   }
   const weiter = !store.hasFlag('labor_done') ? 'labor' : !store.hasFlag('sauna_done') ? 'sauna' : !store.hasFlag('training_done') ? 'training' : 'shakebar';
@@ -297,6 +301,8 @@ async function showZertifikat() {
   $('#zert-datum').textContent = new Date().toLocaleDateString('de-DE', { day: '2-digit', month: 'long', year: 'numeric' });
   const q = store.state.quiz;
   $('#zert-quiz').textContent = q ? `Auflösung des Falls: ${q.richtig} von ${q.von} Fragen gleich beim ersten Versuch richtig.` : '';
+  const q2 = store.state.quiz2;
+  $('#zert-quiz2').textContent = q2 ? `Schlussquiz zum Nachweis: ${q2.richtig} von ${q2.von} Fragen gleich beim ersten Versuch richtig.` : '';
   $('#zert-code').textContent = encodeProgress(store.state);
   const rahmen = await loadFirst('assets/szenen/zertifikat_rahmen');
   $('#zert-karte').style.backgroundImage = rahmen ? `url(${rahmen.src})` : '';
@@ -516,7 +522,7 @@ function frame(now) {
 
 function wireMenu() {
   const menu = $('#menu');
-  $('#btn-menu').addEventListener('click', () => { $('#btn-zert').hidden = !store.hasFlag('quiz_done'); menu.showModal(); });
+  $('#btn-menu').addEventListener('click', () => { $('#btn-zert').hidden = !store.hasFlag('quiz2_done'); menu.showModal(); });
   $('#btn-zert').addEventListener('click', () => { menu.close(); showZertifikat(); });
   $('#zert-zu').addEventListener('click', () => { $('#zert').hidden = true; });
   $('#zert-druck').addEventListener('click', () => window.print());
@@ -593,7 +599,7 @@ function sichereZwischenstand() {
   store.save();
 }
 
-/** Ein Raum ist geschafft: im Labor meldet sich Markus per Funk, am Ende gibt es das Zertifikat. true = das Aufgabenfenster zeigt nichts weiter an. */
+/** Ein Raum ist geschafft: im Labor meldet sich Markus per Funk, nach dem Schlussquiz gibt es das Zertifikat. true = das Aufgabenfenster zeigt nichts weiter an. */
 function raumGeschafft(room) {
   if (room === 'labor') {
     // Sauna gesperrt, Code im Spind. Danach zeigt das Fenster den Fortschrittscode.
@@ -601,10 +607,23 @@ function raumGeschafft(room) {
     playDialog('labor.markus.sauna', undefined, () => taskPanel.showRoomDone('labor'));
     return true;
   }
-  if (room !== 'abschluss') return false;
-  taskPanel.close();
-  showZertifikat();
-  return true;
+  if (room === 'abschluss') {
+    // Fall gelöst: Markus schickt noch einmal ins Labor (neue Lieferung), das Zertifikat kommt erst nach dem Schlussquiz
+    taskPanel.close();
+    playDialog('empfang.coach.lieferung', undefined, () => taskPanel.showRoomDone('abschluss'));
+    return true;
+  }
+  if (room === 'lieferung') {
+    taskPanel.close();
+    playDialog('labor.lieferung.fertig', undefined, () => taskPanel.showRoomDone('lieferung'));
+    return true;
+  }
+  if (room === 'schluss') {
+    taskPanel.close();
+    showZertifikat();
+    return true;
+  }
+  return false;
 }
 
 async function boot() {

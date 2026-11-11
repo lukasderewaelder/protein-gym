@@ -97,8 +97,8 @@ test('Texte in Labor und Sauna nehmen nichts vorweg (keine Aminosäuren, keine F
   assert.doesNotMatch(JSON.stringify(F), /Rühl|Arnold|Schwarzenegger/);
 });
 
-test('Der Täter steckt im Fortschrittscode (Version 5) und bleibt beim Weiterspielen erhalten', () => {
-  assert.equal(CODE_VERSION, 5);
+test('Der Täter steckt im Fortschrittscode (Version 6) und bleibt beim Weiterspielen erhalten', () => {
+  assert.equal(CODE_VERSION, 6);
   for (const taeter of FALL_LIST) {
     const res = decodeProgress(encodeProgress({ shirt: 0, hair: 0, skin: 0, scene: 'labor', flags: { f_labor: true }, levels: {}, quiz: null, fall: { taeter } }));
     assert.equal(res.ok, true);

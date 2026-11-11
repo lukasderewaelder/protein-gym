@@ -8,6 +8,11 @@
     "Kupferhaltige Lösungen gehören in den Sammelbehälter, nicht in den Ausguss.",
     "Tablet trocken halten und beim Versuch zur Seite legen."
   ],
+  "sicherheitAllgemein": [
+    "Kittel und Schutzbrille tragen.",
+    "Kupferhaltige Lösungen gehören in den Sammelbehälter, nicht in den Ausguss.",
+    "Tablet trocken halten und beim Versuch zur Seite legen."
+  ],
   "beobachtungOptionen": ["klar", "trüb", "trüb und fest", "ausgeflockt", "geronnen", "violett", "blau (kein Violett)", "hellblau", "etwas anderes"],
   "abweichung": "Weicht deine Beobachtung vom Skript ab? Das ist kein Fehler. Notiere, was du gesehen hast, und überlege mit deiner Gruppe mögliche Gründe (Menge, Konzentration, Dauer).",
   "stationA": {
@@ -16,6 +21,7 @@
     "titel": "Denaturierung von Eiklar",
     "spalte": "Einfluss",
     "regel": "In jedes Glas kommt nur ein Versuch.",
+    "stoffhinweis": "Salzsäure ist je nach Konzentration reizend bis ätzend, Kupfersulfat-Lösung (Fehling I) gesundheitsschädlich, Ethanol leicht entzündlich. Ethanol nur in kleinen Mengen und nur von der Lehrkraft, keine offene Flamme in der Nähe.",
     "zeit": "ca. 8 Minuten",
     "vermutungOptionen": ["klar", "trüb oder fest"],
     "proben": [
@@ -26,18 +32,19 @@
       { "id": "p5", "nr": 5, "einfluss": "Wasser (Kontrolle)", "erwartung": "klar", "passt": ["klar"], "sim": { "farbe": "#e6f1f5", "flocken": 0, "trueb": 0 } }
     ]
   },
-  "stationB": {
-    "id": "B",
+  "lieferung": {
+    "id": "L",
     "name": "Nachweis-Station",
-    "titel": "Biuret-Nachweis",
+    "titel": "Neue Lieferung: Biuret-Nachweis",
     "spalte": "Inhalt",
     "regel": "In jedes Glas kommt nur eine Probe und nur dieser eine Nachweis: Natronlauge, dann Kupfersulfat-Lösung (Fehling I).",
+    "stoffhinweis": "Natronlauge ist ätzend, Kupfersulfat-Lösung (Fehling I) gesundheitsschädlich. Die Einstufung und die Gefährdungsbeurteilung deiner Schule gelten.",
     "zeit": "ca. 6 Minuten",
     "vermutungOptionen": ["violett", "nicht violett"],
     "proben": [
-      { "id": "b1", "nr": 1, "probe": "Eiklarlösung", "erwartung": "violett", "passt": ["violett"], "sim": { "farbe": "#8f5cc0", "flocken": 0, "trueb": 0 } },
-      { "id": "b2", "nr": 2, "probe": "Wasser", "erwartung": "hellblau, kein Violett", "passt": ["hellblau", "klar", "blau (kein Violett)"], "sim": { "farbe": "#9fd0f0", "flocken": 0, "trueb": 0 } },
-      { "id": "b3", "nr": 3, "probe": "Zuckerlösung", "erwartung": "kein Violett (blau)", "passt": ["blau (kein Violett)", "hellblau", "klar"], "sim": { "farbe": "#5a86d0", "flocken": 0, "trueb": 0 } }
+      { "id": "b1", "nr": 1, "probe": "Eiweißshake", "erwartung": "violett", "passt": ["violett"], "sim": { "farbe": "#8f5cc0", "flocken": 0, "trueb": 0 } },
+      { "id": "b2", "nr": 2, "probe": "Zuckerlösung", "erwartung": "kein Violett (blau)", "passt": ["blau (kein Violett)", "hellblau", "klar"], "sim": { "farbe": "#5a86d0", "flocken": 0, "trueb": 0 } },
+      { "id": "b3", "nr": 3, "probe": "Wasser", "erwartung": "hellblau, kein Violett", "passt": ["hellblau", "klar", "blau (kein Violett)"], "sim": { "farbe": "#9fd0f0", "flocken": 0, "trueb": 0 } }
     ]
   }
 }

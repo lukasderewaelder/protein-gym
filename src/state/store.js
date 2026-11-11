@@ -13,7 +13,8 @@ export function defaultState() {
     hair: 0,            // Frisur (0 kurz, 1 Zopf, 2 Locken)
     skin: 0,            // Hautton (0 bis 3)
     levels: {},         // gewähltes Niveau je Raum: 0 leicht, 1 mittel, 2 schwer
-    quiz: null,         // Ergebnis des Abschlussquiz: { richtig, von } (bleibt auf dem Gerät)
+    quiz: null,         // Ergebnis der Auflösung: { richtig, von } (steckt im Fortschrittscode)
+    quiz2: null,        // Ergebnis des Schlussquiz zum Nachweis: { richtig, von: 2 } (steckt im Fortschrittscode ab Version 6)
     hefterHaken: {},    // abgeschriebene Hefter-Aufträge (Schlüssel eintrag.index), nur auf dem Gerät
     protokoll: {},      // Versuchsprotokoll: vermutung, beobachtung, notiz (bleibt auf dem Gerät, nicht im Fortschrittscode)
     scene: 'empfang',

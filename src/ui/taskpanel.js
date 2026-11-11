@@ -13,6 +13,8 @@ const FLAG_TEXTE = {
   lab_frei: 'die Freigabe der Lehrkraft an der Tafel',
   spind_gesehen: 'den Spind im Empfang einmal öffnen',
   shakebar_done: 'alle vier Räume',
+  quiz_done: 'die Auflösung des Falls bei Markus',
+  lieferung_done: 'die Prüfung der neuen Lieferung im Labor',
 };
 
 export function createTaskPanel({ root, data, store, notebook, showCall, onRoomDone }) {
@@ -30,7 +32,9 @@ export function createTaskPanel({ root, data, store, notebook, showCall, onRoomD
   let S = null;
   let roomId = null;
 
-  const levelOf = () => (store.state.levels && store.state.levels[roomId]) ?? 1;
+  // Die Lieferungs-Prüfung teilt sich das Niveau mit dem Labor (nur dort steckt es im Fortschrittscode)
+  const levelRoom = () => (data.aufgaben.raeume[roomId] && data.aufgaben.raeume[roomId].niveauVon) || roomId;
+  const levelOf = () => (store.state.levels && store.state.levels[levelRoom()]) ?? 1;
   const levelKey = () => data.aufgaben.niveaus[levelOf()].id;
   const stufe = () => (S.t.niveaus.alle ? 'alle' : levelKey());
 
@@ -49,7 +53,7 @@ export function createTaskPanel({ root, data, store, notebook, showCall, onRoomD
         'aria-pressed': String(levelOf() === i),
         title: n.text,
         onclick: () => {
-          store.state.levels = { ...store.state.levels, [roomId]: i };
+          store.state.levels = { ...store.state.levels, [levelRoom()]: i };
           store.save();
           onChange();
         },
@@ -229,7 +233,8 @@ export function createTaskPanel({ root, data, store, notebook, showCall, onRoomD
   function completeTask() {
     const rd = data.aufgaben.raeume[roomId];
     if (S.t.zaehlen) {
-      store.state.quiz = quizErgebnis(steps(), S.first);
+      const ergebnis = quizErgebnis(steps(), S.first);
+      if (S.t.zaehlen === 'quiz2') store.state.quiz2 = ergebnis; else store.state.quiz = ergebnis;
       store.save();
     }
     loescheFortschritt(store.state, S.id);

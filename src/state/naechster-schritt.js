@@ -45,5 +45,7 @@ export function naechsterSchritt(flags, daten) {
   if (!f.training_done) return raumStation('training', f, daten);
   if (!f.shakebar_done) return raumStation('shakebar', f, daten);
   if (!f.quiz_done) return 'aufloesung';
+  if (!f.lieferung_done) return 'lieferung_labor';
+  if (!f.quiz2_done) return 'schlussquiz';
   return 'fertig';
 }

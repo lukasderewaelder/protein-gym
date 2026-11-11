@@ -87,6 +87,29 @@
       "pflicht": ["quiz"],
       "pflichtSchwer": [],
       "fertigFlag": "quiz_done"
+    },
+    "lieferung": {
+      "titel": "Labor: Neue Lieferung",
+      "aufgaben": [
+        "a7"
+      ],
+      "pflicht": [
+        "a7"
+      ],
+      "pflichtSchwer": [],
+      "fertigFlag": "lieferung_done",
+      "niveauVon": "labor"
+    },
+    "schluss": {
+      "titel": "Schlussquiz",
+      "aufgaben": [
+        "quiz2"
+      ],
+      "pflicht": [
+        "quiz2"
+      ],
+      "pflichtSchwer": [],
+      "fertigFlag": "quiz2_done"
     }
   },
   "aufgaben": {
@@ -446,132 +469,253 @@
     },
     "a4": {
       "titel": "Aufgabe 2: Vorhersagen, beobachten, deuten",
-      "zeit": "ca. 20 Minuten (Versuch am Tisch)",
+      "zeit": "ca. 15 Minuten (Versuch am Tisch)",
       "flag": "a4_done",
-      "braucht": ["lab_frei", "k_denat", "k_ausloeser", "k_biuret"],
+      "braucht": [
+        "lab_frei",
+        "k_denat",
+        "k_ausloeser"
+      ],
       "auftrag": "Erst vermuten, dann den Versuch am Tisch machen, beobachten, protokollieren und deuten. Das Tablet bereitet vor und wertet aus, es ersetzt den Versuch nicht.",
-      "tipp": "Schau in den Spind: „Denaturieren heißt Gerinnen“, „Was Eiweiß gerinnen lässt“ und „Der Biuret-Nachweis“. Ausgeflockt heißt geronnen, also denaturiert.",
+      "tipp": "Schau in den Spind: „Denaturieren heißt Gerinnen“ und „Was Eiweiß gerinnen lässt“. Ausgeflockt heißt geronnen, also denaturiert.",
       "hilfekarte": {
         "titel": "Hilfekarte: Versuch deuten",
-        "zeilen": ["Gerinnen (denaturieren) lassen: Hitze, Säure, Alkohol, Schwermetallsalz.", "Kontrolle mit Wasser: Hier verändert sich nichts.", "Biuret: Eiweiß wird violett, Wasser und Zuckerlösung bleiben blau.", "Satzbaustein: „Die Beobachtung zeigt …, weil …“"]
+        "zeilen": [
+          "Gerinnen (denaturieren) lassen: Hitze, Säure, Alkohol, Schwermetallsalz.",
+          "Kontrolle mit Wasser: Hier verändert sich nichts.",
+          "Satzbaustein: „Die Beobachtung zeigt …, weil …“"
+        ]
       },
-      "loesung": "Ausgeflockt heißt geronnen (denaturiert): Hitze, Säure, Ethanol und Schwermetallsalz lassen das Eiweiß gerinnen, Wasser nicht. Der Vorgang ist nicht umkehrbar. Eiweiß färbt sich im Biuret-Test violett, Wasser und Zuckerlösung bleiben blau.",
+      "loesung": "Ausgeflockt heißt geronnen (denaturiert): Hitze, Säure, Ethanol und Schwermetallsalz lassen das Eiweiß gerinnen, Wasser nicht. Der Vorgang ist nicht umkehrbar.",
       "niveaus": {
         "A": [
           {
-            "type": "vermutung"
+            "type": "vermutung",
+            "stationen": [
+              "stationA"
+            ]
           },
           {
             "type": "anleitung",
             "auftrag": "Plane den Versuch mit der Schritt-für-Schritt-Anleitung. Hake jeden Schritt ab, wenn du ihn gelesen hast.",
-            "schritte": ["Kittel und Schutzbrille anziehen.", "Fünf Reagenzgläser beschriften (1 bis 5) und in den Ständer stellen.", "In jedes Glas gleich viel Eiklarlösung geben (Menge laut Lehrbuch S. 21–22, Exp. 14–16, oder Anleitung der Lehrkraft).", "Probe 1 im Wasserbad erhitzen (die Lehrkraft stellt es bereit).", "Zu den Gläsern 2 bis 4 je einen Stoff geben: Salzsäure, Kupfersulfat-Lösung (Fehling I) und Ethanol, in jedes Glas nur einen. Ethanol gibt nur die Lehrkraft aus, keine offene Flamme.", "Zu Probe 5 Wasser geben (Kontrolle).", "Beobachten und im Protokoll festhalten. Danach den Biuret-Nachweis mit Eiklarlösung, Wasser und Zuckerlösung an der Nachweis-Station machen."]
+            "schritte": [
+              "Kittel und Schutzbrille anziehen.",
+              "Fünf Reagenzgläser beschriften (1 bis 5) und in den Ständer stellen.",
+              "In jedes Glas gleich viel Eiklarlösung geben (Menge laut Lehrbuch S. 21–22, Exp. 14–16, oder Anleitung der Lehrkraft).",
+              "Probe 1 im Wasserbad erhitzen (die Lehrkraft stellt es bereit).",
+              "Zu den Gläsern 2 bis 4 je einen Stoff geben: Salzsäure, Kupfersulfat-Lösung (Fehling I) und Ethanol, in jedes Glas nur einen. Ethanol gibt nur die Lehrkraft aus, keine offene Flamme.",
+              "Zu Probe 5 Wasser geben (Kontrolle).",
+              "Beobachten und im Protokoll festhalten."
+            ]
           },
           {
-            "type": "versuch"
+            "type": "versuch",
+            "stationen": [
+              "stationA"
+            ]
           },
           {
-            "type": "beobachtung"
+            "type": "beobachtung",
+            "stationen": [
+              "stationA"
+            ]
           },
           {
             "type": "luecken",
             "auftrag": "Deute den Versuch.",
             "text": "Das Eiweiß ist {1} (Fachwort: {2}). Aus klarem Eiklar wird {3} Eiweiß. Der Vorgang ist {4}.",
-            "loesungen": ["geronnen", "denaturiert", "festes", "nicht umkehrbar"],
-            "optionen": ["geronnen", "denaturiert", "gelöst", "festes", "flüssiges", "nicht umkehrbar", "umkehrbar", "violett"],
+            "loesungen": [
+              "geronnen",
+              "denaturiert",
+              "festes",
+              "nicht umkehrbar"
+            ],
+            "optionen": [
+              "geronnen",
+              "denaturiert",
+              "gelöst",
+              "festes",
+              "flüssiges",
+              "nicht umkehrbar",
+              "umkehrbar",
+              "violett"
+            ],
             "austauschbar": [
-              [1, 2]
+              [
+                1,
+                2
+              ]
             ]
           },
           {
-            "type": "waehlen",
-            "frage": "Im Biuret-Test wird die Eiklar-Probe violett, die Probe mit Wasser bleibt blau. Was zeigt das?",
-            "optionen": ["Nur die Eiklar-Probe enthält Eiweiß.", "Wasser enthält Eiweiß.", "Der Test funktioniert nicht.", "Beide Proben sind gleich."],
-            "richtig": 0,
-            "erklaerung": "Violett zeigt Eiweiß an. Wasser enthält keins und bleibt blau."
-          },
-          {
-            "type": "export"
+            "type": "export",
+            "stationen": [
+              "stationA"
+            ]
           }
         ],
         "B": [
           {
-            "type": "vermutung"
+            "type": "vermutung",
+            "stationen": [
+              "stationA"
+            ]
           },
           {
             "type": "reihenfolge",
             "auftrag": "Plane den Versuch selbst. Material: Reagenzgläser und Ständer, Eiklarlösung, Salzsäure, Kupfersulfat-Lösung (Fehling I), Ethanol (von der Lehrkraft), Wasser, Wasserbad, Kittel, Schutzbrille. Tippe die Schritte in der richtigen Reihenfolge an.",
-            "korrekt": ["Kittel und Schutzbrille anziehen.", "Reagenzgläser beschriften und in den Ständer stellen.", "Eiklarlösung in jedes Glas geben.", "In jedes Glas nur einen Versuch machen: Hitze, Salzsäure, Kupfersulfat-Lösung (Fehling I) oder Ethanol (Probe 5 nur Wasser).", "Beobachten und im Protokoll festhalten.", "Lösungen richtig entsorgen (Kupfer in den Sammelbehälter)."],
-            "anzeige": [3, 0, 5, 2, 4, 1],
+            "korrekt": [
+              "Kittel und Schutzbrille anziehen.",
+              "Reagenzgläser beschriften und in den Ständer stellen.",
+              "Eiklarlösung in jedes Glas geben.",
+              "In jedes Glas nur einen Versuch machen: Hitze, Salzsäure, Kupfersulfat-Lösung (Fehling I) oder Ethanol (Probe 5 nur Wasser).",
+              "Beobachten und im Protokoll festhalten.",
+              "Lösungen richtig entsorgen (Kupfer in den Sammelbehälter)."
+            ],
+            "anzeige": [
+              3,
+              0,
+              5,
+              2,
+              4,
+              1
+            ],
             "gleichwertig": [
-              [1, 2]
+              [
+                1,
+                2
+              ]
             ]
           },
           {
-            "type": "versuch"
+            "type": "versuch",
+            "stationen": [
+              "stationA"
+            ]
           },
           {
-            "type": "beobachtung"
+            "type": "beobachtung",
+            "stationen": [
+              "stationA"
+            ]
           },
           {
             "type": "luecken",
             "auftrag": "Deute den Versuch.",
             "text": "Das Eiweiß ist {1} (Fachwort: {2}). Aus klarem Eiklar wird {3} Eiweiß. Der Vorgang ist {4}.",
-            "loesungen": ["geronnen", "denaturiert", "festes", "nicht umkehrbar"],
-            "optionen": ["geronnen", "denaturiert", "gelöst", "festes", "flüssiges", "nicht umkehrbar", "umkehrbar", "violett"],
+            "loesungen": [
+              "geronnen",
+              "denaturiert",
+              "festes",
+              "nicht umkehrbar"
+            ],
+            "optionen": [
+              "geronnen",
+              "denaturiert",
+              "gelöst",
+              "festes",
+              "flüssiges",
+              "nicht umkehrbar",
+              "umkehrbar",
+              "violett"
+            ],
             "austauschbar": [
-              [1, 2]
+              [
+                1,
+                2
+              ]
             ]
           },
           {
-            "type": "waehlen",
-            "frage": "Im Biuret-Test wird die Eiklar-Probe violett, die Probe mit Wasser bleibt blau. Was zeigt das?",
-            "optionen": ["Nur die Eiklar-Probe enthält Eiweiß.", "Wasser enthält Eiweiß.", "Der Test funktioniert nicht.", "Beide Proben sind gleich."],
-            "richtig": 0,
-            "erklaerung": "Violett zeigt Eiweiß an. Wasser enthält keins und bleibt blau."
-          },
-          {
-            "type": "export"
+            "type": "export",
+            "stationen": [
+              "stationA"
+            ]
           }
         ],
         "C": [
           {
-            "type": "vermutung"
-          },
-          {
-            "type": "reihenfolge",
-            "auftrag": "Plane den Versuch selbst. Material: Reagenzgläser und Ständer, Eiklarlösung, Salzsäure, Kupfersulfat-Lösung (Fehling I), Ethanol (von der Lehrkraft), Wasser, Zuckerlösung, Natronlauge, Wasserbad, Kittel, Schutzbrille. Tippe die Schritte in der richtigen Reihenfolge an. Gleichwertige Schritte dürfen vertauscht werden.",
-            "korrekt": ["Kittel und Schutzbrille anziehen.", "Fünf Reagenzgläser beschriften und in den Ständer stellen.", "In jedes Glas gleich viel Eiklarlösung geben.", "Probe 5 bekommt nur Wasser (Kontrolle).", "In die Gläser 1 bis 4 je nur einen Versuch machen: Hitze, Salzsäure, Kupfersulfat-Lösung (Fehling I), Ethanol.", "Beobachten und im Protokoll festhalten.", "Für den Biuret-Nachweis Eiklarlösung, Wasser und Zuckerlösung mit Natronlauge und Kupfersulfat-Lösung (Fehling I) versetzen.", "Lösungen richtig entsorgen (Kupfer in den Sammelbehälter)."],
-            "anzeige": [4, 7, 1, 0, 6, 3, 2, 5],
-            "gleichwertig": [
-              [1, 2],
-              [3, 4]
+            "type": "vermutung",
+            "stationen": [
+              "stationA"
             ]
           },
           {
-            "type": "versuch"
+            "type": "reihenfolge",
+            "auftrag": "Plane den Versuch selbst. Material: Reagenzgläser und Ständer, Eiklarlösung, Salzsäure, Kupfersulfat-Lösung (Fehling I), Ethanol (von der Lehrkraft), Wasser, Wasserbad, Kittel, Schutzbrille. Tippe die Schritte in der richtigen Reihenfolge an. Gleichwertige Schritte dürfen vertauscht werden.",
+            "korrekt": [
+              "Kittel und Schutzbrille anziehen.",
+              "Fünf Reagenzgläser beschriften und in den Ständer stellen.",
+              "In jedes Glas gleich viel Eiklarlösung geben.",
+              "Probe 5 bekommt nur Wasser (Kontrolle).",
+              "In die Gläser 1 bis 4 je nur einen Versuch machen: Hitze, Salzsäure, Kupfersulfat-Lösung (Fehling I), Ethanol.",
+              "Beobachten und im Protokoll festhalten.",
+              "Lösungen richtig entsorgen (Kupfer in den Sammelbehälter)."
+            ],
+            "anzeige": [
+              4,
+              6,
+              1,
+              0,
+              3,
+              2,
+              5
+            ],
+            "gleichwertig": [
+              [
+                1,
+                2
+              ],
+              [
+                3,
+                4
+              ]
+            ]
           },
           {
-            "type": "beobachtung"
+            "type": "versuch",
+            "stationen": [
+              "stationA"
+            ]
+          },
+          {
+            "type": "beobachtung",
+            "stationen": [
+              "stationA"
+            ]
           },
           {
             "type": "luecken",
             "auftrag": "Deute den Versuch.",
             "text": "Das Eiweiß ist {1} (Fachwort: {2}). Aus klarem Eiklar wird {3} Eiweiß. Der Vorgang ist {4}.",
-            "loesungen": ["geronnen", "denaturiert", "festes", "nicht umkehrbar"],
-            "optionen": ["geronnen", "denaturiert", "gelöst", "festes", "flüssiges", "nicht umkehrbar", "umkehrbar", "violett"],
+            "loesungen": [
+              "geronnen",
+              "denaturiert",
+              "festes",
+              "nicht umkehrbar"
+            ],
+            "optionen": [
+              "geronnen",
+              "denaturiert",
+              "gelöst",
+              "festes",
+              "flüssiges",
+              "nicht umkehrbar",
+              "umkehrbar",
+              "violett"
+            ],
             "austauschbar": [
-              [1, 2]
+              [
+                1,
+                2
+              ]
             ]
           },
           {
-            "type": "waehlen",
-            "frage": "Im Biuret-Test wird die Eiklar-Probe violett, die Probe mit Wasser bleibt blau. Was zeigt das?",
-            "optionen": ["Nur die Eiklar-Probe enthält Eiweiß.", "Wasser enthält Eiweiß.", "Der Test funktioniert nicht.", "Beide Proben sind gleich."],
-            "richtig": 0,
-            "erklaerung": "Violett zeigt Eiweiß an. Wasser enthält keins und bleibt blau."
-          },
-          {
-            "type": "export"
+            "type": "export",
+            "stationen": [
+              "stationA"
+            ]
           }
         ]
       }
@@ -804,17 +948,241 @@
         ]
       }
     },
+    "a7": {
+      "titel": "Aufgabe 7: Die neue Lieferung",
+      "zeit": "ca. 12 Minuten (Versuch am Tisch)",
+      "flag": "a7_done",
+      "braucht": [
+        "quiz_done",
+        "k_biuret",
+        "lab_frei"
+      ],
+      "auftrag": "Eine neue Lieferung ist da. Enthält sie Eiweiß? Vermute, mache den Biuret-Nachweis bei deiner Lehrkraft, beobachte und deute.",
+      "tipp": "Schau in den Spind: „Der Biuret-Nachweis“ und im Hefter den Eintrag dazu. Violett zeigt Eiweiß an.",
+      "hilfekarte": {
+        "titel": "Hilfekarte: Biuret-Nachweis",
+        "zeilen": [
+          "Probe + Natronlauge + Kupfersulfat-Lösung (Fehling I).",
+          "Violett = Eiweiß ist enthalten.",
+          "Bleibt die Probe blau (zum Beispiel Wasser oder Zuckerlösung), ist kein Eiweiß enthalten.",
+          "Satzbaustein: „Die Beobachtung zeigt …, weil …“"
+        ]
+      },
+      "loesung": "Eiweiß färbt sich im Biuret-Test violett. Wasser und Zuckerlösung bleiben blau. Enthält die Lieferung Eiweiß, wird ihre Probe violett.",
+      "niveaus": {
+        "A": [
+          {
+            "type": "vermutung",
+            "stationen": [
+              "lieferung"
+            ]
+          },
+          {
+            "type": "anleitung",
+            "auftrag": "Plane den Versuch mit der Schritt-für-Schritt-Anleitung. Hake jeden Schritt ab, wenn du ihn gelesen hast.",
+            "schritte": [
+              "Kittel und Schutzbrille anziehen.",
+              "Drei Reagenzgläser beschriften (1 bis 3) und in den Ständer stellen.",
+              "In jedes Glas eine andere Probe geben: Eiweißshake, Zuckerlösung, Wasser (Menge laut Lehrbuch S. 22, Exp. 15, oder Anleitung der Lehrkraft).",
+              "Zu jeder Probe erst Natronlauge, dann Kupfersulfat-Lösung (Fehling I) geben. In jedes Glas kommt nur dieser eine Nachweis.",
+              "Beobachten und im Protokoll festhalten.",
+              "Lösungen richtig entsorgen (Kupfer in den Sammelbehälter)."
+            ]
+          },
+          {
+            "type": "versuch",
+            "stationen": [
+              "lieferung"
+            ]
+          },
+          {
+            "type": "beobachtung",
+            "stationen": [
+              "lieferung"
+            ]
+          },
+          {
+            "type": "waehlen",
+            "frage": "Im Biuret-Test wird der Eiweißshake violett, die Probe mit Wasser bleibt blau. Was zeigt das?",
+            "optionen": [
+              "Nur der Eiweißshake enthält Eiweiß.",
+              "Wasser enthält Eiweiß.",
+              "Der Test funktioniert nicht.",
+              "Beide Proben sind gleich."
+            ],
+            "richtig": 0,
+            "erklaerung": "Violett zeigt Eiweiß an. Wasser enthält keins und bleibt blau."
+          },
+          {
+            "type": "export",
+            "stationen": [
+              "lieferung"
+            ]
+          }
+        ],
+        "B": [
+          {
+            "type": "vermutung",
+            "stationen": [
+              "lieferung"
+            ]
+          },
+          {
+            "type": "reihenfolge",
+            "auftrag": "Plane den Versuch selbst. Material: Reagenzgläser und Ständer, Eiweißshake, Zuckerlösung, Wasser, Natronlauge, Kupfersulfat-Lösung (Fehling I), Kittel, Schutzbrille. Tippe die Schritte in der richtigen Reihenfolge an.",
+            "korrekt": [
+              "Kittel und Schutzbrille anziehen.",
+              "Reagenzgläser beschriften und in den Ständer stellen.",
+              "In jedes Glas eine andere Probe geben.",
+              "In jedes Glas erst Natronlauge, dann Kupfersulfat-Lösung (Fehling I) geben.",
+              "Beobachten und im Protokoll festhalten.",
+              "Lösungen richtig entsorgen (Kupfer in den Sammelbehälter)."
+            ],
+            "anzeige": [
+              3,
+              0,
+              5,
+              2,
+              4,
+              1
+            ],
+            "gleichwertig": [
+              [
+                1,
+                2
+              ]
+            ]
+          },
+          {
+            "type": "versuch",
+            "stationen": [
+              "lieferung"
+            ]
+          },
+          {
+            "type": "beobachtung",
+            "stationen": [
+              "lieferung"
+            ]
+          },
+          {
+            "type": "waehlen",
+            "frage": "Im Biuret-Test wird der Eiweißshake violett, die Probe mit Wasser bleibt blau. Was zeigt das?",
+            "optionen": [
+              "Nur der Eiweißshake enthält Eiweiß.",
+              "Wasser enthält Eiweiß.",
+              "Der Test funktioniert nicht.",
+              "Beide Proben sind gleich."
+            ],
+            "richtig": 0,
+            "erklaerung": "Violett zeigt Eiweiß an. Wasser enthält keins und bleibt blau."
+          },
+          {
+            "type": "export",
+            "stationen": [
+              "lieferung"
+            ]
+          }
+        ],
+        "C": [
+          {
+            "type": "vermutung",
+            "stationen": [
+              "lieferung"
+            ]
+          },
+          {
+            "type": "reihenfolge",
+            "auftrag": "Plane den Versuch selbst. Material: Reagenzgläser und Ständer, Eiweißshake, Zuckerlösung, Wasser, Natronlauge, Kupfersulfat-Lösung (Fehling I), Kittel, Schutzbrille. Tippe die Schritte in der richtigen Reihenfolge an. Gleichwertige Schritte dürfen vertauscht werden.",
+            "korrekt": [
+              "Kittel und Schutzbrille anziehen.",
+              "Drei Reagenzgläser beschriften und in den Ständer stellen.",
+              "In die Gläser 1 bis 3 je eine Probe geben: Eiweißshake, Zuckerlösung, Wasser.",
+              "Natronlauge zugeben.",
+              "Kupfersulfat-Lösung (Fehling I) zugeben.",
+              "Beobachten und im Protokoll festhalten.",
+              "Lösungen richtig entsorgen (Kupfer in den Sammelbehälter)."
+            ],
+            "anzeige": [
+              4,
+              6,
+              1,
+              0,
+              3,
+              2,
+              5
+            ],
+            "gleichwertig": [
+              [
+                1,
+                2
+              ]
+            ]
+          },
+          {
+            "type": "versuch",
+            "stationen": [
+              "lieferung"
+            ]
+          },
+          {
+            "type": "beobachtung",
+            "stationen": [
+              "lieferung"
+            ]
+          },
+          {
+            "type": "waehlen",
+            "frage": "Im Biuret-Test wird der Eiweißshake violett, die Probe mit Wasser bleibt blau. Was zeigt das?",
+            "optionen": [
+              "Nur der Eiweißshake enthält Eiweiß.",
+              "Wasser enthält Eiweiß.",
+              "Der Test funktioniert nicht.",
+              "Beide Proben sind gleich."
+            ],
+            "richtig": 0,
+            "erklaerung": "Violett zeigt Eiweiß an. Wasser enthält keins und bleibt blau."
+          },
+          {
+            "type": "waehlen",
+            "frage": "Warum gehört eine Probe mit Wasser zum Versuch?",
+            "optionen": [
+              "Sie zeigt als Vergleich, wie der Test ohne Eiweiß aussieht.",
+              "Wasser macht die Farbe violett.",
+              "Ohne Wasser funktioniert die Natronlauge nicht.",
+              "Wasser ist selbst ein Eiweiß."
+            ],
+            "richtig": 0,
+            "erklaerung": "Die Wasser-Probe ist der Vergleich: Sie bleibt blau. So erkennst du, dass Violett wirklich vom Eiweiß kommt."
+          },
+          {
+            "type": "export",
+            "stationen": [
+              "lieferung"
+            ]
+          }
+        ]
+      }
+    },
     "quiz": {
       "titel": "Auflösung: Der Fall",
       "zeit": "ca. 10 Minuten",
       "flag": "quiz_task",
-      "braucht": ["shakebar_done"],
+      "braucht": [
+        "shakebar_done"
+      ],
       "zaehlen": true,
       "auftrag": "Der Fall ist fast gelöst. Beantworte vier Fragen und benenne dann den Verdächtigen. Nach jeder Antwort siehst du die Begründung.",
       "tipp": "Der Spind hilft dir, auch mit den Hefter-Einträgen und den Hinweisen zum Fall.",
       "hilfekarte": {
         "titel": "Hilfekarte: Auflösung",
-        "zeilen": ["Protein = Eiweiß. Aminosäuren sind die Bausteine.", "Gerinnen (Denaturieren): Die gefaltete Form geht verloren, die Aminosäuren bleiben, nicht umkehrbar.", "Gerinnen lassen: Hitze, Säure, Alkohol, Schwermetallsalz.", "Biuret: Eiweiß wird violett.", "Der Verdächtige hat kein Alibi."]
+        "zeilen": [
+          "Protein = Eiweiß. Aminosäuren sind die Bausteine.",
+          "Gerinnen (Denaturieren): Die gefaltete Form geht verloren, die Aminosäuren bleiben, nicht umkehrbar.",
+          "Gerinnen lassen: Hitze, Säure, Alkohol, Schwermetallsalz.",
+          "Ein Eiweiß ist eine lange Kette aus vielen Aminosäuren.",
+          "Der Verdächtige hat kein Alibi."
+        ]
       },
       "loesung": "Siehe die Begründung bei der jeweiligen Frage.",
       "niveaus": {
@@ -823,7 +1191,12 @@
             "type": "waehlen",
             "zaehlt": true,
             "frage": "Welche Aussage stimmt?",
-            "optionen": ["Protein und Eiweiß sind dasselbe, und Aminosäuren sind die Bausteine der Proteine.", "Protein ist pflanzlich, Eiweiß tierisch, beide bestehen aus Fettsäuren.", "Eiweiß besteht aus Zucker, Protein aus Aminosäuren.", "Aminosäuren sind winzige Hantelscheiben."],
+            "optionen": [
+              "Protein und Eiweiß sind dasselbe, und Aminosäuren sind die Bausteine der Proteine.",
+              "Protein ist pflanzlich, Eiweiß tierisch, beide bestehen aus Fettsäuren.",
+              "Eiweiß besteht aus Zucker, Protein aus Aminosäuren.",
+              "Aminosäuren sind winzige Hantelscheiben."
+            ],
             "richtig": 0,
             "erklaerung": "„Protein“ ist das Fremdwort für „Eiweiß“. Proteine bestehen aus Aminosäuren, den Bausteinen."
           },
@@ -831,7 +1204,12 @@
             "type": "waehlen",
             "zaehlt": true,
             "frage": "Was passiert beim Gerinnen (Denaturieren) eines Eiweißes?",
-            "optionen": ["Die räumliche Struktur wird zerstört, die Aminosäuren bleiben.", "Die Aminosäuren verschwinden.", "Das Eiweiß wird zu Zucker.", "Es wird wieder klar, wenn es abkühlt."],
+            "optionen": [
+              "Die räumliche Struktur wird zerstört, die Aminosäuren bleiben.",
+              "Die Aminosäuren verschwinden.",
+              "Das Eiweiß wird zu Zucker.",
+              "Es wird wieder klar, wenn es abkühlt."
+            ],
             "richtig": 0,
             "erklaerung": "Die gefaltete Form geht verloren, die Ketten verklumpen. Die Aminosäuren bleiben, und das Gerinnen ist nicht umkehrbar."
           },
@@ -839,24 +1217,89 @@
             "type": "mehrfach",
             "zaehlt": true,
             "frage": "Nenne zwei Dinge, die Eiweiß gerinnen (denaturieren) lassen. Wähle zwei aus.",
-            "optionen": ["Hitze", "Wasser", "Säure", "Zucker", "Alkohol"],
-            "richtig": [0, 2, 4],
+            "optionen": [
+              "Hitze",
+              "Wasser",
+              "Säure",
+              "Zucker",
+              "Alkohol"
+            ],
+            "richtig": [
+              0,
+              2,
+              4
+            ],
             "anzahl": 2,
             "erklaerung": "Eiweiße gerinnen durch Hitze, Säuren, Alkohol und Schwermetallsalze."
           },
           {
             "type": "waehlen",
             "zaehlt": true,
-            "frage": "Welche Farbe zeigt die Biuret-Probe bei Eiweiß?",
-            "optionen": ["Rot", "Violett", "Grün", "Gelb"],
-            "richtig": 1,
-            "erklaerung": "Eiweiß färbt sich mit Natronlauge und Kupfersulfat-Lösung (Fehling I) violett."
+            "frage": "Glycin ist eine Aminosäure. Warum ist Glycin allein kein Eiweiß?",
+            "optionen": [
+              "Es ist nur ein einzelner Baustein. Ein Eiweiß ist eine lange Kette aus vielen Bausteinen.",
+              "Glycin ist keine Aminosäure.",
+              "Glycin ist zu groß für ein Eiweiß.",
+              "Glycin enthält kein Wasser."
+            ],
+            "richtig": 0,
+            "erklaerung": "Ein Eiweiß besteht aus vielen Aminosäuren, die in einer Kette verbunden sind. Glycin allein ist nur ein Baustein."
           },
           {
             "type": "verdaechtige"
           },
           {
             "type": "rueckblick"
+          }
+        ]
+      }
+    },
+    "quiz2": {
+      "titel": "Schlussquiz: Die neue Lieferung",
+      "zeit": "ca. 3 Minuten",
+      "flag": "quiz2_task",
+      "braucht": [
+        "lieferung_done"
+      ],
+      "zaehlen": "quiz2",
+      "auftrag": "Zum Abschluss zwei Fragen zum Nachweis. Nach jeder Antwort siehst du die Begründung.",
+      "tipp": "Schau in den Spind: die Karte „Der Biuret-Nachweis“ und der Hefter-Eintrag dazu helfen dir.",
+      "hilfekarte": {
+        "titel": "Hilfekarte: Biuret-Nachweis",
+        "zeilen": [
+          "Probe + Natronlauge + Kupfersulfat-Lösung (Fehling I).",
+          "Violett = Eiweiß ist enthalten.",
+          "Bleibt die Probe blau, ist kein Eiweiß enthalten."
+        ]
+      },
+      "loesung": "Siehe die Begründung bei der jeweiligen Frage.",
+      "niveaus": {
+        "alle": [
+          {
+            "type": "waehlen",
+            "zaehlt": true,
+            "frage": "Welche Farbe zeigt Eiweiß beim Biuret-Test?",
+            "optionen": [
+              "Violett",
+              "Rot",
+              "Gelb",
+              "Grün"
+            ],
+            "richtig": 0,
+            "erklaerung": "Eiweiß färbt sich mit Natronlauge und Kupfersulfat-Lösung (Fehling I) violett."
+          },
+          {
+            "type": "waehlen",
+            "zaehlt": true,
+            "frage": "Eine Probe aus einer Lieferung bleibt beim Biuret-Test blau. Was heißt das?",
+            "optionen": [
+              "Die Probe enthält kein Eiweiß.",
+              "Die Probe enthält besonders viel Eiweiß.",
+              "Der Test ist kaputt.",
+              "Die Probe ist denaturiert."
+            ],
+            "richtig": 0,
+            "erklaerung": "Bleibt die Probe blau, ist kein Eiweiß enthalten. Nur bei Eiweiß wird sie violett."
           }
         ]
       }

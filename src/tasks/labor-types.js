@@ -5,7 +5,7 @@
 
 import { h } from '../ui/dom.js';
 import { svgEl } from './molecule.js';
-import { beobachtungPasst, reihenfolge, alleProben, protokollText, probenName } from './check.js';
+import { beobachtungPasst, reihenfolge, alleProben, protokollText, probenName, stationenVon, notizSchluessel } from './check.js';
 
 function protokoll(ctx) {
   if (!ctx.store.state.protokoll) ctx.store.state.protokoll = {};
@@ -16,11 +16,11 @@ function vermutung(host, step, api, ctx) {
   const p = protokoll(ctx);
   p.vermutung = p.vermutung || {};
   const pressed = [];
-  const alle = alleProben(ctx.versuch);
+  const alle = alleProben(ctx.versuch, step.stationen);
   const fertig = () => alle.every((pr) => p.vermutung[pr.id] && p.vermutung[pr.id].wahl);
   const pruefe = () => { if (fertig()) api.ok('Deine Vermutungen sind im Protokoll gespeichert.'); };
   host.append(h('p', 'frage', 'Was passiert in den Proben? Tippe pro Probe deine Vermutung an. Das „Warum“ ist freiwillig, hilft dir aber später beim Deuten.'));
-  for (const st of [ctx.versuch.stationA, ctx.versuch.stationB]) {
+  for (const st of stationenVon(ctx.versuch, step.stationen)) {
     host.append(h('h3', {}, `${st.name}: ${st.titel}`));
     for (const pr of st.proben) {
       const cur = p.vermutung[pr.id] = p.vermutung[pr.id] || { wahl: '', warum: '' };
@@ -107,7 +107,7 @@ function simulation(host, step, api, ctx) {
   const done = new Set();
   const racks = [
     { st: v.stationA, start: '#dfeef4', tasteA: 'Einwirken lassen' },
-    { st: v.stationB, start: '#e6f1f5', tasteA: 'Nachweis machen' },
+    { st: v.lieferung, start: '#e6f1f5', tasteA: 'Nachweis machen' },
   ];
   const area = h('div', 'rack');
   let cur = 0;
@@ -136,7 +136,8 @@ function simulation(host, step, api, ctx) {
 }
 
 function versuch(host, step, api, ctx) {
-  const stationen = [ctx.versuch.stationA, ctx.versuch.stationB].map((st) => h('div', 'probe',
+  const gewaehlt = stationenVon(ctx.versuch, step.stationen);
+  const stationen = gewaehlt.map((st) => h('div', 'probe',
     h('strong', {}, `${st.name}: ${st.titel}`),
     h('p', 'hint', st.regel || ''),
     h('ul', {}, st.proben.map((pr) => h('li', {}, `Glas ${pr.nr}: ${probenName(pr)}`)))));
@@ -144,8 +145,8 @@ function versuch(host, step, api, ctx) {
     h('p', 'frage', 'Jetzt geht es zu deiner Lehrkraft: Dort machst du den Versuch in echt. Lege das Tablet trocken zur Seite.'),
     ...stationen,
     h('h3', {}, 'Sicherheit'),
-    h('ul', {}, ctx.versuch.sicherheit.map((s) => h('li', {}, s))),
-    h('p', 'hint', `Zeit: ${ctx.versuch.stationA.name} ${ctx.versuch.stationA.zeit}, ${ctx.versuch.stationB.name} ${ctx.versuch.stationB.zeit}. Die Lehrkraft stellt Glas 1 im Wasserbad vorab bereit, um Zeit zu sparen.`),
+    h('ul', {}, [...(ctx.versuch.sicherheitAllgemein || ctx.versuch.sicherheit), ...gewaehlt.map((st) => st.stoffhinweis).filter(Boolean)].map((s) => h('li', {}, s))),
+    h('p', 'hint', `Zeit: ${gewaehlt.map((st) => `${st.name} ${st.zeit}`).join(', ')}.${gewaehlt.some((st) => st.id === 'A') ? ' Die Lehrkraft stellt Glas 1 im Wasserbad vorab bereit, um Zeit zu sparen.' : ''}`),
     h('button', { class: 'primary', type: 'button', onclick: () => api.ok('Versuch beendet. Jetzt trägst du deine Beobachtungen ein.') }, 'Versuch fertig: zum Protokoll'),
   );
   return { reveal() {} };
@@ -154,7 +155,8 @@ function versuch(host, step, api, ctx) {
 function beobachtung(host, step, api, ctx) {
   const p = protokoll(ctx);
   p.beobachtung = p.beobachtung || {};
-  const alle = alleProben(ctx.versuch);
+  const alle = alleProben(ctx.versuch, step.stationen);
+  const nk = notizSchluessel(step.stationen);
   const result = h('div', { class: 'ergebnis', hidden: true });
   host.append(h('p', 'frage', 'Trage ein, was du wirklich gesehen hast.'));
   for (const pr of alle) {
@@ -175,8 +177,8 @@ function beobachtung(host, step, api, ctx) {
       h('div', 'chips', btns), notiz));
   }
   const besonder = h('textarea', { rows: 2, 'aria-label': 'Besonderheiten', placeholder: 'Besonderheiten oder Auffälliges (freiwillig)' });
-  besonder.value = p.notiz || '';
-  besonder.addEventListener('input', () => { p.notiz = besonder.value; ctx.store.save(); });
+  besonder.value = p[nk] || '';
+  besonder.addEventListener('input', () => { p[nk] = besonder.value; ctx.store.save(); });
   const compare = h('button', {
     class: 'primary', type: 'button',
     onclick: () => {
@@ -198,7 +200,7 @@ function beobachtung(host, step, api, ctx) {
 }
 
 function exportStep(host, step, api, ctx) {
-  const text = protokollText({ names: ctx.store.state.names, versuch: ctx.versuch, protokoll: protokoll(ctx) });
+  const text = protokollText({ names: ctx.store.state.names, versuch: ctx.versuch, protokoll: protokoll(ctx), stationen: step.stationen });
   const ta = h('textarea', { rows: 12, readonly: true, 'aria-label': 'Protokoll als Text' });
   ta.value = text;
   const info = h('p', 'hint', '');

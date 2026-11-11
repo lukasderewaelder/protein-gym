@@ -1,13 +1,17 @@
 // Fortschrittscode: kurzer Text, mit dem Lernende nach Speicherverlust weiterspielen können.
-// Enthält Figur-Look, Raum, Fortschritts-Flags (63 Plätze), Täter des Falls (2 Bit), Saunacode (14 Bit) und Niveau je Raum, dazu eine Prüfsumme gegen Tippfehler.
-// Version 5 (Protein-Gym 2.0); Codes der Version 4 bleiben lesbar und werden nachgerüstet (siehe zugang.js).
+// Enthält Figur-Look, Raum, Fortschritts-Flags (67 Plätze), Täter des Falls (2 Bit), Saunacode (14 Bit), Ergebnis des Schlussquiz (2 Bit) und Niveau je Raum, dazu eine Prüfsumme gegen Tippfehler.
+// Version 6 (Prüfung der neuen Lieferung und Schlussquiz); Codes der Versionen 5 und 4 bleiben lesbar (4 wird nachgerüstet, siehe zugang.js).
+// Alte Stände ohne die neuen Flags holen Prüfung und Schlussquiz nach, bevor das Zertifikat erscheint.
 // Namen stehen bewusst NICHT im Code (Datenschutz); sie werden beim Wiederherstellen neu eingegeben.
 // Der Code ist keine Sicherheitsmaßnahme: Wer den Quelltext liest, kann ihn nachbauen.
 
 import { FALL_LIST } from './fall.js';
 import { ZUGANG_FLAGS, migriereZweiNull, istSaunaCode } from './zugang.js';
 
-export const CODE_VERSION = 5;
+export const CODE_VERSION = 6;
+
+/** Flags der Version 6: Prüfung der neuen Lieferung (Aufgabe a7, Raum „lieferung“) und Schlussquiz (Raum „schluss“). */
+export const NACHWEIS_FLAGS = ['a7_done', 'lieferung_done', 'quiz2_task', 'quiz2_done'];
 
 /** Feste Reihenfolge der Flags. Neue Flags nur am Ende anhängen, freie Plätze heißen reserve_NN. */
 export const FLAG_LIST = [
@@ -20,7 +24,10 @@ export const FLAG_LIST = [
   'quiz_task', 'z_ninhydrin', 'a0_done', 'a3_done', 'spind_gesehen', 'k_wichtig', 'k_hitze', 'f_labor',
   'f_sauna', 'f_training', 'f_shakebar', 'fall_geloest',
   ...ZUGANG_FLAGS,
+  ...NACHWEIS_FLAGS,
 ];
+/** Die 63 Flags der Version 5 (Reihenfolge eingefroren). */
+const FLAG_LIST_V5 = FLAG_LIST.slice(0, FLAG_LIST.length - NACHWEIS_FLAGS.length);
 /** Die 44 Flags der Version 4 (Reihenfolge eingefroren), damit alte Codes lesbar bleiben. */
 const FLAG_LIST_V4 = FLAG_LIST.slice(0, 44);
 
@@ -32,13 +39,15 @@ const LOOK_BITS = { shirt: 2, hair: 2, skin: 2 };
 const QUIZ_BITS = 3; // 0 bis 4 richtige Antworten, 7 = Auflösung nicht gespielt
 const FALL_BITS = 2; // Täter des Falls (Index in FALL_LIST)
 const SAUNA_BITS = 14; // Saunacode 0 bis 9999 (0 = noch keiner gewürfelt)
-const bodyBits = (flags, sauna) => 4 + LOOK_BITS.shirt + LOOK_BITS.hair + LOOK_BITS.skin + 3 + flags + ROOM_LIST.length * 2 + QUIZ_BITS + FALL_BITS + sauna;
-const BODY_BITS = bodyBits(FLAG_LIST.length, SAUNA_BITS);
+const QUIZ2_BITS = 2; // Schlussquiz: 0 bis 2 richtige Antworten, 3 = nicht gespielt
+const bodyBits = (flags, sauna, quiz2 = 0) => 4 + LOOK_BITS.shirt + LOOK_BITS.hair + LOOK_BITS.skin + 3 + flags + ROOM_LIST.length * 2 + QUIZ_BITS + FALL_BITS + sauna + quiz2;
+const BODY_BITS = bodyBits(FLAG_LIST.length, SAUNA_BITS, QUIZ2_BITS);
 const TOTAL_BITS = BODY_BITS + 8;
 export const CODE_CHARS = Math.ceil(TOTAL_BITS / 5);
-/** Aufbau je Version: Flag-Liste, Bits für den Saunacode, Länge in Zeichen. */
+/** Aufbau je Version: Flag-Liste, Bits für Saunacode und Schlussquiz, Länge in Zeichen (die Längen müssen verschieden sein, sie verraten die Version). */
 const LAYOUTS = {
-  5: { flags: FLAG_LIST, sauna: SAUNA_BITS, bits: BODY_BITS, chars: CODE_CHARS },
+  6: { flags: FLAG_LIST, sauna: SAUNA_BITS, quiz2: QUIZ2_BITS, bits: BODY_BITS, chars: CODE_CHARS },
+  5: { flags: FLAG_LIST_V5, sauna: SAUNA_BITS, quiz2: 0, bits: bodyBits(FLAG_LIST_V5.length, SAUNA_BITS), chars: Math.ceil((bodyBits(FLAG_LIST_V5.length, SAUNA_BITS) + 8) / 5) },
   4: { flags: FLAG_LIST_V4, sauna: 0, bits: bodyBits(FLAG_LIST_V4.length, 0), chars: Math.ceil((bodyBits(FLAG_LIST_V4.length, 0) + 8) / 5) },
 };
 
@@ -68,6 +77,7 @@ export function encodeProgress(state) {
   put(state.quiz && Number.isInteger(state.quiz.richtig) ? Math.min(5, Math.max(0, state.quiz.richtig)) : 7, QUIZ_BITS);
   put(Math.max(0, FALL_LIST.indexOf(state.fall && state.fall.taeter)), FALL_BITS);
   put(state.codes && istSaunaCode(state.codes.sauna) ? Number(state.codes.sauna) : 0, SAUNA_BITS);
+  put(state.quiz2 && Number.isInteger(state.quiz2.richtig) ? Math.min(2, Math.max(0, state.quiz2.richtig)) : 3, QUIZ2_BITS);
   put(crc8(v), 8);
   let s = '';
   for (let i = CODE_CHARS - 1; i >= 0; i--) s += ALPHABET[Number((v >> BigInt(i * 5)) & 31n)];
@@ -84,7 +94,7 @@ export function normalizeCode(text) {
     .replace(/U/g, 'V');
 }
 
-/** Gibt { ok: true, state } oder { ok: false, reason } zurück. Version 4 und 5 werden erkannt (an der Länge). */
+/** Gibt { ok: true, state } oder { ok: false, reason } zurück. Version 4, 5 und 6 werden erkannt (an der Länge). */
 export function decodeProgress(text) {
   const s = normalizeCode(text);
   const layout = Object.values(LAYOUTS).find((l) => l.chars === s.length);
@@ -121,6 +131,10 @@ export function decodeProgress(text) {
   if (layout.sauna) {
     const c = String(take(layout.sauna));
     state.codes.sauna = istSaunaCode(c) ? c : null; // fehlt er, würfelt der Speicher einen neuen
+    if (layout.quiz2) {
+      const q2 = take(layout.quiz2);
+      state.quiz2 = q2 <= 2 ? { richtig: q2, von: 2 } : null;
+    }
   } else {
     migriereZweiNull(state); // Code aus der Zeit vor 2.0: Ausweis und offene Türen nachrüsten
   }

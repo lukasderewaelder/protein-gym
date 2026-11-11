@@ -66,7 +66,7 @@ test('Ähnlichkeitsaufgaben: Rechenantworten stimmen', () => {
 
 test('Ähnlichkeitsaufgaben: Es gibt für jede Schritt-Art, die zum Lösungsbeispiel führen kann, eine Übung', () => {
   for (const [id, t] of Object.entries(A.aufgaben)) {
-    if (id === 'quiz') continue;
+    if (id === 'quiz' || id === 'quiz2') continue;
     for (const [l, steps] of Object.entries(t.niveaus)) {
       steps.forEach((s, i) => {
         if (!['formel-tippen', 'peptid-verbinden', 'luecken', 'waehlen', 'zahl', 'zuordnen', 'bausteine-ordnen'].includes(s.type)) return;

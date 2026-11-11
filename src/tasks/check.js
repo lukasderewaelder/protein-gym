@@ -117,20 +117,28 @@ export function probenName(p) {
   return p.einfluss || p.probe || '';
 }
 
-/** Alle Proben beider Stationen in Reihenfolge. */
-export function alleProben(versuch) {
-  return [
-    ...versuch.stationA.proben.map((p) => ({ ...p, station: versuch.stationA })),
-    ...versuch.stationB.proben.map((p) => ({ ...p, station: versuch.stationB })),
-  ];
+/** Die Stationen eines Schritts: Denaturierung („stationA“) und die Prüfung der neuen Lieferung („lieferung“) sind getrennte Versuche. */
+export function stationenVon(versuch, keys = ['stationA', 'lieferung']) {
+  return keys.map((k) => versuch[k]).filter(Boolean);
+}
+
+/** Schlüssel für die Besonderheiten im Protokoll: Denaturierung und Lieferung haben je eine eigene Notiz. */
+export function notizSchluessel(keys = ['stationA', 'lieferung']) {
+  return keys.includes('stationA') ? 'notiz' : 'notizLieferung';
+}
+
+/** Alle Proben der gewählten Stationen in Reihenfolge. */
+export function alleProben(versuch, keys) {
+  return stationenVon(versuch, keys).flatMap((st) => st.proben.map((p) => ({ ...p, station: st })));
 }
 
 /** Protokoll als Text zum Kopieren oder Abfotografieren. */
-export function protokollText({ names, versuch, protokoll }) {
+export function protokollText({ names, versuch, protokoll, stationen }) {
   const v = protokoll.vermutung || {};
   const b = protokoll.beobachtung || {};
-  const lines = ['Protokoll: Eiweiß-Versuch', `Namen: ${(names || []).join(', ') || '(ohne Namen)'}`, ''];
-  for (const st of [versuch.stationA, versuch.stationB]) {
+  const nurLieferung = Array.isArray(stationen) && !stationen.includes('stationA');
+  const lines = [nurLieferung ? 'Protokoll: Neue Lieferung' : 'Protokoll: Eiweiß-Versuch', `Namen: ${(names || []).join(', ') || '(ohne Namen)'}`, ''];
+  for (const st of stationenVon(versuch, stationen)) {
     lines.push(`${st.name}: ${st.titel}`);
     lines.push(`Probe | ${st.spalte || 'Inhalt'} | Vermutung (Begründung) | Beobachtung | Erwartung laut Skript`);
     for (const p of st.proben) {
@@ -140,8 +148,11 @@ export function protokollText({ names, versuch, protokoll }) {
     }
     lines.push('');
   }
-  if (protokoll.notiz) lines.push(`Besonderheiten: ${protokoll.notiz}`, '');
-  lines.push('Merksatz: Beim Denaturieren (Gerinnen) verliert das Eiweiß seine Form: Aus klarem Eiklar wird festes Eiweiß. Der Vorgang ist nicht umkehrbar.');
+  const notiz = protokoll[notizSchluessel(stationen)];
+  if (notiz) lines.push(`Besonderheiten: ${notiz}`, '');
+  lines.push(nurLieferung
+    ? 'Fazit: Eine Violettfärbung beim Biuret-Test zeigt Eiweiß an. Bleibt die Probe blau, ist kein Eiweiß enthalten.'
+    : 'Merksatz: Beim Denaturieren (Gerinnen) verliert das Eiweiß seine Form: Aus klarem Eiklar wird festes Eiweiß. Der Vorgang ist nicht umkehrbar.');
   return lines.join('\n');
 }
 

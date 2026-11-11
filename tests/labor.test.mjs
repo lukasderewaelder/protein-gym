@@ -24,7 +24,8 @@ test('Versuchsdaten: acht Proben, eindeutige IDs, Erwartungen und Treffer-Listen
     assert.ok(/^#[0-9a-f]{6}$/i.test(p.sim.farbe), `${p.id}: Farbe`);
   }
   assert.equal(V.stationA.proben.length, 5, 'Station Hitze hat fünf Proben');
-  assert.equal(V.stationB.proben.length, 3, 'Station Nachweis hat drei Proben');
+  assert.equal(V.lieferung.proben.length, 3, 'Die neue Lieferung hat drei Proben');
+  assert.deepEqual(V.lieferung.proben.map(probenName), ['Eiweißshake', 'Zuckerlösung', 'Wasser']);
   assert.ok(V.stationA.proben.some((p) => /Wasser/.test(probenName(p))), 'Kontrolle mit Wasser');
 });
 
@@ -33,8 +34,8 @@ test('Je Glas nur ein Versuch: Station A hat fünf verschiedene Einflüsse, Salz
   assert.equal(new Set(namen).size, 5);
   assert.deepEqual(namen.map((n) => n.split(' ')[0]), ['Hitze', 'Salzsäure', 'Kupfersulfat-Lösung', 'Ethanol', 'Wasser']);
   assert.doesNotMatch(JSON.stringify([V, A.aufgaben.a4]), /Essigsäure/);
-  assert.match(V.stationA.regel + V.stationB.regel, /nur ein/);
-  for (const p of V.stationB.proben) assert.ok(!/ \+ | und /.test(probenName(p)), `${p.id}: nur eine Probe im Glas`);
+  assert.match(V.stationA.regel + V.lieferung.regel, /nur ein/);
+  for (const p of V.lieferung.proben) assert.ok(!/ \+ | und /.test(probenName(p)), `${p.id}: nur eine Probe im Glas`);
 });
 
 test('Schutzkleidung im Labor: Kittel und Schutzbrille, keine Handschuhe', () => {
@@ -56,15 +57,15 @@ test('Das Labor schickt zur Lehrkraft: kein virtueller Versuch mehr', () => {
 });
 
 test('Beobachtung wird nie als falsch behandelt, nur mit dem Skript verglichen', () => {
-  const eiklarBiuret = V.stationB.proben[0];
+  const eiklarBiuret = V.lieferung.proben[0]; // Eiweißshake
   assert.equal(beobachtungPasst(eiklarBiuret, 'violett'), true);
   assert.equal(beobachtungPasst(eiklarBiuret, 'hellblau'), false);
   assert.equal(beobachtungPasst(eiklarBiuret, ''), false);
 });
 
-test('Station A und B nutzen unterschiedliche Namen und nicht „Niveau A/B“-Begriffe', () => {
+test('Hitze-Station und Nachweis-Station haben unterschiedliche Namen und nicht „Niveau A/B“-Begriffe', () => {
   assert.match(V.stationA.name, /Hitze/);
-  assert.match(V.stationB.name, /Nachweis/);
+  assert.match(V.lieferung.name, /Nachweis/);
 });
 
 test('Reihenfolge: richtige Präfixe, falsche Schritte, fertig', () => {
@@ -78,15 +79,44 @@ test('Reihenfolge: richtige Präfixe, falsche Schritte, fertig', () => {
 test('Protokolltext enthält Namen, Vermutung, Beobachtung und Erwartung', () => {
   const protokoll = {
     vermutung: { p1: { wahl: 'trüb oder fest', warum: 'Hitze' }, b1: { wahl: 'violett', warum: '' } },
-    beobachtung: { p1: { wahl: 'trüb und fest', notiz: 'nach 2 Minuten' }, b3: { wahl: 'blau (kein Violett)', notiz: '' } },
+    beobachtung: { p1: { wahl: 'trüb und fest', notiz: 'nach 2 Minuten' }, b2: { wahl: 'blau (kein Violett)', notiz: '' } },
     notiz: 'Probe 2 nur leicht trüb',
   };
   const t = protokollText({ names: ['Mia', 'Tom'], versuch: V, protokoll });
   assert.match(t, /Namen: Mia, Tom/);
   assert.match(t, /1 \| Hitze im Wasserbad \| trüb oder fest \(Hitze\) \| trüb und fest \(nach 2 Minuten\) \| trüb, fest/);
-  assert.match(t, /3 \| Zuckerlösung \| – \| blau \(kein Violett\) \| kein Violett \(blau\)/);
+  assert.match(t, /2 \| Zuckerlösung \| – \| blau \(kein Violett\) \| kein Violett \(blau\)/);
   assert.match(t, /Besonderheiten: Probe 2 nur leicht trüb/);
   assert.match(t, /Denaturieren \(Gerinnen\)/);
+});
+
+test('Denaturierung und Biuret-Nachweis sind getrennte Versuche: a4 ohne Biuret, a7 nur mit der Lieferung', () => {
+  for (const n of ['A', 'B', 'C']) {
+    for (const st of A.aufgaben.a4.niveaus[n]) if (st.stationen) assert.deepEqual(st.stationen, ['stationA'], `a4/${n}`);
+    for (const st of A.aufgaben.a7.niveaus[n]) if (st.stationen) assert.deepEqual(st.stationen, ['lieferung'], `a7/${n}`);
+    assert.doesNotMatch(JSON.stringify(A.aufgaben.a4.niveaus[n]), /Biuret|Zuckerlösung|Natronlauge/, `a4/${n}: kein Nachweis im Denaturierungsversuch`);
+    assert.match(JSON.stringify(A.aufgaben.a7.niveaus[n]), /Biuret|Natronlauge/, `a7/${n}: der Nachweis steckt in der Lieferungs-Prüfung`);
+  }
+  assert.ok(!A.aufgaben.a4.braucht.includes('k_biuret'), 'a4 braucht die Biuret-Karte nicht mehr');
+  assert.ok(A.aufgaben.a7.braucht.includes('quiz_done'), 'die Prüfung der Lieferung kommt nach der Auflösung');
+  assert.equal(A.raeume.lieferung.fertigFlag, 'lieferung_done');
+  assert.equal(A.raeume.lieferung.niveauVon, 'labor');
+  assert.deepEqual(alleProben(V, ['stationA']).map((p) => p.id), ['p1', 'p2', 'p3', 'p4', 'p5']);
+  assert.deepEqual(alleProben(V, ['lieferung']).map((p) => p.id), ['b1', 'b2', 'b3']);
+  const nurLieferung = protokollText({ names: ['Mia'], versuch: V, protokoll: {}, stationen: ['lieferung'] });
+  assert.match(nurLieferung, /Protokoll: Neue Lieferung/);
+  assert.equal(nurLieferung.split('\n').filter((l) => /^\d \|/.test(l)).length, 3);
+  assert.match(nurLieferung, /Eiweißshake/);
+  assert.doesNotMatch(nurLieferung, /Hitze im Wasserbad/);
+});
+
+test('Nachweis-Station im Labor: vor der Auflösung leer, danach die Lieferungs-Prüfung', () => {
+  const hs = S.szenen.find((s) => s.id === 'labor').hotspots.filter((h) => h.label === 'Nachweis-Station');
+  const leer = hs.find((h) => h.nicht === 'quiz_done');
+  const echt = hs.find((h) => h.wenn === 'quiz_done');
+  assert.ok(leer && echt, 'zwei Fassungen');
+  assert.equal(echt.task, 'lieferung_menu');
+  assert.deepEqual([leer.x, leer.y], [echt.x, echt.y]);
 });
 
 test('Protokolltext funktioniert auch ohne jede Eingabe', () => {

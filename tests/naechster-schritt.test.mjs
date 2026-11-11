@@ -28,12 +28,14 @@ test('Ganzer Spielverlauf: die Station wechselt in der richtigen Reihenfolge', (
   setze('k_bauplan', 'k_rest', 'k_kette', 'k_struktur', 'a3_done', 'a1_done', 'training_done');
   setze('k_dose', 'k_abbau', 'k_geronnen', 'a6_done', 'shakebar_done');
   setze('quiz_done');
+  setze('a7_done', 'lieferung_done');
+  setze('quiz2_task', 'quiz2_done');
   assert.deepEqual(verlauf, [
     'spind', 'empfang_hinweise', 'einweisung', 'fuehrerschein', 'leser',
     'labor_hinweise', 'labor_freigabe', 'labor_aufgabe',
     'sauna_code_suchen', 'saunatuer', 'sauna_hinweise', 'sauna_aufgabe',
     'training_hinweise', 'training_aufgabe', 'shakebar_hinweise', 'shakebar_aufgabe',
-    'aufloesung', 'fertig',
+    'aufloesung', 'lieferung_labor', 'schlussquiz', 'fertig',
   ]);
 });
 
@@ -55,7 +57,7 @@ test('Jede Station hat grobe und konkrete Hilfe von Markus', () => {
   // alle möglichen Stationen einsammeln: Flags nacheinander setzen, außerdem die festen Stationen
   for (const t of Object.values(A.aufgaben)) f[t.flag] = false;
   const alle = ['spind', 'empfang_hinweise', 'einweisung', 'fuehrerschein', 'leser', 'labor_hinweise', 'labor_freigabe', 'labor_aufgabe', 'sauna_code_suchen', 'saunatuer',
-    'sauna_hinweise', 'sauna_aufgabe', 'training_hinweise', 'training_aufgabe', 'shakebar_hinweise', 'shakebar_aufgabe', 'aufloesung', 'fertig'];
+    'sauna_hinweise', 'sauna_aufgabe', 'training_hinweise', 'training_aufgabe', 'shakebar_hinweise', 'shakebar_aufgabe', 'aufloesung', 'lieferung_labor', 'schlussquiz', 'fertig'];
   for (const id of alle) {
     const s = H.schritte[id];
     assert.ok(s, `Text für ${id}`);

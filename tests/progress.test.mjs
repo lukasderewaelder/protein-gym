@@ -66,3 +66,42 @@ test('Falsche Länge und leere Eingabe', () => {
   assert.equal(decodeProgress('PG-1234').ok, false);
   assert.match(decodeProgress('PG-1234').reason, /Länge/);
 });
+
+test('Version 6: Schlussquiz-Ergebnis und die neuen Flags überstehen den Rundlauf, die Layout-Längen sind verschieden', () => {
+  const flags = { quiz_done: true, a7_done: true, lieferung_done: true, quiz2_task: true, quiz2_done: true };
+  const res = decodeProgress(encodeProgress({ scene: 'empfang', flags, quiz: { richtig: 3, von: 4 }, quiz2: { richtig: 2, von: 2 } }));
+  assert.equal(res.ok, true);
+  assert.deepEqual(res.state.flags, flags);
+  assert.deepEqual(res.state.quiz, { richtig: 3, von: 4 });
+  assert.deepEqual(res.state.quiz2, { richtig: 2, von: 2 });
+  const ohne = decodeProgress(encodeProgress({ scene: 'empfang', flags: {} }));
+  assert.equal(ohne.state.quiz2, null, 'Schlussquiz nicht gespielt');
+  assert.equal(CODE_CHARS, 24, 'Version 6 ist 24 Zeichen lang (Version 5: 23, Version 4: 16), die Länge verrät die Version');
+});
+
+test('Codes der Version 5 bleiben lesbar: Quiz 1 fertig, Prüfung der Lieferung und Schlussquiz fehlen noch', () => {
+  const ALPHABET = '0123456789ABCDEFGHJKMNPQRSTVWXYZ';
+  const flags5 = FLAG_LIST.slice(0, FLAG_LIST.length - 4);
+  assert.equal(flags5.length, 63);
+  assert.equal(flags5[62], 'bz_6', 'die ersten 63 Flags dürfen sich nie ändern');
+  let v = 0n;
+  const put = (w, b) => { v = (v << BigInt(b)) | (BigInt(w) & ((1n << BigInt(b)) - 1n)); };
+  put(5, 4); put(0, 2); put(0, 2); put(0, 2); put(0, 3); // Version 5, Look, Szene empfang
+  for (const f of flags5) put(['shakebar_done', 'quiz_done'].includes(f) ? 1 : 0, 1);
+  for (let i = 0; i < 4; i++) put(1, 2);
+  put(3, 3); put(1, 2); put(4826, 14); // Quiz 3 von 4, Täter, Saunacode
+  let crc = 0; let b = v; const bytes = [];
+  while (b > 0n) { bytes.push(Number(b & 0xffn)); b >>= 8n; }
+  for (const byte of bytes.reverse()) { crc ^= byte; for (let i = 0; i < 8; i++) crc = (crc & 0x80) ? ((crc << 1) ^ 0x07) & 0xff : (crc << 1) & 0xff; }
+  put(crc, 8);
+  let s = '';
+  for (let i = 22; i >= 0; i--) s += ALPHABET[Number((v >> BigInt(i * 5)) & 31n)];
+  const res = decodeProgress(s);
+  assert.equal(res.ok, true);
+  assert.equal(res.state.flags.quiz_done, true);
+  assert.equal(res.state.flags.lieferung_done, undefined, 'alte Stände holen die Prüfung nach');
+  assert.equal(res.state.flags.quiz2_done, undefined);
+  assert.equal(res.state.quiz2, undefined);
+  assert.deepEqual(res.state.quiz, { richtig: 3, von: 4 });
+  assert.equal(res.state.codes.sauna, '4826');
+});

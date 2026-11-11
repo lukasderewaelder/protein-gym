@@ -128,7 +128,13 @@
   "labor.nachweis": {
     "speaker": "Nachweis-Station",
     "lines": [
-      "Hier machst du den Biuret-Nachweis und trägst deine Beobachtung ins Protokoll ein."
+      "Hier prüfst du die neue Lieferung mit dem Biuret-Nachweis und trägst deine Beobachtung ins Protokoll ein."
+    ]
+  },
+  "labor.nachweis.spaeter": {
+    "speaker": "Nachweis-Station",
+    "lines": [
+      "Hier steht noch nichts bereit. Später gibt es hier etwas zu prüfen."
     ]
   },
   "labor.kuehlschrank": {
@@ -224,7 +230,7 @@
     "speaker": "Markus",
     "portrait": "trainer",
     "lines": [
-      "Gut! Als Nächstes das Labor, die Tür mit dem Reagenzglas. Dort findest du heraus, was Eiweiß gerinnen lässt und wie man Eiweiß nachweist.",
+      "Gut! Als Nächstes das Labor, die Tür mit dem Reagenzglas. Dort findest du heraus, was Eiweiß gerinnen lässt.",
       "Ohne Laborführerschein kommst du aber nicht hinein: Tippe auf die Labortür, dann stelle ich dir drei Sicherheitsfragen. Mit dem Ausweis öffnest du die Tür am Kartenlesegerät.",
       "Such im Labor zuerst die Hinweise an den funkelnden Dingen, dann klappt die Aufgabe."
     ]
@@ -249,6 +255,28 @@
     "portrait": "trainer",
     "lines": [
       "Zum Schluss die Shake-Bar, die Tür mit dem Becher. Dort wendest du dein Wissen an. Danach lösen wir den Fall gemeinsam: Komm zu mir, wenn du in allen Räumen warst."
+    ]
+  },
+  "empfang.coach.lieferung": {
+    "speaker": "Markus",
+    "portrait": "trainer",
+    "lines": [
+      "Du hast den Fall gelöst, super! Eine Sache fehlt noch: Heute Morgen ist eine neue Lieferung gekommen.",
+      "Prüf im Labor an der Nachweis-Station, ob sie Eiweiß enthält. Den Versuch machst du bei deiner Lehrkraft."
+    ]
+  },
+  "labor.lieferung.fertig": {
+    "speaker": "Markus (Funk)",
+    "portrait": "trainer",
+    "lines": [
+      "Sehr gut, die Lieferung ist geprüft! Komm bitte noch kurz zu mir in den Empfang. Ich habe zum Abschluss noch zwei Fragen."
+    ]
+  },
+  "empfang.coach.schlussquiz": {
+    "speaker": "Markus",
+    "portrait": "trainer",
+    "lines": [
+      "Bevor du gehst: Zwei kurze Fragen zum Nachweis, dann bekommst du dein Zertifikat."
     ]
   },
   "shakebar.spur": {

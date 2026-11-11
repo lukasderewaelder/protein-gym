@@ -40,7 +40,7 @@
     "labor_aufgabe": {
       "ort": "Labor",
       "grob": "Du hast alle Hinweise und die Freigabe. Jetzt kannst du die Aufgabe im Labor machen.",
-      "konkret": "Tippe auf eine der beiden Stationen mit dem Ausrufezeichen, den Herd links oder das Probenregal rechts, und wähle die Aufgabe."
+      "konkret": "Tippe auf die Station mit dem Ausrufezeichen, den Herd links, und wähle die Aufgabe."
     },
     "sauna_code_suchen": {
       "ort": "Spind",
@@ -91,6 +91,16 @@
       "ort": "Empfang",
       "grob": "Du warst in allen Räumen. Jetzt lösen wir den Fall gemeinsam.",
       "konkret": "Geh zurück in den Empfang und tippe auf Markus für die Auflösung."
+    },
+    "lieferung_labor": {
+      "ort": "Labor",
+      "grob": "Der Fall ist gelöst, aber im Labor wartet noch eine neue Lieferung. Prüf, ob sie Eiweiß enthält.",
+      "konkret": "Geh ins Labor und tippe auf die Nachweis-Station, das Regal rechts. Den Versuch machst du bei deiner Lehrkraft."
+    },
+    "schlussquiz": {
+      "ort": "Empfang",
+      "grob": "Die Lieferung ist geprüft. Jetzt noch zwei kurze Fragen zum Nachweis, dann bekommst du dein Zertifikat.",
+      "konkret": "Geh zurück in den Empfang und tippe auf Markus."
     },
     "fertig": {
       "ort": "Überall",

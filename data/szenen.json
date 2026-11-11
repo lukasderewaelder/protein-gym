@@ -58,7 +58,8 @@
       "hotspots": [
         { "id": "tafel", "label": "Tafel: Versuch frei?", "type": "dialog", "x": 810, "y": 315, "r": 100, "aktion": "freigabe" },
         { "id": "hitze", "label": "Hitze-Station", "type": "task", "x": 385, "y": 540, "r": 90, "dialog": "labor.hitze", "task": "labor_menu" },
-        { "id": "nachweis", "label": "Nachweis-Station", "type": "task", "x": 1160, "y": 580, "r": 90, "dialog": "labor.nachweis", "task": "labor_menu" },
+        { "id": "nachweis_leer", "label": "Nachweis-Station", "type": "dialog", "x": 1160, "y": 580, "r": 90, "dialog": "labor.nachweis.spaeter", "nicht": "quiz_done" },
+        { "id": "nachweis", "label": "Nachweis-Station", "type": "task", "x": 1160, "y": 580, "r": 90, "dialog": "labor.nachweis", "task": "lieferung_menu", "wenn": "quiz_done" },
         { "id": "kuehlschrank", "label": "Kühlschrank", "type": "dialog", "x": 1165, "y": 335, "r": 80, "karte": "k_denat" },
         { "id": "plakat", "label": "Plakat: Nachweise", "type": "dialog", "x": 545, "y": 315, "r": 70, "karte": "k_biuret" },
         { "id": "kurt", "label": "Kupfer-Kurt", "type": "npc", "x": 700, "y": 640, "r": 80, "dialog": "labor.kurt", "karte": "k_ausloeser", "color": "#c97b3c" },

@@ -9,7 +9,7 @@ import { aufkleber } from './zugang.js';
 const RAUM_REIHENFOLGE = ['empfang', 'labor', 'sauna', 'training', 'shakebar'];
 const RAUM_NAMEN = { empfang: 'Empfang', training: 'Trainingsfläche', labor: 'Labor', sauna: 'Sauna', shakebar: 'Shake-Bar' };
 
-const AB_TEXT = { sauna_done: 'die Sauna', training_done: 'die Trainingsfläche', shakebar_done: 'die Shake-Bar' };
+const AB_TEXT = { sauna_done: 'die Sauna', training_done: 'die Trainingsfläche', shakebar_done: 'die Shake-Bar', lieferung_done: 'die Prüfung der neuen Lieferung' };
 
 export function createNotebook({ dialogEl, wissen, glossar, hefter, inventar, store, onFund, onOpen, extras, onCode, onInventar }) {
   const body = dialogEl.querySelector('.nb-body');
@@ -132,7 +132,9 @@ export function createNotebook({ dialogEl, wissen, glossar, hefter, inventar, st
       }
       e.teile.forEach((t, i) => {
         if (t.ueb) blatt.append(h('h4', 'blatt-ueb', t.ueb));
-        if (t.typ === 'merksatz') blatt.append(h('p', 'blatt-merk', t.text));
+        // Nur Wichtiges ist ein Merksatz: roter Rahmen, Überschrift „Merke: <Begriff>“; alles andere ist normaler Text
+        if (t.typ === 'merksatz') blatt.append(h('div', 'blatt-merk', h('p', 'blatt-merke-kopf', t.merke ? `Merke: ${t.merke}` : 'Merke'), h('p', 'blatt-merke-text', t.text)));
+        else if (t.typ === 'text') blatt.append(h('p', 'blatt-text', t.text));
         else if (t.typ === 'hinweis') blatt.append(h('p', 'blatt-hinweis', t.text));
         else blatt.append(h('div', 'blatt-auftrag', h('p', {}, t.text), haken(`${e.id}.${i}`)));
       });
