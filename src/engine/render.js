@@ -145,11 +145,20 @@ function drawStaticSprite(ctx, img, x, y, h) {
   ctx.drawImage(img, x - (img.width * k) / 2, y - h, img.width * k, h);
 }
 
+/**
+ * Wo ein Hotspot im Bild zu sehen und antippbar ist. x/y/r sind der Standort davor (dorthin läuft die Figur, von dort aus gilt
+ * „nah dran“); `ziel` ({ x, y, r? }) ist der Gegenstand selbst (Funke, Haken, Symbol und Tippfläche). Ohne `ziel` fällt beides zusammen.
+ */
+export function zielPos(hs) {
+  return hs.ziel ? { x: hs.ziel.x, y: hs.ziel.y } : { x: hs.x, y: hs.y };
+}
+
 /** Kleiner Funke: Hier gibt es etwas zu entdecken (erscheint nur, wenn die Figur nah dran ist). */
 function drawSpark(ctx, hs, time) {
   const pulse = 1 + Math.sin(time * 5) * 0.18;
+  const z = zielPos(hs);
   ctx.save();
-  ctx.translate(hs.x, hs.y);
+  ctx.translate(z.x, z.y);
   ctx.fillStyle = 'rgba(255,224,102,0.95)';
   ctx.strokeStyle = '#1c1c1c';
   ctx.lineWidth = 3;
@@ -176,8 +185,9 @@ function fundPfade(art) {
 function drawFound(ctx, hs, card) {
   const art = fundart(card && card.medium);
   const zusatz = Boolean(card && card.typ === 'zusatz');
+  const z = zielPos(hs);
   ctx.save();
-  ctx.translate(hs.x, hs.y);
+  ctx.translate(z.x, z.y);
   ctx.fillStyle = 'rgba(255,253,242,0.94)';
   ctx.strokeStyle = zusatz ? '#8f5cc0' : art.farbe;
   ctx.lineWidth = 5;
@@ -228,8 +238,9 @@ function drawGeraet(ctx, hs, time, offen) {
 
 /** Schließfach mit Zahlenschloss: kleine Platte mit Nummer und Lämpchen (gelb zu, grün offen). */
 function drawFach(ctx, hs, time, offen) {
+  const z = zielPos(hs);
   ctx.save();
-  ctx.translate(hs.x, hs.y);
+  ctx.translate(z.x, z.y);
   ctx.fillStyle = '#2b3b3f';
   ctx.strokeStyle = '#0c1517';
   ctx.lineWidth = 3;
@@ -281,8 +292,9 @@ function drawTuerAnim(ctx, a, scene) {
 function drawMarker(ctx, hs, time, locked, showLabel) {
   const pulse = 1 + Math.sin(time * 4) * 0.08;
   const r = 26 * pulse;
+  const z = zielPos(hs);
   ctx.save();
-  ctx.translate(hs.x, hs.y + (hs.type === 'npc' ? -FIGURE_HEIGHT - 36 : 0));
+  ctx.translate(z.x, z.y + (hs.type === 'npc' ? -FIGURE_HEIGHT - 36 : 0));
   ctx.fillStyle = locked ? 'rgba(120,130,135,0.75)' : 'rgba(255,214,64,0.88)';
   ctx.strokeStyle = '#1c1c1c';
   ctx.lineWidth = 4;
@@ -354,6 +366,18 @@ export function drawScene(ctx, st) {
       continue;
     }
     drawMarker(ctx, hs, time, st.isLocked ? st.isLocked(hs) : false, showLabels);
+    // Editiermodus: Linie vom Standort zum Gegenstand (ziel)
+    if (st.showAll && hs.ziel) {
+      ctx.save();
+      ctx.strokeStyle = 'rgba(255,255,255,0.8)';
+      ctx.setLineDash([8, 6]);
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(hs.x, hs.y);
+      ctx.lineTo(hs.ziel.x, hs.ziel.y);
+      ctx.stroke();
+      ctx.restore();
+    }
   }
   if (st.tuerAnim) drawTuerAnim(ctx, st.tuerAnim, scene);
   if (st.overlay) st.overlay(ctx);

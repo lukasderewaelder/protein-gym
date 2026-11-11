@@ -4,7 +4,7 @@ import { createStore, browserStorage } from './state/store.js';
 import { createViewport } from './engine/viewport.js';
 import { buildGrid, findPath, nearestWalkable } from './engine/grid.js';
 import { createPlayer, setPath, updatePlayer } from './engine/player.js';
-import { drawScene, SHIRTS, SKINS, HAIRS, FIGURE_HEIGHT } from './engine/render.js';
+import { drawScene, zielPos, SHIRTS, SKINS, HAIRS, FIGURE_HEIGHT } from './engine/render.js';
 import { loadFirst, loadFigureSprites, loadNpcSprite } from './engine/assets.js';
 import { createDialog, zeilenFuellen } from './ui/dialog.js';
 import { initStart } from './ui/start.js';
@@ -491,6 +491,12 @@ function hitHotspot(p) {
   for (let i = list.length - 1; i >= 0; i--) {
     const hs = list[i];
     if (!istSichtbar(hs, (f) => store.hasFlag(f))) continue;
+    // Mit `ziel` zählt nur der Gegenstand selbst (genau dort, wo Funke oder Haken zu sehen sind), nicht der Boden davor
+    if (hs.ziel) {
+      const z = zielPos(hs);
+      if (Math.hypot(p.x - z.x, p.y - z.y) <= Math.max(hs.ziel.r || 55, minR)) return hs;
+      continue;
+    }
     const r = Math.max(hs.r || 60, minR);
     const body = hs.type === 'npc' ? FIGURE_HEIGHT * 0.5 : 0;
     if (Math.hypot(p.x - hs.x, p.y - hs.y) <= r || (body && Math.hypot(p.x - hs.x, p.y - (hs.y - body)) <= r)) return hs;

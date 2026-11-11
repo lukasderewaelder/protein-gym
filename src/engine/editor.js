@@ -8,6 +8,7 @@ const MODES = [
   ['walk', 'Laufen'],
   ['sperr', 'Sperrzone ziehen'],
   ['hotspot', 'Hotspot setzen'],
+  ['ziel', 'Ziel setzen (Hotspot antippen, dann Gegenstand)'],
   ['loeschen', 'Löschen'],
 ];
 
@@ -21,6 +22,7 @@ export function loadEdits(sceneId, storage) {
 export function createEditor({ toolbar, output, getScene, storage, onChange }) {
   let mode = 'walk';
   let drag = null;
+  let gewaehlt = null; // Modus „ziel“: der Hotspot, dessen Ziel als Nächstes gesetzt wird
   const ed = {
     get active() { return mode !== 'walk'; },
     get mode() { return mode; },
@@ -98,6 +100,14 @@ export function createEditor({ toolbar, output, getScene, storage, onChange }) {
         if (ri >= 0) s.blocked.splice(ri, 1);
       }
       persist();
+    } else if (mode === 'ziel') {
+      const s = getScene();
+      const hi = hitSpot(p);
+      if (hi >= 0) { gewaehlt = s.hotspots[hi]; onChange && onChange(); return; }
+      if (gewaehlt) {
+        gewaehlt.ziel = { x: Math.round(p.x), y: Math.round(p.y), r: (gewaehlt.ziel && gewaehlt.ziel.r) || 55 };
+        persist();
+      }
     } else if (mode === 'hotspot') {
       const id = window.prompt('Hotspot-ID (z. B. spind):');
       if (!id) return;
@@ -134,11 +144,18 @@ export function createEditor({ toolbar, output, getScene, storage, onChange }) {
       ctx.fillText(String(i), x + 8, y + 26);
     });
     for (const h of s.hotspots) {
-      ctx.strokeStyle = 'rgba(80,220,255,0.95)';
-      ctx.lineWidth = 3;
+      ctx.strokeStyle = h === gewaehlt ? 'rgba(255,235,59,0.95)' : 'rgba(80,220,255,0.95)';
+      ctx.lineWidth = h === gewaehlt ? 6 : 3;
       ctx.beginPath();
       ctx.arc(h.x, h.y, h.r || 60, 0, Math.PI * 2);
       ctx.stroke();
+      if (h.ziel) {
+        ctx.strokeStyle = 'rgba(255,120,255,0.95)';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.arc(h.ziel.x, h.ziel.y, h.ziel.r || 55, 0, Math.PI * 2);
+        ctx.stroke();
+      }
     }
     if (drag) {
       ctx.strokeStyle = '#ffeb3b';
