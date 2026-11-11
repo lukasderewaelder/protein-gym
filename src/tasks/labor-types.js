@@ -6,6 +6,8 @@
 import { h } from '../ui/dom.js';
 import { svgEl } from './molecule.js';
 import { beobachtungPasst, reihenfolge, alleProben, protokollText, probenName, stationenVon, notizSchluessel } from './check.js';
+import { pruefeCode, schrittFrei, schrittMerken } from '../state/lehrcode.js';
+import { ladeSchluessel } from '../state/klassenwort.js';
 
 function protokoll(ctx) {
   if (!ctx.store.state.protokoll) ctx.store.state.protokoll = {};
@@ -148,11 +150,22 @@ function versuch(host, step, api, ctx) {
   const entsorgung = gewaehlt.map((st) => st.entsorgung).filter(Boolean);
   const sicherheit = entsorgung.length ? [...v.sicherheit.slice(0, -1), ...entsorgung] : v.sicherheit;
   const zeit = gewaehlt.map((st) => [t.zeit.replace('{zeit}', st.zeit), st.zeitHinweis].filter(Boolean).join(' ')).join(' ');
-  const codes = gewaehlt.map((st) => String(st.codeNachVersuch || '')).filter(Boolean);
-  const input = h('input', { class: 'code-eingabe', type: 'text', inputmode: 'numeric', autocomplete: 'off', maxlength: '8', 'aria-label': 'Code deiner Lehrkraft', placeholder: t.codePlatzhalter });
-  const pruefe = () => {
-    // Ein falscher Code zählt nicht als Fehler (api.say), damit das Lösungsbeispiel den Code nie überspringt
-    if (codes.includes(input.value.trim())) { input.disabled = true; api.ok(t.codeRichtig); } else api.say(`✗ ${t.codeFalsch}`);
+  const cfg = v.codeZeit || {};
+  const versuchId = gewaehlt[0].id;
+  const input = h('input', { class: 'code-eingabe', type: 'text', inputmode: 'numeric', autocomplete: 'off', maxlength: String(cfg.stellen || 6), 'aria-label': 'Code deiner Lehrkraft', placeholder: t.codePlatzhalter });
+  // Der Code wechselt alle 30 Sekunden (Klassenwort der Lehrkraft, src/state/lehrcode.js). Falsche, abgelaufene oder schon benutzte Codes
+  // zählen nicht als Fehler (api.say), damit das Lösungsbeispiel den Code nie überspringt.
+  const pruefe = async () => {
+    const schluessel = ladeSchluessel(globalThis.localStorage);
+    if (!schluessel) { api.say(`✗ ${t.codeNichtEingerichtet}`); return; }
+    const schritt = await pruefeCode(schluessel, versuchId, input.value, Date.now(), cfg);
+    if (schritt === null) { api.say(`✗ ${t.codeFalsch}`); return; }
+    const state = ctx.store.state;
+    if (!schrittFrei(state.codeBenutzt, versuchId, schritt)) { api.say(`✗ ${t.codeBenutzt}`); return; }
+    state.codeBenutzt = schrittMerken(state.codeBenutzt, versuchId, schritt);
+    ctx.store.save();
+    input.disabled = true;
+    api.ok(t.codeRichtig);
   };
   input.addEventListener('keydown', (e) => { if (e.key === 'Enter') pruefe(); });
   host.append(

@@ -8,7 +8,7 @@ const enc = new TextEncoder();
 const SALZ_PRUEFWERT = 'protein-gym-klassenwort-pruefwert-v1';
 const SALZ_SCHLUESSEL = 'protein-gym-klassenwort-schluessel-v1';
 
-export const ITERATIONEN = 150000;
+export const ITERATIONEN = 600000;
 /** Vorgaben, falls data/versuch.json (codeZeit) etwas nicht nennt. */
 export const CODE_ZEIT = { sekunden: 30, vorher: 1, nachher: 1, stellen: 6 };
 

@@ -27,12 +27,55 @@
     .nein { color: var(--muted); }
     .fehler { color: var(--bad); }
     .scroll { overflow-x: auto; }
+    section.codes { background: var(--panel); border: 2px solid #35656b; border-radius: 14px; padding: 12px 16px 14px; margin: 14px 0 22px; }
+    section.codes h2 { margin: 0 0 4px; font-size: 22px; color: var(--accent); }
+    input.text { min-height: 44px; padding: 8px 12px; border-radius: 10px; border: 2px solid #35656b; background: #0d1d20; color: inherit; font: inherit; min-width: 16em; }
+    .codes-gross { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; margin: 12px 0 4px; }
+    .code-karte { background: #0d1d20; border: 2px solid #35656b; border-radius: 12px; padding: 10px 14px; text-align: center; }
+    .code-karte span { color: var(--muted); }
+    .code-karte strong { display: block; font: 800 54px/1.15 ui-monospace, "Courier New", monospace; letter-spacing: 0.08em; color: #ffd24a; }
+    .balken { height: 10px; border-radius: 6px; background: #0d1d20; border: 1px solid #35656b; overflow: hidden; margin: 8px 0 2px; }
+    .balken > div { height: 100%; background: var(--accent); width: 100%; transition: width 0.9s linear; }
+    details.neu { margin-top: 12px; }
+    details.neu summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; color: var(--muted); }
+    pre.zeile { white-space: pre-wrap; word-break: break-all; background: #0d1d20; border: 2px solid #35656b; border-radius: 10px; padding: 10px 12px; font: 14px ui-monospace, "Courier New", monospace; }
   </style>
 </head>
 <body>
   <main>
     <h1>Protein-Gym: Auswertung</h1>
     <p class="hint">Füge die Fortschrittscodes der Klasse ein, einen pro Zeile. Wenn du möchtest, schreibe den Namen davor („Mia: PG-…“). Die Codes enthalten keine Namen. Alles wird nur in diesem Fenster berechnet, es wird nichts gesendet oder gespeichert.</p>
+    <section class="codes" aria-labelledby="codes-titel">
+      <h2 id="codes-titel">Codes nach dem Versuch</h2>
+      <p class="hint">Gib dein Klassenwort ein. Die Codes ändern sich alle 30 Sekunden und gelten pro Tablet nur einmal. Nenne den Gruppen den Code erst, wenn der echte Versuch erledigt ist. Das Klassenwort wird nicht gesendet, die Seite rechnet nur in diesem Fenster.</p>
+      <div class="row">
+        <input id="kw" class="text" type="password" autocomplete="off" spellcheck="false" aria-label="Klassenwort" placeholder="Klassenwort">
+        <button id="kw-los" class="primary" type="button">Codes anzeigen</button>
+        <label class="hint"><input id="kw-merken" type="checkbox"> in diesem Browser merken</label>
+        <button id="kw-weg" type="button" hidden>Vergessen</button>
+      </div>
+      <p id="kw-meldung" class="hint" role="status"></p>
+      <div id="kw-codes" hidden>
+        <div class="codes-gross">
+          <div class="code-karte"><span>Hitze-Versuch (Aufgabe 2 im Labor)</span><strong id="code-A">------</strong></div>
+          <div class="code-karte"><span>Neue Lieferung (Biuret-Nachweis)</span><strong id="code-L">------</strong></div>
+        </div>
+        <div class="balken" aria-hidden="true"><div id="balken"></div></div>
+        <p id="rest" class="hint" role="status"></p>
+      </div>
+      <details class="neu">
+        <summary>Neues Klassenwort festlegen (einmalig, danach in den Quelltext eintragen)</summary>
+        <p class="hint">Wähle mindestens drei zufällige Wörter oder zwölf Zeichen, denn der Prüfwert steht öffentlich im Quelltext. Das Wort selbst steht nirgends. Kopiere die Zeile in <code>data/versuch.json</code> (Eintrag <code>klassenwort</code>), pushe, und richte danach jedes Tablet einmal im Menü unter „Für die Lehrkraft“ ein.</p>
+        <div class="row">
+          <input id="neu-wort" class="text" type="password" autocomplete="off" spellcheck="false" aria-label="Neues Klassenwort" placeholder="Neues Klassenwort">
+          <button id="neu-los" type="button">Prüfwert erzeugen</button>
+        </div>
+        <p id="neu-meldung" class="hint" role="status"></p>
+        <pre id="neu-zeile" class="zeile" hidden></pre>
+        <button id="neu-kopieren" type="button" hidden>Zeile kopieren</button>
+      </details>
+    </section>
+    <h2 style="margin:18px 0 4px">Auswertung der Fortschrittscodes</h2>
     <label for="eingabe" class="hint">Codes</label>
     <textarea id="eingabe" spellcheck="false" placeholder="Mia: PG-201P-1022-1011-AB&#10;Tom: PG-…"></textarea>
     <div class="row">
@@ -50,6 +93,7 @@
   </main>
   <script type="module">
     import { parseZeilen, auswertungZeile, zusammenfassung, csvText, RAUM_NAMEN } from './src/state/auswertung.js';
+    import { pruefwertVon, schluesselAus, wortPasst, aktuellerCode, restSekunden, ITERATIONEN, CODE_ZEIT } from './src/state/lehrcode.js';
     const $ = (s) => document.querySelector(s);
     let rows = [];
     function zelle(text, cls) { const td = document.createElement('td'); td.textContent = text; if (cls) td.className = cls; return td; }
@@ -84,6 +128,70 @@
       const t = csvText(rows);
       try { await navigator.clipboard.writeText(t); $('#meldung').textContent = 'Tabelle kopiert. In Excel oder LibreOffice einfügen (Trennzeichen Semikolon).'; }
       catch { $('#eingabe').value = t; $('#meldung').textContent = 'Kopieren ging nicht. Die Tabelle steht im Textfeld, bitte von dort kopieren.'; }
+    });
+    // ---------- Codes nach dem Versuch (zeitbasiert, src/state/lehrcode.js) ----------
+    const MERKEN = 'protein-gym:lehrkraft-seite';
+    let taktId = null;
+    const gruppe = (c) => c.slice(0, 3) + ' ' + c.slice(3);
+    async function zeigeCodes(schluessel, cfg) {
+      const c = { ...CODE_ZEIT, ...cfg };
+      const jetzt = Date.now();
+      $('#code-A').textContent = gruppe(await aktuellerCode(schluessel, 'A', jetzt, c));
+      $('#code-L').textContent = gruppe(await aktuellerCode(schluessel, 'L', jetzt, c));
+      const rest = restSekunden(jetzt, c.sekunden);
+      $('#balken').style.width = (rest / c.sekunden) * 100 + '%';
+      $('#rest').textContent = 'Der Code wechselt in ' + rest + ' Sekunden. Der vorige Code gilt noch kurz mit.';
+    }
+    function starteTakt(schluessel, cfg) {
+      clearInterval(taktId);
+      $('#kw-codes').hidden = false;
+      zeigeCodes(schluessel, cfg);
+      taktId = setInterval(() => zeigeCodes(schluessel, cfg), 1000);
+    }
+    async function ladeDaten() { return (await fetch('data/versuch.json', { cache: 'no-store' })).json(); }
+    $('#kw-los').addEventListener('click', async () => {
+      const m = $('#kw-meldung');
+      m.className = 'hint'; m.textContent = 'Prüfe …';
+      try {
+        const v = await ladeDaten();
+        const kw = v.klassenwort || {};
+        if (!kw.hash) { m.textContent = 'Im Quelltext ist noch kein Prüfwert eingetragen (siehe „Neues Klassenwort festlegen“).'; return; }
+        if (!(await wortPasst($('#kw').value, kw.hash, kw.iterationen))) { m.className = 'fehler'; m.textContent = 'Das Klassenwort stimmt nicht.'; return; }
+        const schluessel = await schluesselAus($('#kw').value, kw.iterationen);
+        $('#kw').value = '';
+        m.textContent = '';
+        if ($('#kw-merken').checked) { try { localStorage.setItem(MERKEN, schluessel); $('#kw-weg').hidden = false; } catch { /* ohne Speicher */ } }
+        starteTakt(schluessel, v.codeZeit);
+      } catch { m.className = 'fehler'; m.textContent = 'Das hat nicht geklappt (Verbindung oder Browser).'; }
+    });
+    $('#kw').addEventListener('keydown', (e) => { if (e.key === 'Enter') $('#kw-los').click(); });
+    $('#kw-weg').addEventListener('click', () => {
+      try { localStorage.removeItem(MERKEN); } catch { /* egal */ }
+      clearInterval(taktId);
+      $('#kw-codes').hidden = true;
+      $('#kw-weg').hidden = true;
+      $('#kw-meldung').textContent = 'Vergessen. Beim nächsten Mal wieder das Klassenwort eingeben.';
+    });
+    try {
+      const gemerkt = localStorage.getItem(MERKEN);
+      if (gemerkt && /^[0-9a-f]{64}$/.test(gemerkt)) { $('#kw-weg').hidden = false; ladeDaten().then((v) => starteTakt(gemerkt, v.codeZeit)).catch(() => {}); }
+    } catch { /* ohne Speicher */ }
+    // Neues Klassenwort: angezeigt wird nur der Prüfwert
+    $('#neu-los').addEventListener('click', async () => {
+      const w = $('#neu-wort').value.trim();
+      const m = $('#neu-meldung');
+      if (w.length < 12) { m.className = 'fehler'; m.textContent = 'Zu kurz: mindestens zwölf Zeichen oder drei zufällige Wörter.'; return; }
+      m.className = 'hint'; m.textContent = 'Rechne …';
+      const hash = await pruefwertVon(w, ITERATIONEN);
+      $('#neu-wort').value = '';
+      m.textContent = 'Fertig. Diese Zeile ersetzt den Eintrag klassenwort in data/versuch.json:';
+      $('#neu-zeile').textContent = '"klassenwort": { "hash": "' + hash + '", "iterationen": ' + ITERATIONEN + ' },';
+      $('#neu-zeile').hidden = false;
+      $('#neu-kopieren').hidden = false;
+    });
+    $('#neu-kopieren').addEventListener('click', async () => {
+      try { await navigator.clipboard.writeText($('#neu-zeile').textContent); $('#neu-meldung').textContent = 'Kopiert.'; }
+      catch { $('#neu-meldung').textContent = 'Kopieren ging nicht, bitte die Zeile markieren und kopieren.'; }
     });
     window.__auswertung = { parseZeilen, zusammenfassung };
   </script>

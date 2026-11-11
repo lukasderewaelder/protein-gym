@@ -371,6 +371,39 @@ export function createZugang({ dlg, store, daten }) {
     };
   }
 
+  // ---------- Einrichtung für die Lehrkraft ----------
+  /**
+   * Klassenwort der Lehrkraft eingeben, damit dieses Tablet die zeitbasierten Codes nach dem Versuch prüfen kann.
+   * opts: { eingerichtet, hatPruefwert, pruefen(wort) -> Promise<boolean> (speichert bei Erfolg den Schlüssel), entfernen() }.
+   */
+  function klassenwortFenster(opts) {
+    const meldung = h('p', { class: 'zugang-fb', role: 'status' });
+    const karte = h('div', 'zugang-karte');
+    const status = h('p', { class: opts.eingerichtet ? 'zugang-gut' : 'hint' }, opts.eingerichtet ? '✓ Dieses Tablet ist eingerichtet.' : 'Dieses Tablet ist noch nicht eingerichtet.');
+    const wort = h('input', { class: 'name-input', type: 'password', autocomplete: 'off', spellcheck: 'false', 'aria-label': 'Klassenwort', placeholder: 'Klassenwort' });
+    const speichern = async () => {
+      meldung.className = 'zugang-fb';
+      meldung.textContent = 'Prüfe …';
+      const ok = await opts.pruefen(wort.value);
+      wort.value = '';
+      meldung.className = ok ? 'zugang-fb gut' : 'zugang-fb schlecht';
+      meldung.textContent = ok ? '✓ Eingerichtet. Die Codes nach dem Versuch werden jetzt geprüft.' : '✗ Das Klassenwort stimmt nicht.';
+      if (ok) { status.className = 'zugang-gut'; status.textContent = '✓ Dieses Tablet ist eingerichtet.'; }
+    };
+    wort.addEventListener('keydown', (e) => { if (e.key === 'Enter') speichern(); });
+    karte.append(
+      h('p', {}, 'Nur für die Lehrkraft: Gib das Klassenwort einmal ein. Danach nimmt dieses Tablet die Codes an, die deine Lehrkraft nach dem Versuch nennt.'),
+      status,
+      opts.hatPruefwert ? wort : h('p', 'hint', 'Es ist noch kein Klassenwort festgelegt (Lehrkraft-Seite, Abschnitt „Neues Klassenwort“).'),
+      meldung,
+      h('div', 'zugang-knoepfe',
+        opts.hatPruefwert ? h('button', { class: 'primary', type: 'button', onclick: speichern }, 'Einrichten') : null,
+        h('button', { type: 'button', onclick: () => { opts.entfernen(); status.className = 'hint'; status.textContent = 'Einrichtung entfernt.'; meldung.textContent = ''; } }, 'Einrichtung entfernen'),
+        h('button', { type: 'button', onclick: () => schliesse() }, 'Schließen')));
+    zeige('Für die Lehrkraft', karte);
+    if (opts.hatPruefwert) wort.focus({ preventScroll: true });
+  }
+
   // ---------- Hilfe von Markus ----------
   /** Zwei Stufen: erst grob, dann auf Knopfdruck konkret. Keine automatischen Hinweise. */
   function hilfe({ titel, knopf, schritt, beiStufe3 }) {
@@ -399,5 +432,5 @@ export function createZugang({ dlg, store, daten }) {
       h('button', { class: 'primary', type: 'button', onclick: () => schliesse() }, 'Schließen')));
   }
 
-  return { zeige, schliesse, fuehrerschein, tastenfeld, drehschloss, schluesselschloss, schluesselFund, fach, hilfe, codeGross, get offen() { return dlg.open; } };
+  return { zeige, schliesse, fuehrerschein, tastenfeld, klassenwortFenster, drehschloss, schluesselschloss, schluesselFund, fach, hilfe, codeGross, get offen() { return dlg.open; } };
 }

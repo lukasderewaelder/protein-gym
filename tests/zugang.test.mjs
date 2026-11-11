@@ -150,9 +150,8 @@ test('Türen: Labor und Sauna haben eine eigene Sperre, die Dialoge dazu sind vo
   assert.equal(leser.aktion, 'leser');
 });
 
-test('Der Saunacode ist nie der Code der Lehrkraft für den Versuch (und wird bei Kollision neu gewürfelt)', () => {
-  const versuch = JSON.parse(readFileSync(new URL('../data/versuch.json', import.meta.url), 'utf8'));
-  const lks = [versuch.stationA.codeNachVersuch, versuch.lieferung.codeNachVersuch].map(String);
+test('Verbotene Codes: der Saunacode wird bei Kollision neu gewürfelt', () => {
+  const lks = ['4711', '2638'];
   for (let i = 0; i < 3000; i++) assert.ok(!lks.includes(wuerfleSaunaCode(Math.random, lks)));
   assert.notEqual(wuerfleSaunaCode(() => (4711 - 1000 + 0.5) / 9000, ['4711']), '4711', 'auch wenn der Zufall genau den Lehrkraft-Code liefert');
   const alt = fakeStorage();

@@ -1,5 +1,7 @@
 {
-  "codeHinweis": "Die Codes nach dem Versuch (codeNachVersuch je Station) stehen im Quelltext. Sie sind nur eine Hürde, damit niemand ohne den echten Versuch weiterspielt, keine Sicherheitsfreigabe.",
+  "codeHinweis": "Die Codes nach dem Versuch ändern sich alle 30 Sekunden und entstehen aus einem geheimen Klassenwort der Lehrkraft. Im Quelltext steht nur ein Prüfwert (klassenwort.hash), nie das Wort. Eine Hürde für die Klasse, keine Sicherheitsfreigabe.",
+  "codeZeit": { "sekunden": 30, "vorher": 1, "nachher": 1, "stellen": 6 },
+  "klassenwort": { "hash": "a1f8d3ba4d184f40216e5f36311e872e63b0fd41fa35baa870976df126d7e469", "iterationen": 600000 },
   "sicherheit": [
     "Kittel und Schutzbrille an.",
     "Tablet weglegen, damit nichts draufspritzt.",
@@ -9,10 +11,12 @@
     "einleitung": "Ab zu deiner Lehrkraft! Dort machst du den Versuch in echt.",
     "sicherheitTitel": "Sicherheit",
     "zeit": "Dauert etwa {zeit}.",
-    "codeFrage": "Nach dem Versuch nennt dir deine Lehrkraft einen Code. Erst damit geht es weiter.",
+    "codeFrage": "Nach dem Versuch nennt dir deine Lehrkraft einen Code. Er gilt nur kurz. Erst damit geht es weiter.",
     "codePlatzhalter": "Code",
     "codeKnopf": "Code eingeben",
-    "codeFalsch": "Das ist nicht der Code. Frag deine Lehrkraft.",
+    "codeFalsch": "Das ist nicht der Code. Er gilt nur kurz, frag deine Lehrkraft nach dem aktuellen.",
+    "codeBenutzt": "Diesen Code hat dieses Tablet schon benutzt. Warte auf den nächsten.",
+    "codeNichtEingerichtet": "Dieses Tablet ist noch nicht freigeschaltet. Deine Lehrkraft richtet es einmal im Menü unter „Für die Lehrkraft“ ein.",
     "codeRichtig": "Versuch erledigt. Jetzt trägst du ein, was du gesehen hast."
   },
   "beobachtungOptionen": ["klar", "trüb", "trüb und fest", "ausgeflockt", "geronnen", "violett", "blau (kein Violett)", "hellblau", "etwas anderes"],
@@ -26,7 +30,6 @@
     "entsorgung": "Glas 3 mit Kupfersulfat-Lösung (Fehling I) kommt in den Sammelbehälter, alles andere in den Ausguss.",
     "zeit": "8 Minuten",
     "zeitHinweis": "Glas 1 steht schon im Wasserbad.",
-    "codeNachVersuch": "2638",
     "vermutungOptionen": ["klar", "trüb oder fest"],
     "proben": [
       { "id": "p1", "nr": 1, "einfluss": "Hitze im Wasserbad", "erwartung": "trüb, fest", "passt": ["trüb", "trüb und fest", "ausgeflockt", "geronnen"], "sim": { "farbe": "#f4efe0", "flocken": 0, "trueb": 1 } },
@@ -44,7 +47,6 @@
     "regel": "Ein Glas, eine Probe, ein Nachweis: erst Natronlauge, dann Kupfersulfat-Lösung (Fehling I).",
     "entsorgung": "Alle Gläser enthalten Kupfersulfat-Lösung (Fehling I) und kommen in den Sammelbehälter.",
     "zeit": "6 Minuten",
-    "codeNachVersuch": "5917",
     "vermutungOptionen": ["violett", "nicht violett"],
     "proben": [
       { "id": "b1", "nr": 1, "probe": "Eiweißshake", "erwartung": "violett", "passt": ["violett"], "sim": { "farbe": "#8f5cc0", "flocken": 0, "trueb": 0 } },

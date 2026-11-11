@@ -164,12 +164,14 @@ test('Sicherheit: drei kurze Punkte (Kittel und Schutzbrille, Tablet, Entsorgung
   assert.match(V.codeHinweis, /keine Sicherheitsfreigabe/);
 });
 
-test('Code der Lehrkraft erst nach dem Versuch: je Versuch ein eigener vierstelliger Code, kein 4711', () => {
+test('Code der Lehrkraft erst nach dem Versuch: zeitbasiert, im Quelltext nur ein Prüfwert, keine festen Codes', () => {
   assert.equal(V.freigabeCode, undefined, 'kein Code vor dem Versuch');
-  const codes = [V.stationA.codeNachVersuch, V.lieferung.codeNachVersuch];
-  for (const c of codes) assert.match(c, /^[0-9]{4}$/);
-  assert.notEqual(codes[0], codes[1]);
-  assert.ok(!codes.includes('4711'));
+  for (const st of [V.stationA, V.lieferung]) assert.equal(st.codeNachVersuch, undefined, 'keine festen Codes im Quelltext');
+  assert.notEqual(V.stationA.id, V.lieferung.id, 'jeder Versuch hat seine eigene Kennung für den Code');
+  assert.match(V.klassenwort.hash, /^[0-9a-f]{64}$/, 'Prüfwert des Klassenworts');
+  assert.ok(V.klassenwort.iterationen >= 300000, 'viele Runden gegen Raten');
+  assert.deepEqual(V.codeZeit, { sekunden: 30, vorher: 1, nachher: 1, stellen: 6 });
+  for (const k of ['codeFalsch', 'codeBenutzt', 'codeNichtEingerichtet', 'codeRichtig']) assert.ok(V.versuchSchritt[k], k);
   for (const id of ['a4', 'a7']) for (const n of Object.values(A.aufgaben[id].niveaus)) {
     const i = n.findIndex((s) => s.type === 'versuch');
     assert.ok(i > 0 && n[i + 1].type === 'beobachtung', `${id}: Beobachtung direkt nach dem Versuch (mit Code)`);

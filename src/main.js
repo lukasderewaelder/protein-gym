@@ -17,6 +17,8 @@ import { alleFallKarten } from './state/fall.js';
 import { merkePosition, holePosition } from './state/zwischenstand.js';
 import { erfuellt, istSichtbar, tafelKarte } from './state/zugang.js';
 import { sperrenderEintrag } from './state/hefter.js';
+import { wortPasst, schluesselAus } from './state/lehrcode.js';
+import { ladeSchluessel, speichereSchluessel, entferneSchluessel } from './state/klassenwort.js';
 import { createZugang, ausweisKarte } from './ui/zugang.js';
 import { liste as inventarListe, neuAnzahl, markiereGesehen } from './state/inventar.js';
 import { renderInventar } from './ui/inventar.js';
@@ -70,8 +72,6 @@ async function loadData() {
   DATA.inventar = inventar;
   DATA.faecher = faecher;
   DATA.hilfe = hilfe;
-  // der Saunacode darf nie ein Code der Lehrkraft sein
-  store.verbieteCodes([versuch.stationA, versuch.lieferung].map((st) => String(st.codeNachVersuch)));
   // Inhalte der Bonus-Schließfächer landen als Gegenstände in der Tasche
   for (const f of faecher.faecher) {
     inventar.gegenstaende.push({ id: `fach${f.id}`, name: f.name, text: f.text, emoji: f.emoji, symbol: 'emoji', hat: f.flag });
@@ -575,6 +575,20 @@ function frame(now) {
   requestAnimationFrame(frame);
 }
 
+/** Menü „Für die Lehrkraft“: Klassenwort prüfen und nur den abgeleiteten Schlüssel auf dem Gerät speichern (src/state/klassenwort.js). */
+function lehrkraftEinrichten() {
+  const kw = DATA.versuch.klassenwort || {};
+  zugang.klassenwortFenster({
+    eingerichtet: Boolean(ladeSchluessel(globalThis.localStorage)),
+    hatPruefwert: Boolean(kw.hash),
+    pruefen: async (wort) => {
+      if (!(await wortPasst(wort, kw.hash, kw.iterationen))) return false;
+      return speichereSchluessel(globalThis.localStorage, await schluesselAus(wort, kw.iterationen));
+    },
+    entfernen: () => entferneSchluessel(globalThis.localStorage),
+  });
+}
+
 function wireMenu() {
   const menu = $('#menu');
   $('#btn-menu').addEventListener('click', () => {
@@ -604,6 +618,7 @@ function wireMenu() {
   $('#zert-druck').addEventListener('click', () => window.print());
   $('#menu-close').addEventListener('click', () => menu.close());
   $('#btn-code').addEventListener('click', () => { menu.close(); showCode(); });
+  $('#btn-lehrkraft').addEventListener('click', () => { menu.close(); lehrkraftEinrichten(); });
   $('#info-close').addEventListener('click', () => $('#info').close());
   $('#btn-notebook').addEventListener('click', () => notebook.open());
   $('#call').addEventListener('click', () => { $('#call').hidden = true; });
