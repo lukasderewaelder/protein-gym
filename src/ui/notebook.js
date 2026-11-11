@@ -45,7 +45,7 @@ export function createNotebook({ dialogEl, wissen, glossar, hefter, inventar, st
       wand.append(h('section', 'pin-raum', h('h3', {}, 'Notizen'), h('div', 'pin-karten', notizen.map((k) => renderMini(k, { onclick: () => onFund && onFund(k) })))));
     }
     // Gekritzel in der Ecke des Spinds: Markus hat den Saunacode hingeschrieben
-    if (store.hasFlag('sauna_info') && store.state.codes && store.state.codes.sauna) {
+    if ((store.hasFlag('sauna_info') || store.hasFlag('labor_done')) && store.state.codes && store.state.codes.sauna) {
       wand.prepend(h('button', { type: 'button', class: 'spind-kritzel', 'aria-label': 'Gekritzel in der Ecke des Spinds ansehen', onclick: () => onKritzel && onKritzel() },
         h('span', 'kritzel-zahl', store.state.codes.sauna), h('small', {}, 'hingekritzelt')));
     }

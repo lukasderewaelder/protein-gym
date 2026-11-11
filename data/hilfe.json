@@ -1,0 +1,96 @@
+{
+  "titel": "Wie geht's weiter?",
+  "stufe2Knopf": "Genauer, bitte",
+  "schritte": {
+    "spind": {
+      "ort": "Empfang",
+      "grob": "Öffne zuerst deinen Spind. Dort sammelst du alle Hinweise und findest Texte für deinen Hefter.",
+      "konkret": "Tippe oben rechts auf „Spind“ oder auf die Spindwand in der Mitte der Wand."
+    },
+    "empfang_hinweise": {
+      "ort": "Empfang",
+      "grob": "Im Empfang gibt es noch Hinweise zu entdecken. Dinge, bei denen es etwas zu finden gibt, funkeln, sobald du in der Nähe bist.",
+      "konkret": "Die Hinweise liegen am Empfangstresen links und am Spiegel an der Wand oben links. Geh nah heran und tippe auf das Funkeln."
+    },
+    "einweisung": {
+      "ort": "Empfang",
+      "grob": "Du hast alle Hinweise im Empfang. Jetzt macht Markus mit dir die Einweisung.",
+      "konkret": "Markus steht im Empfang auf dem Teppich. Tippe auf ihn und wähle die Aufgabe."
+    },
+    "fuehrerschein": {
+      "ort": "Empfang",
+      "grob": "Ohne Laborführerschein kommst du nicht ins Labor. Dafür musst du drei Sicherheitsfragen beantworten.",
+      "konkret": "Tippe im Empfang auf die Labortür (die zweite von links, mit dem Reagenzglas). Markus stellt dir dann die drei Fragen."
+    },
+    "leser": {
+      "ort": "Empfang",
+      "grob": "Du hast deinen Labor-Ausweis. Mit ihm öffnest du die Labortür.",
+      "konkret": "Tippe auf das Kartenlesegerät rechts neben der Labortür. Danach tippst du auf die Tür."
+    },
+    "labor_hinweise": {
+      "ort": "Labor",
+      "grob": "Im Labor fehlen dir noch Hinweise. Such sie zuerst, dann klappt die Aufgabe.",
+      "konkret": "Die Hinweise liegen am Kühlschrank, am Plakat und bei Kupfer-Kurt. Geh nah heran und tippe auf das Funkeln."
+    },
+    "labor_freigabe": {
+      "ort": "Labor",
+      "grob": "Für den Versuch braucht es die Freigabe deiner Lehrkraft.",
+      "konkret": "Tippe an der Tafel an der Wand oben auf „Versuch frei?“ und frag deine Lehrkraft nach dem Code."
+    },
+    "labor_aufgabe": {
+      "ort": "Labor",
+      "grob": "Du hast alle Hinweise und die Freigabe. Jetzt kannst du die Aufgabe im Labor machen.",
+      "konkret": "Tippe auf eine der beiden Stationen mit dem Ausrufezeichen, den Herd links oder das Probenregal rechts, und wähle die Aufgabe."
+    },
+    "sauna_code_suchen": {
+      "ort": "Spind",
+      "grob": "Die Sauna ist gesperrt. Den Code für das Zahlenschloss habe ich dir in den Spind gekritzelt.",
+      "konkret": "Öffne den Spind (Knopf oben rechts) und tippe in der oberen rechten Ecke der Pinnwand auf das Gekritzel."
+    },
+    "saunatuer": {
+      "ort": "Empfang",
+      "grob": "Du kennst den Saunacode. Gib ihn am Zahlenschloss der Saunatür ein.",
+      "konkret": "Tippe im Empfang auf die Saunatür (die dritte von links, mit der Dampfwolke). Den Code siehst du im Spind auf dem Zettel „Saunacode“."
+    },
+    "sauna_hinweise": {
+      "ort": "Sauna",
+      "grob": "In der Sauna fehlen dir noch Hinweise. Such sie zuerst, dann klappt die Aufgabe.",
+      "konkret": "Die Hinweise liegen am Ofen, am Thermometer und bei Hitze-Hannes. Geh nah heran und tippe auf das Funkeln."
+    },
+    "sauna_aufgabe": {
+      "ort": "Sauna",
+      "grob": "Du hast alle Hinweise in der Sauna. Jetzt kannst du die Aufgabe machen.",
+      "konkret": "Tippe auf die Station mit der Pfanne rechts und wähle die Aufgabe."
+    },
+    "training_hinweise": {
+      "ort": "Trainingsfläche",
+      "grob": "Auf der Trainingsfläche fehlen dir noch Hinweise. Such sie zuerst, dann klappen die Aufgaben.",
+      "konkret": "Die Hinweise liegen an den Hantelscheiben, am Spiegel, am Trainingsplan und am Aushang. Geh nah heran und tippe auf das Funkeln."
+    },
+    "training_aufgabe": {
+      "ort": "Trainingsfläche",
+      "grob": "Du hast alle Hinweise auf der Trainingsfläche. Jetzt kannst du die Aufgaben machen.",
+      "konkret": "Tippe auf die Station mit dem Ausrufezeichen an der Werkbank rechts und wähle eine Aufgabe."
+    },
+    "shakebar_hinweise": {
+      "ort": "Shake-Bar",
+      "grob": "In der Shake-Bar fehlen dir noch Hinweise. Such sie zuerst, dann klappt die Aufgabe.",
+      "konkret": "Die Hinweise liegen am Mixer, am Regal und in der Vitrine. Geh nah heran und tippe auf das Funkeln."
+    },
+    "shakebar_aufgabe": {
+      "ort": "Shake-Bar",
+      "grob": "Du hast alle Hinweise in der Shake-Bar. Jetzt kannst du die Aufgabe machen.",
+      "konkret": "Tippe auf die Werbetafel links oder auf Alex und wähle die Aufgabe."
+    },
+    "aufloesung": {
+      "ort": "Empfang",
+      "grob": "Du warst in allen Räumen. Jetzt lösen wir den Fall gemeinsam.",
+      "konkret": "Geh zurück in den Empfang und tippe auf Markus für die Auflösung."
+    },
+    "fertig": {
+      "ort": "Überall",
+      "grob": "Du hast alles geschafft, der Fall ist gelöst! Dein Zertifikat findest du im Menü.",
+      "konkret": "Wenn du magst: Die Bonus-Schließfächer in der Spindwand im Empfang sind freiwillig. Die Codes stehen auf Zetteln in den Räumen."
+    }
+  }
+}

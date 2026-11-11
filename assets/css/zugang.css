@@ -32,6 +32,12 @@ dialog#zugang h2 { margin: 0 0 10px; font-size: calc(24px * var(--font-scale)); 
 .kritzel-zahl { font: italic 22px "Segoe Script", "Bradley Hand", "Comic Sans MS", cursive; letter-spacing: 0.1em; opacity: 0.9; }
 .spind-kritzel small { font-size: 10px; color: #4a3826; }
 
+/* Hilfe von Markus */
+.zugang-sprecher { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.hilfe-konkret { background: #102a1b; border-left: 5px solid #3aa060; padding: 8px 12px; border-radius: 6px; }
+.hilfe-konkret[hidden] { display: none; }
+.zugang-knoepfe { display: flex; gap: 10px; flex-wrap: wrap; }
+
 /* Tasche und Inventar */
 dialog#notebook .nb-body[data-tab="inventar"] { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 0 14px; align-content: start; }
 dialog#notebook .nb-body[data-tab="inventar"] > .nb-summe { grid-column: 1 / -1; margin: 0 0 4px; }

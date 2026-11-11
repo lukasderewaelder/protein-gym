@@ -171,5 +171,20 @@ export function createZugang({ dlg, store, daten }) {
     };
   }
 
-  return { zeige, schliesse, fuehrerschein, tastenfeld, fach, get offen() { return dlg.open; } };
+  // ---------- Hilfe von Markus ----------
+  /** Zwei Stufen: erst grob, dann auf Knopfdruck konkret. Keine automatischen Hinweise. */
+  function hilfe({ titel, knopf, schritt }) {
+    const karte = h('div', 'zugang-karte');
+    const stufe2 = h('p', 'hilfe-konkret', schritt.konkret);
+    stufe2.hidden = true;
+    const mehr = h('button', { type: 'button', onclick: () => { stufe2.hidden = false; mehr.hidden = true; } }, knopf);
+    karte.append(
+      h('p', 'zugang-sprecher', h('strong', {}, 'Markus'), h('span', 'chip chip-grau', schritt.ort)),
+      h('p', {}, schritt.grob),
+      stufe2,
+      h('div', 'zugang-knoepfe', mehr, h('button', { class: 'primary', type: 'button', onclick: () => schliesse() }, 'Danke')));
+    zeige(titel, karte);
+  }
+
+  return { zeige, schliesse, fuehrerschein, tastenfeld, fach, hilfe, get offen() { return dlg.open; } };
 }

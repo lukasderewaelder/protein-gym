@@ -19,6 +19,7 @@ import { erfuellt, istSichtbar } from './state/zugang.js';
 import { createZugang, ausweisKarte } from './ui/zugang.js';
 import { liste as inventarListe, neuAnzahl, markiereGesehen } from './state/inventar.js';
 import { renderInventar } from './ui/inventar.js';
+import { naechsterSchritt } from './state/naechster-schritt.js';
 import { h, clear } from './ui/dom.js';
 import { renderFund, fundIcon } from './ui/funde.js';
 import { fundart, istZusatz } from './ui/funde-core.js';
@@ -58,13 +59,14 @@ const tasks = {
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 async function loadData() {
-  const [scenes, dialogs, wissen, aufgaben, glossar, versuch, werbung, hefter, aehnlich, fall, fuehrerschein, inventar, faecher] = await Promise.all(
-    ['szenen', 'dialoge', 'wissen', 'aufgaben', 'glossar', 'versuch', 'werbung', 'hefter', 'aehnlich', 'fall', 'fuehrerschein', 'inventar', 'schliessfaecher'].map((n) => fetch(`data/${n}.json`).then((r) => r.json())),
+  const [scenes, dialogs, wissen, aufgaben, glossar, versuch, werbung, hefter, aehnlich, fall, fuehrerschein, inventar, faecher, hilfe] = await Promise.all(
+    ['szenen', 'dialoge', 'wissen', 'aufgaben', 'glossar', 'versuch', 'werbung', 'hefter', 'aehnlich', 'fall', 'fuehrerschein', 'inventar', 'schliessfaecher', 'hilfe'].map((n) => fetch(`data/${n}.json`).then((r) => r.json())),
   );
   DATA.aehnlich = aehnlich;
   DATA.fuehrerschein = fuehrerschein;
   DATA.inventar = inventar;
   DATA.faecher = faecher;
+  DATA.hilfe = hilfe;
   // Inhalte der Bonus-Schließfächer landen als Gegenstände in der Tasche
   for (const f of faecher.faecher) inventar.gegenstaende.push({ id: `fach${f.id}`, name: f.name, text: f.text, emoji: f.emoji, symbol: 'emoji', hat: f.flag });
   DATA.fall = fall;
@@ -358,6 +360,12 @@ function sperre(hs) {
   text();
 }
 
+/** „Wie geht’s weiter?“: Markus nennt die nächste Station, auf Wunsch genauer. */
+function weiterDialog() {
+  const id = naechsterSchritt(store.state.flags, { aufgaben: DATA.aufgaben, karten: DATA.wissen.karten });
+  zugang.hilfe({ titel: DATA.hilfe.titel, knopf: DATA.hilfe.stufe2Knopf, schritt: DATA.hilfe.schritte[id] });
+}
+
 /** Zettel mit einem Fachcode: wird beim ersten Ansehen gefunden und bleibt als Haken im Raum. */
 function zettelAnsehen(hs) {
   const f = DATA.faecher.faecher.find((x) => x.id === hs.zettel);
@@ -604,6 +612,8 @@ async function boot() {
   zugang = createZugang({ dlg: $('#zugang'), store, daten: { fuehrerschein: DATA.fuehrerschein } });
   $('#zugang-zu').addEventListener('click', () => zugang.schliesse());
   $('#btn-tasche').addEventListener('click', taschenFenster);
+  $('#btn-hilfe').addEventListener('click', weiterDialog);
+  $('#btn-weiter').addEventListener('click', () => { $('#menu').close(); weiterDialog(); });
   store.onFlag(() => taschePruefen());
   taschePruefen(false);
   notebook = createNotebook({ onOpen: () => store.setFlag('spind_gesehen'), onFund: (k) => showFund(k, false), inventar: DATA.inventar, onInventar: inventarGesehen, extras: extraKarten, onKritzel: kritzelAnsehen, dialogEl: $('#notebook'), wissen: DATA.wissen, glossar: DATA.glossar, hefter: DATA.hefter, store });
@@ -662,7 +672,7 @@ async function boot() {
     goto: (id) => enterScene(id),
     refreshFigure,
     setSprites: (s) => { figureSprites = s; },
-    unlockAll: () => ['empfang_done', 'labor_done', 'sauna_done', 'training_done', 'spind_gesehen'].forEach((f) => store.setFlag(f)),
+    unlockAll: () => ['empfang_done', 'labor_done', 'sauna_done', 'training_done', 'spind_gesehen', 'lf_bestanden', 'item_ausweis', 'item_ausweis_benutzt', 'labor_offen', 'sauna_info', 'sauna_code_gesehen', 'sauna_offen'].forEach((f) => store.setFlag(f)),
     setFall: (id) => { store.state.fall = { taeter: id }; store.save(); buildFallCards(); },
     allCards: () => { DATA.wissen.karten.forEach((k) => store.setFlag(k.id)); store.setFlag('lab_frei'); },
     openTask: (id, room) => taskPanel.openTask(id, room),
