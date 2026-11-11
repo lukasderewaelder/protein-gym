@@ -32,10 +32,10 @@ export function createZugang({ dlg, store, daten }) {
   }
   dlg.addEventListener('close', () => { const f = beiSchliessen; beiSchliessen = null; if (f) f(); });
 
-  // ---------- Laborführerschein ----------
-  function fuehrerschein({ beiBestanden }) {
-    const F = daten.fuehrerschein;
-    const t = startTest(F.fragen);
+  // ---------- Fragentest (Laborführerschein und Zusatzfragen der Schließfächer) ----------
+  /** opts: { titel, einleitung, fragen, letzterKnopf, beiFertig() }. Hinweis nach dem 1. Fehler, Hilfe ab dem 2., kein Neustart. */
+  function fragenTest({ titel, einleitung, fragen, letzterKnopf = 'Fertig', beiFertig }) {
+    const t = startTest(fragen);
 
     function frage(rueckmeldung = null) {
       const f = aktuelle(t);
@@ -54,9 +54,9 @@ export function createZugang({ dlg, store, daten }) {
         },
       }, o.text));
       const fuss = gefunden
-        ? h('button', { class: 'primary', type: 'button', onclick: () => { weiter(t); if (istFertig(t)) fertig(); else frage(); } }, t.i >= t.fragen.length - 1 ? 'Ausweis abholen' : 'Weiter →')
+        ? h('button', { class: 'primary', type: 'button', onclick: () => { weiter(t); if (istFertig(t)) beiFertig(); else frage(); } }, t.i >= t.fragen.length - 1 ? letzterKnopf : 'Weiter →')
         : null;
-      zeige(F.titel,
+      zeige(titel,
         h('div', 'zugang-karte',
           h('p', 'zugang-schritt', `Frage ${t.i + 1} von ${t.fragen.length}`),
           h('p', 'zugang-frage', f.frage),
@@ -65,19 +65,56 @@ export function createZugang({ dlg, store, daten }) {
           fuss));
     }
 
-    function fertig() {
-      store.setFlag('lf_bestanden');
-      store.setFlag('item_ausweis');
-      zeige(F.titel,
-        h('div', 'zugang-karte',
-          h('p', 'zugang-gut', `✓ ${F.bestanden}`),
-          ausweisKarte(store.state.names),
-          h('p', 'hint', 'Du findest den Ausweis in deiner Tasche. Halte ihn an das Lesegerät neben der Labortür.'),
-          h('button', { class: 'primary', type: 'button', onclick: () => { schliesse(); } }, 'Ausweis einstecken')));
-      beiSchliessen = beiBestanden || null;
-    }
+    zeige(titel, h('div', 'zugang-karte', h('p', {}, einleitung), h('button', { class: 'primary', type: 'button', onclick: () => frage() }, 'Los')));
+  }
 
-    zeige(F.titel, h('div', 'zugang-karte', h('p', {}, F.einleitung), h('button', { class: 'primary', type: 'button', onclick: () => frage() }, 'Los')));
+  // ---------- Laborführerschein ----------
+  function fuehrerschein({ beiBestanden }) {
+    const F = daten.fuehrerschein;
+    fragenTest({
+      titel: F.titel, einleitung: F.einleitung, fragen: F.fragen, letzterKnopf: 'Ausweis abholen',
+      beiFertig: () => {
+        store.setFlag('lf_bestanden');
+        store.setFlag('item_ausweis');
+        zeige(F.titel,
+          h('div', 'zugang-karte',
+            h('p', 'zugang-gut', `✓ ${F.bestanden}`),
+            ausweisKarte(store.state.names),
+            h('p', 'hint', 'Du findest den Ausweis in deiner Tasche. Halte ihn an das Lesegerät neben der Labortür.'),
+            h('button', { class: 'primary', type: 'button', onclick: () => { schliesse(); } }, 'Ausweis einstecken')));
+        beiSchliessen = beiBestanden || null;
+      },
+    });
+  }
+
+  // ---------- Bonus-Schließfach ----------
+  /** Fach antippen: erst Zahlenschloss (3 Ziffern), dann Inhalt (Spaß oder freiwillige Zusatzfrage). Ist es schon offen, zeigt es nur den Inhalt. */
+  function fach(f) {
+    const titel = `Schließfach ${f.id}`;
+    const belohnung = (extra) => zeige(titel,
+      h('div', 'zugang-karte',
+        h('p', 'zugang-gut', `${f.emoji} ${f.name}`),
+        h('p', {}, f.text),
+        extra,
+        h('p', 'hint', 'Der Gegenstand liegt jetzt in deiner Tasche. Bonus-Fächer sind freiwillig und zählen nirgends mit.'),
+        h('button', { class: 'primary', type: 'button', onclick: () => schliesse() }, 'Schließen')));
+    const oeffnen = () => {
+      if (f.typ === 'zusatz' && !store.hasFlag(f.flag)) {
+        fragenTest({
+          titel: `${titel} · Zusatzfrage`, einleitung: 'Freiwillige Zusatzfrage zum Fach. Schaffst du sie, gehört der Inhalt dir.', fragen: f.fragen, letzterKnopf: 'Inhalt holen',
+          beiFertig: () => { store.setFlag(f.flag); belohnung(null); },
+        });
+        return;
+      }
+      store.setFlag(f.flag);
+      belohnung(null);
+    };
+    if (store.hasFlag(f.flag)) { oeffnen(); return; }
+    tastenfeld({
+      titel, text: 'Das Fach hat ein Zahlenschloss. Gib den dreistelligen Code ein.', stellen: 3, code: f.code,
+      hinweis: 'Die Codes stehen auf Zetteln, die in den Räumen versteckt sind. Schau dich um.',
+      beiRichtig: oeffnen,
+    });
   }
 
   // ---------- Zahlenschloss ----------
@@ -134,5 +171,5 @@ export function createZugang({ dlg, store, daten }) {
     };
   }
 
-  return { zeige, schliesse, fuehrerschein, tastenfeld, get offen() { return dlg.open; } };
+  return { zeige, schliesse, fuehrerschein, tastenfeld, fach, get offen() { return dlg.open; } };
 }

@@ -15,6 +15,13 @@
         { "id": "spiegel", "label": "Spiegel", "type": "dialog", "x": 335, "y": 330, "r": 70, "karte": "k_wichtig" },
         { "id": "poster", "label": "Poster", "type": "dialog", "x": 1118, "y": 415, "r": 70, "karte": "z_protein" },
         { "id": "brett", "label": "Schwarzes Brett", "type": "dialog", "x": 1400, "y": 520, "r": 70, "karte": "z_struktur" },
+        { "id": "fach_1", "label": "Schließfach 1", "type": "fach", "x": 491, "y": 320, "r": 48, "aktion": "fach", "fach": 1 },
+        { "id": "fach_2", "label": "Schließfach 2", "type": "fach", "x": 572, "y": 320, "r": 48, "aktion": "fach", "fach": 2 },
+        { "id": "fach_3", "label": "Schließfach 3", "type": "fach", "x": 648, "y": 320, "r": 48, "aktion": "fach", "fach": 3 },
+        { "id": "fach_4", "label": "Schließfach 4", "type": "fach", "x": 724, "y": 320, "r": 48, "aktion": "fach", "fach": 4 },
+        { "id": "fach_5", "label": "Schließfach 5", "type": "fach", "x": 964, "y": 320, "r": 48, "aktion": "fach", "fach": 5 },
+        { "id": "fach_6", "label": "Schließfach 6", "type": "fach", "x": 1040, "y": 320, "r": 48, "aktion": "fach", "fach": 6 },
+        { "id": "zettel_1", "label": "Zettel", "type": "dialog", "x": 1160, "y": 610, "r": 55, "aktion": "zettel", "zettel": 1 },
         { "id": "tuer_training", "label": "Trainingsfläche", "type": "door", "x": 290, "y": 930, "r": 90, "to": "training", "requires": "sauna_done", "lockedText": "Die Trainingsfläche ist noch zu. Erst muss die Sauna durch sein." },
         { "id": "tuer_labor", "label": "Labor", "type": "door", "x": 610, "y": 930, "r": 90, "to": "labor", "requires": ["empfang_done", "labor_offen"], "sperre": "labor", "lockedText": "Das Labor ist noch zu. Mach zuerst die Einweisung bei Markus und öffne den Spind." },
         { "id": "leser_labor", "label": "Kartenlesegerät", "type": "geraet", "x": 735, "y": 860, "r": 55, "aktion": "leser", "leser": "labor" },
@@ -37,6 +44,8 @@
         { "id": "aushang", "label": "Aushang", "type": "dialog", "x": 275, "y": 335, "r": 70, "karte": "k_struktur" },
         { "id": "putzplan", "label": "Putzplan", "type": "dialog", "x": 1330, "y": 400, "r": 80, "karte": "f_training" },
         { "id": "bank", "label": "Bank", "type": "dialog", "x": 250, "y": 600, "r": 80, "karte": "z_peptid" },
+        { "id": "zettel_4", "label": "Zettel", "type": "dialog", "x": 600, "y": 700, "r": 55, "aktion": "zettel", "zettel": 4 },
+        { "id": "zettel_6", "label": "Zettel", "type": "dialog", "x": 900, "y": 700, "r": 55, "aktion": "zettel", "zettel": 6 },
         { "id": "tuer_zurueck", "label": "Zum Empfang", "type": "door", "x": 768, "y": 900, "r": 90, "to": "empfang" }
       ]
     },
@@ -54,6 +63,7 @@
         { "id": "plakat", "label": "Plakat: Nachweise", "type": "dialog", "x": 545, "y": 315, "r": 70, "karte": "k_biuret" },
         { "id": "kurt", "label": "Kupfer-Kurt", "type": "npc", "x": 700, "y": 640, "r": 80, "karte": "k_ausloeser", "color": "#c97b3c" },
         { "id": "schrank", "label": "Chemikalienschrank", "type": "dialog", "x": 350, "y": 330, "r": 70, "karte": "f_labor" },
+        { "id": "zettel_2", "label": "Zettel", "type": "dialog", "x": 520, "y": 790, "r": 55, "aktion": "zettel", "zettel": 2 },
         { "id": "tuer_zurueck", "label": "Zum Empfang", "type": "door", "x": 768, "y": 850, "r": 90, "to": "empfang" }
       ]
     },
@@ -69,6 +79,7 @@
         { "id": "schaltuhr", "label": "Schaltuhr", "type": "dialog", "x": 1180, "y": 400, "r": 70, "karte": "f_sauna" },
         { "id": "pfanne", "label": "Pfanne mit Spiegelei", "type": "task", "x": 1180, "y": 560, "r": 90, "dialog": "sauna.pfanne", "task": "sauna_menu" },
         { "id": "hannes", "label": "Hitze-Hannes", "type": "npc", "x": 640, "y": 650, "r": 80, "dialog": "sauna.hannes", "karte": "k_haltbar", "color": "#d9632b" },
+        { "id": "zettel_3", "label": "Zettel", "type": "dialog", "x": 1000, "y": 760, "r": 55, "aktion": "zettel", "zettel": 3 },
         { "id": "tuer_zurueck", "label": "Zum Empfang", "type": "door", "x": 768, "y": 915, "r": 90, "to": "empfang" }
       ]
     },
@@ -88,6 +99,7 @@
         { "id": "hocker", "label": "Lieferschein", "type": "dialog", "x": 945, "y": 480, "r": 70, "karte": "f_shakebar" },
         { "id": "alex", "label": "Alex", "type": "npc", "x": 900, "y": 660, "r": 80, "dialog": "shakebar.alex", "task": "shake_menu", "color": "#7a7a8c" },
         { "id": "zoe", "label": "Zitrus-Zoe", "type": "npc", "x": 1190, "y": 700, "r": 80, "dialog": "shakebar.zoe", "color": "#e8c32a" },
+        { "id": "zettel_5", "label": "Zettel", "type": "dialog", "x": 700, "y": 760, "r": 55, "aktion": "zettel", "zettel": 5 },
         { "id": "tuer_zurueck", "label": "Zum Empfang", "type": "door", "x": 768, "y": 850, "r": 90, "to": "empfang" }
       ]
     }

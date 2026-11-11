@@ -58,12 +58,15 @@ const tasks = {
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 async function loadData() {
-  const [scenes, dialogs, wissen, aufgaben, glossar, versuch, werbung, hefter, aehnlich, fall, fuehrerschein, inventar] = await Promise.all(
-    ['szenen', 'dialoge', 'wissen', 'aufgaben', 'glossar', 'versuch', 'werbung', 'hefter', 'aehnlich', 'fall', 'fuehrerschein', 'inventar'].map((n) => fetch(`data/${n}.json`).then((r) => r.json())),
+  const [scenes, dialogs, wissen, aufgaben, glossar, versuch, werbung, hefter, aehnlich, fall, fuehrerschein, inventar, faecher] = await Promise.all(
+    ['szenen', 'dialoge', 'wissen', 'aufgaben', 'glossar', 'versuch', 'werbung', 'hefter', 'aehnlich', 'fall', 'fuehrerschein', 'inventar', 'schliessfaecher'].map((n) => fetch(`data/${n}.json`).then((r) => r.json())),
   );
   DATA.aehnlich = aehnlich;
   DATA.fuehrerschein = fuehrerschein;
   DATA.inventar = inventar;
+  DATA.faecher = faecher;
+  // Inhalte der Bonus-Schließfächer landen als Gegenstände in der Tasche
+  for (const f of faecher.faecher) inventar.gegenstaende.push({ id: `fach${f.id}`, name: f.name, text: f.text, emoji: f.emoji, symbol: 'emoji', hat: f.flag });
   DATA.fall = fall;
   DATA.versuch = versuch;
   DATA.werbung = werbung;
@@ -319,6 +322,8 @@ function trigger(hs) {
   if (hs.aktion === 'freigabe') { openFreigabe(); return; }
   if (hs.aktion === 'coach') { coach(); return; }
   if (hs.aktion === 'leser') { leser(hs); return; }
+  if (hs.aktion === 'fach') { zugang.fach(DATA.faecher.faecher.find((x) => x.id === hs.fach)); return; }
+  if (hs.aktion === 'zettel') { zettelAnsehen(hs); return; }
   if (hs.task && tasks[hs.task]) { tasks[hs.task](hs); return; }
   playDialog(hs.dialog || `${cur.scene.id}.${hs.id}`, { speaker: hs.label, lines: ['(Hier fehlt noch ein Text.)'] });
 }
@@ -351,6 +356,15 @@ function sperre(hs) {
     return;
   }
   text();
+}
+
+/** Zettel mit einem Fachcode: wird beim ersten Ansehen gefunden und bleibt als Haken im Raum. */
+function zettelAnsehen(hs) {
+  const f = DATA.faecher.faecher.find((x) => x.id === hs.zettel);
+  const neu = !store.hasFlag(`bz_${f.id}`);
+  if (neu) store.setFlag(`bz_${f.id}`);
+  const zeilen = f.zettel.zeilen.map((z) => z.replaceAll('{code}', f.code));
+  showFund({ id: `bz_${f.id}`, medium: 'haftnotiz', titel: 'Zettel mit Zahlen', kopf: 'Zettel mit Zahlen', zeilen }, neu);
 }
 
 /** Tasche: Zählpunkt für neue Gegenstände, Knopf poppt beim Einsammeln. */
@@ -468,10 +482,11 @@ function frame(now) {
       npcs: cur.npcs,
       time,
       isLocked,
+      fachOffen: (hs) => store.hasFlag(`bonus_${hs.fach}`),
       isHidden: (hs) => !istSichtbar(hs, (f) => store.hasFlag(f)),
       geraetOffen: (hs) => (hs.leser === 'labor' ? store.hasFlag('labor_offen') : false),
       tuerAnim: tuerAnim ? { ...tuerAnim, p: Math.min(1, (performance.now() - tuerAnim.t0) / 1000) } : null,
-      isFound: (hs) => Boolean(hs.karte && store.hasFlag(hs.karte)),
+      isFound: (hs) => Boolean((hs.karte && store.hasFlag(hs.karte)) || (hs.zettel && store.hasFlag(`bz_${hs.zettel}`))),
       fundInfo: (hs) => DATA.cards.get(hs.karte) || null,
       showAll: Boolean(editor),
       showLabels: editor ? true : undefined,

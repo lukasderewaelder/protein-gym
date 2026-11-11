@@ -226,6 +226,32 @@ function drawGeraet(ctx, hs, time, offen) {
   ctx.restore();
 }
 
+/** Schließfach mit Zahlenschloss: kleine Platte mit Nummer und Lämpchen (gelb zu, grün offen). */
+function drawFach(ctx, hs, time, offen) {
+  ctx.save();
+  ctx.translate(hs.x, hs.y);
+  ctx.fillStyle = '#2b3b3f';
+  ctx.strokeStyle = '#0c1517';
+  ctx.lineWidth = 3;
+  roundRect(ctx, -16, -22, 32, 46, 5);
+  ctx.fill();
+  ctx.stroke();
+  ctx.fillStyle = '#0c1517';
+  ctx.fillRect(-11, -16, 22, 8);
+  ctx.fillStyle = '#6f8f95';
+  for (let r = 0; r < 3; r++) for (let c = 0; c < 3; c++) ctx.fillRect(-11 + c * 8, -4 + r * 6, 6, 4);
+  ctx.fillStyle = offen ? '#3adb76' : (Math.sin(time * 3 + hs.x) > 0 ? '#ffd24a' : '#a88a22');
+  ctx.beginPath();
+  ctx.arc(0, -30, 5, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.fillStyle = '#fff';
+  ctx.font = 'bold 15px system-ui, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(String(hs.fach), 0, -12);
+  ctx.restore();
+}
+
 /** Tür gleitet auf: zwei Türflügel schieben sich auseinander, dahinter wird es hell. p läuft von 0 bis 1. */
 function drawTuerAnim(ctx, a, scene) {
   const hs = (scene.hotspots || []).find((x) => x.id === a.id);
@@ -320,6 +346,7 @@ export function drawScene(ctx, st) {
   // Türen, Aufgabenstationen und Personen sind immer markiert. Im Editiermodus (showAll) sieht man alles.
   for (const hs of scene.hotspots || []) {
     if (!st.showAll && st.isHidden && st.isHidden(hs)) continue;
+    if (hs.type === 'fach') { drawFach(ctx, hs, time, st.fachOffen ? st.fachOffen(hs) : false); continue; }
     if (hs.type === 'geraet') { drawGeraet(ctx, hs, time, st.geraetOffen ? st.geraetOffen(hs) : false); continue; }
     if (!st.showAll && hs.type === 'dialog') {
       if (st.isFound && st.isFound(hs)) drawFound(ctx, hs, st.fundInfo ? st.fundInfo(hs) : null);
