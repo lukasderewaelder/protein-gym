@@ -17,6 +17,7 @@
         { "id": "brett", "label": "Schwarzes Brett", "type": "dialog", "x": 1400, "y": 520, "r": 70, "karte": "z_struktur" },
         { "id": "tuer_training", "label": "Trainingsfläche", "type": "door", "x": 290, "y": 930, "r": 90, "to": "training", "requires": "sauna_done", "lockedText": "Die Trainingsfläche ist noch zu. Erst muss die Sauna durch sein." },
         { "id": "tuer_labor", "label": "Labor", "type": "door", "x": 610, "y": 930, "r": 90, "to": "labor", "requires": ["empfang_done", "labor_offen"], "sperre": "labor", "lockedText": "Das Labor ist noch zu. Mach zuerst die Einweisung bei Markus und öffne den Spind." },
+        { "id": "leser_labor", "label": "Kartenlesegerät", "type": "geraet", "x": 735, "y": 860, "r": 55, "aktion": "leser", "leser": "labor" },
         { "id": "tuer_sauna", "label": "Sauna", "type": "door", "x": 925, "y": 930, "r": 90, "to": "sauna", "requires": ["labor_done", "sauna_offen"], "sperre": "sauna", "lockedText": "Die Sauna ist noch zu. Erst muss der Versuch im Labor durch sein." },
         { "id": "tuer_shakebar", "label": "Shake-Bar", "type": "door", "x": 1240, "y": 930, "r": 90, "to": "shakebar", "requires": "training_done", "lockedText": "Die Shake-Bar öffnet erst nach der Trainingsfläche." }
       ]

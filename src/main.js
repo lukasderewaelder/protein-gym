@@ -16,6 +16,7 @@ import { encodeProgress } from './state/progress.js';
 import { alleFallKarten } from './state/fall.js';
 import { merkePosition, holePosition } from './state/zwischenstand.js';
 import { erfuellt, istSichtbar } from './state/zugang.js';
+import { createZugang, ausweisKarte } from './ui/zugang.js';
 import { h, clear } from './ui/dom.js';
 import { renderFund, fundIcon } from './ui/funde.js';
 import { fundart, istZusatz } from './ui/funde-core.js';
@@ -35,6 +36,8 @@ const player = createPlayer(0, 0);
 const DATA = { scenes: new Map(), dialogs: {}, wissen: null, aufgaben: null, glossar: null, cards: new Map() };
 let notebook = null;
 let taskPanel = null;
+let zugang = null;
+let tuerAnim = null;          // { id, t0 }: Tür gleitet auf (Zeichnung in render.js)
 let cur = null;               // { scene, grid, bg, npcs }
 let figureSprites = null;
 let pending = null;           // Hotspot, der bei Ankunft ausgelöst wird
@@ -53,10 +56,11 @@ const tasks = {
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 async function loadData() {
-  const [scenes, dialogs, wissen, aufgaben, glossar, versuch, werbung, hefter, aehnlich, fall] = await Promise.all(
-    ['szenen', 'dialoge', 'wissen', 'aufgaben', 'glossar', 'versuch', 'werbung', 'hefter', 'aehnlich', 'fall'].map((n) => fetch(`data/${n}.json`).then((r) => r.json())),
+  const [scenes, dialogs, wissen, aufgaben, glossar, versuch, werbung, hefter, aehnlich, fall, fuehrerschein] = await Promise.all(
+    ['szenen', 'dialoge', 'wissen', 'aufgaben', 'glossar', 'versuch', 'werbung', 'hefter', 'aehnlich', 'fall', 'fuehrerschein'].map((n) => fetch(`data/${n}.json`).then((r) => r.json())),
   );
   DATA.aehnlich = aehnlich;
+  DATA.fuehrerschein = fuehrerschein;
   DATA.fall = fall;
   DATA.versuch = versuch;
   DATA.werbung = werbung;
@@ -296,7 +300,8 @@ function trigger(hs) {
   pending = null;
   if (hs.type === 'door') {
     if (isLocked(hs)) {
-      playDialog(`tuer.${hs.id}`, { speaker: 'Tür', lines: [hs.lockedText || 'Noch gesperrt.'] });
+      if (hs.sperre) sperre(hs);
+      else playDialog(`tuer.${hs.id}`, { speaker: 'Tür', lines: [hs.lockedText || 'Noch gesperrt.'] });
     } else {
       enterScene(hs.to);
     }
@@ -310,8 +315,40 @@ function trigger(hs) {
   if (hs.aktion === 'notizbuch') { notebook.open(); return; }
   if (hs.aktion === 'freigabe') { openFreigabe(); return; }
   if (hs.aktion === 'coach') { coach(); return; }
+  if (hs.aktion === 'leser') { leser(hs); return; }
   if (hs.task && tasks[hs.task]) { tasks[hs.task](hs); return; }
   playDialog(hs.dialog || `${cur.scene.id}.${hs.id}`, { speaker: hs.label, lines: ['(Hier fehlt noch ein Text.)'] });
+}
+
+/** Gesperrte Tür mit eigener Geschichte: Labor (Führerschein, Ausweis) und Sauna (Zahlenschloss). */
+function sperre(hs) {
+  const text = () => playDialog(`tuer.${hs.id}`, { speaker: 'Tür', lines: [hs.lockedText || 'Noch gesperrt.'] });
+  if (hs.sperre === 'labor') {
+    if (!store.hasFlag('empfang_done')) text();
+    else if (!store.hasFlag('lf_bestanden')) {
+      playDialog('empfang.fuehrerschein', undefined, () => zugang.fuehrerschein({ beiBestanden: () => playDialog('empfang.fuehrerschein.ok') }));
+    } else playDialog('tuer.tuer_labor.verriegelt');
+    return;
+  }
+  text();
+}
+
+/** Kartenlesegerät neben der Labortür: Ausweis wird gezückt, Lämpchen wird grün, die Tür gleitet auf. */
+function leser(hs) {
+  if (store.hasFlag('labor_offen')) { playDialog('empfang.leser.offen'); return; }
+  if (!store.hasFlag('item_ausweis')) { playDialog('empfang.leser.ohne'); return; }
+  busy = true;
+  const karte = ausweisKarte(store.state.names, true);
+  karte.classList.add('ausweis-flug');
+  document.body.append(karte);
+  const reduziert = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  setTimeout(() => {
+    karte.remove();
+    store.setFlag('item_ausweis_benutzt');
+    store.setFlag('labor_offen');
+    tuerAnim = { id: 'tuer_labor', t0: performance.now() };
+    setTimeout(() => { busy = false; tuerAnim = null; playDialog('empfang.leser.ok'); }, reduziert ? 200 : 1100);
+  }, reduziert ? 200 : 1000);
 }
 
 function hitHotspot(p) {
@@ -319,6 +356,7 @@ function hitHotspot(p) {
   const minR = 28 / vp.v.scale; // Tippfläche mindestens ca. 56 Pixel breit
   for (let i = list.length - 1; i >= 0; i--) {
     const hs = list[i];
+    if (!istSichtbar(hs, (f) => store.hasFlag(f))) continue;
     const r = Math.max(hs.r || 60, minR);
     const body = hs.type === 'npc' ? FIGURE_HEIGHT * 0.5 : 0;
     if (Math.hypot(p.x - hs.x, p.y - hs.y) <= r || (body && Math.hypot(p.x - hs.x, p.y - (hs.y - body)) <= r)) return hs;
@@ -327,7 +365,7 @@ function hitHotspot(p) {
 }
 
 function onPointerDown(e) {
-  if (!cur || busy || dialog.isOpen || !$('#start').hidden || $('#menu').open || $('#notebook').open || $('#info').open || (taskPanel && taskPanel.isOpen) || !$('#call').hidden || !$('#zert').hidden) return;
+  if (!cur || busy || dialog.isOpen || $('#zugang').open || !$('#start').hidden || $('#menu').open || $('#notebook').open || $('#info').open || (taskPanel && taskPanel.isOpen) || !$('#call').hidden || !$('#zert').hidden) return;
   const p = vp.toWorld(e.clientX, e.clientY);
   if (editor && editor.active) { editor.pointerDown(p); canvas.setPointerCapture(e.pointerId); return; }
   const hs = hitHotspot(p);
@@ -372,6 +410,9 @@ function frame(now) {
       npcs: cur.npcs,
       time,
       isLocked,
+      isHidden: (hs) => !istSichtbar(hs, (f) => store.hasFlag(f)),
+      geraetOffen: (hs) => (hs.leser === 'labor' ? store.hasFlag('labor_offen') : false),
+      tuerAnim: tuerAnim ? { ...tuerAnim, p: Math.min(1, (performance.now() - tuerAnim.t0) / 1000) } : null,
       isFound: (hs) => Boolean(hs.karte && store.hasFlag(hs.karte)),
       fundInfo: (hs) => DATA.cards.get(hs.karte) || null,
       showAll: Boolean(editor),
@@ -473,6 +514,8 @@ async function boot() {
   await loadData();
   buildFallCards();
   await refreshFigure();
+  zugang = createZugang({ dlg: $('#zugang'), store, daten: { fuehrerschein: DATA.fuehrerschein } });
+  $('#zugang-zu').addEventListener('click', () => zugang.schliesse());
   notebook = createNotebook({ onOpen: () => store.setFlag('spind_gesehen'), onFund: (k) => showFund(k, false), dialogEl: $('#notebook'), wissen: DATA.wissen, glossar: DATA.glossar, hefter: DATA.hefter, store });
   taskPanel = createTaskPanel({
     root: $('#task'),

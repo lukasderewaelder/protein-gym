@@ -197,6 +197,61 @@ function drawFound(ctx, hs, card) {
   ctx.restore();
 }
 
+/** Kartenlesegerät: kleine Box an der Wand mit Kartenschlitz und Lämpchen (rot gesperrt, grün frei). */
+function drawGeraet(ctx, hs, time, offen) {
+  ctx.save();
+  ctx.translate(hs.x, hs.y);
+  ctx.fillStyle = '#2b3b3f';
+  ctx.strokeStyle = '#0c1517';
+  ctx.lineWidth = 4;
+  roundRect(ctx, -22, -34, 44, 68, 6);
+  ctx.fill();
+  ctx.stroke();
+  ctx.fillStyle = '#0c1517'; // Anzeige
+  ctx.fillRect(-14, -26, 28, 14);
+  ctx.fillStyle = '#6f8f95'; // Kartenschlitz
+  ctx.fillRect(-14, 4, 28, 5);
+  const an = offen || Math.sin(time * 5) > -0.2; // rotes Lämpchen blinkt leicht
+  ctx.fillStyle = offen ? '#3adb76' : (an ? '#ff4a3d' : '#7a2a25');
+  ctx.beginPath();
+  ctx.arc(0, 21, 6, 0, Math.PI * 2);
+  ctx.fill();
+  if (offen) {
+    ctx.strokeStyle = 'rgba(58,219,118,0.5)';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.arc(0, 21, 11 + Math.sin(time * 4) * 2, 0, Math.PI * 2);
+    ctx.stroke();
+  }
+  ctx.restore();
+}
+
+/** Tür gleitet auf: zwei Türflügel schieben sich auseinander, dahinter wird es hell. p läuft von 0 bis 1. */
+function drawTuerAnim(ctx, a, scene) {
+  const hs = (scene.hotspots || []).find((x) => x.id === a.id);
+  if (!hs) return;
+  const w = 168;
+  const hoch = 134;
+  const x0 = hs.x - w / 2;
+  const y0 = hs.y - 40;
+  const ease = a.p * a.p * (3 - 2 * a.p);
+  ctx.save();
+  ctx.beginPath();
+  ctx.rect(x0, y0, w, hoch);
+  ctx.clip();
+  ctx.fillStyle = 'rgba(255,244,200,0.9)'; // Licht aus dem Raum
+  ctx.fillRect(x0, y0, w, hoch);
+  ctx.fillStyle = '#3d7d84';
+  ctx.strokeStyle = '#0c1517';
+  ctx.lineWidth = 4;
+  const halb = (w / 2) * (1 - ease);
+  ctx.fillRect(x0, y0, halb, hoch);
+  ctx.strokeRect(x0, y0, halb, hoch);
+  ctx.fillRect(x0 + w - halb, y0, halb, hoch);
+  ctx.strokeRect(x0 + w - halb, y0, halb, hoch);
+  ctx.restore();
+}
+
 function drawMarker(ctx, hs, time, locked, showLabel) {
   const pulse = 1 + Math.sin(time * 4) * 0.08;
   const r = 26 * pulse;
@@ -264,6 +319,8 @@ export function drawScene(ctx, st) {
   // Erkunden: Hinweis-Objekte (Typ „dialog“) zeigen sich erst in der Nähe der Figur als Funke und bleiben nach dem Fund als Haken.
   // Türen, Aufgabenstationen und Personen sind immer markiert. Im Editiermodus (showAll) sieht man alles.
   for (const hs of scene.hotspots || []) {
+    if (!st.showAll && st.isHidden && st.isHidden(hs)) continue;
+    if (hs.type === 'geraet') { drawGeraet(ctx, hs, time, st.geraetOffen ? st.geraetOffen(hs) : false); continue; }
     if (!st.showAll && hs.type === 'dialog') {
       if (st.isFound && st.isFound(hs)) drawFound(ctx, hs, st.fundInfo ? st.fundInfo(hs) : null);
       else if (Math.hypot(st.player.x - hs.x, st.player.y - hs.y) < 240) drawSpark(ctx, hs, time);
@@ -271,5 +328,6 @@ export function drawScene(ctx, st) {
     }
     drawMarker(ctx, hs, time, st.isLocked ? st.isLocked(hs) : false, showLabels);
   }
+  if (st.tuerAnim) drawTuerAnim(ctx, st.tuerAnim, scene);
   if (st.overlay) st.overlay(ctx);
 }

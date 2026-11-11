@@ -1,0 +1,68 @@
+/* Zugang (Protein-Gym 2.0): Laborführerschein, Labor-Ausweis, Zahlenschloss, Inventar, Hilfe */
+
+dialog#zugang {
+  background: var(--panel); color: var(--ink);
+  border: 3px solid #35656b; border-radius: 16px;
+  padding: 16px 20px 20px;
+  width: min(560px, calc(100% - 24px));
+  max-height: calc(100dvh - 24px);
+  overflow: auto;
+}
+dialog#zugang::backdrop { background: rgba(0, 0, 0, 0.6); }
+dialog#zugang h2 { margin: 0 0 10px; font-size: calc(24px * var(--font-scale)); }
+.zugang-karte { display: grid; gap: 10px; font-size: calc(18px * var(--font-scale)); }
+.zugang-karte p { margin: 0; }
+.zugang-schritt { color: var(--muted); font-size: calc(15px * var(--font-scale)); }
+.zugang-frage { font-weight: 700; font-size: calc(20px * var(--font-scale)); }
+.zugang-optionen { display: grid; gap: 8px; }
+.zugang-optionen .option { text-align: left; min-height: 48px; }
+.zugang-optionen .option.falsch { opacity: 0.45; text-decoration: line-through; }
+.zugang-optionen .option.richtig { border-color: #3aa060; background: #102a1b; }
+.zugang-fb { min-height: 1.6em; }
+.zugang-fb.gut, .zugang-gut { color: #9be3b0; font-weight: 700; }
+.zugang-fb.schlecht { color: #ff9c92; }
+
+/* Labor-Ausweis */
+.ausweis {
+  width: min(320px, 100%); margin: 4px auto; background: #f3efe0; color: #1a2a2c;
+  border: 3px solid #1a2a2c; border-radius: 12px; overflow: hidden;
+  box-shadow: 0 6px 0 rgba(0, 0, 0, 0.35);
+}
+.ausweis-streifen { background: #f08a24; color: #1a2a2c; font-weight: 800; letter-spacing: 0.12em; padding: 6px 12px; font-size: 15px; }
+.ausweis-koerper { display: flex; gap: 12px; padding: 12px; align-items: center; }
+.ausweis-foto { flex: none; width: 64px; height: 76px; border: 3px solid #1a2a2c; background: #bfe3e0; display: grid; place-items: center; font-family: var(--font-pixel, system-ui); font-size: 34px; font-weight: 800; }
+.ausweis-zeilen { display: grid; gap: 6px; min-width: 0; font-size: 15px; }
+.ausweis-zeilen strong { font-size: 18px; overflow-wrap: anywhere; }
+.ausweis-linie { display: block; height: 6px; background: #c9c3ad; border-radius: 3px; }
+.ausweis-linie.kurz { width: 60%; }
+.ausweis.klein { width: 150px; border-width: 2px; }
+.ausweis.klein .ausweis-koerper { padding: 6px; gap: 6px; }
+.ausweis.klein .ausweis-foto { width: 32px; height: 38px; font-size: 18px; border-width: 2px; }
+.ausweis.klein .ausweis-streifen { font-size: 9px; padding: 3px 6px; }
+.ausweis.klein .ausweis-zeilen { font-size: 10px; }
+.ausweis.klein .ausweis-zeilen strong { font-size: 11px; }
+
+/* Ausweis fliegt zum Lesegerät */
+.ausweis-flug { position: fixed; z-index: 80; left: 50%; top: 50%; pointer-events: none; animation: ausweis-flug 1s ease-in-out forwards; }
+@keyframes ausweis-flug {
+  0% { transform: translate(120%, 90%) scale(0.4) rotate(12deg); opacity: 0; }
+  25% { transform: translate(-50%, -50%) scale(1.1) rotate(-4deg); opacity: 1; }
+  70% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; }
+  100% { transform: translate(-50%, 10%) scale(0.5) rotate(0deg); opacity: 0; }
+}
+
+/* Zahlenschloss */
+.tf { justify-items: center; text-align: center; }
+.tf-anzeige { display: flex; gap: 8px; justify-content: center; padding: 10px 14px; background: #061012; border: 3px solid #35656b; border-radius: 10px; }
+.tf-anzeige.ok { border-color: #3aa060; box-shadow: 0 0 14px #3aa060; }
+.tf-stelle { width: 44px; text-align: center; font: 700 32px ui-monospace, "Courier New", monospace; color: #6f8f95; }
+.tf-stelle.voll { color: #ffd24a; }
+.tf-tasten { display: grid; grid-template-columns: repeat(3, 72px); gap: 8px; }
+.tf-taste { min-width: 72px; min-height: 56px; font-size: 26px; font-weight: 700; border-radius: 10px; }
+.tf-taste:active:not(:disabled) { background: #3a2d12; border-color: var(--accent); }
+
+@media (prefers-reduced-motion: reduce) {
+  .ausweis-flug { animation: none; opacity: 0; }
+}
+
+.zugang-zu { position: absolute; top: 8px; right: 10px; min-width: 40px; min-height: 40px; }

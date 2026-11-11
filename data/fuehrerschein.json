@@ -1,0 +1,31 @@
+{
+  "titel": "Laborführerschein",
+  "einleitung": "Drei Fragen zur Sicherheit im Labor. Wähle jeweils die richtige Antwort.",
+  "fragen": [
+    {
+      "frage": "Im Labor kann etwas spritzen. Was schützt deine Augen?",
+      "richtig": "Eine Schutzbrille tragen",
+      "falsch": ["Die Augen kurz zukneifen", "Möglichst nah herangehen, damit man alles sieht"],
+      "erklaerung": "Richtig! Die Schutzbrille schützt deine Augen vor Spritzern. Augen sind besonders empfindlich, deshalb trägt man sie immer, wenn etwas spritzen könnte.",
+      "hinweis": "Überlege, welcher Körperteil bei Spritzern am meisten gefährdet ist. Und womit kann man ihn schützen?",
+      "hilfe": "Es geht um ein Ausrüstungsteil, das man im Gesicht trägt und das die Augen rundherum abdeckt."
+    },
+    {
+      "frage": "Vor dir steht eine Flüssigkeit, die du nicht kennst. Was tust du?",
+      "richtig": "Nur nach Anweisung damit arbeiten",
+      "falsch": ["Vorsichtig daran riechen", "Einen Tropfen probieren, es ist bestimmt nur Wasser"],
+      "erklaerung": "Richtig! Unbekannte Stoffe können gefährlich sein, auch wenn sie harmlos aussehen. Deshalb arbeitest du nur mit dem, was dir erlaubt und erklärt wurde.",
+      "hinweis": "Man kann einem Stoff nicht ansehen, ob er harmlos ist. Wer entscheidet, womit im Labor gearbeitet wird?",
+      "hilfe": "Riechen und Probieren sind im Labor tabu. Die richtige Antwort sagt, woran du dich halten sollst, wenn du einen Stoff nicht kennst."
+    },
+    {
+      "frage": "Ein Gefäß ist umgefallen und die Flüssigkeit läuft aus. Was tust du?",
+      "richtig": "Abstand halten und die Lehrkraft informieren",
+      "falsch": ["Mit dem Ärmel aufwischen", "Schnell selbst alles in die Spüle schütten"],
+      "erklaerung": "Richtig! Du weißt nicht, was in der Flüssigkeit steckt. Halte Abstand und sag der Lehrkraft Bescheid, sie weiß, wie man sicher aufräumt.",
+      "hinweis": "Du weißt nicht sicher, was ausgelaufen ist. Ist es dann gut, selbst damit in Kontakt zu kommen?",
+      "hilfe": "Die richtige Antwort hat zwei Teile: zuerst ein Stück zurücktreten, dann jemanden holen, der sich auskennt."
+    }
+  ],
+  "bestanden": "Laborführerschein bestanden! Dein Labor-Ausweis wurde freigeschaltet."
+}

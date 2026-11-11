@@ -2,12 +2,13 @@
 // Der Block zwischen den Marken wird von tools/precache.mjs erzeugt (node tools/precache.mjs).
 
 // >>> precache
-const VERSION = '734c0dd59e';
+const VERSION = '40d7da1dc2';
 const ASSETS = [
   './',
   './assets/css/app.css',
   './assets/css/funde.css',
   './assets/css/game.css',
+  './assets/css/zugang.css',
   './assets/figuren/figur_v1_walk_down.webp',
   './assets/figuren/figur_v1_walk_left.webp',
   './assets/figuren/figur_v1_walk_right.webp',
@@ -71,6 +72,7 @@ const ASSETS = [
   './data/aufgaben.json',
   './data/dialoge.json',
   './data/fall.json',
+  './data/fuehrerschein.json',
   './data/glossar.json',
   './data/hefter.json',
   './data/szenen.json',
@@ -89,6 +91,7 @@ const ASSETS = [
   './src/main.js',
   './src/state/auswertung.js',
   './src/state/fall.js',
+  './src/state/fuehrerschein.js',
   './src/state/progress.js',
   './src/state/store.js',
   './src/state/zugang.js',
@@ -107,6 +110,7 @@ const ASSETS = [
   './src/ui/start.js',
   './src/ui/taskpanel.js',
   './src/ui/vollbild.js',
+  './src/ui/zugang.js',
 ];
 // <<< precache
 

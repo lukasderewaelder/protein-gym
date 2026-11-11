@@ -14,6 +14,46 @@
       "Eine Frage vorab: Warum wird Eiklar in der Pfanne eigentlich fest? Merk dir deine Idee, wir kommen darauf zurück."
     ]
   },
+  "empfang.fuehrerschein": {
+    "speaker": "Markus",
+    "portrait": "trainer",
+    "lines": [
+      "Halt, Neuling! In mein Labor kommt niemand ohne Sicherheitseinweisung.",
+      "Drei Fragen, dann bekommst du deinen Labor-Ausweis. Bereit?"
+    ]
+  },
+  "empfang.fuehrerschein.ok": {
+    "speaker": "Markus",
+    "portrait": "trainer",
+    "lines": [
+      "Gut gemacht, {name}! Jetzt noch der Ausweis: Tippe auf das Kartenlesegerät neben der Labortür, dann geht die Tür auf."
+    ]
+  },
+  "tuer.tuer_labor.verriegelt": {
+    "speaker": "Tür",
+    "lines": [
+      "Die Labortür ist verriegelt. Das Kartenlesegerät daneben wartet auf deinen Labor-Ausweis."
+    ]
+  },
+  "empfang.leser.ohne": {
+    "speaker": "Kartenlesegerät",
+    "lines": [
+      "Das Lesegerät blinkt rot und piept: Kein Ausweis gefunden.",
+      "Den Labor-Ausweis bekommst du von Markus, nachdem du den Laborführerschein bestanden hast. Tippe dazu auf die Labortür."
+    ]
+  },
+  "empfang.leser.ok": {
+    "speaker": "Kartenlesegerät",
+    "lines": [
+      "Piep! Das Lämpchen wird grün: Zugang erteilt. Die Labortür öffnet sich."
+    ]
+  },
+  "empfang.leser.offen": {
+    "speaker": "Kartenlesegerät",
+    "lines": [
+      "Das Lämpchen leuchtet grün. Die Labortür ist offen."
+    ]
+  },
   "empfang.trainer": {
     "speaker": "Markus",
     "portrait": "trainer",
@@ -161,7 +201,8 @@
     "portrait": "trainer",
     "lines": [
       "Gut! Weiter ins Labor, die Tür mit dem Reagenzglas. Dort findest du heraus, was Eiweiß zum Gerinnen bringt und wie man Eiweiß nachweist.",
-      "Such zuerst die Hinweise an den funkelnden Dingen, dann klappt die Aufgabe."
+      "Ohne Laborführerschein kommst du aber nicht hinein: Tippe auf die Labortür, ich stelle dir drei Sicherheitsfragen. Mit dem Ausweis öffnest du dann die Tür am Kartenlesegerät.",
+      "Im Labor such zuerst die Hinweise an den funkelnden Dingen, dann klappt die Aufgabe."
     ]
   },
   "empfang.coach.sauna": {
