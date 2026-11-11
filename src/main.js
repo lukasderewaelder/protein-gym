@@ -527,7 +527,28 @@ function frame(now) {
 
 function wireMenu() {
   const menu = $('#menu');
-  $('#btn-menu').addEventListener('click', () => { $('#btn-zert').hidden = !store.hasFlag('quiz2_done'); menu.showModal(); });
+  $('#btn-menu').addEventListener('click', () => {
+    $('#btn-zert').hidden = !store.hasFlag('quiz2_done');
+    $('#menu-code').textContent = encodeProgress(store.state);
+    $('#menu-code-info').textContent = '';
+    menu.showModal();
+  });
+  $('#btn-code-kopieren').addEventListener('click', async () => {
+    const code = encodeProgress(store.state);
+    const info = $('#menu-code-info');
+    try {
+      await navigator.clipboard.writeText(code);
+      info.textContent = 'Kopiert.';
+    } catch {
+      // Zwischenablage nicht erlaubt (zum Beispiel im eingebetteten Fenster): Code markieren, dann von Hand kopieren
+      const sel = window.getSelection();
+      const range = document.createRange();
+      range.selectNodeContents($('#menu-code'));
+      sel.removeAllRanges();
+      sel.addRange(range);
+      info.textContent = 'Der Code ist markiert. Kopiere ihn mit Strg+C oder halte den Finger darauf.';
+    }
+  });
   $('#btn-zert').addEventListener('click', () => { menu.close(); showZertifikat(); });
   $('#zert-zu').addEventListener('click', () => { $('#zert').hidden = true; });
   $('#zert-druck').addEventListener('click', () => window.print());
@@ -594,7 +615,7 @@ async function begin() {
   await enterScene(szene, { fade: false, pos: holePosition(store.state, szene) });
   // Speicher soll nicht von selbst gelöscht werden; wo er fehlt, deutlich warnen
   try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist(); } catch { /* egal */ }
-  if (!storage) showInfo('Speichern nicht möglich', h('p', {}, 'Dieser Browser speichert nichts (zum Beispiel im privaten Fenster). Dein Fortschritt geht verloren, wenn du den Browser schließt.'), h('p', {}, 'Notiere dir deshalb nach jedem Raum den Fortschrittscode (Menü → Fortschrittscode anzeigen).'));
+  if (!storage) showInfo('Speichern nicht möglich', h('p', {}, 'Dieser Browser speichert nichts (zum Beispiel im privaten Fenster). Dein Fortschritt geht verloren, wenn du den Browser schließt.'), h('p', {}, 'Notiere dir deshalb nach jedem Raum den Fortschrittscode (Menü → Mein Code).'));
 }
 
 /** Position der Figur und Spielstand sichern, auch wenn der Browser plötzlich geschlossen wird. */

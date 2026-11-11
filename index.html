@@ -145,6 +145,16 @@
 
   <dialog id="menu">
     <h2>Menü</h2>
+    <section class="menu-code" aria-labelledby="menu-code-titel">
+      <h3 id="menu-code-titel">Mein Code</h3>
+      <p id="menu-code" class="menu-code-zeichen" aria-live="polite"></p>
+      <div class="menu-row">
+        <button type="button" id="btn-code-kopieren" class="primary">Kopieren</button>
+        <button type="button" id="btn-code">Groß anzeigen</button>
+        <span id="menu-code-info" class="hint" role="status"></span>
+      </div>
+      <p class="hint">Mit diesem Code kannst du jederzeit auf einem anderen Gerät weiterspielen. Er merkt sich deine Räume, Niveaus und Quizergebnisse, keine Namen. Den Schritt in einer Aufgabe merkt sich nur dieses Gerät.</p>
+    </section>
     <div class="menu-row">
       <span>Schriftgröße</span>
       <button type="button" id="font-down" aria-label="Schrift kleiner">A−</button>
@@ -158,10 +168,9 @@
       <span id="vollbild-hinweis" class="hint" hidden>Für Vollbild: Teilen → Zum Home-Bildschirm.</span>
     </div>
     <div class="menu-row">
-      <button type="button" id="btn-code">Fortschrittscode anzeigen</button>
       <button type="button" id="btn-zert" hidden>Zertifikat anzeigen</button>
     </div>
-    <p class="hint">Dein Fortschritt wird automatisch in diesem Browser gespeichert, auch wenn du ihn schließt. Auf einem anderen Gerät oder nach dem Löschen der Browserdaten hilft der Fortschrittscode.</p>
+    <p class="hint">Dein Fortschritt wird automatisch in diesem Browser gespeichert, auch wenn du ihn schließt. Auf einem anderen Gerät oder nach dem Löschen der Browserdaten hilft dein Code.</p>
     <div class="menu-row">
       <button type="button" id="btn-reset" class="danger">Neues Spiel: Daten auf diesem Gerät löschen</button>
     </div>

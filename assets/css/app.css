@@ -195,10 +195,18 @@ dialog#menu {
   border-radius: 16px;
   padding: 18px 22px;
   width: min(520px, calc(100% - 32px));
+  max-height: calc(100% - 24px);
+  overflow-y: auto;
 }
 dialog#menu::backdrop { background: rgba(0, 0, 0, 0.6); }
 .menu-row { display: flex; gap: 10px; align-items: center; margin: 10px 0; flex-wrap: wrap; }
 .menu-row > span { flex: 1; font-size: calc(18px * var(--font-scale)); }
+.menu-code { margin: 6px 0 14px; padding: 12px 14px; border: 2px solid var(--accent); border-radius: 12px; background: rgba(255, 255, 255, 0.05); }
+.menu-code h3 { margin: 0 0 6px; font-size: calc(18px * var(--font-scale)); }
+.menu-code-zeichen { margin: 0 0 6px; padding: 10px 12px; border-radius: 8px; background: #0b1517; color: #fff; text-align: center; user-select: all; overflow-wrap: anywhere; font: 800 calc(17px * var(--font-scale)) ui-monospace, "Courier New", monospace; letter-spacing: 0.02em; }
+.menu-code .menu-row { margin: 6px 0; }
+.menu-code .menu-row > span.hint { font-size: calc(15px * var(--font-scale)); }
+.menu-code > .hint { margin: 6px 0 0; font-size: calc(15px * var(--font-scale)); }
 
 /* ---------- Übergang ---------- */
 #fade {
