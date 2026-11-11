@@ -22,6 +22,16 @@ dialog#zugang h2 { margin: 0 0 10px; font-size: calc(24px * var(--font-scale)); 
 .zugang-fb.gut, .zugang-gut { color: #9be3b0; font-weight: 700; }
 .zugang-fb.schlecht { color: #ff9c92; }
 
+/* Gekritzel in der Spind-Ecke (Saunacode) */
+.pinnwand { position: relative; }
+.spind-kritzel {
+  position: absolute; top: 6px; right: 10px; z-index: 2; min-height: 44px; padding: 4px 10px; display: grid; justify-items: center; gap: 0;
+  background: transparent; border: 2px dashed transparent; color: #2a1d12; border-radius: 8px; transform: rotate(-5deg);
+}
+.spind-kritzel:hover, .spind-kritzel:focus-visible { border-color: #5a4630; }
+.kritzel-zahl { font: italic 22px "Segoe Script", "Bradley Hand", "Comic Sans MS", cursive; letter-spacing: 0.1em; opacity: 0.9; }
+.spind-kritzel small { font-size: 10px; color: #4a3826; }
+
 /* Labor-Ausweis */
 .ausweis {
   width: min(320px, 100%); margin: 4px auto; background: #f3efe0; color: #1a2a2c;

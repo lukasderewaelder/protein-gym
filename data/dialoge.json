@@ -29,6 +29,22 @@
       "Gut gemacht, {name}! Jetzt noch der Ausweis: Tippe auf das Kartenlesegerät neben der Labortür, dann geht die Tür auf."
     ]
   },
+  "labor.markus.sauna": {
+    "speaker": "Markus (Funk)",
+    "portrait": "trainer",
+    "setFlag": "sauna_info",
+    "lines": [
+      "Hier ist Markus. Der Versuch im Labor ist geschafft, stark!",
+      "Kleine Planänderung: Die Sauna ist gesperrt. Die Tür hat ein Zahlenschloss, und ich habe den Code vergessen.",
+      "Ich habe ihn mir irgendwo in der Ecke deines Spinds hingekritzelt. Schau nach, dann kommst du in die Sauna."
+    ]
+  },
+  "empfang.sauna.ok": {
+    "speaker": "Saunatür",
+    "lines": [
+      "Klick! Das Zahlenschloss springt auf und die Saunatür gleitet zur Seite."
+    ]
+  },
   "tuer.tuer_labor.verriegelt": {
     "speaker": "Tür",
     "lines": [
@@ -209,7 +225,8 @@
     "speaker": "Markus",
     "portrait": "trainer",
     "lines": [
-      "Als Nächstes die Sauna, die Tür mit der Dampfwolke. Dort siehst du, wie Hitze Eiweiß verändert und wo du das im Alltag erkennst."
+      "Als Nächstes die Sauna, die Tür mit der Dampfwolke. Dort siehst du, wie Hitze Eiweiß verändert und wo du das im Alltag erkennst.",
+      "Die Saunatür hat ein Zahlenschloss. Den Code habe ich dir in die Ecke deines Spinds gekritzelt."
     ]
   },
   "empfang.coach.training": {

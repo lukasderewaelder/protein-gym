@@ -330,7 +330,38 @@ function sperre(hs) {
     } else playDialog('tuer.tuer_labor.verriegelt');
     return;
   }
+  if (hs.sperre === 'sauna') {
+    if (!store.hasFlag('labor_done')) { text(); return; }
+    zugang.tastenfeld({
+      titel: 'Zahlenschloss der Sauna',
+      text: 'Die Saunatür hat ein Zahlenschloss. Gib den vierstelligen Code ein.',
+      stellen: 4,
+      code: store.state.codes.sauna,
+      hinweis: 'Markus hat den Code in die Ecke deines Spinds gekritzelt. Schau dort nach.',
+      beiRichtig: () => {
+        store.setFlag('sauna_offen');
+        tuerAnim = { id: hs.id, t0: performance.now() };
+        busy = true;
+        setTimeout(() => { busy = false; tuerAnim = null; playDialog('empfang.sauna.ok'); }, 1100);
+      },
+    });
+    return;
+  }
   text();
+}
+
+/** Zettel mit dem Saunacode: hängt an der Pinnwand, sobald das Gekritzel im Spind einmal angesehen wurde. */
+function saunaZettel() {
+  return { id: 'zettel_sauna', medium: 'haftnotiz', titel: 'Saunacode', kopf: 'Saunacode', raum: 'sauna', typ: 'extra', zeilen: ['Zahlenschloss der Sauna:', store.state.codes.sauna, 'Von Markus in die Ecke des Spinds gekritzelt.'] };
+}
+function extraKarten() {
+  return store.hasFlag('sauna_code_gesehen') ? [saunaZettel()] : [];
+}
+function kritzelAnsehen() {
+  const neu = !store.hasFlag('sauna_code_gesehen');
+  if (neu) store.setFlag('sauna_code_gesehen');
+  showFund(saunaZettel(), neu);
+  notebook.refresh();
 }
 
 /** Kartenlesegerät neben der Labortür: Ausweis wird gezückt, Lämpchen wird grün, die Tür gleitet auf. */
@@ -503,6 +534,20 @@ function sichereZwischenstand() {
   store.save();
 }
 
+/** Ein Raum ist geschafft: im Labor meldet sich Markus per Funk, am Ende gibt es das Zertifikat. true = das Aufgabenfenster zeigt nichts weiter an. */
+function raumGeschafft(room) {
+  if (room === 'labor') {
+    // Sauna gesperrt, Code im Spind. Danach zeigt das Fenster den Fortschrittscode.
+    taskPanel.close();
+    playDialog('labor.markus.sauna', undefined, () => taskPanel.showRoomDone('labor'));
+    return true;
+  }
+  if (room !== 'abschluss') return false;
+  taskPanel.close();
+  showZertifikat();
+  return true;
+}
+
 async function boot() {
   applyFontScale();
   vp.resize();
@@ -516,19 +561,14 @@ async function boot() {
   await refreshFigure();
   zugang = createZugang({ dlg: $('#zugang'), store, daten: { fuehrerschein: DATA.fuehrerschein } });
   $('#zugang-zu').addEventListener('click', () => zugang.schliesse());
-  notebook = createNotebook({ onOpen: () => store.setFlag('spind_gesehen'), onFund: (k) => showFund(k, false), dialogEl: $('#notebook'), wissen: DATA.wissen, glossar: DATA.glossar, hefter: DATA.hefter, store });
+  notebook = createNotebook({ onOpen: () => store.setFlag('spind_gesehen'), onFund: (k) => showFund(k, false), extras: extraKarten, onKritzel: kritzelAnsehen, dialogEl: $('#notebook'), wissen: DATA.wissen, glossar: DATA.glossar, hefter: DATA.hefter, store });
   taskPanel = createTaskPanel({
     root: $('#task'),
     data: { aufgaben: DATA.aufgaben, wissen: DATA.wissen, versuch: DATA.versuch, werbung: DATA.werbung, aehnlich: DATA.aehnlich, fall: DATA.fall },
     store,
     notebook,
     showCall,
-    onRoomDone: (room) => {
-      if (room !== 'abschluss') return false;
-      taskPanel.close();
-      showZertifikat();
-      return true;
-    },
+    onRoomDone: raumGeschafft,
   });
 
   if (params.has('edit')) {
@@ -581,6 +621,7 @@ async function boot() {
     setFall: (id) => { store.state.fall = { taeter: id }; store.save(); buildFallCards(); },
     allCards: () => { DATA.wissen.karten.forEach((k) => store.setFlag(k.id)); store.setFlag('lab_frei'); },
     openTask: (id, room) => taskPanel.openTask(id, room),
+    raumGeschafft,
     openMenu: (room) => taskPanel.openMenu(room),
     showFund: (id, neu = false) => showFund(DATA.cards.get(id), neu),
     showZertifikat,

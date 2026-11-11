@@ -130,3 +130,21 @@ test('Speicher: neuer Spielstand bekommt einen Saunacode, alter Stand wird nachg
   assert.equal(c.state.flags.labor_offen, undefined);
   assert.ok(istSaunaCode(c.state.codes.sauna));
 });
+
+test('Türen: Labor und Sauna haben eine eigene Sperre, die Dialoge dazu sind vorhanden', async () => {
+  const { readFileSync } = await import('node:fs');
+  const dialoge = JSON.parse(readFileSync(new URL('../data/dialoge.json', import.meta.url), 'utf8'));
+  const szenen = JSON.parse(readFileSync(new URL('../data/szenen.json', import.meta.url), 'utf8'));
+  const tueren = szenen.szenen.find((s) => s.id === 'empfang').hotspots.filter((h) => h.type === 'door');
+  const labor = tueren.find((t) => t.to === 'labor');
+  const sauna = tueren.find((t) => t.to === 'sauna');
+  assert.deepEqual(flagsVon(labor.requires), ['empfang_done', 'labor_offen']);
+  assert.deepEqual(flagsVon(sauna.requires), ['labor_done', 'sauna_offen']);
+  assert.equal(labor.sperre, 'labor');
+  assert.equal(sauna.sperre, 'sauna');
+  assert.equal(dialoge['labor.markus.sauna'].setFlag, 'sauna_info', 'Markus sagt, dass die Sauna gesperrt ist');
+  assert.match(dialoge['labor.markus.sauna'].lines.join(' '), /Sauna ist gesperrt.*Zahlenschloss.*Spind/);
+  assert.ok(dialoge['empfang.sauna.ok']);
+  const leser = szenen.szenen.find((s) => s.id === 'empfang').hotspots.find((h) => h.type === 'geraet');
+  assert.equal(leser.aktion, 'leser');
+});

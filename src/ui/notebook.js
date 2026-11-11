@@ -9,7 +9,7 @@ const RAUM_NAMEN = { empfang: 'Empfang', training: 'Trainingsfläche', labor: 'L
 
 const AB_TEXT = { sauna_done: 'die Sauna', training_done: 'die Trainingsfläche', shakebar_done: 'die Shake-Bar' };
 
-export function createNotebook({ dialogEl, wissen, glossar, hefter, store, onFund, onOpen }) {
+export function createNotebook({ dialogEl, wissen, glossar, hefter, store, onFund, onOpen, extras, onKritzel }) {
   const body = dialogEl.querySelector('.nb-body');
   const tabs = dialogEl.querySelector('.nb-tabs');
   let tab = 'karten';
@@ -37,6 +37,16 @@ export function createNotebook({ dialogEl, wissen, glossar, hefter, store, onFun
       if (offenZusatz) teile.push(`${offenZusatz} Extra-${offenZusatz === 1 ? 'Fund' : 'Funde'} versteckt`);
       if (teile.length) karten.append(h('p', `pin-offen${offen ? '' : ' nur-extra'}`, `? ${teile.join(' · ')}`));
       wand.append(h('section', 'pin-raum', h('h3', {}, RAUM_NAMEN[raum] || raum), karten));
+    }
+    // Notizen, die erst im Spielverlauf entstehen (zum Beispiel der Zettel mit dem Saunacode)
+    const notizen = extras ? extras() : [];
+    if (notizen.length) {
+      wand.append(h('section', 'pin-raum', h('h3', {}, 'Notizen'), h('div', 'pin-karten', notizen.map((k) => renderMini(k, { onclick: () => onFund && onFund(k) })))));
+    }
+    // Gekritzel in der Ecke des Spinds: Markus hat den Saunacode hingeschrieben
+    if (store.hasFlag('sauna_info') && store.state.codes && store.state.codes.sauna) {
+      wand.prepend(h('button', { type: 'button', class: 'spind-kritzel', 'aria-label': 'Gekritzel in der Ecke des Spinds ansehen', onclick: () => onKritzel && onKritzel() },
+        h('span', 'kritzel-zahl', store.state.codes.sauna), h('small', {}, 'hingekritzelt')));
     }
     return [wand];
   }
@@ -128,6 +138,7 @@ export function createNotebook({ dialogEl, wissen, glossar, hefter, store, onFun
       if (!dialogEl.open) dialogEl.showModal();
       if (tab === 'karten') requestAnimationFrame(zieheFaeden);
     },
+    refresh() { if (dialogEl.open) render(); },
     get isOpen() { return dialogEl.open; },
   };
 }
