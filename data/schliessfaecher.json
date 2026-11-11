@@ -16,8 +16,8 @@
     },
     {
       "id": 3, "flag": "bonus_3", "code": "608", "x": 648, "y": 320,
-      "typ": "zusatz", "name": "Hantel-Aufkleber", "emoji": "🏋️",
-      "text": "Im Fach liegt ein Hantel-Aufkleber. Den hast du dir mit der Zusatzfrage verdient!",
+      "typ": "zusatz", "name": "Hantel-Tattoo", "emoji": "🏋️",
+      "text": "Im Fach liegt ein Klebe-Tattoo mit einer Hantel. Für wirklich harte Typen. Wasserfest bis zur ersten Dusche. Das hast du dir mit der Zusatzfrage verdient!",
       "extra": "Auf der Rückseite hat Hitze-Hannes gekritzelt: „Wer schwitzt, ist noch lange nicht geronnen!“",
       "fragen": [
         {
@@ -34,7 +34,7 @@
     {
       "id": 4, "flag": "bonus_4", "code": "119", "x": 724, "y": 320,
       "typ": "spass", "name": "Mini-Shaker", "emoji": "🥤",
-      "text": "Im Fach steht ein kleiner leerer Shaker ohne Etikett. Dazu ein Zettel von Markus, deinem Chef: „Nur probieren, was du kennst und was erlaubt ist! Und wenn der Shaker leer ist: Jetzt hat es sich ausgebobbt!“",
+      "text": "Im Fach steht ein kleiner leerer Shaker ohne Etikett. Dazu ein Zettel von Markus, deinem Chef: „Nur probieren, was du kennst und was erlaubt ist! Und für teure Eiweiß-Shakes hat sich’s ausgebobbt: Ein Becher Quark liefert auch jede Menge Eiweiß.“",
       "zettel": { "szene": "training", "x": 600, "y": 700, "zeilen": ["Schließfach 4:", "Code {code}", "Der Zettel steckte zwischen zwei Hantelscheiben."] }
     },
     {
@@ -46,10 +46,10 @@
     },
     {
       "id": 6, "flag": "bonus_6", "code": "484", "x": 1040, "y": 320,
-      "typ": "zusatz", "name": "Gold-Aufkleber", "emoji": "🥇",
-      "text": "Im Fach liegt ein goldener Aufkleber. Den hast du dir mit der Zusatzfrage und dem Rätsel verdient!",
-      "extra": "Auf der Rückseite klebt ein kleiner Stempel: „ERGO“ (also, zusammenfassend).",
-      "extraWennAlle": "Ergo: Alle sechs Fächer sind offen. Jetzt hat es sich ausgebobbt, mehr gibt es hier nicht zu finden!",
+      "typ": "zusatz", "name": "Goldenes Bizeps-Tattoo", "emoji": "💪",
+      "text": "Im Fach liegt ein goldenes Klebe-Tattoo: ein Bizeps mit Sonnenbrille. Für die ganz harten Typen. Geht mit Seife ab. Das hast du dir mit der Zusatzfrage und dem Rätsel verdient!",
+      "extra": "Klein gedruckt auf der Packung: „Macht nicht stärker. Trainieren musst du schon selbst.“",
+      "extraWennAlle": "Alle sechs Fächer sind offen. Für die Schatzsuche hat sich’s ausgebobbt, mehr gibt es hier nicht zu finden!",
       "fragen": [
         {
           "frage": "Wie heißt die Bindung, die zwei Aminosäuren zu einem Dipeptid verknüpft?",

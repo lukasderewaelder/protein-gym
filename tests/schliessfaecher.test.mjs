@@ -68,11 +68,13 @@ test('Codes stehen nur auf ihren Zetteln: normale Zettel nennen den Code, der R�
   }
 });
 
-test('Easter Eggs: ergo, ausgebobbt und Bob Tschigerillo, keine Namen realer Personen, Schluss-Extra in Fach 6', () => {
+test('Easter Eggs: ergo (nur Fach 2), ausgebobbt, Tattoos und Bob Tschigerillo, keine Namen realer Personen, Schluss-Extra in Fach 6', () => {
   const alles = JSON.stringify(F.faecher);
   assert.match(alles, /Ergo: Fragt lieber nicht mich/, 'ergo (Kurt, Fach 2)');
-  assert.match(alles, /ERGO/, 'ergo-Stempel (Fach 6)');
-  assert.match(alles, /Jetzt hat es sich ausgebobbt/);
+  for (const f of F.faecher.filter((x) => x.id !== 2)) assert.doesNotMatch(JSON.stringify(f), /ergo/i, `ergo nur in Fach 2 (Fach ${f.id})`);
+  assert.match(F.faecher.find((f) => f.id === 4).text, /für teure Eiweiß-Shakes hat sich’s ausgebobbt/, 'Meme-Form „Für X hat sich’s ausgebobbt“');
+  for (const id of [3, 6]) assert.match(F.faecher.find((f) => f.id === id).name, /Tattoo/, `Fach ${id}: Klebe-Tattoo`);
+  assert.doesNotMatch(alles, /Aufkleber/, 'keine Aufkleber mehr in den Fächern');
   assert.match(alles, /Bob Tschigerillo/);
   assert.doesNotMatch(alles, /Rühl|Cicherillo|Maggus|Coleman|Schwarzenegger/i, 'keine Namen realer Personen');
   const f6 = F.faecher.find((f) => f.id === 6);
