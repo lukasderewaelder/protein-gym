@@ -10,13 +10,16 @@ const F = lies('schliessfaecher');
 const S = lies('szenen');
 const inv = lies('inventar');
 
-test('Sechs Fächer mit dreistelligen, verschiedenen Codes und eigenen Flags', () => {
+test('Sechs Fächer mit eigenen Flags; Zahlen- und Drehschloss haben dreistellige, verschiedene Codes', () => {
   assert.equal(F.faecher.length, 6);
   const codes = new Set();
   for (const f of F.faecher) {
-    assert.match(f.code, /^[0-9]{3}$/, `Fach ${f.id}`);
-    assert.ok(!codes.has(f.code), `doppelter Code ${f.code}`);
-    codes.add(f.code);
+    if (f.schloss === 'schluessel') assert.equal(f.code, undefined, `Fach ${f.id}: ein Schlüsselschloss hat keinen Code`);
+    else {
+      assert.match(f.code, /^[0-9]{3}$/, `Fach ${f.id}`);
+      assert.ok(!codes.has(f.code), `doppelter Code ${f.code}`);
+      codes.add(f.code);
+    }
     assert.ok(FLAG_LIST.includes(f.flag), f.flag);
     assert.ok(FLAG_LIST.includes(`bz_${f.id}`), `bz_${f.id} fehlt in der FLAG_LIST`);
     assert.ok(['spass', 'zusatz'].includes(f.typ));
@@ -54,8 +57,24 @@ test('Jedes Fach hat einen Hotspot im Empfang, jeder Zettel hängt im richtigen 
   assert.equal(raeume.size, 5, 'Zettel in allen fünf Räumen');
 });
 
-test('Codes stehen nur auf ihren Zetteln: normale Zettel nennen den Code, der Rätselzettel nicht', () => {
+test('Verschiedene Schlösser: digital, Drehschloss und Schlüssel; Hotspots zeigen dieselbe Art', () => {
+  const arten = new Set(F.faecher.map((f) => f.schloss));
+  assert.deepEqual([...arten].sort(), ['digital', 'dreh', 'schluessel'], 'alle drei Schlossarten kommen vor');
+  for (const art of arten) assert.ok(F.faecher.filter((f) => f.schloss === art).length >= 2, `mindestens zwei Fächer mit ${art}`);
+  const empfang = S.szenen.find((s) => s.id === 'empfang');
   for (const f of F.faecher) {
+    const hs = empfang.hotspots.find((h) => h.type === 'fach' && h.fach === f.id);
+    assert.equal(hs.schloss, f.schloss, `Fach ${f.id}: Platte im Bild passt zum Schloss`);
+    if (f.schloss === 'schluessel') {
+      assert.ok(f.schluessel.name.includes(String(f.id)), `Fach ${f.id}: die Nummer steht am Schlüssel`);
+      assert.ok(f.schluessel.fundort.length > 20);
+      assert.equal(f.zettel.zeilen, undefined, 'statt eines Zettels liegt hier ein Schlüssel');
+    }
+  }
+});
+
+test('Codes stehen nur auf ihren Zetteln: normale Zettel nennen den Code, der Rätselzettel nicht', () => {
+  for (const f of F.faecher.filter((x) => x.schloss !== 'schluessel')) {
     const text = f.zettel.zeilen.join(' ');
     if (f.id === 6) {
       assert.ok(!text.includes(f.code) && !text.includes('{code}'), 'Rätsel verrät den Code nicht');

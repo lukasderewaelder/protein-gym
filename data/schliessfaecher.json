@@ -1,21 +1,22 @@
 {
   "titel": "Bonus-Schließfächer",
-  "hinweis": "Die Schließfächer in der Spindwand im Empfang sind ein Bonus. Sie gehören nicht zum Pflichtstoff und zählen nirgends mit. Die Codes stehen auf Zetteln, die in den Räumen versteckt sind.",
+  "hinweis": "Die Schließfächer in der Spindwand im Empfang sind ein Bonus. Sie gehören nicht zum Pflichtstoff und zählen nirgends mit. Jedes Fach hat ein anderes Schloss: Zahlenschloss (digital), Drehschloss oder Schlüssel. Die Codes stehen auf Zetteln, die Schlüssel liegen versteckt in den Räumen.",
   "faecher": [
     {
-      "id": 1, "flag": "bonus_1", "code": "417", "x": 491, "y": 320,
+      "id": 1, "flag": "bonus_1", "schloss": "digital", "code": "417", "x": 491, "y": 320,
       "typ": "spass", "name": "Buntes Ei", "emoji": "🥚",
       "text": "Im Fach liegt ein bunt bemaltes Holz-Ei. Auf dem Zettel steht: „Easter Egg Nr. 1 von 6! Warum geht ein Ei nie allein in die Sauna? Es hat Angst, hart gekocht zu werden!“",
       "zettel": { "szene": "empfang", "x": 1160, "y": 610, "zeilen": ["Schließfach 1:", "Code {code}", "Ein Zettel, der sich hinter dem Sofa versteckt hat. Nicht verraten!"] }
     },
     {
-      "id": 2, "flag": "bonus_2", "code": "253", "x": 572, "y": 320,
+      "id": 2, "flag": "bonus_2", "schloss": "schluessel", "x": 572, "y": 320,
       "typ": "spass", "name": "Kurts Notiz", "emoji": "📝",
       "text": "Im Fach liegt ein Zettel von Kupfer-Kurt: „Ich bin Wissenschaftler, Metalle sind mein Gebiet. Von Eiweißen verstehe ich nicht viel. Ergo: Fragt lieber nicht mich.“ Darunter: „P. S.: Was sagt ein Kupferatom zum anderen? Cu später!“",
-      "zettel": { "szene": "labor", "x": 520, "y": 790, "zeilen": ["Schließfach 2:", "Code {code}", "Der Zettel klebte unter dem Labortisch."] }
+      "schluessel": { "name": "Schlüssel Nr. 2", "fundort": "Ein kleiner Schlüssel mit einer 2 am Anhänger. Er klebte unter dem Labortisch." },
+      "zettel": { "szene": "labor", "x": 520, "y": 790 }
     },
     {
-      "id": 3, "flag": "bonus_3", "code": "608", "x": 648, "y": 320,
+      "id": 3, "flag": "bonus_3", "schloss": "dreh", "code": "608", "x": 648, "y": 320,
       "typ": "zusatz", "name": "Hantel-Tattoo", "emoji": "🏋️",
       "text": "Im Fach liegt ein Klebe-Tattoo mit einer Hantel. Für wirklich harte Typen. Wasserfest bis zur ersten Dusche. Das hast du dir mit der Zusatzfrage verdient!",
       "extra": "Auf der Rückseite hat Hitze-Hannes gekritzelt: „Wer schwitzt, ist noch lange nicht geronnen!“",
@@ -32,20 +33,21 @@
       "zettel": { "szene": "sauna", "x": 1000, "y": 760, "zeilen": ["Schließfach 3:", "Code {code}", "Der Zettel lag auf der warmen Saunabank, schon etwas wellig."] }
     },
     {
-      "id": 4, "flag": "bonus_4", "code": "119", "x": 724, "y": 320,
+      "id": 4, "flag": "bonus_4", "schloss": "digital", "code": "119", "x": 724, "y": 320,
       "typ": "spass", "name": "Mini-Shaker", "emoji": "🥤",
       "text": "Im Fach steht ein kleiner leerer Shaker ohne Etikett. Dazu ein Zettel von Markus, deinem Chef: „Nur probieren, was du kennst und was erlaubt ist! Und für teure Eiweiß-Shakes hat sich’s ausgebobbt: Ein Becher Quark liefert auch jede Menge Eiweiß.“",
       "zettel": { "szene": "training", "x": 600, "y": 700, "zeilen": ["Schließfach 4:", "Code {code}", "Der Zettel steckte zwischen zwei Hantelscheiben."] }
     },
     {
-      "id": 5, "flag": "bonus_5", "code": "735", "x": 964, "y": 320,
+      "id": 5, "flag": "bonus_5", "schloss": "schluessel", "x": 964, "y": 320,
       "typ": "spass", "name": "Notizblock", "emoji": "📓",
       "text": "Im Fach liegt ein kleiner Notizblock mit der Aufschrift „Eiweiß-Profi“. Auf der ersten Seite schreibt Alex: „Mein Motto: nur schwer macht schwer. Stimmt nur halb: Auch Pausen und Eiweiß bauen Muskeln auf.“",
       "extra": "Auf der letzten Seite hat jemand gekritzelt: „Bob Tschigerillo war hier.“",
-      "zettel": { "szene": "shakebar", "x": 700, "y": 760, "zeilen": ["Schließfach 5:", "Code {code}", "Der Zettel klebte unter einem Barhocker."] }
+      "schluessel": { "name": "Schlüssel Nr. 5", "fundort": "Ein kleiner Schlüssel mit einer 5 am Anhänger. Er hing unter einem Barhocker." },
+      "zettel": { "szene": "shakebar", "x": 700, "y": 760 }
     },
     {
-      "id": 6, "flag": "bonus_6", "code": "484", "x": 1040, "y": 320,
+      "id": 6, "flag": "bonus_6", "schloss": "dreh", "code": "484", "x": 1040, "y": 320,
       "typ": "zusatz", "name": "Goldenes Bizeps-Tattoo", "emoji": "💪",
       "text": "Im Fach liegt ein goldenes Klebe-Tattoo: ein Bizeps mit Sonnenbrille. Für die ganz harten Typen. Geht mit Seife ab. Das hast du dir mit der Zusatzfrage und dem Rätsel verdient!",
       "extra": "Klein gedruckt auf der Packung: „Macht nicht stärker. Trainieren musst du schon selbst.“",

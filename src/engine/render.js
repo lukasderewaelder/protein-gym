@@ -236,9 +236,13 @@ function drawGeraet(ctx, hs, time, offen) {
   ctx.restore();
 }
 
-/** Schließfach mit Zahlenschloss: kleine Platte mit Nummer und Lämpchen (gelb zu, grün offen). */
+/**
+ * Schloss eines Schließfachs, je nach Art (hs.schloss): „digital“ = Zahlenfeld, „dreh“ = Drehscheibe, „schluessel“ = Schlüsselloch.
+ * Oben ein Lämpchen (gelb zu, grün offen), darunter die Nummer des Fachs.
+ */
 function drawFach(ctx, hs, time, offen) {
   const z = zielPos(hs);
+  const art = hs.schloss || 'digital';
   ctx.save();
   ctx.translate(z.x, z.y);
   ctx.fillStyle = '#2b3b3f';
@@ -247,10 +251,55 @@ function drawFach(ctx, hs, time, offen) {
   roundRect(ctx, -16, -22, 32, 46, 5);
   ctx.fill();
   ctx.stroke();
-  ctx.fillStyle = '#0c1517';
-  ctx.fillRect(-11, -16, 22, 8);
-  ctx.fillStyle = '#6f8f95';
-  for (let r = 0; r < 3; r++) for (let c = 0; c < 3; c++) ctx.fillRect(-11 + c * 8, -4 + r * 6, 6, 4);
+  if (art === 'dreh') {
+    // Drehscheibe: Ring mit Strichen und rotem Zeiger
+    ctx.fillStyle = '#d7dee0';
+    ctx.beginPath();
+    ctx.arc(0, 6, 12, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = '#5b6b70';
+    ctx.lineWidth = 1.5;
+    for (let i = 0; i < 10; i++) {
+      const a = (Math.PI * 2 * i) / 10;
+      ctx.beginPath();
+      ctx.moveTo(Math.sin(a) * 8.5, 6 - Math.cos(a) * 8.5);
+      ctx.lineTo(Math.sin(a) * 11.5, 6 - Math.cos(a) * 11.5);
+      ctx.stroke();
+    }
+    ctx.fillStyle = '#2b3b3f';
+    ctx.beginPath();
+    ctx.arc(0, 6, 5, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = '#d9452b';
+    ctx.beginPath();
+    ctx.moveTo(-3, -8);
+    ctx.lineTo(3, -8);
+    ctx.lineTo(0, -2);
+    ctx.closePath();
+    ctx.fill();
+  } else if (art === 'schluessel') {
+    // Schlüsselloch in einem Metallring
+    ctx.fillStyle = '#9fb0b5';
+    ctx.beginPath();
+    ctx.arc(0, 6, 12, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = '#0c1517';
+    ctx.beginPath();
+    ctx.arc(0, 3, 3.6, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.moveTo(-2.4, 5);
+    ctx.lineTo(2.4, 5);
+    ctx.lineTo(3.4, 13);
+    ctx.lineTo(-3.4, 13);
+    ctx.closePath();
+    ctx.fill();
+  } else {
+    ctx.fillStyle = '#0c1517';
+    ctx.fillRect(-11, -16, 22, 8);
+    ctx.fillStyle = '#6f8f95';
+    for (let r = 0; r < 3; r++) for (let c = 0; c < 3; c++) ctx.fillRect(-11 + c * 8, -4 + r * 6, 6, 4);
+  }
   ctx.fillStyle = offen ? '#3adb76' : (Math.sin(time * 3 + hs.x) > 0 ? '#ffd24a' : '#a88a22');
   ctx.beginPath();
   ctx.arc(0, -30, 5, 0, Math.PI * 2);
@@ -259,7 +308,7 @@ function drawFach(ctx, hs, time, offen) {
   ctx.font = 'bold 15px system-ui, sans-serif';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  ctx.fillText(String(hs.fach), 0, -12);
+  ctx.fillText(String(hs.fach), 0, art === 'digital' ? -12 : -14);
   ctx.restore();
 }
 

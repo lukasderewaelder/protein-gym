@@ -114,3 +114,21 @@ dialog#notebook .nb-body[data-tab="inventar"] > .nb-summe { grid-column: 1 / -1;
 }
 
 .zugang-zu { position: absolute; top: 8px; right: 10px; min-width: 40px; min-height: 40px; }
+
+/* Drehschloss und Schlüsselschloss der Bonus-Schließfächer */
+.dreh .dreh-svg { width: min(100%, calc(210px * var(--font-scale, 1))); height: auto; justify-self: center; touch-action: none; cursor: grab; user-select: none; -webkit-user-select: none; }
+.dreh .dreh-svg.zieht { cursor: grabbing; }
+.dreh-scheibe { transform-origin: 150px 150px; transition: transform 0.22s ease-out; }
+.dreh-svg.zieht .dreh-scheibe, .dreh-svg.zieht .dreh-zahl { transition: none; }
+.dreh-zahl { font: 700 30px system-ui, sans-serif; fill: #1d1d1d; transform-box: fill-box; transform-origin: center; transition: transform 0.22s ease-out; pointer-events: none; }
+.dreh-mitte { font: 800 54px ui-monospace, "Courier New", monospace; fill: #ffd24a; pointer-events: none; }
+.dreh-knoepfe { display: flex; gap: 8px; justify-content: center; align-items: center; flex-wrap: wrap; }
+.dreh-knoepfe .tf-taste { min-width: 56px; }
+.dreh-knoepfe .dreh-rast { min-height: 56px; padding: 0 22px; font-size: 20px; font-weight: 700; }
+.schluessel-svg { width: min(100%, 320px); height: auto; justify-self: center; }
+.schluessel-key { transform-origin: 190px 85px; transform: translateX(-26px); transition: transform 0.5s ease-in-out; }
+.schluessel-key.steckt { transform: translateX(0); }
+.schluessel-key.gedreht { transform: translateX(0) rotate(-90deg); transition: transform 0.4s ease-in-out; }
+@media (prefers-reduced-motion: reduce) {
+  .dreh-scheibe, .dreh-zahl, .schluessel-key { transition: none; }
+}

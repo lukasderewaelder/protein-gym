@@ -73,7 +73,16 @@ async function loadData() {
   // der Saunacode darf nie ein Code der Lehrkraft sein
   store.verbieteCodes([versuch.stationA, versuch.lieferung].map((st) => String(st.codeNachVersuch)));
   // Inhalte der Bonus-Schließfächer landen als Gegenstände in der Tasche
-  for (const f of faecher.faecher) inventar.gegenstaende.push({ id: `fach${f.id}`, name: f.name, text: f.text, emoji: f.emoji, symbol: 'emoji', hat: f.flag });
+  for (const f of faecher.faecher) {
+    inventar.gegenstaende.push({ id: `fach${f.id}`, name: f.name, text: f.text, emoji: f.emoji, symbol: 'emoji', hat: f.flag });
+    // Schlüssel (Schloss „schluessel“): liegen versteckt im Raum (Flag bz_N) und passen in das Fach mit derselben Nummer
+    if (f.schloss === 'schluessel') {
+      inventar.gegenstaende.push({
+        id: `schluessel${f.id}`, name: f.schluessel.name, text: f.schluessel.fundort, emoji: '🔑', symbol: 'emoji', hat: `bz_${f.id}`, benutzt: f.flag,
+        hinweisNeu: `Zu welchem Schließfach im Empfang passt er? Auf dem Anhänger steht die Nummer ${f.id}.`, hinweisBenutzt: `Benutzt: Schließfach ${f.id} ist offen.`,
+      });
+    }
+  }
   DATA.fall = fall;
   DATA.versuch = versuch;
   DATA.werbung = werbung;
@@ -419,11 +428,12 @@ function weiterDialog() {
   });
 }
 
-/** Zettel mit einem Fachcode: wird beim ersten Ansehen gefunden und bleibt als Haken im Raum. */
+/** Zettel mit einem Fachcode oder ein versteckter Schlüssel: wird beim ersten Ansehen gefunden und bleibt als Haken im Raum. */
 function zettelAnsehen(hs) {
   const f = DATA.faecher.faecher.find((x) => x.id === hs.zettel);
   const neu = !store.hasFlag(`bz_${f.id}`);
   if (neu) store.setFlag(`bz_${f.id}`);
+  if (f.schloss === 'schluessel') { zugang.schluesselFund(f, neu); return; }
   const zeilen = f.zettel.zeilen.map((z) => z.replaceAll('{code}', f.code));
   showFund({ id: `bz_${f.id}`, medium: 'haftnotiz', titel: 'Zettel mit Zahlen', kopf: 'Zettel mit Zahlen', zeilen }, neu);
 }

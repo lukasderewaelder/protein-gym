@@ -3,6 +3,7 @@
 import { h, clear } from './dom.js';
 import { startTest, aktuelle, antworte, weiter, istFertig } from '../state/fuehrerschein.js';
 import { pruefeCode } from '../state/zugang.js';
+import { svgEl } from '../tasks/molecule.js';
 
 /** Der Labor-Ausweis als Karte, im Code gezeichnet (Namen der Spielenden). */
 export function ausweisKarte(namen, klein = false) {
@@ -30,6 +31,7 @@ export function createZugang({ dlg, store, daten }) {
   let beiSchliessen = null;
 
   function zeige(titel, ...nodes) {
+    dlg.onkeydown = null; // Tastatur-Eingaben des vorigen Schlosses enden mit dem Fenster
     clear(inhalt);
     inhalt.append(h('h2', {}, titel), ...nodes);
     if (!dlg.open) dlg.showModal();
@@ -121,11 +123,198 @@ export function createZugang({ dlg, store, daten }) {
       belohnung(null);
     };
     if (store.hasFlag(f.flag)) { oeffnen(); return; }
-    tastenfeld({
-      titel, text: 'Das Fach hat ein Zahlenschloss. Gib den dreistelligen Code ein.', stellen: 3, code: f.code,
-      hinweis: 'Die Codes stehen auf Zetteln, die in den Räumen versteckt sind. Schau dich um.',
-      beiRichtig: oeffnen,
+    // Jedes Fach hat ein anderes Schloss: digital (Zahlenfeld), Drehschloss (Scheibe) oder Schlüssel
+    if (f.schloss === 'schluessel') {
+      schluesselschloss({ titel, hat: store.hasFlag(`bz_${f.id}`), name: f.schluessel.name, beiRichtig: oeffnen });
+    } else if (f.schloss === 'dreh') {
+      drehschloss({
+        titel, text: 'Das Fach hat ein Drehschloss. Dreh die Scheibe auf die erste Zahl und lass sie einrasten, dann die zweite und die dritte.', stellen: 3, code: f.code,
+        hinweis: 'Die Codes stehen auf Zetteln, die in den Räumen versteckt sind. Schau dich um.',
+        beiRichtig: oeffnen,
+      });
+    } else {
+      tastenfeld({
+        titel, text: 'Das Fach hat ein Zahlenschloss. Gib den dreistelligen Code ein.', stellen: 3, code: f.code,
+        hinweis: 'Die Codes stehen auf Zetteln, die in den Räumen versteckt sind. Schau dich um.',
+        beiRichtig: oeffnen,
+      });
+    }
+  }
+
+  // ---------- Drehschloss ----------
+  /**
+   * Scheibe mit den Zahlen 0 bis 9: mit dem Finger drehen (oder mit den Pfeilknöpfen), die Zahl oben am Zeiger gilt.
+   * „Einrasten“ übernimmt sie, nach `stellen` Zahlen wird geprüft. opts: { titel, text, stellen, code, hinweis, beiRichtig() }. Beliebig oft probieren.
+   */
+  function drehschloss(opts) {
+    const stellen = opts.stellen || 3;
+    const N = 10;
+    const SCHRITT = 360 / N;
+    let winkel = 0; // Drehung der Scheibe in Grad, im Uhrzeigersinn positiv
+    let eingabe = '';
+    let fehler = 0;
+    let drag = null;
+    const anzeige = h('div', { class: 'tf-anzeige', 'aria-live': 'polite', role: 'status' });
+    const meldung = h('p', { class: 'zugang-fb', role: 'status' });
+    const karte = h('div', 'zugang-karte tf dreh');
+    const aktuelleZahl = () => ((Math.round(-winkel / SCHRITT) % N) + N) % N;
+
+    const svg = svgEl('svg', { viewBox: '0 0 300 300', class: 'dreh-svg', role: 'img', 'aria-label': 'Drehscheibe mit den Zahlen 0 bis 9' });
+    const scheibe = svgEl('g', { class: 'dreh-scheibe' });
+    svg.append(svgEl('circle', { cx: 150, cy: 150, r: 144, fill: '#3b4a4f', stroke: '#0c1517', 'stroke-width': 4 }));
+    scheibe.append(svgEl('circle', { cx: 150, cy: 150, r: 128, fill: '#e9eef0', stroke: '#5b6b70', 'stroke-width': 3 }));
+    const zahlen = [];
+    for (let i = 0; i < N; i++) {
+      const a = (i * SCHRITT * Math.PI) / 180;
+      const x = 150 + Math.sin(a) * 98;
+      const y = 150 - Math.cos(a) * 98;
+      scheibe.append(svgEl('line', { x1: 150 + Math.sin(a) * 118, y1: 150 - Math.cos(a) * 118, x2: 150 + Math.sin(a) * 126, y2: 150 - Math.cos(a) * 126, stroke: '#5b6b70', 'stroke-width': 3 }));
+      const t = svgEl('text', { x, y, 'text-anchor': 'middle', 'dominant-baseline': 'central', class: 'dreh-zahl' }, String(i));
+      zahlen.push(t);
+      scheibe.append(t);
+    }
+    svg.append(scheibe);
+    svg.append(svgEl('circle', { cx: 150, cy: 150, r: 52, fill: '#2b3b3f', stroke: '#0c1517', 'stroke-width': 4 }));
+    const mitte = svgEl('text', { x: 150, y: 150, 'text-anchor': 'middle', 'dominant-baseline': 'central', class: 'dreh-mitte' }, '0');
+    svg.append(mitte);
+    svg.append(svgEl('polygon', { points: '136,2 164,2 150,34', fill: '#d9452b', stroke: '#0c1517', 'stroke-width': 3, 'stroke-linejoin': 'round' }));
+
+    const zeichneScheibe = () => {
+      scheibe.style.transform = `rotate(${winkel}deg)`;
+      zahlen.forEach((t) => { t.style.transform = `rotate(${-winkel}deg)`; });
+      mitte.textContent = String(aktuelleZahl());
+    };
+    const zeichne = () => {
+      clear(anzeige);
+      for (let i = 0; i < stellen; i++) anzeige.append(h('span', { class: `tf-stelle${i < eingabe.length ? ' voll' : ''}` }, i < eingabe.length ? eingabe[i] : '•'));
+    };
+    const winkelVon = (e) => {
+      const r = svg.getBoundingClientRect();
+      return (Math.atan2(e.clientY - (r.top + r.height / 2), e.clientX - (r.left + r.width / 2)) * 180) / Math.PI;
+    };
+    svg.addEventListener('pointerdown', (e) => {
+      drag = { letzter: winkelVon(e) };
+      svg.setPointerCapture(e.pointerId);
+      svg.classList.add('zieht');
     });
+    svg.addEventListener('pointermove', (e) => {
+      if (!drag) return;
+      const w = winkelVon(e);
+      let d = w - drag.letzter;
+      if (d > 180) d -= 360;
+      if (d < -180) d += 360;
+      winkel += d;
+      drag.letzter = w;
+      zeichneScheibe();
+    });
+    const loslassen = () => {
+      if (!drag) return;
+      drag = null;
+      svg.classList.remove('zieht');
+      winkel = Math.round(winkel / SCHRITT) * SCHRITT; // rastet auf einer Zahl ein
+      zeichneScheibe();
+    };
+    svg.addEventListener('pointerup', loslassen);
+    svg.addEventListener('pointercancel', loslassen);
+
+    const dreh = (richtung) => { winkel += richtung * SCHRITT; zeichneScheibe(); };
+    const pruefen = () => {
+      if (pruefeCode(eingabe, opts.code)) {
+        anzeige.classList.add('ok');
+        meldung.className = 'zugang-fb gut';
+        meldung.textContent = '✓ Das Schloss klickt. Offen!';
+        karte.querySelectorAll('button').forEach((b) => { b.disabled = true; });
+        setTimeout(() => { schliesse(); if (opts.beiRichtig) opts.beiRichtig(); }, 750);
+      } else {
+        fehler++;
+        meldung.className = 'zugang-fb schlecht';
+        meldung.textContent = fehler >= 3 && opts.hinweis ? `✗ Nicht richtig. ${opts.hinweis}` : '✗ Nicht richtig. Versuch es noch einmal.';
+        eingabe = '';
+        karte.classList.remove('wackeln');
+        void karte.offsetWidth;
+        karte.classList.add('wackeln');
+        zeichne();
+      }
+    };
+    const einrasten = () => {
+      if (eingabe.length >= stellen) return;
+      eingabe += String(aktuelleZahl());
+      meldung.textContent = '';
+      meldung.className = 'zugang-fb';
+      zeichne();
+      if (eingabe.length === stellen) pruefen();
+    };
+    const zurueck = () => { eingabe = eingabe.slice(0, -1); zeichne(); };
+    const knoepfe = h('div', 'dreh-knoepfe',
+      h('button', { type: 'button', class: 'tf-taste', 'aria-label': 'Scheibe nach links drehen', onclick: () => dreh(-1) }, '↺'),
+      h('button', { type: 'button', class: 'primary dreh-rast', onclick: einrasten }, 'Einrasten'),
+      h('button', { type: 'button', class: 'tf-taste', 'aria-label': 'Scheibe nach rechts drehen', onclick: () => dreh(1) }, '↻'),
+      h('button', { type: 'button', class: 'tf-taste', 'aria-label': 'Letzte Zahl löschen', onclick: zurueck }, '⌫'));
+    karte.append(...[opts.text ? h('p', {}, opts.text) : null, anzeige, svg, knoepfe, meldung].filter(Boolean));
+    zeichne();
+    zeichneScheibe();
+    zeige(opts.titel || 'Drehschloss', karte);
+    dlg.onkeydown = (e) => {
+      if (e.key === 'ArrowLeft') { e.preventDefault(); dreh(-1); }
+      else if (e.key === 'ArrowRight') { e.preventDefault(); dreh(1); }
+      else if (e.key === 'Enter') { e.preventDefault(); einrasten(); }
+      else if (e.key === 'Backspace') zurueck();
+    };
+  }
+
+  // ---------- Schlüsselschloss ----------
+  /** Das Fach öffnet nur mit dem passenden Schlüssel aus der Tasche. opts: { titel, hat, name, beiRichtig() }. */
+  function schluesselschloss(opts) {
+    const svg = svgEl('svg', { viewBox: '0 0 300 170', class: 'schluessel-svg', role: 'img', 'aria-label': 'Schloss mit Schlüsselloch' });
+    svg.append(
+      svgEl('circle', { cx: 190, cy: 85, r: 62, fill: '#8a959a', stroke: '#0c1517', 'stroke-width': 4 }),
+      svgEl('circle', { cx: 190, cy: 85, r: 46, fill: '#c9d3d6', stroke: '#5b6b70', 'stroke-width': 3 }),
+      svgEl('circle', { cx: 190, cy: 76, r: 9, fill: '#0c1517' }),
+      svgEl('polygon', { points: '183,80 197,80 200,108 180,108', fill: '#0c1517' }));
+    const key = svgEl('g', { class: 'schluessel-key' });
+    key.append(
+      svgEl('rect', { x: 70, y: 80, width: 120, height: 10, rx: 3, fill: '#e8b73a', stroke: '#6b4e0a', 'stroke-width': 2 }),
+      svgEl('rect', { x: 150, y: 90, width: 9, height: 14, fill: '#e8b73a', stroke: '#6b4e0a', 'stroke-width': 2 }),
+      svgEl('rect', { x: 166, y: 90, width: 9, height: 10, fill: '#e8b73a', stroke: '#6b4e0a', 'stroke-width': 2 }),
+      svgEl('circle', { cx: 52, cy: 85, r: 24, fill: '#e8b73a', stroke: '#6b4e0a', 'stroke-width': 3 }),
+      svgEl('circle', { cx: 52, cy: 85, r: 9, fill: '#f6f3e8', stroke: '#6b4e0a', 'stroke-width': 2 }));
+    if (opts.hat) svg.append(key);
+    const meldung = h('p', { class: 'zugang-fb', role: 'status' });
+    const karte = h('div', 'zugang-karte schluessel');
+    if (!opts.hat) {
+      karte.append(
+        h('p', {}, 'Das Fach ist abgeschlossen. Hier passt nur ein Schlüssel, ein Zahlencode hilft nicht.'),
+        svg,
+        h('p', 'hint', 'Such in den Räumen nach einem kleinen Schlüssel. Wer hinschaut, findet ihn an einem unauffälligen Ort.'),
+        h('button', { class: 'primary', type: 'button', onclick: () => schliesse() }, 'Schließen'));
+      zeige(opts.titel || 'Schlüsselschloss', karte);
+      return;
+    }
+    const umdrehen = h('button', {
+      class: 'primary', type: 'button',
+      onclick: () => {
+        umdrehen.disabled = true;
+        const kurz = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        key.classList.add('steckt');
+        setTimeout(() => key.classList.add('gedreht'), kurz ? 0 : 550);
+        setTimeout(() => {
+          meldung.className = 'zugang-fb gut';
+          meldung.textContent = '✓ Der Schlüssel dreht sich. Offen!';
+        }, kurz ? 0 : 950);
+        setTimeout(() => { schliesse(); if (opts.beiRichtig) opts.beiRichtig(); }, kurz ? 400 : 1500);
+      },
+    }, 'Schlüssel ins Schloss stecken und drehen');
+    karte.append(h('p', {}, `Du hast ${opts.name} in der Tasche. Passt er?`), svg, umdrehen, meldung);
+    zeige(opts.titel || 'Schlüsselschloss', karte);
+  }
+
+  /** Ein Schlüssel wurde gefunden (Versteck in einem Raum). */
+  function schluesselFund(f, neu) {
+    zeige('Schlüssel gefunden', h('div', 'zugang-karte',
+      h('p', 'zugang-gut', `🔑 ${f.schluessel.name}`),
+      h('p', {}, f.schluessel.fundort),
+      h('p', 'hint', neu ? `Er liegt jetzt in deiner Tasche. Zu welchem Schließfach im Empfang passt er? Auf dem Anhänger steht die Nummer.` : 'Er liegt in deiner Tasche.'),
+      h('button', { class: 'primary', type: 'button', onclick: () => schliesse() }, 'Schließen')));
   }
 
   // ---------- Zahlenschloss ----------
@@ -210,5 +399,5 @@ export function createZugang({ dlg, store, daten }) {
       h('button', { class: 'primary', type: 'button', onclick: () => schliesse() }, 'Schließen')));
   }
 
-  return { zeige, schliesse, fuehrerschein, tastenfeld, fach, hilfe, codeGross, get offen() { return dlg.open; } };
+  return { zeige, schliesse, fuehrerschein, tastenfeld, drehschloss, schluesselschloss, schluesselFund, fach, hilfe, codeGross, get offen() { return dlg.open; } };
 }
