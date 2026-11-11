@@ -259,6 +259,14 @@
       "Zum Schluss die Shake-Bar, die Tür mit dem Becher. Dort wendest du dein Wissen an. Danach lösen wir den Fall gemeinsam: Komm zu mir, wenn du in allen Räumen warst."
     ]
   },
+  "hefter.sperre": {
+    "speaker": "Markus",
+    "portrait": "trainer",
+    "lines": [
+      "Moment! Erst übernimmst du den neuen Heftereintrag in deinen Hefter.",
+      "Setz danach im Spind unter „Hefter“ den Haken „abgeschrieben“. Dann geht es weiter."
+    ]
+  },
   "empfang.coach.lieferung": {
     "speaker": "Markus",
     "portrait": "trainer",

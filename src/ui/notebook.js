@@ -5,6 +5,8 @@ import { h, clear } from './dom.js';
 import { renderMini } from './funde.js';
 import { renderInventar } from './inventar.js';
 import { macheSeiten } from './seiten.js';
+import { aminoTafel, denatDiagram } from '../tasks/molecule.js';
+import { eintragErledigt } from '../state/hefter.js';
 
 const RAUM_REIHENFOLGE = ['empfang', 'labor', 'sauna', 'training', 'shakebar'];
 const RAUM_NAMEN = { empfang: 'Empfang', training: 'Trainingsfläche', labor: 'Labor', sauna: 'Sauna', shakebar: 'Shake-Bar' };
@@ -99,37 +101,53 @@ export function createNotebook({ dialogEl, wissen, glossar, hefter, inventar, st
     return nodes;
   }
 
-  /** Haken „abgeschrieben“: bleibt auf dem Gerät gespeichert, blockiert nichts. */
-  function haken(key) {
-    const box = h('input', { type: 'checkbox', id: `hk-${key}`, 'aria-label': 'abgeschrieben' });
-    box.checked = Boolean(store.state.hefterHaken && store.state.hefterHaken[key]);
+  /** Haken „abgeschrieben“ je Eintrag: bleibt auf dem Gerät gespeichert; ohne Haken bleibt der nächste Raum zu (src/state/hefter.js). */
+  function haken(e) {
+    const box = h('input', { type: 'checkbox', id: `hk-${e.id}`, 'aria-label': `${e.titel} abgeschrieben` });
+    box.checked = eintragErledigt(e, store.state.flags, store.state.hefterHaken);
     box.addEventListener('change', () => {
-      store.state.hefterHaken = { ...store.state.hefterHaken, [key]: box.checked };
+      store.state.hefterHaken = { ...store.state.hefterHaken, [e.id]: box.checked };
       store.save();
+      render();
     });
     return h('label', 'haken', box, ' abgeschrieben');
   }
 
+  /** Abbildung im Hefter zum Abzeichnen: Aminosäure-Formeln (aminoTafel) oder die Kette als Perlenschnur (denatDiagram). */
+  function abbildung(t) {
+    if (t.art === 'aminosaeure') {
+      return h('figure', 'blatt-abb',
+        h('div', 'blatt-abb-reihe', t.formeln.map(([name, rest]) => h('div', 'blatt-abb-formel', aminoTafel(rest, name), h('span', 'blatt-abb-name', name)))),
+        t.unterschrift ? h('figcaption', {}, t.unterschrift) : null);
+    }
+    if (t.art === 'kette') return h('figure', 'blatt-abb', denatDiagram(), t.unterschrift ? h('figcaption', {}, t.unterschrift) : null);
+    return h('p', 'blatt-text', '(Abbildung fehlt)');
+  }
+
   function renderHefter() {
     const flags = store.state.flags;
-    // Ein weißes Blatt über die ganze Seite: rote Hauptüberschrift, grüne Überschriften zu den wichtigen Teilen
-    const blatt = h('article', 'blatt', h('h3', 'blatt-titel', (hefter.blatt && hefter.blatt.titel) || 'Eiweiße'),
-      h('p', 'blatt-hinweis', 'Diese Einträge sichern den verbindlichen Stoff. Übernimm sie in deinen Hefter. Die Texte sind Vorschläge in eigenen Worten.'));
+    const hk = store.state.hefterHaken || {};
+    const frei = hefter.eintraege.filter((e) => flags[e.ab]);
+    // Leiste über dem Blatt: was zu tun ist und der Haken; das Blatt selbst enthält nur, was abgeschrieben wird
+    const offen = frei.filter((e) => !eintragErledigt(e, flags, hk));
+    const leiste = h('div', 'hefter-leiste', offen.length
+      ? offen.map((e) => h('div', 'hefter-auftrag', h('strong', {}, `${e.titel}:`), h('span', {}, e.anweisungen.join(' ')), haken(e)))
+      : h('p', 'hefter-fertig', frei.length ? '✓ Alle freien Einträge sind abgeschrieben.' : 'Der erste Eintrag kommt nach der Sauna.'));
+    const blatt = h('article', 'blatt', h('h3', 'blatt-titel', (hefter.blatt && hefter.blatt.titel) || 'Eiweiße'));
     for (const e of hefter.eintraege) {
       if (!flags[e.ab]) {
         blatt.append(h('p', 'blatt-gesperrt', `🔒 ${e.titel}: Kommt, wenn du ${AB_TEXT[e.ab] || 'den Raum'} geschafft hast.`));
         continue;
       }
-      e.teile.forEach((t, i) => {
+      for (const t of e.teile) {
         if (t.ueb) blatt.append(h('h4', 'blatt-ueb', t.ueb));
         // Nur Wichtiges ist ein Merksatz: roter Rahmen, Überschrift „Merke: <Begriff>“; alles andere ist normaler Text
         if (t.typ === 'merksatz') blatt.append(h('div', 'blatt-merk', h('p', 'blatt-merke-kopf', t.merke ? `Merke: ${t.merke}` : 'Merke'), h('p', 'blatt-merke-text', t.text)));
-        else if (t.typ === 'text') blatt.append(h('p', 'blatt-text', t.text));
-        else if (t.typ === 'hinweis') blatt.append(h('p', 'blatt-hinweis', t.text));
-        else blatt.append(h('div', 'blatt-auftrag', h('p', {}, t.text), haken(`${e.id}.${i}`)));
-      });
+        else if (t.typ === 'abbildung') blatt.append(abbildung(t));
+        else blatt.append(h('p', 'blatt-text', t.text));
+      }
     }
-    return [blatt];
+    return [leiste, blatt];
   }
 
   function render() {
@@ -152,7 +170,7 @@ export function createNotebook({ dialogEl, wissen, glossar, hefter, inventar, st
       nav,
       kompakt: false,
       ignorieren: (k) => k.classList.contains('pin-zettel-oben') || k.classList.contains('pin-faeden'),
-      kleben: (k) => k.matches('.pin-summe, .nb-summe, h3, h4, .blatt-hinweis:first-of-type'),
+      kleben: (k) => k.matches('.pin-summe, .nb-summe, h3, h4'),
       beiWechsel: () => { if (tab === 'karten') requestAnimationFrame(zieheFaeden); },
     });
     if (dialogEl.open) requestAnimationFrame(() => seiten && seiten.neu());

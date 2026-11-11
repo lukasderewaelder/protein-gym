@@ -52,6 +52,11 @@
       "grob": "Du kennst den Saunacode. Gib ihn am Zahlenschloss der Saunatür ein.",
       "konkret": "Tippe im Empfang auf die Saunatür (die dritte von links, mit der Dampfwolke) und gib dort den Code ein."
     },
+    "hefter": {
+      "ort": "Spind",
+      "grob": "Übernimm zuerst den neuen Heftereintrag in deinen Hefter. Erst dann geht es weiter.",
+      "konkret": "Öffne den Spind und tippe auf „Hefter“. Schreib den Eintrag ab und setz oben in der grünen Leiste den Haken „abgeschrieben“."
+    },
     "sauna_hinweise": {
       "ort": "Sauna",
       "grob": "In der Sauna fehlen dir noch Hinweise. Such sie zuerst, dann klappt die Aufgabe.",

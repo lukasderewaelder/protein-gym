@@ -242,7 +242,25 @@ dialog#notebook .nb-tabs { align-items: center; }
 dialog#notebook .nb-body[data-tab="karten"] { display: flex; flex-direction: column; }
 dialog#notebook .nb-body[data-tab="karten"] > .pinnwand { flex: 1 1 auto; }
 dialog#notebook .nb-body[data-tab="karten"] .pinnwand { min-height: 0; overflow: hidden; align-content: start; }
-dialog#notebook .nb-body[data-tab="hefter"] > .blatt { height: 100%; min-height: 0; overflow: hidden; }
+dialog#notebook .nb-body[data-tab="hefter"] { display: flex; flex-direction: column; }
+dialog#notebook .nb-body[data-tab="hefter"] > .blatt { flex: 1 1 0; min-height: 0; overflow: hidden; }
+.hefter-leiste { flex: 0 0 auto; display: grid; gap: 4px; padding: 8px 14px; background: #eef5ef; border-bottom: 2px solid #1e7a3a; color: #1b1f23; font-size: calc(16px * var(--font-scale)); line-height: 1.35; }
+.hefter-leiste .hefter-auftrag { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; }
+.hefter-leiste .hefter-auftrag strong { color: #1e7a3a; }
+.hefter-leiste .hefter-auftrag span { flex: 1 1 20em; }
+.hefter-leiste .haken { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 12px; border: 2px solid #1e7a3a; border-radius: 8px; background: #fff; font-weight: 700; color: #1e7a3a; }
+.hefter-leiste .haken input { width: 22px; height: 22px; }
+.hefter-leiste .hefter-fertig { margin: 0; color: #1e7a3a; font-weight: 700; }
+.blatt .blatt-abb { margin: 8px 0; }
+.blatt .blatt-abb-reihe { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: end; }
+.blatt .blatt-abb-formel { display: grid; justify-items: center; gap: 2px; }
+.blatt .blatt-abb-formel svg { width: clamp(150px, 20vw, 220px); height: auto; }
+.blatt .blatt-abb-name { font-weight: 700; }
+.blatt .blatt-abb > svg.denat { width: min(100%, 520px); height: auto; }
+.blatt svg.denat .denat-text { fill: #1b1f23; }
+.blatt svg.denat polyline { stroke: #6f8086; }
+.blatt svg.denat line[stroke-dasharray] { stroke: #1e7a3a; }
+.blatt .blatt-abb figcaption { color: #3a444c; font-size: calc(16px * var(--font-scale)); }
 dialog#notebook .nb-body[data-tab="glossar"], dialog#notebook .nb-body[data-tab="inventar"] { align-content: start; }
 /* Zertifikat mit Rahmenbild (3:2) passt immer auf den Bildschirm, darunter bleiben die Knöpfe sichtbar */
 .zert { overflow: hidden; }

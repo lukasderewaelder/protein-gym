@@ -57,7 +57,7 @@ test('Jede Station hat grobe und konkrete Hilfe von Markus', () => {
   // alle möglichen Stationen einsammeln: Flags nacheinander setzen, außerdem die festen Stationen
   for (const t of Object.values(A.aufgaben)) f[t.flag] = false;
   const alle = ['spind', 'empfang_hinweise', 'einweisung', 'fuehrerschein', 'leser', 'labor_hinweise', 'labor_aufgabe', 'sauna_code_suchen', 'saunatuer',
-    'sauna_hinweise', 'sauna_aufgabe', 'training_hinweise', 'training_aufgabe', 'shakebar_hinweise', 'shakebar_aufgabe', 'aufloesung', 'lieferung_labor', 'schlussquiz', 'fertig'];
+    'sauna_hinweise', 'sauna_aufgabe', 'training_hinweise', 'training_aufgabe', 'shakebar_hinweise', 'shakebar_aufgabe', 'aufloesung', 'lieferung_labor', 'schlussquiz', 'fertig', 'hefter'];
   for (const id of alle) {
     const s = H.schritte[id];
     assert.ok(s, `Text für ${id}`);
@@ -87,4 +87,13 @@ test('Fall-Hinweise (Laufzeit-Karten) bringen die Hilfe nicht durcheinander', ()
   const fall = lies('fall');
   const mitFall = { aufgaben: A, karten: [...W.karten, ...alleFallKarten('desi', fall)] };
   assert.equal(naechsterSchritt({ empfang_done: true, lf_bestanden: true, labor_offen: true, k_denat: true, k_ausloeser: true, k_biuret: true }, mitFall), 'labor_aufgabe');
+});
+
+test('Ein nicht abgeschriebener Heftereintrag kommt vor dem gesperrten Raum', () => {
+  const hefter = JSON.parse(readFileSync(new URL('../data/hefter.json', import.meta.url), 'utf8'));
+  const d = { aufgaben: A, karten: [], hefter, haken: {} };
+  const f = { empfang_done: true, labor_done: true, sauna_done: true };
+  assert.equal(naechsterSchritt(f, d), 'hefter');
+  assert.notEqual(naechsterSchritt(f, { ...d, haken: { h1: true } }), 'hefter');
+  assert.notEqual(naechsterSchritt(f, { aufgaben: A, karten: [] }), 'hefter', 'ohne Hefterdaten wie bisher');
 });

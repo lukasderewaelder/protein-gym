@@ -160,26 +160,48 @@ test('Denaturieren: Hefter und Quiz sagen „verändert, nicht zerstört“, die
   assert.equal(H.eintraege.flatMap((e) => e.teile).filter((t) => t.typ === 'merksatz').length, 2, 'nur Denaturieren und Aminosäuren sind Merksätze');
 });
 
-test('Hefter: drei Einträge, frei nach Raum, nur Wichtiges als Merksatz, Lehrbuch-Verweis im Abschreibauftrag', () => {
+test('Hefter: drei Einträge, frei nach Raum, auf dem Blatt nur Abschreibstoff, Anweisungen in der Leiste, Pflicht vor dem nächsten Raum', () => {
   assert.equal(H.eintraege.length, 3);
   assert.equal(H.eintraege[0].ab, A.raeume.sauna.fertigFlag);
   assert.equal(H.eintraege[1].ab, A.raeume.training.fertigFlag);
   assert.equal(H.eintraege[2].ab, A.raeume.lieferung.fertigFlag, 'der Biuret-Eintrag erscheint erst nach der Prüfung der Lieferung');
+  assert.deepEqual(H.eintraege.map((e) => e.sperrt), ['training', 'shakebar', 'schluss']);
+  assert.deepEqual(H.eintraege.map((e) => e.erledigtMit), ['training_done', 'shakebar_done', 'quiz2_done']);
   assert.equal(H.blatt.titel, '1.2 Eiweiße');
   for (const e of H.eintraege) {
-    assert.ok(e.teile.some((t) => t.typ === 'auftrag'), 'Abschreibauftrag fehlt');
-    assert.match(JSON.stringify(e.teile), /Lehrbuch S\. \d/);
+    assert.ok(e.anweisungen && e.anweisungen.length >= 1, `${e.id}: Anweisungen für die Leiste`);
+    for (const t of e.teile) {
+      assert.ok(['merksatz', 'text', 'abbildung'].includes(t.typ), `${e.id}: auf dem Blatt nur Abschreibstoff (${t.typ})`);
+      assert.doesNotMatch(t.text || '', /Schreibe|Übernimm|abschreiben|Zeichne/, `${e.id}: keine Anweisung auf dem Blatt`);
+    }
     const merksaetze = e.teile.filter((t) => t.typ === 'merksatz');
     for (const m of merksaetze) assert.ok(m.merke, 'Merksatz braucht den Begriff für „Merke: …“');
-    assert.ok(merksaetze.length < e.teile.filter((t) => t.typ !== 'auftrag').length, 'nicht alles darf ein Merksatz sein');
-    for (const t of e.teile.filter((x) => x.typ === 'auftrag')) assert.ok(t.ueb, 'grüne Überschrift fehlt');
+    assert.ok(merksaetze.length < e.teile.length, 'nicht alles darf ein Merksatz sein');
   }
   const merke = H.eintraege.flatMap((e) => e.teile).filter((t) => t.typ === 'merksatz').map((t) => t.merke);
   assert.deepEqual(merke, ['Denaturieren', 'Aminosäuren'], 'nur die wichtigen Pflichtinhalte sind Merksätze');
-  assert.match(JSON.stringify(H.eintraege[1]), /Glycin.*Alanin/);
-  assert.doesNotMatch(JSON.stringify(H.eintraege[1].teile.filter((t) => t.typ === 'auftrag')), /Valin|Cystein/, 'Skizze nur Glycin und Alanin');
+  // Wofür und warum stehen vor den Begriffen
+  const ueb1 = H.eintraege[0].teile.map((t) => t.ueb).filter(Boolean);
+  assert.deepEqual(ueb1.slice(0, 3), ['Wofür brauchen wir Eiweiße?', 'Warum müssen wir Eiweiß essen?', 'Protein und Eiweiß']);
+  // Abbildungen: bekannte Arten, Formeln nur Glycin und Alanin (plus allgemein)
+  const abb = H.eintraege.flatMap((e) => e.teile).filter((t) => t.typ === 'abbildung');
+  for (const t of abb) assert.ok(['aminosaeure', 'kette'].includes(t.art), t.art);
+  assert.deepEqual(abb.find((t) => t.art === 'aminosaeure').formeln.map((f) => f[0]), ['allgemein', 'Glycin', 'Alanin']);
   assert.match(JSON.stringify(H.eintraege[2]), /Biuret.*Lehrkraft ab/);
   assert.doesNotMatch(JSON.stringify(H.eintraege[0]), /Biuret/, 'Eintrag 1 handelt nur vom Gerinnen');
+});
+
+test('Hefter-Pflicht: ein offener Eintrag sperrt den nächsten Raum, Haken oder geschaffter Folgeraum geben ihn frei', async () => {
+  const { sperrenderEintrag, offeneEintraege, eintragAb } = await import('../src/state/hefter.js');
+  assert.equal(sperrenderEintrag(H, {}, {}, 'training'), null, 'vor der Sauna sperrt nichts');
+  assert.equal(sperrenderEintrag(H, { sauna_done: true }, {}, 'training').id, 'h1');
+  assert.equal(sperrenderEintrag(H, { sauna_done: true }, {}, 'shakebar'), null);
+  assert.equal(sperrenderEintrag(H, { sauna_done: true }, { h1: true }, 'training'), null, 'Haken gesetzt');
+  assert.equal(sperrenderEintrag(H, { sauna_done: true, training_done: true }, {}, 'training'), null, 'nach einem Code mit geschaffter Trainingsfläche');
+  assert.equal(sperrenderEintrag(H, { sauna_done: true, training_done: true }, {}, 'shakebar').id, 'h2');
+  assert.equal(sperrenderEintrag(H, { lieferung_done: true }, {}, 'schluss').id, 'h3');
+  assert.deepEqual(offeneEintraege(H, { sauna_done: true, training_done: true, shakebar_done: true }, {}).map((e) => e.id), []);
+  assert.equal(eintragAb(H, 'sauna_done').id, 'h1');
 });
 
 test('Gating: Quiz nur nach der Shake-Bar, Räume schließen unabhängig voneinander', () => {

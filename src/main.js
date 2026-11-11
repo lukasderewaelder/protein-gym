@@ -16,6 +16,7 @@ import { encodeProgress } from './state/progress.js';
 import { alleFallKarten } from './state/fall.js';
 import { merkePosition, holePosition } from './state/zwischenstand.js';
 import { erfuellt, istSichtbar, tafelKarte } from './state/zugang.js';
+import { sperrenderEintrag } from './state/hefter.js';
 import { createZugang, ausweisKarte } from './ui/zugang.js';
 import { liste as inventarListe, neuAnzahl, markiereGesehen } from './state/inventar.js';
 import { renderInventar } from './ui/inventar.js';
@@ -104,7 +105,7 @@ function coach() {
     // Auflösung → neue Lieferung im Labor prüfen → Schlussquiz → Zertifikat
     if (!store.hasFlag('quiz_done')) taskPanel.openTask('quiz', 'abschluss');
     else if (!store.hasFlag('lieferung_done')) playDialog('empfang.coach.lieferung');
-    else if (!store.hasFlag('quiz2_done')) playDialog('empfang.coach.schlussquiz', undefined, () => taskPanel.openTask('quiz2', 'schluss'));
+    else if (!store.hasFlag('quiz2_done')) { if (hefterSperre('schluss')) hefterSperreZeigen(); else playDialog('empfang.coach.schlussquiz', undefined, () => taskPanel.openTask('quiz2', 'schluss')); }
     else showZertifikat();
     return;
   }
@@ -227,6 +228,14 @@ function applyFontScale() {
   document.documentElement.style.setProperty('--font-scale', String(k));
 }
 
+/** Noch nicht abgeschriebener Heftereintrag, der den Raum sperrt (Pflicht vor dem nächsten Raum), sonst null. */
+function hefterSperre(raum) {
+  return sperrenderEintrag(DATA.hefter, store.state.flags, store.state.hefterHaken, raum);
+}
+function hefterSperreZeigen() {
+  playDialog('hefter.sperre', undefined, () => notebook.open('hefter'));
+}
+
 function isLocked(hs) {
   return !erfuellt(hs.requires, (f) => store.hasFlag(f));
 }
@@ -344,6 +353,8 @@ function trigger(hs) {
     if (isLocked(hs)) {
       if (hs.sperre) sperre(hs);
       else playDialog(`tuer.${hs.id}`, { speaker: 'Tür', lines: [hs.lockedText || 'Noch gesperrt.'] });
+    } else if (hefterSperre(hs.to)) {
+      hefterSperreZeigen();
     } else {
       enterScene(hs.to);
     }
@@ -400,7 +411,7 @@ function sperre(hs) {
 
 /** „Wie geht’s weiter?“: Markus nennt die nächste Station, auf Wunsch genauer. */
 function weiterDialog() {
-  const id = naechsterSchritt(store.state.flags, { aufgaben: DATA.aufgaben, karten: DATA.wissen.karten });
+  const id = naechsterSchritt(store.state.flags, { aufgaben: DATA.aufgaben, karten: DATA.wissen.karten, hefter: DATA.hefter, haken: store.state.hefterHaken });
   zugang.hilfe({
     titel: DATA.hilfe.titel, knopf: DATA.hilfe.stufe2Knopf, schritt: DATA.hilfe.schritte[id],
     // Hilfe 3 beim Saunacode: Spind öffnen, der kleine Zettel rechts oben an der Pinnwand blinkt kurz
@@ -696,7 +707,7 @@ async function boot() {
   notebook = createNotebook({ onOpen: () => store.setFlag('spind_gesehen'), onFund: (k) => showFund(k, false), inventar: DATA.inventar, onInventar: inventarGesehen, extras: extraKarten, onCode: codeAnsehen, onZettel: saunaZettelGesehen, dialogEl: $('#notebook'), wissen: DATA.wissen, glossar: DATA.glossar, hefter: DATA.hefter, store });
   taskPanel = createTaskPanel({
     root: $('#task'),
-    data: { aufgaben: DATA.aufgaben, wissen: DATA.wissen, versuch: DATA.versuch, werbung: DATA.werbung, aehnlich: DATA.aehnlich, fall: DATA.fall },
+    data: { aufgaben: DATA.aufgaben, wissen: DATA.wissen, versuch: DATA.versuch, werbung: DATA.werbung, aehnlich: DATA.aehnlich, fall: DATA.fall, hefter: DATA.hefter },
     store,
     notebook,
     showCall,

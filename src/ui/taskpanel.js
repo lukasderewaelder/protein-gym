@@ -271,12 +271,16 @@ export function createTaskPanel({ root, data, store, notebook, showCall, onRoomD
     feedbackEl.textContent = '';
     clear(bodyEl);
     clear(footEl);
+    const rd = data.aufgaben.raeume[room];
+    const neu = data.hefter && rd && data.hefter.eintraege.find((e) => e.ab === rd.fertigFlag);
     bodyEl.append(
+      neu ? h('div', 'hefter-neu', h('p', {}, h('strong', {}, 'Markus: '), data.hefter.hinweisNeu), h('p', 'hint', neu.titel)) : null,
       h('p', {}, 'Gut gemacht! Notiere diesen Fortschrittscode. Wenn dein Spielstand einmal weg ist, kannst du damit weiterspielen:'),
       h('p', 'code', encodeProgress(store.state)),
       h('p', 'hint', 'Der Code enthält keine Namen. Die gibst du beim Weiterspielen neu ein.'),
     );
-    footEl.append(h('button', { class: 'primary', type: 'button', onclick: close }, 'Zurück zum Spiel'));
+    if (neu) footEl.append(h('button', { class: 'primary', type: 'button', onclick: () => { close(); notebook.open('hefter'); } }, 'Hefter öffnen'));
+    else footEl.append(h('button', { class: 'primary', type: 'button', onclick: close }, 'Zurück zum Spiel'));
   }
 
   return { openMenu, openTask, showRoomDone, close, get isOpen() { return !root.hidden; } };

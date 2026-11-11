@@ -1,28 +1,37 @@
 {
   "blatt": { "titel": "1.2 Eiweiße" },
+  "hinweisNeu": "Neuer Heftereintrag! Übernimm ihn jetzt in deinen Hefter und setze im Spind den Haken „abgeschrieben“. Erst dann geht es weiter.",
   "eintraege": [
     {
       "id": "h1",
       "titel": "Eintrag 1: Eiweiß und Gerinnen",
       "ab": "sauna_done",
+      "sperrt": "training",
+      "erledigtMit": "training_done",
       "dauer": "ca. 5 Minuten",
+      "anweisungen": [
+        "Übernimm alles, was auf dem Blatt steht, in deinen Hefter.",
+        "Die Versuchstabelle übernimmst du aus deinem Versuchsprotokoll."
+      ],
       "teile": [
         {
-          "typ": "auftrag",
-          "ueb": "Protein und Eiweiß",
-          "text": "Schreibe den Text zu Protein und Eiweiß aus dem Lehrbuch S. 22 in deinen Hefter ab."
+          "typ": "text",
+          "ueb": "Wofür brauchen wir Eiweiße?",
+          "text": "Eiweiße sind Baustoffe für Muskeln, Haut und Haare. Sie transportieren Stoffe im Körper und schützen ihn vor Krankheitserregern."
         },
         {
           "typ": "text",
-          "text": "Protein und Eiweiß bedeuten dasselbe. Eiweiße sind Baustoffe für Muskeln, Haut und Haare, sie transportieren Stoffe und schützen den Körper."
+          "ueb": "Warum müssen wir Eiweiß essen?",
+          "text": "Der Körper baut seine Eiweiße ständig ab und neu. Deshalb müssen wir täglich Eiweiß mit der Nahrung aufnehmen."
         },
         {
-          "typ": "auftrag",
-          "ueb": "Gerinnen (Denaturieren)",
-          "text": "Schreibe den Merksatz und den Text zum Gerinnen aus dem Lehrbuch S. 22 in deinen Hefter ab."
+          "typ": "text",
+          "ueb": "Protein und Eiweiß",
+          "text": "Protein und Eiweiß bedeuten dasselbe."
         },
         {
           "typ": "merksatz",
+          "ueb": "Gerinnen (Denaturieren)",
           "merke": "Denaturieren",
           "text": "Beim Denaturieren (Stocken, Gerinnen) verändert das Eiweiß seine Struktur, es wird z. B. fest. So können z. B. Organismen abgetötet werden. Der Vorgang ist nicht umkehrbar."
         },
@@ -31,9 +40,9 @@
           "text": "Hitze (ab etwa 60 Grad), Säuren, Alkohol und Schwermetallsalze lassen Eiweiß denaturieren."
         },
         {
-          "typ": "auftrag",
-          "ueb": "Versuchstabelle",
-          "text": "Übernimm die Versuchstabelle zur Denaturierung aus deinem Versuchsprotokoll in den Hefter: Probe, Einfluss, Beobachtung."
+          "typ": "text",
+          "ueb": "Versuchstabelle: Denaturierung",
+          "text": "Probe · Einfluss · Beobachtung"
         }
       ]
     },
@@ -41,15 +50,18 @@
       "id": "h2",
       "titel": "Eintrag 2: Bau der Eiweiße und Aminosäuren",
       "ab": "training_done",
+      "sperrt": "shakebar",
+      "erledigtMit": "shakebar_done",
       "dauer": "ca. 7 Minuten",
+      "anweisungen": [
+        "Übernimm alles, was auf dem Blatt steht, in deinen Hefter, und zeichne die Abbildungen ab.",
+        "Glycin und Alanin musst du nur abzeichnen, nicht auswendig lernen.",
+        "Zusatz für Schnelle: Zwei Aminosäuren verbinden sich über die Peptidbindung zu einem Dipeptid, dabei wird Wasser frei."
+      ],
       "teile": [
         {
-          "typ": "auftrag",
-          "ueb": "Bau der Eiweiße",
-          "text": "Schreibe den Merksatz und den Text zum Bau der Eiweiße aus dem Lehrbuch S. 22–23 in deinen Hefter ab."
-        },
-        {
           "typ": "merksatz",
+          "ueb": "Bau der Eiweiße",
           "merke": "Aminosäuren",
           "text": "Proteine (Eiweiße) bestehen aus Aminosäuren. Die Aminosäuren sind die Bausteine (Monomere), das Eiweiß ist ein langes Molekül aus vielen Aminosäuren (Polymer)."
         },
@@ -58,48 +70,45 @@
           "text": "Bei der Verknüpfung wird Wasser abgespalten (Kondensation)."
         },
         {
-          "typ": "auftrag",
-          "ueb": "Faltung und Gerinnen",
-          "text": "Schreibe den Text zur Faltung und zum Gerinnen aus dem Lehrbuch S. 22 in deinen Hefter ab."
+          "typ": "abbildung",
+          "ueb": "Aufbau einer Aminosäure",
+          "art": "aminosaeure",
+          "formeln": [["allgemein", "R"], ["Glycin", "H"], ["Alanin", "CH₃"]],
+          "unterschrift": "Links die Aminogruppe (H₂N), rechts die Carboxygruppe (COOH), oben der Rest R."
         },
         {
           "typ": "text",
+          "ueb": "Faltung und Gerinnen",
           "text": "Die Kette eines Proteins ist zu einer festen Form gefaltet, schwache Verbindungen (Wasserstoffbrücken) halten die Falten. Beim Denaturieren lösen Hitze, Säuren, Alkohol oder Schwermetallsalze diese Verbindungen, die Kette entfaltet sich und verklumpt. Dabei geht die „aktive“ Form dauerhaft verloren. Zerstört ist das Eiweiß aber nicht: Die Reihenfolge der Aminosäuren in der Kette bleibt erhalten."
         },
         {
-          "typ": "auftrag",
-          "ueb": "Aufbau einer Aminosäure",
-          "text": "Zeichne die allgemeine Formel einer Aminosäure H₂N–CH(R)–COOH in den Hefter und beschrifte Aminogruppe, Carboxygruppe und Rest R. Zeichne dazu nur Glycin (R = H) und Alanin (R = CH₃). Du musst sie nur abzeichnen, nicht auswendig lernen. (Lehrbuch S. 22–23)"
-        },
-        {
-          "typ": "hinweis",
-          "text": "Zusatz für Schnelle: Zwei Aminosäuren verbinden sich über die Peptidbindung zu einem Dipeptid, dabei wird Wasser frei."
+          "typ": "abbildung",
+          "art": "kette",
+          "unterschrift": "Jede Perle ist eine Aminosäure. Die Reihenfolge der Perlen bleibt beim Entfalten gleich."
         }
       ]
     },
     {
       "id": "h3",
-      "titel": "Eintrag 3: Biuret-Nachweis und Protokoll",
+      "titel": "Eintrag 3: Biuret-Nachweis",
       "ab": "lieferung_done",
+      "sperrt": "schluss",
+      "erledigtMit": "quiz2_done",
       "dauer": "ca. 4 Minuten",
+      "anweisungen": [
+        "Übernimm alles, was auf dem Blatt steht, in deinen Hefter.",
+        "Die Versuchstabelle übernimmst du aus deinem Versuchsprotokoll. Das Protokoll zum Biuret-Nachweis holst du bei deiner Lehrkraft ab."
+      ],
       "teile": [
         {
-          "typ": "auftrag",
-          "ueb": "Biuret-Nachweis",
-          "text": "Schreibe den Text zum Biuret-Nachweis ab. (Lehrbuch S. 22, Exp. 15)"
-        },
-        {
           "typ": "text",
+          "ueb": "Biuret-Nachweis",
           "text": "Die Probe wird mit Natronlauge und Kupfersulfat-Lösung (Fehling I) versetzt. Eine Violettfärbung zeigt Eiweiß an."
         },
         {
-          "typ": "auftrag",
-          "ueb": "Versuchstabelle der Lieferung",
-          "text": "Übernimm die Versuchstabelle zur Lieferung aus deinem Versuchsprotokoll in den Hefter: Probe, Beobachtung, Ergebnis."
-        },
-        {
-          "typ": "hinweis",
-          "text": "Das Protokoll zum Biuret-Nachweis holst du bei deiner Lehrkraft ab."
+          "typ": "text",
+          "ueb": "Versuchstabelle: Lieferung",
+          "text": "Probe · Beobachtung · Ergebnis"
         }
       ]
     }
