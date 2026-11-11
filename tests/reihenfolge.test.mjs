@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
-import { checkLuecken, reihenfolge, formelTippTreffer } from '../src/tasks/check.js';
+import { checkLuecken, reihenfolge, formelTippTreffer, mische } from '../src/tasks/check.js';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const A = JSON.parse(readFileSync(join(root, 'data/aufgaben.json'), 'utf8'));
@@ -109,4 +109,15 @@ test('Daten: Zuordnen-Aufgaben haben pro Situation genau eine richtige Option (R
       }
     }
   }
+});
+
+test('Mischen: gleiche Elemente, Eingabe bleibt unverändert, Zufallsquelle steuert die Reihenfolge', () => {
+  const eingabe = [0, 1, 2, 3];
+  const a = mische(eingabe, () => 0);
+  assert.deepEqual(eingabe, [0, 1, 2, 3]);
+  assert.deepEqual([...a].sort(), [0, 1, 2, 3]);
+  const b = mische(eingabe, () => 0.99);
+  assert.deepEqual(b, [0, 1, 2, 3], 'mit größtem Zufall bleibt die Reihenfolge');
+  assert.notDeepEqual(a, eingabe, 'mit kleinstem Zufall wird gemischt');
+  assert.deepEqual(mische([]), []);
 });

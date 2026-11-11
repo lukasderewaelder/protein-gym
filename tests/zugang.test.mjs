@@ -2,7 +2,7 @@
 import { test } from 'node:test';
 import { readFileSync } from 'node:fs';
 import assert from 'node:assert/strict';
-import { erfuellt, flagsVon, istSichtbar, wuerfleSaunaCode, istSaunaCode, pruefeCode, migriereZweiNull, ZUGANG_FLAGS } from '../src/state/zugang.js';
+import { erfuellt, flagsVon, istSichtbar, wuerfleSaunaCode, istSaunaCode, pruefeCode, migriereZweiNull, ZUGANG_FLAGS, tafelKarte } from '../src/state/zugang.js';
 import { encodeProgress, decodeProgress, FLAG_LIST, CODE_VERSION } from '../src/state/progress.js';
 import { createStore, STORAGE_KEY } from '../src/state/store.js';
 
@@ -168,4 +168,17 @@ test('Türtexte und Hilfe des Saunacodes stehen wie im Auftrag (Hilfe 1 bis 3)',
   assert.equal(hilfe.grob, 'Schau in deinen persönlichen Spind.');
   assert.equal(hilfe.konkret, 'Hast du die Pinnwand schon genauer untersucht?');
   assert.equal(hilfe.stufe3.aktion, 'pinnecke', 'Hilfe 3 hebt die bewegliche Ecke der Pinnwand hervor');
+});
+
+test('Tafel im Labor: Plakat-Karte mit Aufforderung und mit den Sicherheitsregeln', () => {
+  const versuch = JSON.parse(readFileSync(new URL('../data/versuch.json', import.meta.url), 'utf8'));
+  const frage = tafelKarte(versuch, false);
+  assert.equal(frage.medium, 'plakat');
+  assert.match(frage.kopf, /Versuch frei\?/);
+  const frei = tafelKarte(versuch, true);
+  assert.equal(frei.medium, 'plakat');
+  assert.match(frei.kopf, /Versuch frei/);
+  assert.deepEqual(frei.zeilen.slice(0, versuch.sicherheit.length), versuch.sicherheit);
+  assert.match(frei.zeilen.at(-1), /mit deiner Lehrkraft in echt/);
+  assert.match(frei.zeilen[0], /Kittel und Schutzbrille/);
 });

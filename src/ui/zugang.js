@@ -98,10 +98,14 @@ export function createZugang({ dlg, store, daten }) {
   /** Fach antippen: erst Zahlenschloss (3 Ziffern), dann Inhalt (Spaß oder freiwillige Zusatzfrage). Ist es schon offen, zeigt es nur den Inhalt. */
   function fach(f) {
     const titel = `Schließfach ${f.id}`;
+    // Das Schluss-Extra erscheint nur, wenn alle sechs Bonus-Flags gesetzt sind (das eigene wird beim Öffnen gesetzt, bevor das Fenster erscheint)
+    const alleFaecherOffen = () => [1, 2, 3, 4, 5, 6].every((n) => store.hasFlag(`bonus_${n}`));
     const belohnung = (extra) => zeige(titel,
       h('div', 'zugang-karte',
         h('p', 'zugang-gut', `${f.emoji} ${f.name}`),
         h('p', {}, f.text),
+        f.extra ? h('p', 'hint', f.extra) : null,
+        f.extraWennAlle && alleFaecherOffen() ? h('p', 'zugang-gut', f.extraWennAlle) : null,
         extra,
         h('p', 'hint', 'Der Gegenstand liegt jetzt in deiner Tasche. Bonus-Fächer sind freiwillig und zählen nirgends mit.'),
         h('button', { class: 'primary', type: 'button', onclick: () => schliesse() }, 'Schließen')));
@@ -169,7 +173,7 @@ export function createZugang({ dlg, store, daten }) {
     };
     const taste = (z) => h('button', { type: 'button', class: 'tf-taste', 'aria-label': z === '⌫' ? 'Letzte Ziffer löschen' : `Ziffer ${z}`, onclick: () => (z === '⌫' ? ((eingabe = eingabe.slice(0, -1)), zeichne()) : druecke(z)) }, z);
     const tasten = h('div', 'tf-tasten', ['1', '2', '3', '4', '5', '6', '7', '8', '9', '⌫', '0'].map(taste), h('span', 'tf-leer'));
-    karte.append(opts.text ? h('p', {}, opts.text) : null, anzeige, tasten, meldung);
+    karte.append(...[opts.text ? h('p', {}, opts.text) : null, anzeige, tasten, meldung].filter(Boolean));
     zeichne();
     zeige(opts.titel || 'Zahlenschloss', karte);
     dlg.onkeydown = (e) => {

@@ -4,7 +4,7 @@
     "portrait": "trainer",
     "setFlag": "intro_done",
     "lines": [
-      "Hey {name}, schön, dass du da bist! Ich bin Markus, dein Trainer.",
+      "Hey {name}, schön, dass du da bist! Ich bin Markus, der Chef hier und dein Trainer.",
       "Wir haben ein Problem: Unser Eiweiß-Vorrat ist über Nacht geronnen. Eier, Quark, Shakes, alles trüb und fest. Vier Leute kamen an den Vorrat, und du hilfst mir herauszufinden, was passiert ist.",
       "Fang bei deinem Spind an. Dort sammelst du die Hinweise, schlägst Begriffe nach und findest Texte für deinen Hefter. Tippe auf den Spind in der Mitte der Wand.",
       "Notizen darfst du dir überall machen. Die Heftereinträge aus dem Spind schreibst du aber auf jeden Fall in deinen Hefter ab. Sie kommen nach und nach dazu.",
@@ -14,11 +14,19 @@
       "Eine Frage vorab: Warum wird Eiklar in der Pfanne eigentlich fest? Merk dir deine Idee, wir kommen später darauf zurück."
     ]
   },
+  "empfang.coach.keinhinweis": {
+    "speaker": "Markus",
+    "portrait": "trainer",
+    "lines": [
+      "Moment, du hast noch keinen einzigen Hinweis gefunden. So fange ich mit der Einweisung gar nicht erst an.",
+      "Schau dich im Empfang um, tippe auf funkelnde Dinge und öffne deinen Spind. Wenn du etwas gefunden hast, komm wieder zu mir."
+    ]
+  },
   "empfang.fuehrerschein": {
     "speaker": "Markus",
     "portrait": "trainer",
     "lines": [
-      "Halt, Neuling! In mein Labor kommt niemand ohne Sicherheitseinweisung.",
+      "Halt, Neuling! Ich bin hier der Chef, und in unser Labor kommt niemand ohne Sicherheitseinweisung.",
       "Drei Fragen, dann bekommst du deinen Labor-Ausweis. Bereit?"
     ]
   },
@@ -113,12 +121,6 @@
       "Hier prüfst du, wie ein Eiweiß aufgebaut ist und was Aminosäuren sind. Such vorher die Hinweise im Raum, dann geht es leichter."
     ]
   },
-  "labor.tafel": {
-    "speaker": "Tafel",
-    "lines": [
-      "Versuch frei? Die Lehrkraft nennt dir den Code, wenn Material und Sicherheitseinweisung bereit sind."
-    ]
-  },
   "labor.hitze": {
     "speaker": "Hitze-Station",
     "lines": [
@@ -147,9 +149,9 @@
     "speaker": "Kupfer-Kurt",
     "portrait": "kurt",
     "lines": [
-      "Oh, hallo! Ich bin Kurt und im Labor für die Technik zuständig. Du bist wohl zum Probetraining hier?",
+      "Oh, hallo! Ich bin Kurt, Wissenschaftler hier im Labor. Metalle sind mein Fachgebiet. Du bist wohl zum Probetraining hier?",
       { "von": "Du", "text": "Genau. Markus sagt, der Eiweiß-Vorrat ist über Nacht geronnen. Weißt du, woran das liegt?" },
-      "Ich? Ich bin nur der Techniker! Aber ein bisschen Ahnung habe ich schon. Eiweiß kann gerinnen, das Fachwort dafür ist denaturieren. Aus klarem, flüssigem Eiweiß wird dann etwas Weißes und Festes, und zurück geht es nicht mehr.",
+      "Ich? Mit Eiweißen kenne ich mich kaum aus, die sind nicht mein Gebiet! Aber so viel weiß ich: Eiweiß kann gerinnen, das Fachwort dafür ist denaturieren. Aus klarem, flüssigem Eiweiß wird dann etwas Weißes und Festes, und zurück geht es nicht mehr.",
       { "von": "Du", "text": "Und was bringt Eiweiß dazu?" },
       "Hitze zum Beispiel. Ab etwa 60 Grad stockt Eiklar, das siehst du beim Spiegelei. Es gibt noch mehr, das probiert ihr gleich im Versuch aus, ein Glas nach dem anderen.",
       "Und noch etwas aus meinem Fachgebiet: Kupfersulfat-Lösung ist ein Schwermetallsalz, bei uns heißt sie auch Fehling I. Die gehört in den Sammelbehälter und nicht in den Ausguss, das weiß doch jeder!",

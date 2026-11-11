@@ -124,12 +124,12 @@
         "F: Woran sehe ich, dass Eiweiß denaturiert ist?",
         "A: Aus klarer Eiklarlösung wird etwas Trübes, Milchig-Weißes oder Festes."
       ],
-      "fuss": "Notiert nach dem Gespräch mit Kupfer-Kurt, Labortechnik"
+      "fuss": "Notiert nach dem Gespräch mit Kupfer-Kurt, Wissenschaftler im Labor"
     },
     {
       "id": "k_biuret", "typ": "pflicht", "raum": "labor", "ort": "Plakat an der Wand",
-      "titel": "Der Biuret-Nachweis",
-      "medium": "plakat", "kopf": "Nachweis: Biuret",
+      "titel": "Nachweis von Eiweiß: Biuret-Probe",
+      "medium": "plakat", "kopf": "Nachweis von Eiweiß: Biuret-Probe",
       "zeilen": [
         "Probe + Natronlauge + Kupfersulfat-Lösung (Fehling I)",
         "Violett = Eiweiß ist enthalten",

@@ -68,6 +68,18 @@ test('Codes stehen nur auf ihren Zetteln: normale Zettel nennen den Code, der R�
   }
 });
 
+test('Easter Eggs: ergo, ausgebobbt und Bob Tschigerillo, keine Namen realer Personen, Schluss-Extra in Fach 6', () => {
+  const alles = JSON.stringify(F.faecher);
+  assert.match(alles, /Ergo: Fragt lieber nicht mich/, 'ergo (Kurt, Fach 2)');
+  assert.match(alles, /ERGO/, 'ergo-Stempel (Fach 6)');
+  assert.match(alles, /Jetzt hat es sich ausgebobbt/);
+  assert.match(alles, /Bob Tschigerillo/);
+  assert.doesNotMatch(alles, /Rühl|Cicherillo|Maggus|Coleman|Schwarzenegger/i, 'keine Namen realer Personen');
+  const f6 = F.faecher.find((f) => f.id === 6);
+  assert.ok(f6.extraWennAlle && /Alle sechs Fächer/.test(f6.extraWennAlle));
+  assert.ok(F.faecher.every((f) => !f.extra || typeof f.extra === 'string'));
+});
+
 test('Fach-Inhalte werden zu Gegenständen in der Tasche (ohne Doppel-IDs)', () => {
   const ids = new Set(inv.gegenstaende.map((g) => g.id));
   for (const f of F.faecher) assert.ok(!ids.has(`fach${f.id}`), 'kommt erst zur Laufzeit dazu');

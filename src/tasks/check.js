@@ -156,6 +156,16 @@ export function protokollText({ names, versuch, protokoll, stationen }) {
   return lines.join('\n');
 }
 
+/** Mischt eine Liste (Fisher-Yates) und lässt die Eingabe unverändert. `zufall` liefert Zahlen in [0, 1). */
+export function mische(liste, zufall = Math.random) {
+  const a = [...liste];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(zufall() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
 /** Mehrfachwahl: genau `anzahl` Antworten, alle aus der Menge der richtigen. chosen = Indizes.
  *  Mit `alle: true` müssen genau alle richtigen gewählt sein und nichts Falsches (die Anzahl wird nicht verraten). */
 export function checkMehrfach(step, chosen) {

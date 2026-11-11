@@ -26,7 +26,7 @@ test('Es gibt drei Fragen mit je einer richtigen und zwei falschen Antworten', (
 });
 
 test('Die Dialoge für Markus und das Lesegerät sind da, der Einstieg lautet wie im Auftrag', () => {
-  assert.match(dialoge['empfang.fuehrerschein'].lines.join(' '), /Halt, Neuling!.*Sicherheitseinweisung.*Drei Fragen.*Labor-Ausweis.*Bereit\?/);
+  assert.match(dialoge['empfang.fuehrerschein'].lines.join(' '), /Halt, Neuling!.*Chef.*unser Labor.*Sicherheitseinweisung.*Drei Fragen.*Labor-Ausweis.*Bereit\?/);
   for (const id of ['empfang.fuehrerschein.ok', 'empfang.leser.ohne', 'empfang.leser.ok', 'empfang.leser.offen', 'tuer.tuer_labor.verriegelt']) assert.ok(dialoge[id], id);
 });
 

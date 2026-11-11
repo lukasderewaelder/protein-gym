@@ -1,7 +1,7 @@
 // Schritt-Typen für Sauna, Shake-Bar und Abschlussquiz: Zuordnen, Mehrfachwahl, Werbung prüfen, Rückblick.
 
 import { h } from '../ui/dom.js';
-import { checkMehrfach } from './check.js';
+import { checkMehrfach, mische } from './check.js';
 
 function zuordnen(host, step, api) {
   const gelöst = new Array(step.paare.length).fill(false);
@@ -10,7 +10,8 @@ function zuordnen(host, step, api) {
     const row = h('div', 'probe', h('strong', {}, p.text), h('div', 'zeile', btns));
     return { row, btns };
   });
-  host.append(h('p', 'frage', step.auftrag), ...zeilen.map((z) => z.row));
+  // Die Situationen stehen bei jedem Start in anderer Reihenfolge (die Wertung hängt nur am Index der Situation)
+  host.append(h('p', 'frage', step.auftrag), ...mische(zeilen.map((_, i) => i)).map((i) => zeilen[i].row));
   function setRichtig(i, btns) {
     gelöst[i] = true;
     btns.forEach((b) => {

@@ -15,7 +15,7 @@ import { createTaskPanel } from './ui/taskpanel.js';
 import { encodeProgress } from './state/progress.js';
 import { alleFallKarten } from './state/fall.js';
 import { merkePosition, holePosition } from './state/zwischenstand.js';
-import { erfuellt, istSichtbar } from './state/zugang.js';
+import { erfuellt, istSichtbar, tafelKarte } from './state/zugang.js';
 import { createZugang, ausweisKarte } from './ui/zugang.js';
 import { liste as inventarListe, neuAnzahl, markiereGesehen } from './state/inventar.js';
 import { renderInventar } from './ui/inventar.js';
@@ -94,6 +94,7 @@ function buildFallCards() {
 function coach() {
   if (!store.hasFlag('empfang_done')) {
     if (!store.hasFlag('spind_gesehen')) playDialog('empfang.coach.spind');
+    else if (!store.hasFlag('k_protein') && !store.hasFlag('k_wichtig')) playDialog('empfang.coach.keinhinweis');
     else taskPanel.openMenu('empfang');
     return;
   }
@@ -128,27 +129,22 @@ function showCall() {
 
 /** Tafel „Versuch frei?“: Die Lehrkraft nennt den Code. Nur eine Hürde, keine Sicherheitsfreigabe. */
 function openFreigabe() {
-  if (store.hasFlag('lab_frei')) {
-    playDialog('labor.tafel.frei', { speaker: 'Tafel', lines: ['Versuch frei! Denk an Kittel und Schutzbrille. Den Versuch machst du mit deiner Lehrkraft in echt.'] });
-    return;
-  }
+  if (store.hasFlag('lab_frei')) { showFund(tafelKarte(DATA.versuch, true), false); return; }
   const input = h('input', { class: 'name-input', type: 'text', inputmode: 'numeric', autocomplete: 'off', maxlength: '12', 'aria-label': 'Code der Lehrkraft', placeholder: 'Code' });
   const msg = h('p', { class: 'error', role: 'alert' });
   const submit = () => {
     if (input.value.trim().toLowerCase() === String(DATA.versuch.freigabeCode).toLowerCase()) {
       store.setFlag('lab_frei');
-      $('#info').close();
-      playDialog('labor.freigabe', { speaker: 'Tafel', lines: ['Versuch frei! Denk an die Sicherheit:', ...DATA.versuch.sicherheit] });
+      showFund(tafelKarte(DATA.versuch, true), false);
     } else {
       msg.textContent = 'Das ist nicht der Code der Lehrkraft.';
     }
   };
   input.addEventListener('keydown', (e) => { if (e.key === 'Enter') submit(); });
-  showInfo('Versuch frei?',
-    h('p', {}, 'Die Lehrkraft nennt den Code, wenn Material und Sicherheitsunterweisung bereit sind.'),
-    input, msg,
+  // Die Tafel ist ein Plakat wie die anderen Hinweise; Eingabefeld und Knopf stehen darunter im selben Fenster
+  showFund(tafelKarte(DATA.versuch, false), false, [input, msg,
     h('button', { class: 'primary', type: 'button', onclick: submit }, 'Freigeben'),
-    h('p', 'hint', DATA.versuch.hinweisCode));
+    h('p', 'hint', DATA.versuch.hinweisCode)]);
   input.focus({ preventScroll: true });
 }
 
@@ -161,15 +157,17 @@ function collectCard(id) {
 }
 
 /** Fund in seiner Fundart (Haftnotiz, Zeitung, Chat …) groß anzeigen. Neue Funde mit „Einstecken“, sie bleiben in Leiste und Pinnwand. */
-function showFund(card, isNew = false) {
+function showFund(card, isNew = false, extra = []) {
   const dlg = $('#fund');
   const box = $('#fund-inhalt');
   clear(box);
-  box.append(
+  // Kein null an append geben: Es würde als Text „null“ über der Karte erscheinen
+  box.append(...[
     isNew ? h('p', 'fund-neu', 'Neues Hinweiskärtchen!') : null,
     renderFund(card),
+    ...extra,
     h('button', { class: 'primary', type: 'button', onclick: () => dlg.close() }, isNew ? 'Einstecken' : 'Schließen'),
-  );
+  ].filter(Boolean));
   if (!dlg.open) dlg.showModal();
 }
 
