@@ -152,7 +152,7 @@ export function protokollText({ names, versuch, protokoll, stationen }) {
   if (notiz) lines.push(`Besonderheiten: ${notiz}`, '');
   lines.push(nurLieferung
     ? 'Fazit: Eine Violettfärbung beim Biuret-Test zeigt Eiweiß an. Bleibt die Probe blau, ist kein Eiweiß enthalten.'
-    : 'Merksatz: Beim Denaturieren (Gerinnen) verliert das Eiweiß seine Form: Aus klarem Eiklar wird festes Eiweiß. Der Vorgang ist nicht umkehrbar.');
+    : 'Merksatz: Beim Denaturieren (Gerinnen) verliert das Eiweiß seine Form: Das Eiweiß im Eiklar wird fest. Der Vorgang ist nicht umkehrbar.');
   return lines.join('\n');
 }
 

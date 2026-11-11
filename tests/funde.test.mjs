@@ -111,3 +111,21 @@ test('Fachkerne bleiben in den umformulierten Funden erhalten', () => {
   assert.match(text('k_umkehr'), /nicht umkehrbar/);
   assert.match(text('z_peptid'), /n − 1/);
 });
+
+test('Eiklar wird nie zu Eiweiß und wird nicht selbst fest: fest wird das Eiweiß im Eiklar', async () => {
+  const { readdirSync } = await import('node:fs');
+  const dateien = [
+    ...readdirSync(join(root, 'data')).filter((f) => f.endsWith('.json')).map((f) => join(root, 'data', f)),
+    ...['src/main.js', 'src/tasks/check.js', 'src/tasks/m4-types.js', 'src/tasks/labor-types.js'].map((f) => join(root, f)),
+  ];
+  const falsch = [
+    /aus (klarem |flüssigem |klarem, flüssigem )?Eiklar wird [^.]*Eiweiß/i,
+    /(?<!Eiweiß im (klaren, flüssigen |klaren )?)Eiklar (wird|stockt|gerinnt)/i,
+  ];
+  for (const f of dateien) {
+    const s = readFileSync(f, 'utf8');
+    for (const satz of s.split(/(?<=[.!?“"])\s/)) {
+      for (const muster of falsch) assert.doesNotMatch(satz, muster, `${f}: ${satz.slice(0, 120)}`);
+    }
+  }
+});

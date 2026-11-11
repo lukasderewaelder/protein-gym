@@ -307,12 +307,12 @@ function playDialog(id, fallback, after) {
   );
 }
 
-/** Die Eingangsfrage („Warum wird Eiklar fest?“) wird gespeichert und im Abschluss-Rückblick wieder gezeigt. */
+/** Die Eingangsfrage („Warum wird das Eiweiß im Eiklar fest?“) wird gespeichert und im Abschluss-Rückblick wieder gezeigt. */
 function askVorher() {
   if (store.state.protokoll && store.state.protokoll.vorher) return;
   const ta = h('textarea', { rows: 3, 'aria-label': 'Deine Idee', placeholder: 'Meine Idee: …' });
   showInfo('Deine Idee',
-    h('p', {}, 'Warum wird Eiklar in der Pfanne eigentlich fest? Schreibe kurz auf, was du vermutest. Es gibt kein Richtig oder Falsch, am Ende vergleichst du.'),
+    h('p', {}, 'Warum wird das Eiweiß im Eiklar in der Pfanne eigentlich fest? Schreibe kurz auf, was du vermutest. Es gibt kein Richtig oder Falsch, am Ende vergleichst du.'),
     ta,
     h('button', {
       class: 'primary', type: 'button',

@@ -523,19 +523,19 @@
           {
             "type": "luecken",
             "auftrag": "Deute den Versuch.",
-            "text": "Das Eiweiß ist {1} (Fachwort: {2}). Aus klarem Eiklar wird {3} Eiweiß. Der Vorgang ist {4}.",
+            "text": "Das Eiweiß im Eiklar ist {1} (Fachwort: {2}), es wird {3}. Der Vorgang ist {4}.",
             "loesungen": [
               "geronnen",
               "denaturiert",
-              "festes",
+              "fest",
               "nicht umkehrbar"
             ],
             "optionen": [
               "geronnen",
               "denaturiert",
               "gelöst",
-              "festes",
-              "flüssiges",
+              "fest",
+              "flüssig",
               "nicht umkehrbar",
               "umkehrbar",
               "violett"
@@ -602,19 +602,19 @@
           {
             "type": "luecken",
             "auftrag": "Deute den Versuch.",
-            "text": "Das Eiweiß ist {1} (Fachwort: {2}). Aus klarem Eiklar wird {3} Eiweiß. Der Vorgang ist {4}.",
+            "text": "Das Eiweiß im Eiklar ist {1} (Fachwort: {2}), es wird {3}. Der Vorgang ist {4}.",
             "loesungen": [
               "geronnen",
               "denaturiert",
-              "festes",
+              "fest",
               "nicht umkehrbar"
             ],
             "optionen": [
               "geronnen",
               "denaturiert",
               "gelöst",
-              "festes",
-              "flüssiges",
+              "fest",
+              "flüssig",
               "nicht umkehrbar",
               "umkehrbar",
               "violett"
@@ -687,19 +687,19 @@
           {
             "type": "luecken",
             "auftrag": "Deute den Versuch.",
-            "text": "Das Eiweiß ist {1} (Fachwort: {2}). Aus klarem Eiklar wird {3} Eiweiß. Der Vorgang ist {4}.",
+            "text": "Das Eiweiß im Eiklar ist {1} (Fachwort: {2}), es wird {3}. Der Vorgang ist {4}.",
             "loesungen": [
               "geronnen",
               "denaturiert",
-              "festes",
+              "fest",
               "nicht umkehrbar"
             ],
             "optionen": [
               "geronnen",
               "denaturiert",
               "gelöst",
-              "festes",
-              "flüssiges",
+              "fest",
+              "flüssig",
               "nicht umkehrbar",
               "umkehrbar",
               "violett"
@@ -729,7 +729,7 @@
       "tipp": "Die Karten „Hitze und Eiweiß“, „Nicht umkehrbar“ und „Erhitzen macht haltbar“ im Spind helfen dir. Was Eiweiß gerinnen lässt, hast du im Versuch im Labor selbst herausgefunden; im Glossar steht es als „Was Eiweiß gerinnen lässt“.",
       "hilfekarte": {
         "titel": "Hilfekarte: Gerinnen im Alltag",
-        "zeilen": ["Gerinnen lassen: Hitze, Säure, Alkohol, Schwermetallsalz.", "Aus klarem Eiklar wird beim Gerinnen festes, weißes Eiweiß.", "Gerinnen ist nicht umkehrbar.", "Erhitzen lässt auch die Eiweiße von Keimen gerinnen."]
+        "zeilen": ["Gerinnen lassen: Hitze, Säure, Alkohol, Schwermetallsalz.", "Beim Gerinnen wird das Eiweiß im Eiklar weiß und fest.", "Gerinnen ist nicht umkehrbar.", "Erhitzen lässt auch die Eiweiße von Keimen gerinnen."]
       },
       "loesung": "Spiegelei braten: Hitze. Milch mit Zitronensaft: Säure. Hände mit Ethanol desinfizieren: Alkohol. Kupfersalz im Weinberg: Schwermetallsalz. Gerinntes Eiweiß lässt sich nicht zurückverwandeln. Hitze macht Essen haltbar, weil auch die Eiweiße der Keime gerinnen.",
       "niveaus": {

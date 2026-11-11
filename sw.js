@@ -2,7 +2,7 @@
 // Der Block zwischen den Marken wird von tools/precache.mjs erzeugt (node tools/precache.mjs).
 
 // >>> precache
-const VERSION = '1c50c0756f';
+const VERSION = '65167226e8';
 const ASSETS = [
   './',
   './assets/css/app.css',

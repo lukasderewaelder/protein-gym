@@ -106,7 +106,7 @@
         "Hinweis: Kühl lagern, nicht in die Wärme stellen.",
         "Form: Ein Eiweiß hat eine feste Form. Sie sorgt dafür, dass es seine Aufgabe erfüllen kann.",
         "Begriff: Geht die Form verloren, nennt man das denaturieren. Im Alltag sagt man: Das Eiweiß stockt, gerinnt oder flockt aus.",
-        "Befund: Aus klarem, flüssigem Eiklar wird weißes, festes Eiweiß. Es ist nicht verschwunden, nur verändert. Nicht umkehrbar."
+        "Befund: Das Eiweiß im klaren, flüssigen Eiklar wird weiß und fest. Es ist nicht verschwunden, nur verändert. Nicht umkehrbar."
       ],
       "fuss": "GEPRÜFT"
     },
@@ -122,7 +122,7 @@
         "F: Und wozu das Wasser?",
         "A: Wasser ist die Kontrollprobe. Sie zeigt, wie das Eiweiß ohne einen Stoff aussieht. Nur was sich davon unterscheidet, hat etwas bewirkt.",
         "F: Woran sehe ich, dass Eiweiß denaturiert ist?",
-        "A: Aus klarer Eiklarlösung wird etwas Trübes, Milchig-Weißes oder Festes."
+        "A: In der klaren Eiklarlösung wird das Eiweiß trüb, milchig weiß oder fest."
       ],
       "fuss": "Notiert nach dem Gespräch mit Kupfer-Kurt, Wissenschaftler im Labor"
     },
@@ -155,7 +155,7 @@
       "medium": "schild", "kopf": "Hinweis am Saunaofen",
       "zeilen": [
         "Hitze (ab etwa 60 Grad) lässt Eiweiß denaturieren, also gerinnen bzw. stocken.",
-        "Klares Eiklar wird beim Braten weiß und fest, Milch bildet eine Haut, Fleisch wird fest.",
+        "Das Eiweiß im klaren Eiklar wird beim Braten weiß und fest, Milch bildet eine Haut, Fleisch wird fest.",
         "Je heißer, desto schneller geht es."
       ],
       "fuss": "Eiweiß nicht überhitzen!"
@@ -167,7 +167,7 @@
       "zeilen": [
         "Zutaten: ein Ei, etwas Öl, eine Pfanne",
         "1. Pfanne erhitzen, das Ei hineingleiten lassen.",
-        "2. Das klare Eiklar wird weiß und fest: Das Eiweiß gerinnt.",
+        "2. Das Eiweiß im klaren Eiklar wird weiß und fest: Es gerinnt.",
         "3. Aus dem gebratenen Ei wird nie wieder klares Eiklar.",
         "Warum? Die Form des Eiweißes ist verloren, und sie kommt nicht von allein zurück. Das Gerinnen ist nicht umkehrbar."
       ],

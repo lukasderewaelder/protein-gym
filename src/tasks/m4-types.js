@@ -143,7 +143,7 @@ function rueckblick(host, step, api, ctx) {
   if (step.zwischen) {
     // Zwischenfazit nach „Bau und Faltung“: Die Eingangsfrage lässt sich jetzt erklären.
     host.append(
-      h('p', 'frage', 'Zwischenstand: Am Anfang hast du überlegt, warum Eiklar in der Pfanne fest wird.'),
+      h('p', 'frage', 'Zwischenstand: Am Anfang hast du überlegt, warum das Eiweiß im Eiklar in der Pfanne fest wird.'),
       h('p', 'frage', vorher ? `Deine Idee damals: „${vorher}“` : 'Du hattest damals keine Idee aufgeschrieben.'),
       h('div', 'muster',
         h('p', 'muster-text', h('strong', {}, 'Jetzt kannst du es erklären: '), 'Hitze löst die schwachen Verbindungen, die die Falten des Eiweißes halten. Die Kette entfaltet sich und verklumpt: Das Eiweiß gerinnt, und das ist nicht umkehrbar.')),
@@ -152,10 +152,10 @@ function rueckblick(host, step, api, ctx) {
     return { reveal() {} };
   }
   host.append(
-    h('p', 'frage', 'Zum Schluss ein Rückblick: Am Anfang hast du überlegt, warum Eiklar in der Pfanne fest wird.'),
+    h('p', 'frage', 'Zum Schluss ein Rückblick: Am Anfang hast du überlegt, warum das Eiweiß im Eiklar in der Pfanne fest wird.'),
     h('p', 'frage', vorher ? `Deine Idee damals: „${vorher}“` : 'Du hattest damals keine Idee aufgeschrieben.'),
     h('div', 'muster',
-      h('p', 'muster-text', h('strong', {}, 'Das wissen wir jetzt: '), 'Eiklar wird fest, weil Hitze die räumliche Struktur der Eiweiße verändert: Das Eiweiß wird denaturiert, man sagt auch, es stockt oder gerinnt. Die Aminosäuren bleiben, aber der Vorgang ist nicht umkehrbar.')),
+      h('p', 'muster-text', h('strong', {}, 'Das wissen wir jetzt: '), 'Das Eiweiß im Eiklar wird fest, weil Hitze die räumliche Struktur der Eiweiße verändert: Das Eiweiß wird denaturiert, man sagt auch, es stockt oder gerinnt. Die Aminosäuren bleiben, aber der Vorgang ist nicht umkehrbar.')),
     h('button', { class: 'primary', type: 'button', onclick: () => api.ok('Gut. Jetzt bekommst du dein Zertifikat.') }, 'Weiter zum Zertifikat'),
   );
   return { reveal() {} };

@@ -18,7 +18,7 @@
   "stationA": {
     "id": "A",
     "name": "Hitze-Station",
-    "titel": "Denaturierung von Eiklar",
+    "titel": "Denaturierung von Eiweiß",
     "spalte": "Einfluss",
     "regel": "In jedes Glas kommt nur ein Versuch.",
     "stoffhinweis": "Salzsäure ist je nach Konzentration reizend bis ätzend, Kupfersulfat-Lösung (Fehling I) gesundheitsschädlich, Ethanol leicht entzündlich. Ethanol nur in kleinen Mengen und nur von der Lehrkraft, keine offene Flamme in der Nähe.",
