@@ -24,6 +24,7 @@ export function createTaskPanel({ root, data, store, notebook, showCall, onRoomD
   const levelsEl = root.querySelector('.task-levels');
   const auftragEl = root.querySelector('.task-auftrag');
   const stepsEl = root.querySelector('.task-steps');
+  const barEl = root.querySelector('.task-bar');
   const bodyEl = root.querySelector('.task-body');
   const feedbackEl = root.querySelector('.task-feedback');
   const helpEl = root.querySelector('.task-help');
@@ -73,6 +74,7 @@ export function createTaskPanel({ root, data, store, notebook, showCall, onRoomD
     levelsEl.hidden = rd.aufgaben.every((tid) => data.aufgaben.aufgaben[tid].niveaus.alle);
     auftragEl.textContent = '';
     stepsEl.textContent = '';
+    barEl.hidden = true;
     helpEl.hidden = true;
     feedbackEl.textContent = '';
     clear(bodyEl);
@@ -127,7 +129,9 @@ export function createTaskPanel({ root, data, store, notebook, showCall, onRoomD
     const list = steps();
     const step = list[S.step];
     auftragEl.textContent = S.t.auftrag;
-    stepsEl.textContent = `Schritt ${S.step + 1} von ${list.length}`;
+    stepsEl.textContent = `${S.t.zaehlen ? 'Frage' : 'Schritt'} ${S.step + 1} von ${list.length}`;
+    barEl.hidden = false;
+    barEl.firstElementChild.style.setProperty('--fortschritt', `${Math.round(((S.step + 1) / list.length) * 100)}%`);
     feedbackEl.textContent = '';
     feedbackEl.className = 'task-feedback';
     helpEl.hidden = true;
@@ -258,6 +262,7 @@ export function createTaskPanel({ root, data, store, notebook, showCall, onRoomD
     levelsEl.hidden = true;
     auftragEl.textContent = '';
     stepsEl.textContent = '';
+    barEl.hidden = true;
     helpEl.hidden = true;
     feedbackEl.textContent = '';
     clear(bodyEl);

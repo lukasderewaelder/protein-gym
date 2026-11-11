@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="assets/css/game.css">
   <link rel="stylesheet" href="assets/css/funde.css">
   <link rel="stylesheet" href="assets/css/zugang.css">
+  <link rel="stylesheet" href="assets/css/papier.css">
 </head>
 <body>
   <canvas id="stage" aria-label="Spielfläche"></canvas>
@@ -32,15 +33,16 @@
   <div id="tray" class="tray" aria-label="Hinweiskärtchen in diesem Raum" hidden></div>
 
   <div id="task" class="task" hidden>
-    <div class="task-card" role="dialog" aria-modal="true" aria-labelledby="task-title">
+    <div class="task-card papier" role="dialog" aria-modal="true" aria-labelledby="task-title">
       <header class="task-head">
         <h2 id="task-title"></h2>
         <button id="task-close" type="button" aria-label="Aufgabe schließen">✕</button>
       </header>
       <p class="task-meta"></p>
       <div class="task-levels" role="group" aria-label="Niveau"></div>
-      <p class="task-auftrag"></p>
       <p class="task-steps"></p>
+      <div class="task-bar" aria-hidden="true" hidden><span></span></div>
+      <p class="task-auftrag"></p>
       <div class="task-body"></div>
       <p class="task-feedback" role="status" aria-live="polite"></p>
       <div class="task-help" hidden></div>
@@ -48,7 +50,7 @@
     </div>
   </div>
 
-  <dialog id="zugang" aria-label="Zugang"><button type="button" id="zugang-zu" class="zugang-zu" aria-label="Schließen">✕</button><div id="zugang-inhalt"></div></dialog>
+  <dialog id="zugang" class="papier" aria-label="Zugang"><button type="button" id="zugang-zu" class="zugang-zu" aria-label="Schließen">✕</button><div id="zugang-inhalt"></div></dialog>
 
   <dialog id="fund" aria-label="Hinweiskärtchen"><div id="fund-inhalt" class="fund-fenster"></div></dialog>
 

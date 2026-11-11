@@ -1,0 +1,132 @@
+/* Helles Papier-Thema für Aufgaben, Quizzes und das Zugangsfenster (Führerschein, Bonus-Fächer, Hilfe).
+   Gleiche Sprache wie der Hefter: weißes Blatt, rote Hauptüberschrift, grüne Auftragsleiste, rote Rahmen nur für Merksätze.
+   Aufbau jedes Fensters, von oben nach unten:
+   1 Titel (rot)  ·  2 Fortschritt („Schritt 2 von 4“ mit Balken)  ·  3 Auftrag (grüne Leiste)  ·  4 Frage (fett)
+   5 Antworten (gleich breite helle Knöpfe)  ·  6 Rückmeldung (✓ grün / ✗ rot, immer mit Text)  ·  7 Hilfe  ·  8 Knöpfe (ein Hauptknopf). */
+
+.papier {
+  --ink: #1b1f23;
+  --muted: #55616b;
+  --panel: #ffffff;
+  --panel-2: #f1f4f6;
+  --papier-rand: #8a959a;
+  --papier-gruen: #1e7a3a;
+  --papier-gruen-hell: #e6f4ea;
+  --papier-rot: #c62828;
+  --papier-rot-hell: #fdecea;
+  --papier-gelb-hell: #fff8e1;
+  background: #fff;
+  color: var(--ink);
+  border-color: #35656b;
+}
+.papier :where(h1, h2, h3, h4) { color: var(--ink); }
+.papier .hint, .papier .task-meta, .papier .task-steps { color: var(--muted); }
+
+/* ---------- Knöpfe ---------- */
+.papier button { background: var(--panel-2); border-color: var(--papier-rand); color: var(--ink); }
+.papier button:hover:not(:disabled) { background: #e6ebee; }
+.papier button:disabled { opacity: 0.55; }
+.papier button.primary { background: var(--accent); border-color: #b85f0a; color: #1d1305; }
+.papier button.primary:hover:not(:disabled) { background: #ffa04a; }
+.papier button.danger { border-color: var(--papier-rot); }
+.papier button:focus-visible, .papier input:focus-visible, .papier textarea:focus-visible { outline: 3px solid #0b6bcb; outline-offset: 2px; }
+.papier .option, .papier .chip, .papier .platz { color: var(--ink); }
+.papier .chip { background: var(--panel-2); border: 2px solid var(--papier-rand); font-family: var(--font-body); font-weight: 600; }
+.papier .option[aria-pressed="true"], .papier .chip[aria-pressed="true"], .papier .chip.gewaehlt { background: #fff1dd; border-color: #d9740f; color: var(--ink); }
+.papier .option[aria-pressed="true"]::before, .papier .chip[aria-pressed="true"]::before { color: #d9740f; }
+.papier .task-levels button[aria-pressed="true"] { background: var(--accent); border-color: #b85f0a; color: #1d1305; }
+
+/* ---------- 1 Titel ---------- */
+.papier .task-head { border-bottom: 3px solid var(--papier-rot); padding-bottom: 6px; margin-bottom: 6px; }
+.papier .task-head h2, dialog#zugang.papier h2 { color: var(--papier-rot); font-family: var(--font-pixel); }
+dialog#zugang.papier h2 { margin-top: 2px; padding-right: 44px; border-bottom: 3px solid var(--papier-rot); padding-bottom: 6px; }
+.papier .task-meta { margin: 2px 0 6px; }
+
+/* ---------- 2 Fortschritt ---------- */
+.papier .task-steps { margin: 8px 0 4px; font-weight: 700; color: var(--papier-gruen); font-size: calc(16px * var(--font-scale)); }
+.papier .task-steps:empty { display: none; }
+.task-bar { height: 8px; margin: 0 0 8px; border-radius: 4px; background: #dfe5e8; overflow: hidden; }
+.task-bar > span { display: block; height: 100%; width: var(--fortschritt, 0%); background: var(--papier-gruen); border-radius: 4px; transition: width 0.3s; }
+.task-bar[hidden] { display: none; }
+@media (prefers-reduced-motion: reduce) { .task-bar > span { transition: none; } }
+.papier .zugang-schritt { color: var(--papier-gruen); font-weight: 700; }
+
+/* ---------- 3 Auftrag, 4 Frage ---------- */
+.papier .task-auftrag { margin: 6px 0 10px; padding: 8px 14px; border-left: 5px solid var(--papier-gruen); background: var(--papier-gruen-hell); border-radius: 0 8px 8px 0; font-size: calc(18px * var(--font-scale)); color: #17331f; }
+.papier .task-auftrag:empty { display: none; }
+.papier .frage { font-weight: 600; font-size: calc(20px * var(--font-scale)); }
+.papier .satz { font-size: calc(19px * var(--font-scale)); }
+.papier .zugang-frage { font-weight: 800; font-size: calc(21px * var(--font-scale)); }
+
+/* ---------- 5 Antworten ---------- */
+.papier .optionen, .papier .zugang-optionen { display: grid; gap: 8px; }
+.papier .option { text-align: left; min-height: 48px; }
+.papier .option.richtig, .papier .zugang-optionen .option.richtig { background: var(--papier-gruen-hell); border-color: var(--papier-gruen); }
+.papier .option.falsch { background: var(--papier-rot-hell); border-color: var(--papier-rot); }
+.papier .option.richtig, .papier .option.falsch { opacity: 1; color: var(--ink); }
+.papier .zugang-optionen .option.falsch { opacity: 1; text-decoration: none; }
+.papier .luecke { background: #fff; }
+.papier .luecke.ok { border-color: var(--papier-gruen); background: var(--papier-gruen-hell); }
+.papier .luecke.wrong { border-color: var(--papier-rot); background: var(--papier-rot-hell); }
+.papier .luecke.aktiv { border-color: #d9740f; }
+.papier .platz.voll { background: #dff0f2; }
+.papier .platz.ok { border-color: var(--papier-gruen); }
+.papier .platz.wrong { border-color: var(--papier-rot); }
+.papier .strich { color: var(--muted); }
+.papier .checkliste { display: grid; gap: 8px; }
+.papier .checkliste li { margin: 0; }
+.papier .checkliste label { display: flex; align-items: center; gap: 10px; min-height: 48px; padding: 8px 14px; background: var(--panel-2); border: 2px solid var(--papier-rand); border-radius: 10px; cursor: pointer; font-size: calc(18px * var(--font-scale)); }
+.papier .checkliste label:has(input:checked) { background: #fff1dd; border-color: #d9740f; font-weight: 700; }
+.papier .checkliste input { accent-color: #d9740f; flex: none; }
+.papier input.zahl, .papier input.warum, .papier textarea { background: #fff; border-color: var(--papier-rand); color: var(--ink); }
+.papier mark { background: #ffe08a; color: var(--ink); }
+
+/* ---------- 6 Rückmeldung (Symbol und Text, nicht nur Farbe) ---------- */
+.papier .task-feedback, .papier .zugang-fb { margin: 10px 0 0; padding: 8px 12px; border-radius: 8px; border: 2px solid transparent; font-weight: 600; }
+.papier .task-feedback:empty, .papier .zugang-fb:empty { display: none; }
+.papier .task-feedback:not(.gut):not(.schlecht), .papier .zugang-fb:not(.gut):not(.schlecht) { background: #eef3f6; border-color: var(--papier-rand); }
+.papier .task-feedback.gut, .papier .zugang-fb.gut { background: var(--papier-gruen-hell); border-color: var(--papier-gruen); color: #0f4a23; }
+.papier .task-feedback.schlecht, .papier .zugang-fb.schlecht { background: var(--papier-rot-hell); border-color: var(--papier-rot); color: #8a1f17; }
+.papier .zugang-gut, .papier .task-fertig { color: #0f4a23; }
+.papier .error { color: #8a1f17; }
+
+/* ---------- 7 Hilfe, Lösung, Info-Kästen ---------- */
+.papier .task-help { background: var(--papier-gelb-hell); border: 2px solid #d4a72c; color: var(--ink); }
+.papier .muster, .papier .ergebnis, .papier .fall-aufloesung, .papier .hilfe-konkret { background: var(--papier-gruen-hell); border: 2px solid var(--papier-gruen); color: var(--ink); }
+.papier .hilfe-konkret { border-width: 0 0 0 5px; }
+.papier .etikett { background: var(--papier-gelb-hell); border-color: #a89462; color: var(--ink); }
+.papier .karte { background: #f4f6f8; border-color: #b9c2c8; color: var(--ink); }
+.papier .merksatz { background: #fff; border: 2px solid var(--papier-rot); border-radius: 6px; color: var(--ink); }
+.papier .merksatz-abschreiben, .papier .auftrag-abschreiben { border-left-color: var(--papier-gruen); }
+.papier .code { background: #f4f6f8; color: var(--ink); border-color: #d9740f; }
+
+/* Formeln und Versuchsgläser */
+.papier .formel-box { background: #f4f6f8; border-color: #b9c2c8; }
+.papier svg.formel .kasten rect { fill: rgba(0, 0, 0, 0.03); stroke: #7a878e; }
+.papier svg.formel .kasten.gewaehlt rect { stroke: #d9740f; fill: rgba(240, 138, 36, 0.18); }
+.papier svg.formel .atom circle, .papier svg.formel .atom rect, .papier svg.formel .baustein rect { fill: #e3eef0; stroke: #6f8f95; }
+.papier svg.formel .atom.gewaehlt circle, .papier svg.formel .atom.gewaehlt rect { stroke: #d9740f; fill: rgba(240, 138, 36, 0.25); }
+.papier svg.formel .wasser circle { fill: #d6eafa; stroke: #3b86c0; }
+.papier svg.formel .etikett { fill: var(--papier-gruen); }
+.papier svg.formel .teil.richtig .treffer { fill: rgba(30, 122, 58, 0.18); stroke: var(--papier-gruen); }
+.papier .tube-karte, .papier .probe { background: #f4f6f8; border-color: #b9c2c8; }
+.papier .probe { background: none; border: 0; border-top: 1px solid #b9c2c8; }
+.papier .tube-ergebnis { color: #0f4a23; }
+
+/* Fall: Hinweise und Verdächtige */
+.papier .fall-hinweise li, .papier .fall-person { background: #f4f6f8; border-color: #b9c2c8; color: var(--ink); }
+.papier .fall-person.richtig { background: var(--papier-gruen-hell); border-color: var(--papier-gruen); }
+
+/* Aufgabenliste (Menü eines Raums) */
+.papier .task-eintrag { background: #fff; }
+.papier .task-eintrag span { color: var(--muted); }
+.papier .task-eintrag.fertig { border-color: var(--papier-gruen); background: var(--papier-gruen-hell); }
+
+/* ---------- 8 Knopfleiste ---------- */
+.papier .task-foot { background: #fff; border-top: 2px solid #dfe5e8; }
+
+/* ---------- Zugangsfenster ---------- */
+dialog#zugang.papier { border-width: 3px; }
+dialog#zugang.papier .zugang-zu { background: var(--panel-2); }
+.papier .zugang-sprecher { color: var(--ink); }
+.papier .chip.chip-grau { background: #e6ebee; }
