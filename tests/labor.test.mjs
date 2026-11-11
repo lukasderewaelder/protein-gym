@@ -137,12 +137,13 @@ test('Labor: Aufgabe 4 ist im Raum eingetragen, braucht keine Freigabe vorher, K
   for (const k of A.aufgaben.a4.braucht.filter((f) => f.startsWith('k_'))) assert.ok(kartenHotspots.includes(k), `${k} im Labor erreichbar`);
 });
 
-test('Labor: alle drei Niveaus haben dieselben Stationsschritte und enden mit Export', () => {
+test('Labor: alle drei Niveaus haben dieselben Stationsschritte, kein Export (das echte Protokoll kommt von der Lehrkraft)', () => {
   for (const n of ['A', 'B', 'C']) {
     const types = A.aufgaben.a4.niveaus[n].map((s) => s.type);
     assert.equal(types[0], 'vermutung');
     assert.ok(types.includes('versuch') && types.includes('beobachtung'));
-    assert.equal(types[types.length - 1], 'export');
+    assert.ok(!types.includes('export'));
+    assert.ok(!A.aufgaben.a7.niveaus[n].some((s) => s.type === 'export'), 'a7 ohne Export');
   }
   assert.equal(A.aufgaben.a4.niveaus.A[1].type, 'anleitung');
   assert.equal(A.aufgaben.a4.niveaus.B[1].type, 'reihenfolge');

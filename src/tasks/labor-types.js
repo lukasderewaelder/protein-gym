@@ -1,4 +1,4 @@
-// Schritt-Typen für das Labor (Aufgabe 4): Vermutung, Planung, Versuchshinweis, Beobachtung, Export.
+// Schritt-Typen für das Labor (a4, a7): Vermutung, Planung, Versuch mit Code der Lehrkraft, Beobachtung. „export“ ist noch da, wird aber nicht mehr eingesetzt (das Protokoll kommt von der Lehrkraft).
 // „simulation“ (virtueller Versuch) ist noch da, wird aber nicht mehr eingesetzt: der Versuch wird bei der Lehrkraft in echt gemacht.
 // Das Tablet bereitet den echten Versuch vor und wertet ihn aus. Beobachtungen werden nie als „falsch" bewertet,
 // die Erwartung des Skripts dient nur zum Vergleich.

@@ -33,7 +33,7 @@
         {
           "typ": "auftrag",
           "ueb": "Versuchstabelle",
-          "text": "Übernimm die Versuchstabelle zur Denaturierung aus deinem Protokoll in den Hefter: Probe, Einfluss, Beobachtung. (Spind und Protokoll im Labor)"
+          "text": "Übernimm die Versuchstabelle zur Denaturierung aus deinem Versuchsprotokoll in den Hefter: Probe, Einfluss, Beobachtung."
         }
       ]
     },
@@ -95,7 +95,7 @@
         {
           "typ": "auftrag",
           "ueb": "Versuchstabelle der Lieferung",
-          "text": "Übernimm die Versuchstabelle zur Lieferung aus deinem Protokoll in den Hefter: Probe, Beobachtung, Ergebnis. (Spind und Protokoll im Labor)"
+          "text": "Übernimm die Versuchstabelle zur Lieferung aus deinem Versuchsprotokoll in den Hefter: Probe, Beobachtung, Ergebnis."
         },
         {
           "typ": "hinweis",

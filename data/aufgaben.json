@@ -545,12 +545,6 @@
                 2
               ]
             ]
-          },
-          {
-            "type": "export",
-            "stationen": [
-              "stationA"
-            ]
           }
         ],
         "B": [
@@ -623,12 +617,6 @@
                 1,
                 2
               ]
-            ]
-          },
-          {
-            "type": "export",
-            "stationen": [
-              "stationA"
             ]
           }
         ],
@@ -708,12 +696,6 @@
                 1,
                 2
               ]
-            ]
-          },
-          {
-            "type": "export",
-            "stationen": [
-              "stationA"
             ]
           }
         ]
@@ -1010,12 +992,6 @@
             ],
             "richtig": 0,
             "erklaerung": "Violett zeigt Eiweiß an. Wasser enthält keins und bleibt blau."
-          },
-          {
-            "type": "export",
-            "stationen": [
-              "lieferung"
-            ]
           }
         ],
         "B": [
@@ -1074,12 +1050,6 @@
             ],
             "richtig": 0,
             "erklaerung": "Violett zeigt Eiweiß an. Wasser enthält keins und bleibt blau."
-          },
-          {
-            "type": "export",
-            "stationen": [
-              "lieferung"
-            ]
           }
         ],
         "C": [
@@ -1152,12 +1122,6 @@
             ],
             "richtig": 0,
             "erklaerung": "Die Wasser-Probe ist der Vergleich: Sie bleibt blau. So erkennst du, dass Violett wirklich vom Eiweiß kommt."
-          },
-          {
-            "type": "export",
-            "stationen": [
-              "lieferung"
-            ]
           }
         ]
       }
