@@ -1,6 +1,6 @@
 # Prompts zum Kopieren (Protein-Gym)
 
-**Stand:** Erledigt und im Spiel eingebaut: die sechs Szenen (Nr 1–6), die Spielfigur (Nr 7–11), Markus (Trainer), Alex, Hannes, Zoe und Kurt (Sprite und Porträts), das Porträt-Sheet von Desi (Nr 21), Zertifikat-Rahmen (Nr 29), App-Icon (Nr 30) und die Haftnotiz-Textur (Nr 31). Objekte und Icons (Nr 24–28) sind aufbereitet und liegen in `assets/figuren`, werden aber noch nicht im Spiel gezeigt. **Noch offen:** der Sprite von Desi (Nr 20, `npc_desi.png`) und die Papiertexturen Nr 32–37 (Karteikarte, Zeitung, Heft, Formular, Emailleschild, Korkwand). Bereits erledigte Nummern kannst du überspringen.
+**Stand:** Erledigt und im Spiel eingebaut: die sechs Szenen (Nr 1–6), die Spielfigur (Nr 7–11), Markus (Trainer), Alex, Hannes, Zoe und Kurt (Sprite und Porträts), das Porträt-Sheet von Desi (Nr 21), Zertifikat-Rahmen (Nr 29), App-Icon (Nr 30) und die Haftnotiz-Textur (Nr 31). Objekte und Icons (Nr 24–28) sind aufbereitet und liegen in `assets/figuren`, werden aber noch nicht im Spiel gezeigt. **Noch offen:** der Sprite von Desi (Nr 20, `npc_desi.png`) und die Papiertexturen Nr 32–37 (Karteikarte, Zeitung, Heft, Formular, Emailleschild, Korkwand). Bereits erledigte Nummern kannst du überspringen. Nur die offenen und optionalen Bilder stehen gesammelt in `OFFEN.md`. Nr 38–44 sind optionale Bilder für die Adventure-Erweiterung.
 
 Von oben nach unten abarbeiten. Je Bild: Block kopieren, in ChatGPT einfügen, bei „Anhängen“ das genannte Bild mitschicken, Ergebnis unter dem Dateinamen speichern. Jeder Block ist vollständig, es muss nichts ergänzt werden. Die Reihenfolge ist so gewählt, dass jedes Referenzbild schon vorher entstanden ist.
 
@@ -45,6 +45,13 @@ Ein Chat pro Gruppe: Szenen in einem Chat, Spielfigur in einem Chat, jede NPC-Fi
 | 35 | fund_formular.png | - |
 | 36 | fund_metallschild.png | - |
 | 37 | pinnwand_kork.png | - |
+| 38 | obj_ausweis.png | - |
+| 39 | obj_leser_0.png … obj_leser_1.png | - |
+| 40 | obj_tastenfeld.png | - |
+| 41 | obj_zettel.png | - |
+| 42 | icon_tasche.png | - |
+| 43 | obj_fach_0.png … obj_fach_1.png | - |
+| 44 | obj_aufkleber_0.png … obj_aufkleber_3.png | - |
 
 ## Szenen
 
@@ -424,6 +431,78 @@ Speichern als: `pinnwand_kork.png`
 
 ```
 Pixel art look, flat straight-on view in the style of a classic 16-bit adventure game, no perspective, chunky visible pixels, dark outlines, soft cel shading, warm friendly colours (teal, off-white, warm wood brown, signal orange, soft grey, a little yellow), clean readable shapes. No text, no letters, no numbers, no logos, no watermark, no photorealism, no blur. Friendly, school-appropriate mood. A close-up of a warm brown cork board surface with fine speckled grain, evenly lit, no frame, no pins, no notes. 3:2 landscape image. The surface fills the entire image edge to edge. No text, no letters, no numbers, no pictures, no objects on it.
+```
+
+## Adventure 2.0 (optional)
+
+### Nr 38: Labor-Ausweis (Karte)
+
+Speichern als: `obj_ausweis.png`
+
+**Anhängen:** nichts
+
+```
+Pixel art look, three-quarter top-down view like a classic 16-bit adventure game, chunky visible pixels, dark outlines, soft cel shading, warm friendly colours (teal, off-white, warm wood brown, signal orange, soft grey, a little yellow), clean readable shapes. No text, no letters, no numbers, no logos, no watermark, no photorealism, no blur. Friendly, school-appropriate mood. A single laboratory ID badge card, landscape, rounded corners, teal with an orange stripe along the top, a blank empty light square on the left for a photo, a few blank grey bars on the right where text would be, a small hole at the top for a lanyard. No text, no numbers, no logo. Flat pure magenta background (#FF00FF) without gradient, texture or shadow. Nothing cropped. No ground shadow under the figure.
+```
+
+### Nr 39: Kartenlesegerät (Lämpchen rot und grün)
+
+Speichern als: `obj_leser_sheet.png` (das Grafik-Werkzeug teilt es danach in obj_leser_0.png … obj_leser_1.png)
+
+**Anhängen:** nichts
+
+```
+Pixel art look, three-quarter top-down view like a classic 16-bit adventure game, chunky visible pixels, dark outlines, soft cel shading, warm friendly colours (teal, off-white, warm wood brown, signal orange, soft grey, a little yellow), clean readable shapes. No text, no letters, no numbers, no logos, no watermark, no photorealism, no blur. Friendly, school-appropriate mood. Two views of the same small wall-mounted card reader box in a row, equal size and spacing: left with a red indicator light, right with a green indicator light. Each has a narrow card slot and a tiny dark screen without content. No text, no numbers, no logos. Flat pure magenta background (#FF00FF) without gradient, texture or shadow. Nothing cropped. No ground shadow under the figure.
+```
+
+### Nr 40: Zahlenschloss-Tastenfeld
+
+Speichern als: `obj_tastenfeld.png`
+
+**Anhängen:** nichts
+
+```
+Pixel art look, three-quarter top-down view like a classic 16-bit adventure game, chunky visible pixels, dark outlines, soft cel shading, warm friendly colours (teal, off-white, warm wood brown, signal orange, soft grey, a little yellow), clean readable shapes. No text, no letters, no numbers, no logos, no watermark, no photorealism, no blur. Friendly, school-appropriate mood. A door keypad with a small empty dark display on top and twelve identical blank rounded keys below in a grid of 3 columns and 4 rows, metal frame, seen straight from the front. The keys carry no numbers and no symbols. No text. Flat pure magenta background (#FF00FF) without gradient, texture or shadow. Nothing cropped. No ground shadow under the figure.
+```
+
+### Nr 41: Zettel mit Gekritzel
+
+Speichern als: `obj_zettel.png`
+
+**Anhängen:** nichts
+
+```
+Pixel art look, three-quarter top-down view like a classic 16-bit adventure game, chunky visible pixels, dark outlines, soft cel shading, warm friendly colours (teal, off-white, warm wood brown, signal orange, soft grey, a little yellow), clean readable shapes. No text, no letters, no numbers, no logos, no watermark, no photorealism, no blur. Friendly, school-appropriate mood. A small crooked yellow paper note with a few abstract wavy pencil scribble lines on it that do not form letters or numbers, a little tape on the top edge. No readable writing. Flat pure magenta background (#FF00FF) without gradient, texture or shadow. Nothing cropped. No ground shadow under the figure.
+```
+
+### Nr 42: Taschensymbol (Inventar)
+
+Speichern als: `icon_tasche.png`
+
+**Anhängen:** nichts
+
+```
+Pixel art look, three-quarter top-down view like a classic 16-bit adventure game, chunky visible pixels, dark outlines, soft cel shading, warm friendly colours (teal, off-white, warm wood brown, signal orange, soft grey, a little yellow), clean readable shapes. No text, no letters, no numbers, no logos, no watermark, no photorealism, no blur. Friendly, school-appropriate mood. A single small icon of a teal gym duffel bag with an orange zipper and a short carrying strap, side view, bold simple shapes, readable at small size. No text, no logo. Flat pure magenta background (#FF00FF) without gradient, texture or shadow. Nothing cropped. No ground shadow under the figure.
+```
+
+### Nr 43: Schließfach (zu und offen)
+
+Speichern als: `obj_fach_sheet.png` (das Grafik-Werkzeug teilt es danach in obj_fach_0.png … obj_fach_1.png)
+
+**Anhängen:** nichts
+
+```
+Pixel art look, three-quarter top-down view like a classic 16-bit adventure game, chunky visible pixels, dark outlines, soft cel shading, warm friendly colours (teal, off-white, warm wood brown, signal orange, soft grey, a little yellow), clean readable shapes. No text, no letters, no numbers, no logos, no watermark, no photorealism, no blur. Friendly, school-appropriate mood. Two views of the same small locker door in a row, equal size and spacing: left closed, with a blank keypad lock on the door, right with the door swung open showing an empty teal interior. Teal metal, no numbers, no text, no stickers. Flat pure magenta background (#FF00FF) without gradient, texture or shadow. Nothing cropped. No ground shadow under the figure.
+```
+
+### Nr 44: Aufkleber (vier Stück)
+
+Speichern als: `obj_aufkleber_sheet.png` (das Grafik-Werkzeug teilt es danach in obj_aufkleber_0.png … obj_aufkleber_3.png)
+
+**Anhängen:** nichts
+
+```
+Pixel art look, three-quarter top-down view like a classic 16-bit adventure game, chunky visible pixels, dark outlines, soft cel shading, warm friendly colours (teal, off-white, warm wood brown, signal orange, soft grey, a little yellow), clean readable shapes. No text, no letters, no numbers, no logos, no watermark, no photorealism, no blur. Friendly, school-appropriate mood. Four round sticker badges in one row, same size, equal spacing, each with a thick white outline: (1) a yellow star, (2) a small dumbbell, (3) a test tube with green liquid, (4) an orange lightning bolt. No text, no numbers. Flat pure magenta background (#FF00FF) without gradient, texture or shadow. Nothing cropped. No ground shadow under the figure.
 ```
 
 ## Nachbesserungen (im selben Chat direkt nach dem Bild senden)

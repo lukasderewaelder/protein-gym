@@ -6,13 +6,15 @@ export function cleanName(text) {
   return String(text || '').replace(/[<>]/g, '').replace(/\s+/g, ' ').trim().slice(0, 12);
 }
 
-export function initStart(root, { onNew, onRestore }) {
+/** onGeste läuft synchron im Tippen auf „Los geht’s“ bzw. „Weiterspielen“ (nur dort erlaubt der Browser Vollbild). */
+export function initStart(root, { onNew, onRestore, onGeste = () => {} }) {
   const form = root.querySelector('#start-form');
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     const data = new FormData(form);
     const names = ['n1', 'n2', 'n3'].map((k) => cleanName(data.get(k))).filter(Boolean);
     if (!names.length) return;
+    onGeste();
     onNew({ names });
   });
 
@@ -30,6 +32,7 @@ export function initStart(root, { onNew, onRestore }) {
     if (!res.ok) { msg.textContent = res.reason; return; }
     if (!names.length) { msg.textContent = 'Bitte gib mindestens einen Namen ein.'; return; }
     msg.textContent = '';
+    onGeste();
     onRestore({ names, ...res.state });
   });
 

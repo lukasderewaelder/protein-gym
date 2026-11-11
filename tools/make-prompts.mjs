@@ -209,6 +209,55 @@ TEXTUR('Formularpapier', 'fund_formular', 'Helles Formularpapier mit sehr feinen
 TEXTUR('Emailleschild (Metall)', 'fund_metallschild', 'Helles, leicht abgenutztes Emailleschild aus Metall mit vier Schrauben in den Ecken. Leer.', 'A close-up of a light-grey worn enamel metal plate with a subtle raised rim and four round screw heads, one in each corner.');
 TEXTUR('Korkwand (Pinnwand)', 'pinnwand_kork', 'Korkplatte in warmem Braun mit feiner Körnung. Hier hängen später die Funde. Ohne Rahmen.', 'A close-up of a warm brown cork board surface with fine speckled grain, evenly lit, no frame, no pins, no notes.');
 
+// ---------- Adventure 2.0 (optional): erst im Code gezeichnet, schönere Pixel-Art nur bei Bedarf ----------
+const A2 = 'Adventure 2.0 (optional)';
+const A2_NOTE = ' Das Spiel zeichnet dieses Objekt zunächst selbst im Code; das Bild ist nur eine schönere Alternative.';
+add({
+  gruppe: A2, titel: 'Labor-Ausweis (Karte)', datei: 'obj_ausweis.png', ordner: 'assets/figuren/', werkzeug: 'Einzel-Sprite (Art Objekt, Name obj_ausweis), Magenta freistellen', ref: null,
+  stil: 'Kleine Ausweiskarte, Querformat, türkis mit orangem Streifen, links ein leeres Foto-Feld, rechts leere Linien. Ohne Text. Name und Datum setzt das Spiel darüber.' + A2_NOTE,
+  body: 'A single laboratory ID badge card, landscape, rounded corners, teal with an orange stripe along the top, a blank empty light square on the left for a photo, a few blank grey bars on the right where text would be, a small hole at the top for a lanyard. No text, no numbers, no logo.' + SPRITE,
+  pruef: ['Karte vollständig sichtbar, keine Schrift, leere Flächen für Foto und Zeilen.'],
+});
+add({
+  gruppe: A2, titel: 'Kartenlesegerät (Lämpchen rot und grün)', datei: 'obj_leser_0.png … obj_leser_1.png', ordner: 'assets/figuren/', werkzeug: 'Sheet teilen (Spalten 2, Magenta freistellen, Name obj_leser)', ref: null,
+  stil: 'Kleines Wandlesegerät neben einer Tür: links mit rotem Lämpchen (gesperrt), rechts mit grünem Lämpchen (frei). Gleiche Größe, gleicher Abstand, ohne Aufdruck.' + A2_NOTE,
+  body: 'Two views of the same small wall-mounted card reader box in a row, equal size and spacing: left with a red indicator light, right with a green indicator light. Each has a narrow card slot and a tiny dark screen without content. No text, no numbers, no logos.' + SPRITE,
+  pruef: ['Zwei Bilder, nur das Lämpchen unterscheidet sich, keine Schrift.'],
+});
+add({
+  gruppe: A2, titel: 'Zahlenschloss-Tastenfeld', datei: 'obj_tastenfeld.png', ordner: 'assets/figuren/', werkzeug: 'Einzel-Sprite (Art Objekt, Name obj_tastenfeld), Magenta freistellen', ref: null,
+  stil: 'Tastenfeld mit zwölf leeren Tasten (3 mal 4) und einem leeren dunklen Anzeigefeld darüber. Die Ziffern setzt das Spiel selbst auf die Tasten.' + A2_NOTE,
+  body: 'A door keypad with a small empty dark display on top and twelve identical blank rounded keys below in a grid of 3 columns and 4 rows, metal frame, seen straight from the front. The keys carry no numbers and no symbols. No text.' + SPRITE,
+  pruef: ['Zwölf Tasten im Raster 3 mal 4, alle leer (keine Ziffern), Anzeige leer.'],
+});
+add({
+  gruppe: A2, titel: 'Zettel mit Gekritzel', datei: 'obj_zettel.png', ordner: 'assets/figuren/', werkzeug: 'Einzel-Sprite (Art Objekt, Name obj_zettel), Magenta freistellen', ref: null,
+  stil: 'Kleiner gelber Zettel, leicht schief, mit angedeutetem Gekritzel aus unleserlichen Strichen. Den echten Code schreibt das Spiel darauf.' + A2_NOTE,
+  body: 'A small crooked yellow paper note with a few abstract wavy pencil scribble lines on it that do not form letters or numbers, a little tape on the top edge. No readable writing.' + SPRITE,
+  pruef: ['Das Gekritzel sieht nicht wie Buchstaben oder Zahlen aus.'],
+});
+add({
+  gruppe: A2, titel: 'Taschensymbol (Inventar)', datei: 'icon_tasche.png', ordner: 'assets/icons/', werkzeug: 'Einzel-Sprite (Art Icon, Name icon_tasche), Magenta freistellen', ref: null,
+  stil: 'Kleine Sporttasche in Türkis mit orangem Reißverschluss, Seitenansicht, gut lesbar auch in klein.' + A2_NOTE,
+  body: 'A single small icon of a teal gym duffel bag with an orange zipper and a short carrying strap, side view, bold simple shapes, readable at small size. No text, no logo.' + SPRITE,
+  pruef: ['Auch klein noch als Tasche erkennbar, keine Schrift.'],
+});
+add({
+  gruppe: A2, titel: 'Schließfach (zu und offen)', datei: 'obj_fach_0.png … obj_fach_1.png', ordner: 'assets/figuren/', werkzeug: 'Sheet teilen (Spalten 2, Magenta freistellen, Name obj_fach)', ref: null,
+  stil: 'Ein Schließfach, links geschlossen, rechts mit offener Tür und leerem Inneren. Gleiche Größe, mit Ziffernschloss ohne Ziffern.' + A2_NOTE,
+  body: 'Two views of the same small locker door in a row, equal size and spacing: left closed, with a blank keypad lock on the door, right with the door swung open showing an empty teal interior. Teal metal, no numbers, no text, no stickers.' + SPRITE,
+  pruef: ['Zwei Bilder: zu und offen, gleiche Größe, keine Ziffern am Schloss.'],
+});
+add({
+  gruppe: A2, titel: 'Aufkleber (vier Stück)', datei: 'obj_aufkleber_0.png … obj_aufkleber_3.png', ordner: 'assets/figuren/', werkzeug: 'Sheet teilen (Spalten 4, Magenta freistellen, Name obj_aufkleber)', ref: null,
+  stil: 'Vier runde Aufkleber als Belohnung für Bonusfächer: Stern, Hantel, Reagenzglas, Blitz. Gleiche Größe, ohne Schrift.' + A2_NOTE,
+  body: 'Four round sticker badges in one row, same size, equal spacing, each with a thick white outline: (1) a yellow star, (2) a small dumbbell, (3) a test tube with green liquid, (4) an orange lightning bolt. No text, no numbers.' + SPRITE,
+  pruef: ['Vier Aufkleber, gleich groß, klarer Abstand, keine Schrift.'],
+});
+
+// ---------- Status: Quelle der Wahrheit für OFFEN.md ----------
+const OFFEN_DATEIEN = new Set(['npc_desi.png', 'fund_karteikarte.png', 'fund_zeitung.png', 'fund_heft.png', 'fund_formular.png', 'fund_metallschild.png', 'pinnwand_kork.png']);
+assets.forEach((a) => { a.status = a.gruppe === A2 ? 'optional' : OFFEN_DATEIEN.has(a.datei) ? 'offen' : 'fertig'; });
 
 // ---------- Datei bauen ----------
 const lines = [];
@@ -271,6 +320,7 @@ assets.forEach((a, i) => {
     if (a.gruppe === 'Spielfigur') p('Es gibt nur eine Spielfigur, keine Auswahl. Erst das Referenzblatt, dann die vier Lauf-Streifen. Das Referenzblatt ist nur Vorlage und wird nicht ins Spiel gelegt.');
     if (a.gruppe === 'NPCs') p('Zu jeder Figur zwei Prompts: erst der Sprite (Stehbild), dann das Porträt-Sheet mit dem Sprite als Referenz. Die Verdächtigen sind sympathisch gezeichnet und gehören je zu einem der vier Auslöser der Denaturierung (Hitze, Säure, Alkohol, Schwermetallsalz). Die Namen sind Vorschläge.');
     if (a.gruppe.startsWith('Fundstücke')) p('Leere Papier- und Materialflächen für die Hinweis-Funde im Spiel (Haftnotiz, Zeitung, Heft …). Der Text und alle Beschriftungen kommen aus dem Spiel selbst. Ohne diese Bilder zeigt das Spiel einfache Farbflächen. Bitte als eigene Bildfamilie in einem Chat erzeugen.');
+    if (a.gruppe === A2) p('Optionale Bilder für die Adventure-Erweiterung (Laborführerschein, Saunacode, Inventar, Schließfächer). Das Spiel zeichnet diese Objekte zunächst selbst im Code; die Bilder sind nur schöner und nicht nötig.');
     if (a.gruppe === 'Objekte und Icons') p('Diese Bilder sind ergänzend. Pfanne, Scheibe und Sonstiges sind noch nicht im Spiel verdrahtet, das Zertifikat nutzt den Rahmen sofort.');
   }
   if (introNachher) { p(); introNachher = false; }
@@ -327,7 +377,7 @@ if (outKopie) {
   const q = (s = '') => k.push(s);
   q('# Prompts zum Kopieren (Protein-Gym)');
   q();
-  q('**Stand:** Erledigt und im Spiel eingebaut: die sechs Szenen (Nr 1–6), die Spielfigur (Nr 7–11), Markus (Trainer), Alex, Hannes, Zoe und Kurt (Sprite und Porträts), das Porträt-Sheet von Desi (Nr 21), Zertifikat-Rahmen (Nr 29), App-Icon (Nr 30) und die Haftnotiz-Textur (Nr 31). Objekte und Icons (Nr 24–28) sind aufbereitet und liegen in `assets/figuren`, werden aber noch nicht im Spiel gezeigt. **Noch offen:** der Sprite von Desi (Nr 20, `npc_desi.png`) und die Papiertexturen Nr 32–37 (Karteikarte, Zeitung, Heft, Formular, Emailleschild, Korkwand). Bereits erledigte Nummern kannst du überspringen.');
+  q('**Stand:** Erledigt und im Spiel eingebaut: die sechs Szenen (Nr 1–6), die Spielfigur (Nr 7–11), Markus (Trainer), Alex, Hannes, Zoe und Kurt (Sprite und Porträts), das Porträt-Sheet von Desi (Nr 21), Zertifikat-Rahmen (Nr 29), App-Icon (Nr 30) und die Haftnotiz-Textur (Nr 31). Objekte und Icons (Nr 24–28) sind aufbereitet und liegen in `assets/figuren`, werden aber noch nicht im Spiel gezeigt. **Noch offen:** der Sprite von Desi (Nr 20, `npc_desi.png`) und die Papiertexturen Nr 32–37 (Karteikarte, Zeitung, Heft, Formular, Emailleschild, Korkwand). Bereits erledigte Nummern kannst du überspringen. Nur die offenen und optionalen Bilder stehen gesammelt in `OFFEN.md`. Nr 38–44 sind optionale Bilder für die Adventure-Erweiterung.');
   q();
   q('Von oben nach unten abarbeiten. Je Bild: Block kopieren, in ChatGPT einfügen, bei „Anhängen“ das genannte Bild mitschicken, Ergebnis unter dem Dateinamen speichern. Jeder Block ist vollständig, es muss nichts ergänzt werden. Die Reihenfolge ist so gewählt, dass jedes Referenzbild schon vorher entstanden ist.');
   q();
@@ -360,4 +410,55 @@ if (outKopie) {
   NACHBESSERUNG.forEach(([problem, text]) => { q(`**${problem}**`); q(); q(F); q(text); q(F); q(); });
   writeFileSync(outKopie, k.join('\n') + '\n', 'utf8');
   console.log('geschrieben:', outKopie, k.length, 'Zeilen');
+}
+
+// Dritte Datei: nur noch offene und optionale Bilder, vollständig zum Kopieren. Nummern wie in PROMPTS_KOPIEREN.md.
+const outOffen = process.argv[4];
+if (outOffen) {
+  const o = [];
+  const w = (s = '') => o.push(s);
+  const nr = (a) => assets.indexOf(a) + 1;
+  const offen = assets.filter((a) => a.status === 'offen');
+  const optional = assets.filter((a) => a.status === 'optional');
+  w('# Noch offene Grafiken (Protein-Gym)');
+  w();
+  w('Diese Datei enthält **nur** Bilder, die noch fehlen. Alles Fertige steht in `PROMPTS_KOPIEREN.md` und ist hier nicht mehr aufgeführt. Die Nummern sind dieselben wie dort. Je Bild: Block kopieren, in ChatGPT einfügen, bei „Anhängen“ das genannte Bild mitschicken, Ergebnis unter dem Dateinamen speichern, danach `node tools/precache.mjs` ausführen. Höchstens zwei Nachbesserungen je Bild (die kurzen Sätze stehen unten).');
+  w();
+  w(`**Ohne diese Bilder läuft das Spiel vollständig:** es zeichnet die fehlenden Papierflächen als Farbflächen und die fehlende Figur als Platzhalter. Offen sind ${offen.length} Bilder, optional ${optional.length}.`);
+  w();
+  w('| Nr | Datei | Anhängen | Status |');
+  w('|---|---|---|---|');
+  [...offen, ...optional].forEach((a) => w(`| ${nr(a)} | ${a.datei.replace(/ \(.*$/, '')} | ${a.ref ? a.ref : '-'} | ${a.status} |`));
+  w();
+  const block = (a) => {
+    w(`### Nr ${nr(a)}: ${a.titel}`);
+    w();
+    const d = a.datei.replace(/ \(.*$/, '');
+    const sheet = d.match(/^(\w+?)_0\.png/);
+    w(sheet && d.includes('…') ? `Speichern als: \`${sheet[1]}_sheet.png\` (das Grafik-Werkzeug teilt es danach in ${d})` : `Speichern als: \`${d}\` in \`${a.ordner}\``);
+    w();
+    w(`**Werkzeug:** ${a.werkzeug}`);
+    w();
+    w(a.ref ? `**Anhängen:** ${a.ref}` : '**Anhängen:** nichts');
+    w();
+    w(F);
+    w(`${kern(a)} ${a.body}`);
+    w(F);
+    w();
+    w('**Prüfen:**');
+    w();
+    a.pruef.forEach((x) => w(`- [ ] ${x}`));
+    w();
+  };
+  w('## Offen (fehlt im Spiel)');
+  w();
+  offen.forEach(block);
+  w('## Optional (Adventure-Erweiterung, Spiel zeichnet es sonst selbst im Code)');
+  w();
+  optional.forEach(block);
+  w('## Nachbesserungen (im selben Chat direkt nach dem Bild senden)');
+  w();
+  NACHBESSERUNG.forEach(([problem, text]) => { w(`**${problem}**`); w(); w(F); w(text); w(F); w(); });
+  writeFileSync(outOffen, o.join('\n') + '\n', 'utf8');
+  console.log('geschrieben:', outOffen, offen.length, 'offen,', optional.length, 'optional');
 }

@@ -79,6 +79,13 @@ Flat pure magenta background (#FF00FF) without gradient, texture or shadow. Noth
 | 35 | Formularpapier | fund_formular.png | assets/funde/ | Mit Pillow zu WebP umwandeln (Breite 1024, Höhe 683), Zieldatei fund_formular.webp |
 | 36 | Emailleschild (Metall) | fund_metallschild.png | assets/funde/ | Mit Pillow zu WebP umwandeln (Breite 1024, Höhe 683), Zieldatei fund_metallschild.webp |
 | 37 | Korkwand (Pinnwand) | pinnwand_kork.png | assets/funde/ | Mit Pillow zu WebP umwandeln (Breite 1024, Höhe 683), Zieldatei pinnwand_kork.webp |
+| 38 | Labor-Ausweis (Karte) | obj_ausweis.png | assets/figuren/ | Einzel-Sprite (Art Objekt, Name obj_ausweis), Magenta freistellen |
+| 39 | Kartenlesegerät (Lämpchen rot und grün) | obj_leser_0.png … obj_leser_1.png | assets/figuren/ | Sheet teilen (Spalten 2, Magenta freistellen, Name obj_leser) |
+| 40 | Zahlenschloss-Tastenfeld | obj_tastenfeld.png | assets/figuren/ | Einzel-Sprite (Art Objekt, Name obj_tastenfeld), Magenta freistellen |
+| 41 | Zettel mit Gekritzel | obj_zettel.png | assets/figuren/ | Einzel-Sprite (Art Objekt, Name obj_zettel), Magenta freistellen |
+| 42 | Taschensymbol (Inventar) | icon_tasche.png | assets/icons/ | Einzel-Sprite (Art Icon, Name icon_tasche), Magenta freistellen |
+| 43 | Schließfach (zu und offen) | obj_fach_0.png … obj_fach_1.png | assets/figuren/ | Sheet teilen (Spalten 2, Magenta freistellen, Name obj_fach) |
+| 44 | Aufkleber (vier Stück) | obj_aufkleber_0.png … obj_aufkleber_3.png | assets/figuren/ | Sheet teilen (Spalten 4, Magenta freistellen, Name obj_aufkleber) |
 
 ## 4. Szenen
 
@@ -860,7 +867,137 @@ Pixel art look, flat straight-on view in the style of a classic 16-bit adventure
 - [ ] Die Fläche füllt das ganze Bild bis an den Rand (keine Tischplatte, keine Hand, kein Rahmen drumherum).
 - [ ] Die Mitte ist weitgehend ruhig und hell genug, damit dort Text gut lesbar bleibt.
 
-## 9. Nachbesserungs-Prompts (kurz, höchstens zweimal pro Bild)
+## 9. Adventure 2.0 (optional)
+
+Optionale Bilder für die Adventure-Erweiterung (Laborführerschein, Saunacode, Inventar, Schließfächer). Das Spiel zeichnet diese Objekte zunächst selbst im Code; die Bilder sind nur schöner und nicht nötig.
+
+### Nr 38: Labor-Ausweis (Karte)
+
+- **Dateiname:** `obj_ausweis.png`
+- **Zielordner:** `assets/figuren/`
+- **Verarbeiten mit:** Einzel-Sprite (Art Objekt, Name obj_ausweis), Magenta freistellen
+- **Referenzbild anhängen:** keins
+- **Stil:** Kleine Ausweiskarte, Querformat, türkis mit orangem Streifen, links ein leeres Foto-Feld, rechts leere Linien. Ohne Text. Name und Datum setzt das Spiel darüber. Das Spiel zeichnet dieses Objekt zunächst selbst im Code; das Bild ist nur eine schönere Alternative.
+
+**Prompt:**
+
+```
+Pixel art look, three-quarter top-down view like a classic 16-bit adventure game, chunky visible pixels, dark outlines, soft cel shading, warm friendly colours (teal, off-white, warm wood brown, signal orange, soft grey, a little yellow), clean readable shapes. No text, no letters, no numbers, no logos, no watermark, no photorealism, no blur. Friendly, school-appropriate mood. A single laboratory ID badge card, landscape, rounded corners, teal with an orange stripe along the top, a blank empty light square on the left for a photo, a few blank grey bars on the right where text would be, a small hole at the top for a lanyard. No text, no numbers, no logo. Flat pure magenta background (#FF00FF) without gradient, texture or shadow. Nothing cropped. No ground shadow under the figure.
+```
+
+**Prüfliste:**
+
+- [ ] Karte vollständig sichtbar, keine Schrift, leere Flächen für Foto und Zeilen.
+
+### Nr 39: Kartenlesegerät (Lämpchen rot und grün)
+
+- **Dateiname:** `obj_leser_0.png … obj_leser_1.png`
+- **Zielordner:** `assets/figuren/`
+- **Verarbeiten mit:** Sheet teilen (Spalten 2, Magenta freistellen, Name obj_leser)
+- **Referenzbild anhängen:** keins
+- **Stil:** Kleines Wandlesegerät neben einer Tür: links mit rotem Lämpchen (gesperrt), rechts mit grünem Lämpchen (frei). Gleiche Größe, gleicher Abstand, ohne Aufdruck. Das Spiel zeichnet dieses Objekt zunächst selbst im Code; das Bild ist nur eine schönere Alternative.
+
+**Prompt:**
+
+```
+Pixel art look, three-quarter top-down view like a classic 16-bit adventure game, chunky visible pixels, dark outlines, soft cel shading, warm friendly colours (teal, off-white, warm wood brown, signal orange, soft grey, a little yellow), clean readable shapes. No text, no letters, no numbers, no logos, no watermark, no photorealism, no blur. Friendly, school-appropriate mood. Two views of the same small wall-mounted card reader box in a row, equal size and spacing: left with a red indicator light, right with a green indicator light. Each has a narrow card slot and a tiny dark screen without content. No text, no numbers, no logos. Flat pure magenta background (#FF00FF) without gradient, texture or shadow. Nothing cropped. No ground shadow under the figure.
+```
+
+**Prüfliste:**
+
+- [ ] Zwei Bilder, nur das Lämpchen unterscheidet sich, keine Schrift.
+
+### Nr 40: Zahlenschloss-Tastenfeld
+
+- **Dateiname:** `obj_tastenfeld.png`
+- **Zielordner:** `assets/figuren/`
+- **Verarbeiten mit:** Einzel-Sprite (Art Objekt, Name obj_tastenfeld), Magenta freistellen
+- **Referenzbild anhängen:** keins
+- **Stil:** Tastenfeld mit zwölf leeren Tasten (3 mal 4) und einem leeren dunklen Anzeigefeld darüber. Die Ziffern setzt das Spiel selbst auf die Tasten. Das Spiel zeichnet dieses Objekt zunächst selbst im Code; das Bild ist nur eine schönere Alternative.
+
+**Prompt:**
+
+```
+Pixel art look, three-quarter top-down view like a classic 16-bit adventure game, chunky visible pixels, dark outlines, soft cel shading, warm friendly colours (teal, off-white, warm wood brown, signal orange, soft grey, a little yellow), clean readable shapes. No text, no letters, no numbers, no logos, no watermark, no photorealism, no blur. Friendly, school-appropriate mood. A door keypad with a small empty dark display on top and twelve identical blank rounded keys below in a grid of 3 columns and 4 rows, metal frame, seen straight from the front. The keys carry no numbers and no symbols. No text. Flat pure magenta background (#FF00FF) without gradient, texture or shadow. Nothing cropped. No ground shadow under the figure.
+```
+
+**Prüfliste:**
+
+- [ ] Zwölf Tasten im Raster 3 mal 4, alle leer (keine Ziffern), Anzeige leer.
+
+### Nr 41: Zettel mit Gekritzel
+
+- **Dateiname:** `obj_zettel.png`
+- **Zielordner:** `assets/figuren/`
+- **Verarbeiten mit:** Einzel-Sprite (Art Objekt, Name obj_zettel), Magenta freistellen
+- **Referenzbild anhängen:** keins
+- **Stil:** Kleiner gelber Zettel, leicht schief, mit angedeutetem Gekritzel aus unleserlichen Strichen. Den echten Code schreibt das Spiel darauf. Das Spiel zeichnet dieses Objekt zunächst selbst im Code; das Bild ist nur eine schönere Alternative.
+
+**Prompt:**
+
+```
+Pixel art look, three-quarter top-down view like a classic 16-bit adventure game, chunky visible pixels, dark outlines, soft cel shading, warm friendly colours (teal, off-white, warm wood brown, signal orange, soft grey, a little yellow), clean readable shapes. No text, no letters, no numbers, no logos, no watermark, no photorealism, no blur. Friendly, school-appropriate mood. A small crooked yellow paper note with a few abstract wavy pencil scribble lines on it that do not form letters or numbers, a little tape on the top edge. No readable writing. Flat pure magenta background (#FF00FF) without gradient, texture or shadow. Nothing cropped. No ground shadow under the figure.
+```
+
+**Prüfliste:**
+
+- [ ] Das Gekritzel sieht nicht wie Buchstaben oder Zahlen aus.
+
+### Nr 42: Taschensymbol (Inventar)
+
+- **Dateiname:** `icon_tasche.png`
+- **Zielordner:** `assets/icons/`
+- **Verarbeiten mit:** Einzel-Sprite (Art Icon, Name icon_tasche), Magenta freistellen
+- **Referenzbild anhängen:** keins
+- **Stil:** Kleine Sporttasche in Türkis mit orangem Reißverschluss, Seitenansicht, gut lesbar auch in klein. Das Spiel zeichnet dieses Objekt zunächst selbst im Code; das Bild ist nur eine schönere Alternative.
+
+**Prompt:**
+
+```
+Pixel art look, three-quarter top-down view like a classic 16-bit adventure game, chunky visible pixels, dark outlines, soft cel shading, warm friendly colours (teal, off-white, warm wood brown, signal orange, soft grey, a little yellow), clean readable shapes. No text, no letters, no numbers, no logos, no watermark, no photorealism, no blur. Friendly, school-appropriate mood. A single small icon of a teal gym duffel bag with an orange zipper and a short carrying strap, side view, bold simple shapes, readable at small size. No text, no logo. Flat pure magenta background (#FF00FF) without gradient, texture or shadow. Nothing cropped. No ground shadow under the figure.
+```
+
+**Prüfliste:**
+
+- [ ] Auch klein noch als Tasche erkennbar, keine Schrift.
+
+### Nr 43: Schließfach (zu und offen)
+
+- **Dateiname:** `obj_fach_0.png … obj_fach_1.png`
+- **Zielordner:** `assets/figuren/`
+- **Verarbeiten mit:** Sheet teilen (Spalten 2, Magenta freistellen, Name obj_fach)
+- **Referenzbild anhängen:** keins
+- **Stil:** Ein Schließfach, links geschlossen, rechts mit offener Tür und leerem Inneren. Gleiche Größe, mit Ziffernschloss ohne Ziffern. Das Spiel zeichnet dieses Objekt zunächst selbst im Code; das Bild ist nur eine schönere Alternative.
+
+**Prompt:**
+
+```
+Pixel art look, three-quarter top-down view like a classic 16-bit adventure game, chunky visible pixels, dark outlines, soft cel shading, warm friendly colours (teal, off-white, warm wood brown, signal orange, soft grey, a little yellow), clean readable shapes. No text, no letters, no numbers, no logos, no watermark, no photorealism, no blur. Friendly, school-appropriate mood. Two views of the same small locker door in a row, equal size and spacing: left closed, with a blank keypad lock on the door, right with the door swung open showing an empty teal interior. Teal metal, no numbers, no text, no stickers. Flat pure magenta background (#FF00FF) without gradient, texture or shadow. Nothing cropped. No ground shadow under the figure.
+```
+
+**Prüfliste:**
+
+- [ ] Zwei Bilder: zu und offen, gleiche Größe, keine Ziffern am Schloss.
+
+### Nr 44: Aufkleber (vier Stück)
+
+- **Dateiname:** `obj_aufkleber_0.png … obj_aufkleber_3.png`
+- **Zielordner:** `assets/figuren/`
+- **Verarbeiten mit:** Sheet teilen (Spalten 4, Magenta freistellen, Name obj_aufkleber)
+- **Referenzbild anhängen:** keins
+- **Stil:** Vier runde Aufkleber als Belohnung für Bonusfächer: Stern, Hantel, Reagenzglas, Blitz. Gleiche Größe, ohne Schrift. Das Spiel zeichnet dieses Objekt zunächst selbst im Code; das Bild ist nur eine schönere Alternative.
+
+**Prompt:**
+
+```
+Pixel art look, three-quarter top-down view like a classic 16-bit adventure game, chunky visible pixels, dark outlines, soft cel shading, warm friendly colours (teal, off-white, warm wood brown, signal orange, soft grey, a little yellow), clean readable shapes. No text, no letters, no numbers, no logos, no watermark, no photorealism, no blur. Friendly, school-appropriate mood. Four round sticker badges in one row, same size, equal spacing, each with a thick white outline: (1) a yellow star, (2) a small dumbbell, (3) a test tube with green liquid, (4) an orange lightning bolt. No text, no numbers. Flat pure magenta background (#FF00FF) without gradient, texture or shadow. Nothing cropped. No ground shadow under the figure.
+```
+
+**Prüfliste:**
+
+- [ ] Vier Aufkleber, gleich groß, klarer Abstand, keine Schrift.
+
+## 10. Nachbesserungs-Prompts (kurz, höchstens zweimal pro Bild)
 
 Diese Sätze im selben Chat direkt nach dem unbefriedigenden Bild senden:
 
@@ -875,7 +1012,7 @@ Diese Sätze im selben Chat direkt nach dem unbefriedigenden Bild senden:
 | Stil weicht von der Referenz ab | „Match the attached reference exactly in pixel size, outlines, shading and colour palette.“ |
 | Zu wenig Pixel-Optik | „Make it look more like chunky pixel art: clearly visible pixels, dark outlines, flat cel shading, no soft gradients, no blur.“ |
 
-## 10. Wie die Bilder ins Spiel kommen
+## 11. Wie die Bilder ins Spiel kommen
 
 Das Grafik-Werkzeug starten: `node tools/serve.mjs 4195`, dann `http://localhost:4195/tools/sprite-slicer.html` öffnen. Bild per Ziehen, Einfügen (Strg+V) oder „Datei wählen“ laden, Vorschau prüfen, speichern. Die gespeicherte Datei in den Zielordner legen und `node tools/precache.mjs` ausführen (sonst fehlt sie offline).
 

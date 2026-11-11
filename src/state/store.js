@@ -21,6 +21,7 @@ export function defaultState() {
     taskProgress: {},   // Zwischenstand je Aufgabe: { Niveau, Schritt, richtige Erstversuche } (nur auf dem Gerät)
     pos: null,          // Position der Figur { scene, x, y } (nur auf dem Gerät)
     fontScale: 1,
+    vollbild: false,    // Vollbild war zuletzt an: nach dem Neuladen beim ersten Tippen wieder anfordern (nur auf dem Gerät)
   };
 }
 

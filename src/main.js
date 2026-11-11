@@ -8,6 +8,7 @@ import { drawScene, SHIRTS, SKINS, HAIRS, FIGURE_HEIGHT } from './engine/render.
 import { loadFirst, loadFigureSprites, loadNpcSprite } from './engine/assets.js';
 import { createDialog, fillNames } from './ui/dialog.js';
 import { initStart } from './ui/start.js';
+import { vollbildMoeglich, istVollbild, vollbildAn, umschalten, beiVollbildwechsel } from './ui/vollbild.js';
 import { createEditor, loadEdits } from './engine/editor.js';
 import { createNotebook } from './ui/notebook.js';
 import { createTaskPanel } from './ui/taskpanel.js';
@@ -407,6 +408,36 @@ function wireMenu() {
   });
 }
 
+/** Vollbild: Schalter im Menü, Zustand merken, nach dem Neuladen beim ersten Tippen wieder anfordern. */
+function wireVollbild() {
+  const knopf = $('#btn-vollbild');
+  const hinweis = $('#vollbild-hinweis');
+  if (!vollbildMoeglich()) {
+    // iPhone und ähnliche Browser: kein Vollbild möglich; als App auf dem Home-Bildschirm läuft das Spiel ohne Leisten
+    const app = window.matchMedia && window.matchMedia('(display-mode: standalone), (display-mode: fullscreen)').matches;
+    hinweis.hidden = app;
+    return;
+  }
+  knopf.hidden = false;
+  const zeige = (an) => { knopf.textContent = `Vollbild: ${an ? 'an' : 'aus'}`; knopf.setAttribute('aria-pressed', String(an)); };
+  zeige(istVollbild());
+  knopf.addEventListener('click', async () => {
+    const an = await umschalten();
+    store.state.vollbild = an;
+    store.save();
+    zeige(istVollbild());
+  });
+  beiVollbildwechsel((an) => {
+    zeige(an);
+    if (store.state.vollbild !== an) { store.state.vollbild = an; if (store.hasNames()) store.save(); } // auch Esc des Browsers
+    setTimeout(vp.resize, 100);
+  });
+  // Nach dem Neuladen darf der Browser Vollbild erst nach einer Geste erlauben: beim ersten Tippen nachholen
+  if (store.state.vollbild && store.hasNames() && !istVollbild()) {
+    document.addEventListener('pointerdown', () => { vollbildAn(); }, { once: true, capture: true });
+  }
+}
+
 function registerServiceWorker() {
   if (!('serviceWorker' in navigator)) return;
   const local = ['localhost', '127.0.0.1', '[::1]'].includes(location.hostname);
@@ -436,6 +467,7 @@ async function boot() {
   window.addEventListener('resize', vp.resize);
   window.addEventListener('orientationchange', () => setTimeout(vp.resize, 200));
   wireMenu();
+  wireVollbild();
   registerServiceWorker();
   await loadData();
   buildFallCards();
@@ -466,6 +498,8 @@ async function boot() {
   }
 
   const start = initStart($('#start'), {
+    // Tippen auf „Los geht’s“ / „Weiterspielen“ ist die Geste, die der Browser für Vollbild braucht
+    onGeste: () => { if (vollbildMoeglich()) { store.state.vollbild = true; vollbildAn(); } },
     onNew: async ({ names }) => {
       Object.assign(store.state, { names, shirt: 0, hair: 0, skin: 0 });
       store.save();
