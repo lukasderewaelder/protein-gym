@@ -48,6 +48,7 @@ function mehrfach(host, step, api) {
     const chosen = boxes.map((b, i) => (b.checked ? i : -1)).filter((i) => i >= 0);
     const res = checkMehrfach(step, chosen);
     if (res.reason === 'anzahl') { api.say(`Wähle genau ${step.anzahl} aus.`); return; }
+    if (res.reason === 'fehlt') { api.say('Das stimmt schon, aber es fehlt noch mindestens eine Ursache. Prüfe noch einmal.'); return; }
     if (!res.ok) { api.fail('Mindestens eine Antwort lässt Eiweiß nicht gerinnen. Prüfe noch einmal.'); return; }
     check.disabled = true;
     boxes.forEach((b) => { b.disabled = true; });
@@ -55,7 +56,7 @@ function mehrfach(host, step, api) {
   }
   return {
     reveal() {
-      boxes.forEach((b, i) => { b.checked = step.richtig.slice(0, step.anzahl).includes(i); b.disabled = true; });
+      boxes.forEach((b, i) => { b.checked = (step.alle ? step.richtig : step.richtig.slice(0, step.anzahl)).includes(i); b.disabled = true; });
       check.disabled = true;
     },
   };
@@ -153,7 +154,7 @@ function rueckblick(host, step, api, ctx) {
     h('p', 'frage', 'Zum Schluss ein Rückblick: Am Anfang hast du überlegt, warum Eiklar in der Pfanne fest wird.'),
     h('p', 'frage', vorher ? `Deine Idee damals: „${vorher}“` : 'Du hattest damals keine Idee aufgeschrieben.'),
     h('div', 'muster',
-      h('p', 'muster-text', h('strong', {}, 'Das wissen wir jetzt: '), 'Eiklar wird fest, weil Hitze die räumliche Struktur der Eiweiße zerstört: Das Eiweiß wird denaturiert, man sagt auch, es gerinnt. Die Aminosäuren bleiben, aber der Vorgang ist nicht umkehrbar.')),
+      h('p', 'muster-text', h('strong', {}, 'Das wissen wir jetzt: '), 'Eiklar wird fest, weil Hitze die räumliche Struktur der Eiweiße verändert: Das Eiweiß wird denaturiert, man sagt auch, es stockt oder gerinnt. Die Aminosäuren bleiben, aber der Vorgang ist nicht umkehrbar.')),
     h('button', { class: 'primary', type: 'button', onclick: () => api.ok('Gut. Jetzt bekommst du dein Zertifikat.') }, 'Weiter zum Zertifikat'),
   );
   return { reveal() {} };

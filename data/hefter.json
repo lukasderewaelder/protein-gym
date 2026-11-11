@@ -24,7 +24,7 @@
         {
           "typ": "merksatz",
           "merke": "Denaturieren",
-          "text": "Beim Denaturieren (Gerinnen) verliert ein Eiweiß seine Form: Aus klarem Eiweiß wird festes, weißes Eiweiß. Der Vorgang ist nicht umkehrbar."
+          "text": "Beim Denaturieren (Stocken, Gerinnen) verändert das Eiweiß seine Struktur, es wird z. B. fest. So können z. B. Organismen abgetötet werden. Der Vorgang ist nicht umkehrbar."
         },
         {
           "typ": "text",
@@ -64,7 +64,7 @@
         },
         {
           "typ": "text",
-          "text": "Die Kette eines Proteins ist zu einer festen Form gefaltet, schwache Verbindungen (Wasserstoffbrücken) halten die Falten. Beim Denaturieren lösen Hitze, Säuren, Alkohol oder Schwermetallsalze diese Verbindungen, die Kette entfaltet sich und verklumpt. Die Aminosäuren bleiben erhalten, das Eiweiß verliert seine Wirkung."
+          "text": "Die Kette eines Proteins ist zu einer festen Form gefaltet, schwache Verbindungen (Wasserstoffbrücken) halten die Falten. Beim Denaturieren lösen Hitze, Säuren, Alkohol oder Schwermetallsalze diese Verbindungen, die Kette entfaltet sich und verklumpt. Dabei geht die „aktive“ Form dauerhaft verloren. Zerstört ist das Eiweiß aber nicht: Die Reihenfolge der Aminosäuren in der Kette bleibt erhalten."
         },
         {
           "typ": "auftrag",

@@ -177,7 +177,7 @@ export function denatDiagram() {
     svg.append(svgEl('line', { x1: folded[a][0], y1: folded[a][1], x2: folded[b][0], y2: folded[b][1], stroke: '#9be3b0', 'stroke-width': 2, 'stroke-dasharray': '4 4' }));
   }
   svg.append(svgEl('text', { x: 95, y: 170, 'text-anchor': 'middle', 'font-size': 16, class: 'denat-text' }, 'gefaltet: Struktur intakt'));
-  svg.append(svgEl('text', { x: 432, y: 170, 'text-anchor': 'middle', 'font-size': 16, class: 'denat-text' }, 'entfaltet: Struktur zerstört'));
+  svg.append(svgEl('text', { x: 432, y: 170, 'text-anchor': 'middle', 'font-size': 16, class: 'denat-text' }, 'entfaltet: Form verloren'));
   svg.append(svgEl('line', { x1: 175, y1: 82, x2: 280, y2: 82, stroke: '#f08a24', 'stroke-width': 4 }));
   svg.append(svgEl('polygon', { points: '280,72 298,82 280,92', fill: '#f08a24' }));
   svg.append(svgEl('text', { x: 228, y: 62, 'text-anchor': 'middle', 'font-size': 14, class: 'denat-text' }, 'Hitze, Säure,'));

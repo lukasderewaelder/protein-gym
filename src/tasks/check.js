@@ -156,8 +156,14 @@ export function protokollText({ names, versuch, protokoll, stationen }) {
   return lines.join('\n');
 }
 
-/** Mehrfachwahl: genau `anzahl` Antworten, alle aus der Menge der richtigen. chosen = Indizes. */
+/** Mehrfachwahl: genau `anzahl` Antworten, alle aus der Menge der richtigen. chosen = Indizes.
+ *  Mit `alle: true` müssen genau alle richtigen gewählt sein und nichts Falsches (die Anzahl wird nicht verraten). */
 export function checkMehrfach(step, chosen) {
+  if (step.alle) {
+    if (!chosen.every((i) => step.richtig.includes(i))) return { ok: false, reason: 'falsch' };
+    if (!step.richtig.every((i) => chosen.includes(i))) return { ok: false, reason: 'fehlt' };
+    return { ok: true, reason: null };
+  }
   if (chosen.length !== step.anzahl) return { ok: false, reason: 'anzahl' };
   if (!chosen.every((i) => step.richtig.includes(i))) return { ok: false, reason: 'falsch' };
   return { ok: true, reason: null };

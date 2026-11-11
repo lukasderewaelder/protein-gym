@@ -374,7 +374,7 @@
           {
             "type": "reihenfolge",
             "auftrag": "Wie gerinnt ein Eiweiß? Tippe die Schritte in der richtigen Reihenfolge an.",
-            "korrekt": ["Das Eiweiß hat eine gefaltete Form, schwache Verbindungen in der Kette halten sie.", "Hitze, Säure, Alkohol oder Schwermetallsalz lösen diese Verbindungen.", "Die Kette entfaltet sich, die Form ist zerstört.", "Die entfalteten Ketten verklumpen: Das Eiweiß gerinnt (trüb, fest)."],
+            "korrekt": ["Das Eiweiß hat eine gefaltete Form, schwache Verbindungen in der Kette halten sie.", "Hitze, Säure, Alkohol oder Schwermetallsalz lösen diese Verbindungen.", "Die Kette entfaltet sich, die Form geht verloren.", "Die entfalteten Ketten verklumpen: Das Eiweiß gerinnt (trüb, fest)."],
             "anzeige": [2, 0, 3, 1]
           },
           {
@@ -401,7 +401,7 @@
           {
             "type": "reihenfolge",
             "auftrag": "Wie gerinnt ein Eiweiß? Tippe die Schritte in der richtigen Reihenfolge an.",
-            "korrekt": ["Das Eiweiß hat eine gefaltete Form, schwache Verbindungen in der Kette halten sie.", "Hitze, Säure, Alkohol oder Schwermetallsalz lösen diese Verbindungen.", "Die Kette entfaltet sich, die Form ist zerstört.", "Die entfalteten Ketten verklumpen: Das Eiweiß gerinnt (trüb, fest)."],
+            "korrekt": ["Das Eiweiß hat eine gefaltete Form, schwache Verbindungen in der Kette halten sie.", "Hitze, Säure, Alkohol oder Schwermetallsalz lösen diese Verbindungen.", "Die Kette entfaltet sich, die Form geht verloren.", "Die entfalteten Ketten verklumpen: Das Eiweiß gerinnt (trüb, fest)."],
             "anzeige": [2, 0, 3, 1]
           },
           {
@@ -415,7 +415,7 @@
           {
             "type": "waehlen",
             "frage": "Warum verliert ein Eiweiß beim Gerinnen seine Wirkung?",
-            "optionen": ["Seine Wirkung hängt von der gefalteten Form ab, und die ist zerstört.", "Die Aminosäuren werden zu Zucker.", "Es bekommt plötzlich zu viel Wasser.", "Es wird durch das Erhitzen schwerer."],
+            "optionen": ["Seine Wirkung hängt von der gefalteten Form ab, und die geht verloren.", "Die Aminosäuren werden zu Zucker.", "Es bekommt plötzlich zu viel Wasser.", "Es wird durch das Erhitzen schwerer."],
             "richtig": 0,
             "erklaerung": "Nur mit der richtigen Form kann ein Eiweiß seine Aufgabe erfüllen."
           },
@@ -435,7 +435,7 @@
           {
             "type": "reihenfolge",
             "auftrag": "Wie gerinnt ein Eiweiß? Tippe die Schritte in der richtigen Reihenfolge an.",
-            "korrekt": ["Das Eiweiß hat eine gefaltete Form, schwache Verbindungen in der Kette halten sie.", "Hitze, Säure, Alkohol oder Schwermetallsalz lösen diese Verbindungen.", "Die Kette entfaltet sich, die Form ist zerstört.", "Die entfalteten Ketten verklumpen: Das Eiweiß gerinnt (trüb, fest)."],
+            "korrekt": ["Das Eiweiß hat eine gefaltete Form, schwache Verbindungen in der Kette halten sie.", "Hitze, Säure, Alkohol oder Schwermetallsalz lösen diese Verbindungen.", "Die Kette entfaltet sich, die Form geht verloren.", "Die entfalteten Ketten verklumpen: Das Eiweiß gerinnt (trüb, fest)."],
             "anzeige": [2, 0, 3, 1]
           },
           {
@@ -449,7 +449,7 @@
           {
             "type": "waehlen",
             "frage": "Warum verliert ein Eiweiß beim Gerinnen seine Wirkung?",
-            "optionen": ["Seine Wirkung hängt von der gefalteten Form ab, und die ist zerstört.", "Die Aminosäuren werden zu Zucker.", "Es bekommt plötzlich zu viel Wasser.", "Es wird durch das Erhitzen schwerer."],
+            "optionen": ["Seine Wirkung hängt von der gefalteten Form ab, und die geht verloren.", "Die Aminosäuren werden zu Zucker.", "Es bekommt plötzlich zu viel Wasser.", "Es wird durch das Erhitzen schwerer."],
             "richtig": 0,
             "erklaerung": "Nur mit der richtigen Form kann ein Eiweiß seine Aufgabe erfüllen."
           },
@@ -1205,32 +1205,35 @@
             "zaehlt": true,
             "frage": "Was passiert beim Gerinnen (Denaturieren) eines Eiweißes?",
             "optionen": [
-              "Die räumliche Struktur wird zerstört, die Aminosäuren bleiben.",
+              "Die „aktive“ Form geht dauerhaft verloren, die Reihenfolge der Aminosäuren (Kette) bleibt.",
               "Die Aminosäuren verschwinden.",
               "Das Eiweiß wird zu Zucker.",
               "Es wird wieder klar, wenn es abkühlt."
             ],
             "richtig": 0,
-            "erklaerung": "Die gefaltete Form geht verloren, die Ketten verklumpen. Die Aminosäuren bleiben, und das Gerinnen ist nicht umkehrbar."
+            "erklaerung": "Das Eiweiß verliert dauerhaft seine gefaltete, „aktive“ Form, die Ketten verklumpen. Zerstört ist es aber nicht: Die Reihenfolge der Aminosäuren bleibt. Rückgängig machen lässt sich das Gerinnen nicht."
           },
           {
             "type": "mehrfach",
             "zaehlt": true,
-            "frage": "Nenne zwei Dinge, die Eiweiß gerinnen (denaturieren) lassen. Wähle zwei aus.",
+            "frage": "Wähle alle Ursachen aus, die Eiweiß gerinnen (denaturieren) lassen.",
             "optionen": [
-              "Hitze",
+              "Kälte",
+              "Säuren",
               "Wasser",
-              "Säure",
+              "Hitze",
               "Zucker",
-              "Alkohol"
+              "Ethanol",
+              "Schwermetalle"
             ],
             "richtig": [
-              0,
-              2,
-              4
+              1,
+              3,
+              5,
+              6
             ],
-            "anzahl": 2,
-            "erklaerung": "Eiweiße gerinnen durch Hitze, Säuren, Alkohol und Schwermetallsalze."
+            "alle": true,
+            "erklaerung": "Eiweiße gerinnen durch Säuren, Hitze, Ethanol und Schwermetalle (zum Beispiel Kupfersalze). Kälte, Wasser und Zucker lassen sie unverändert."
           },
           {
             "type": "waehlen",

@@ -69,7 +69,7 @@
         "Ein Protein ist eine lange Kette aus Aminosäuren. Die Kette ist zu einer festen Form gefaltet, ähnlich wie ein verknäultes Wollband.",
         "Schwache Verbindungen (Wasserstoffbrücken) halten die Falten zusammen.",
         "Hitze, Säuren, Alkohol und Schwermetallsalze lösen diese Verbindungen: Die Kette entfaltet sich und verklumpt. Das Eiweiß gerinnt.",
-        "Die Aminosäuren selbst bleiben erhalten. Aber ohne die richtige Form kann das Eiweiß nicht mehr wirken."
+        "Die Aminosäuren selbst bleiben erhalten, auch ihre Reihenfolge in der Kette. Zerstört ist das Eiweiß also nicht. Aber ohne die richtige Form verliert es dauerhaft seine „aktive“ Form und kann nicht mehr wirken."
       ],
       "fuss": "So erklärt sich der Fall"
     },
@@ -105,7 +105,7 @@
         "Probe: Eiklar (Eiweiß)",
         "Hinweis: Kühl lagern, nicht in die Wärme stellen.",
         "Form: Ein Eiweiß hat eine feste Form. Sie sorgt dafür, dass es seine Aufgabe erfüllen kann.",
-        "Begriff: Geht die Form verloren, nennt man das denaturieren. Im Alltag sagt man: Das Eiweiß gerinnt oder flockt aus.",
+        "Begriff: Geht die Form verloren, nennt man das denaturieren. Im Alltag sagt man: Das Eiweiß stockt, gerinnt oder flockt aus.",
         "Befund: Aus klarem, flüssigem Eiklar wird weißes, festes Eiweiß. Es ist nicht verschwunden, nur verändert. Nicht umkehrbar."
       ],
       "fuss": "GEPRÜFT"
@@ -169,7 +169,7 @@
         "1. Pfanne erhitzen, das Ei hineingleiten lassen.",
         "2. Das klare Eiklar wird weiß und fest: Das Eiweiß gerinnt.",
         "3. Aus dem gebratenen Ei wird nie wieder klares Eiklar.",
-        "Warum? Die Form des Eiweißes ist zerstört, und sie kommt nicht von allein zurück. Das Gerinnen ist nicht umkehrbar."
+        "Warum? Die Form des Eiweißes ist verloren, und sie kommt nicht von allein zurück. Das Gerinnen ist nicht umkehrbar."
       ],
       "fuss": "Küchentipp: Aus Spiegelei wird nie wieder rohes Ei."
     },

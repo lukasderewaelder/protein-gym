@@ -106,8 +106,12 @@ test('Auflösung: vier gewertete Fragen, Verdächtigen-Wahl, Rückblick, genaue 
 test('Quiz-Antworten entsprechen den Lernzielen', () => {
   const s = A.aufgaben.quiz.niveaus.alle;
   assert.match(s[0].optionen[s[0].richtig], /Protein und Eiweiß sind dasselbe, und Aminosäuren sind die Bausteine/);
-  assert.match(s[1].optionen[s[1].richtig], /Struktur wird zerstört, die Aminosäuren bleiben/);
-  assert.deepEqual(s[2].richtig.map((i) => s[2].optionen[i]).sort(), ['Alkohol', 'Hitze', 'Säure']);
+  assert.match(s[1].optionen[s[1].richtig], /„aktive“ Form geht dauerhaft verloren.*Reihenfolge der Aminosäuren/);
+  assert.match(s[2].frage, /Wähle alle Ursachen aus/);
+  assert.equal(s[2].alle, true);
+  assert.deepEqual(s[2].richtig.map((i) => s[2].optionen[i]).sort(), ['Ethanol', 'Hitze', 'Schwermetalle', 'Säuren']);
+  for (const falsch of ['Kälte', 'Wasser', 'Zucker']) assert.ok(s[2].optionen.includes(falsch) && !s[2].richtig.includes(s[2].optionen.indexOf(falsch)), falsch);
+  assert.doesNotMatch(s[2].frage, /Auslöser/);
   assert.match(s[3].optionen[s[3].richtig], /einzelner Baustein.*lange Kette/);
   assert.doesNotMatch(JSON.stringify(s), /Biuret/, 'der Nachweis wird erst nach der Auflösung geprüft und im Schlussquiz abgefragt');
 });
@@ -131,6 +135,29 @@ test('Mehrfachwahl: Anzahl und Richtigkeit', () => {
   assert.equal(checkMehrfach(step, [0, 1]).reason, 'falsch');
   assert.equal(checkMehrfach(step, [2, 4]).ok, true);
   assert.equal(checkMehrfach(step, [0, 2, 4]).reason, 'anzahl');
+});
+
+test('Mehrfachwahl „alle auswählen“: nur die vollständige Menge zählt, die Anzahl wird nicht verraten', () => {
+  const step = { richtig: [1, 3, 5, 6], alle: true };
+  assert.equal(checkMehrfach(step, [1, 3, 5, 6]).ok, true);
+  assert.equal(checkMehrfach(step, [6, 5, 3, 1]).ok, true, 'Reihenfolge egal');
+  assert.equal(checkMehrfach(step, [1, 3, 5]).reason, 'fehlt');
+  assert.equal(checkMehrfach(step, [1, 3, 5, 6, 0]).reason, 'falsch');
+  assert.equal(checkMehrfach(step, []).reason, 'fehlt');
+});
+
+test('Denaturieren: Hefter und Quiz sagen „verändert, nicht zerstört“, die Kette bleibt (Eintrag 2)', () => {
+  const m = H.eintraege[0].teile.find((t) => t.typ === 'merksatz');
+  assert.equal(m.merke, 'Denaturieren');
+  assert.match(m.text, /Stocken, Gerinnen/);
+  assert.match(m.text, /verändert das Eiweiß seine Struktur, es wird z\. B\. fest/);
+  assert.match(m.text, /Organismen abgetötet/);
+  assert.match(m.text, /nicht umkehrbar/);
+  const e2 = JSON.stringify(H.eintraege[1].teile);
+  assert.match(e2, /„aktive“ Form dauerhaft verloren/);
+  assert.match(e2, /Reihenfolge der Aminosäuren in der Kette bleibt erhalten/);
+  assert.doesNotMatch(JSON.stringify(H.eintraege[0].teile), /Reihenfolge der Aminosäuren|Kette/, 'die Kette kommt erst nach der Trainingsfläche (Eintrag 2)');
+  assert.equal(H.eintraege.flatMap((e) => e.teile).filter((t) => t.typ === 'merksatz').length, 2, 'nur Denaturieren und Aminosäuren sind Merksätze');
 });
 
 test('Hefter: drei Einträge, frei nach Raum, nur Wichtiges als Merksatz, Lehrbuch-Verweis im Abschreibauftrag', () => {

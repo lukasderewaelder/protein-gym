@@ -2,7 +2,7 @@
   "begriffe": [
     { "begriff": "Protein = Eiweiß", "ab": "k_protein", "text": "Zwei Wörter für denselben Stoff. „Protein“ ist das Fremdwort, „Eiweiß“ das deutsche Wort." },
     { "begriff": "Aminosäure", "ab": "k_bauplan", "text": "Baustein (Monomer) der Proteine (Eiweiße). Es gibt etwa 20 verschiedene Sorten. Alle haben dasselbe Grundgerüst, nur der Rest R ist verschieden. Viele Aminosäuren verbinden sich unter Wasserabspaltung zu einer langen Kette, dem Protein (Polymer)." },
-    { "begriff": "Denaturieren (Gerinnen)", "ab": "k_denat", "text": "Ein Eiweiß hat eine feste Form. Beim Denaturieren geht diese Form verloren: Das Eiweiß gerinnt oder flockt aus und wird fest. Der Vorgang lässt sich nicht rückgängig machen." },
+    { "begriff": "Denaturieren (Gerinnen)", "ab": "k_denat", "text": "Ein Eiweiß hat eine feste Form. Beim Denaturieren geht diese Form dauerhaft verloren: Das Eiweiß stockt, gerinnt oder flockt aus und wird fest. Der Vorgang lässt sich nicht rückgängig machen." },
     { "begriff": "Was Eiweiß gerinnen lässt", "ab": "k_ausloeser", "text": "Hitze (ab etwa 60 Grad), Säuren, Alkohol und Schwermetallsalze (zum Beispiel Kupfersulfat) lassen Eiweiß denaturieren, also gerinnen." },
     { "begriff": "Biuret-Nachweis", "ab": "k_biuret", "text": "Nachweis für Eiweiß: Probe mit Natronlauge und Kupfersulfat-Lösung (Fehling I) versetzen. Eine Violettfärbung zeigt Eiweiß an." },
     { "begriff": "Räumliche Struktur", "ab": "k_struktur", "text": "Die gefaltete Form eines Eiweißes. Schwache Verbindungen (Wasserstoffbrücken) halten die Falten zusammen. Hitze, Säuren, Alkohol und Schwermetallsalze lösen diese Verbindungen: Das Eiweiß gerinnt." },
