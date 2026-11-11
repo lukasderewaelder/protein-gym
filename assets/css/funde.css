@@ -143,7 +143,7 @@ dialog#fund::backdrop { background: rgba(0, 0, 0, 0.62); }
 .fund.protokoll { background: #f3ead6 url("../funde/fund_formular.webp") center / cover no-repeat; font-family: var(--schreibmaschine); border: 1px solid #b09a74; }
 .fund.protokoll .fund-kopf { text-transform: uppercase; letter-spacing: 0.08em; border-bottom: 2px solid #333; padding-bottom: 6px; font-size: 1.05em; }
 .fund-frage, .fund-antwort { margin: 6px 0; }
-.fund-frage b, .fund-antwort b { display: inline-block; min-width: 4.6em; font-size: 0.78em; text-transform: uppercase; letter-spacing: 0.06em; }
+.fund-frage b, .fund-antwort b { display: inline-block; min-width: 6.4em; margin-right: 0.4em; font-size: 0.78em; text-transform: uppercase; letter-spacing: 0.06em; }
 .fund-antwort { margin-left: 18px; color: #1a3a7a; }
 .fund.protokoll .fund-fuss { margin-top: 16px; padding-top: 8px; border-top: 1px solid #333; font-family: var(--hand); font-style: italic; }
 

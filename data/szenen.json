@@ -61,7 +61,7 @@
         { "id": "nachweis", "label": "Nachweis-Station", "type": "task", "x": 1160, "y": 580, "r": 90, "dialog": "labor.nachweis", "task": "labor_menu" },
         { "id": "kuehlschrank", "label": "Kühlschrank", "type": "dialog", "x": 1165, "y": 335, "r": 80, "karte": "k_denat" },
         { "id": "plakat", "label": "Plakat: Nachweise", "type": "dialog", "x": 545, "y": 315, "r": 70, "karte": "k_biuret" },
-        { "id": "kurt", "label": "Kupfer-Kurt", "type": "npc", "x": 700, "y": 640, "r": 80, "karte": "k_ausloeser", "color": "#c97b3c" },
+        { "id": "kurt", "label": "Kupfer-Kurt", "type": "npc", "x": 700, "y": 640, "r": 80, "dialog": "labor.kurt", "karte": "k_ausloeser", "color": "#c97b3c" },
         { "id": "schrank", "label": "Chemikalienschrank", "type": "dialog", "x": 350, "y": 330, "r": 70, "karte": "f_labor" },
         { "id": "zettel_2", "label": "Zettel", "type": "dialog", "x": 520, "y": 790, "r": 55, "aktion": "zettel", "zettel": 2 },
         { "id": "tuer_zurueck", "label": "Zum Empfang", "type": "door", "x": 768, "y": 850, "r": 90, "to": "empfang" }

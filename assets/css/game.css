@@ -106,7 +106,7 @@ dialog#notebook, dialog#info {
 }
 dialog#notebook::backdrop, dialog#info::backdrop { background: rgba(0, 0, 0, 0.6); }
 
-/* Spind: Innenseite der Spindtür = Ermittlungszentrale, Querformat */
+/* Spind: Innenseite der Spindtür, Querformat */
 dialog#notebook {
   width: min(1120px, calc(100% - 24px)); max-height: calc(100dvh - 24px); padding: 0; overflow: hidden;
   border: 6px solid #2c4048; border-radius: 12px;

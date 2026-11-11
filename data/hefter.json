@@ -20,7 +20,7 @@
         },
         {
           "typ": "merksatz",
-          "text": "Beim Denaturieren (Gerinnen) verliert ein Eiweiß seine Form: Aus klarem Eiweiß wird festes, weißes Eiweiß. Auslöser sind Hitze, Säuren, Alkohol und Schwermetallsalze. Der Vorgang ist nicht umkehrbar."
+          "text": "Beim Denaturieren (Gerinnen) verliert ein Eiweiß seine Form: Aus klarem Eiweiß wird festes, weißes Eiweiß. Hitze (ab etwa 60 Grad), Säuren, Alkohol und Schwermetallsalze lassen Eiweiß denaturieren. Der Vorgang ist nicht umkehrbar."
         },
         {
           "typ": "auftrag",
@@ -28,11 +28,11 @@
         },
         {
           "typ": "merksatz",
-          "text": "Biuret-Nachweis: Die Probe wird mit Natronlauge und Kupfersulfat-Lösung versetzt. Eine Violettfärbung zeigt Eiweiß an."
+          "text": "Biuret-Nachweis: Die Probe wird mit Natronlauge und Kupfersulfat-Lösung (Fehling I) versetzt. Eine Violettfärbung zeigt Eiweiß an."
         },
         {
           "typ": "auftrag",
-          "text": "Übernimm die Versuchstabelle aus deinem Protokoll in den Hefter: Probe, Zusatz, Beobachtung. (Spind und Protokoll im Labor)"
+          "text": "Übernimm die Versuchstabelle aus deinem Protokoll in den Hefter: Probe, Einfluss, Beobachtung. (Spind und Protokoll im Labor)"
         },
         {
           "typ": "hinweis",

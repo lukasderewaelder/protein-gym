@@ -103,7 +103,7 @@ test('Fachkerne bleiben in den umformulierten Funden erhalten', () => {
   assert.match(text('k_protein'), /Protein = Eiweiß/);
   assert.match(text('k_bauplan'), /Aminosäuren sind die Bausteine der Proteine/);
   assert.match(text('k_denat'), /gerinnt/);
-  assert.match(text('k_ausloeser'), /Hitze, Säuren, Alkohol und Schwermetallsalze/);
+  assert.match(text('k_ausloeser'), /Hitze \(ab etwa 60 Grad\) lässt Eiweiß denaturieren.*Säuren.*Alkohol.*Schwermetallsalze/s);
   assert.match(text('k_biuret'), /Violett = Eiweiß/);
   assert.match(text('z_ninhydrin'), /Ninhydrin weist Aminosäuren nach/);
   assert.match(text('k_umkehr'), /nicht umkehrbar/);

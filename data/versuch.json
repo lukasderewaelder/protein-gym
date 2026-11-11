@@ -2,8 +2,8 @@
   "freigabeCode": "4711",
   "hinweisCode": "Der Code steht im Quelltext und ist nur eine Hürde für die Klasse, keine Sicherheitsfreigabe. Die Sicherheitsunterweisung und die Gefährdungsbeurteilung gelten unabhängig vom Spiel.",
   "sicherheit": [
-    "Schutzbrille und Handschuhe tragen.",
-    "Natronlauge ist ätzend, Kupfersulfat gesundheitsschädlich, Ethanol leicht entzündlich. Die Einstufung und die Gefährdungsbeurteilung deiner Schule gelten.",
+    "Kittel und Schutzbrille tragen.",
+    "Natronlauge ist ätzend, Salzsäure je nach Konzentration reizend bis ätzend, Kupfersulfat-Lösung (Fehling I) gesundheitsschädlich, Ethanol leicht entzündlich. Die Einstufung und die Gefährdungsbeurteilung deiner Schule gelten.",
     "Ethanol nur in kleinen Mengen und nur von der Lehrkraft, keine offene Flamme in der Nähe.",
     "Kupferhaltige Lösungen gehören in den Sammelbehälter, nicht in den Ausguss.",
     "Tablet trocken halten und beim Versuch zur Seite legen."
@@ -14,26 +14,30 @@
     "id": "A",
     "name": "Hitze-Station",
     "titel": "Denaturierung von Eiklar",
+    "spalte": "Einfluss",
+    "regel": "In jedes Glas kommt nur ein Versuch.",
     "zeit": "ca. 8 Minuten",
     "vermutungOptionen": ["klar", "trüb oder fest"],
     "proben": [
-      { "id": "p1", "nr": 1, "zusatz": "Hitze im Wasserbad", "erwartung": "trüb, fest", "passt": ["trüb", "trüb und fest", "ausgeflockt", "geronnen"], "sim": { "farbe": "#f4efe0", "flocken": 0, "trueb": 1 } },
-      { "id": "p2", "nr": 2, "zusatz": "Essigsäure", "erwartung": "trüb, ausgeflockt", "passt": ["trüb", "trüb und fest", "ausgeflockt", "geronnen"], "sim": { "farbe": "#efeadb", "flocken": 7, "trueb": 0.6 } },
-      { "id": "p3", "nr": 3, "zusatz": "Kupfersulfat-Lösung (Schwermetallsalz)", "erwartung": "ausgeflockt", "passt": ["trüb", "ausgeflockt", "trüb und fest", "geronnen"], "sim": { "farbe": "#c8e3e8", "flocken": 9, "trueb": 0.4 } },
-      { "id": "p4", "nr": 4, "zusatz": "Ethanol", "erwartung": "trüb, ausgeflockt", "passt": ["trüb", "trüb und fest", "ausgeflockt", "geronnen"], "sim": { "farbe": "#f1ecdd", "flocken": 6, "trueb": 0.7 } },
-      { "id": "p5", "nr": 5, "zusatz": "Wasser (Kontrolle)", "erwartung": "klar", "passt": ["klar"], "sim": { "farbe": "#e6f1f5", "flocken": 0, "trueb": 0 } }
+      { "id": "p1", "nr": 1, "einfluss": "Hitze im Wasserbad", "erwartung": "trüb, fest", "passt": ["trüb", "trüb und fest", "ausgeflockt", "geronnen"], "sim": { "farbe": "#f4efe0", "flocken": 0, "trueb": 1 } },
+      { "id": "p2", "nr": 2, "einfluss": "Salzsäure", "erwartung": "trüb, ausgeflockt", "passt": ["trüb", "trüb und fest", "ausgeflockt", "geronnen"], "sim": { "farbe": "#efeadb", "flocken": 9, "trueb": 0.7 } },
+      { "id": "p3", "nr": 3, "einfluss": "Kupfersulfat-Lösung (Fehling I)", "erwartung": "ausgeflockt", "passt": ["trüb", "ausgeflockt", "trüb und fest", "geronnen"], "sim": { "farbe": "#c8e3e8", "flocken": 9, "trueb": 0.4 } },
+      { "id": "p4", "nr": 4, "einfluss": "Ethanol", "erwartung": "trüb, ausgeflockt", "passt": ["trüb", "trüb und fest", "ausgeflockt", "geronnen"], "sim": { "farbe": "#f1ecdd", "flocken": 6, "trueb": 0.7 } },
+      { "id": "p5", "nr": 5, "einfluss": "Wasser (Kontrolle)", "erwartung": "klar", "passt": ["klar"], "sim": { "farbe": "#e6f1f5", "flocken": 0, "trueb": 0 } }
     ]
   },
   "stationB": {
     "id": "B",
     "name": "Nachweis-Station",
     "titel": "Biuret-Nachweis",
+    "spalte": "Inhalt",
+    "regel": "In jedes Glas kommt nur eine Probe und nur dieser eine Nachweis: Natronlauge, dann Kupfersulfat-Lösung (Fehling I).",
     "zeit": "ca. 6 Minuten",
     "vermutungOptionen": ["violett", "nicht violett"],
     "proben": [
-      { "id": "b1", "nr": 1, "zusatz": "Eiklarlösung", "erwartung": "violett", "passt": ["violett"], "sim": { "farbe": "#8f5cc0", "flocken": 0, "trueb": 0 } },
-      { "id": "b2", "nr": 2, "zusatz": "Wasser", "erwartung": "hellblau, kein Violett", "passt": ["hellblau", "klar", "blau (kein Violett)"], "sim": { "farbe": "#9fd0f0", "flocken": 0, "trueb": 0 } },
-      { "id": "b3", "nr": 3, "zusatz": "Zuckerlösung", "erwartung": "kein Violett (blau)", "passt": ["blau (kein Violett)", "hellblau", "klar"], "sim": { "farbe": "#5a86d0", "flocken": 0, "trueb": 0 } }
+      { "id": "b1", "nr": 1, "probe": "Eiklarlösung", "erwartung": "violett", "passt": ["violett"], "sim": { "farbe": "#8f5cc0", "flocken": 0, "trueb": 0 } },
+      { "id": "b2", "nr": 2, "probe": "Wasser", "erwartung": "hellblau, kein Violett", "passt": ["hellblau", "klar", "blau (kein Violett)"], "sim": { "farbe": "#9fd0f0", "flocken": 0, "trueb": 0 } },
+      { "id": "b3", "nr": 3, "probe": "Zuckerlösung", "erwartung": "kein Violett (blau)", "passt": ["blau (kein Violett)", "hellblau", "klar"], "sim": { "farbe": "#5a86d0", "flocken": 0, "trueb": 0 } }
     ]
   }
 }

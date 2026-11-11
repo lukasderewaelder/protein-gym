@@ -1,10 +1,11 @@
-// Schritt-Typen für das Labor (Aufgabe 4): Vermutung, Planung, Simulation, Versuchshinweis, Beobachtung, Export.
+// Schritt-Typen für das Labor (Aufgabe 4): Vermutung, Planung, Versuchshinweis, Beobachtung, Export.
+// „simulation“ (virtueller Versuch) ist noch da, wird aber nicht mehr eingesetzt: der Versuch wird bei der Lehrkraft in echt gemacht.
 // Das Tablet bereitet den echten Versuch vor und wertet ihn aus. Beobachtungen werden nie als „falsch" bewertet,
 // die Erwartung des Skripts dient nur zum Vergleich.
 
 import { h } from '../ui/dom.js';
 import { svgEl } from './molecule.js';
-import { beobachtungPasst, reihenfolge, alleProben, protokollText } from './check.js';
+import { beobachtungPasst, reihenfolge, alleProben, protokollText, probenName } from './check.js';
 
 function protokoll(ctx) {
   if (!ctx.store.state.protokoll) ctx.store.state.protokoll = {};
@@ -38,7 +39,7 @@ function vermutung(host, step, api, ctx) {
       pressed.push(btns);
       const warum = h('input', { type: 'text', class: 'warum', maxlength: '120', placeholder: 'Warum? (freiwillig)', 'aria-label': `Begründung für Probe ${pr.nr}`, value: cur.warum });
       warum.addEventListener('input', () => { cur.warum = warum.value; ctx.store.save(); });
-      host.append(h('div', 'probe', h('strong', {}, `Probe ${pr.nr}: ${pr.zusatz}`), h('div', 'zeile', btns), warum));
+      host.append(h('div', 'probe', h('strong', {}, `Probe ${pr.nr}: ${probenName(pr)}`), h('div', 'zeile', btns), warum));
     }
   }
   pruefe();
@@ -47,7 +48,7 @@ function vermutung(host, step, api, ctx) {
 
 function anleitung(host, step, api) {
   const boxes = step.schritte.map((s, i) => h('input', { type: 'checkbox', id: `as${i}`, onchange: pruefe }));
-  function pruefe() { if (boxes.every((b) => b.checked)) api.ok('Alle Schritte gelesen. Du kannst jetzt die Simulation ausprobieren.'); }
+  function pruefe() { if (boxes.every((b) => b.checked)) api.ok('Alle Schritte gelesen. Jetzt geht es zum echten Versuch.'); }
   host.append(
     h('p', 'frage', step.auftrag),
     h('ul', 'checkliste', step.schritte.map((s, i) => h('li', {}, h('label', {}, boxes[i], ` ${i + 1}. ${s}`)))),
@@ -105,8 +106,8 @@ function simulation(host, step, api, ctx) {
   const v = ctx.versuch;
   const done = new Set();
   const racks = [
-    { st: v.stationA, start: '#dfeef4', tasteA: 'Zusatz geben' },
-    { st: v.stationB, start: '#e6f1f5', tasteA: 'Reagenz geben' },
+    { st: v.stationA, start: '#dfeef4', tasteA: 'Einwirken lassen' },
+    { st: v.stationB, start: '#e6f1f5', tasteA: 'Nachweis machen' },
   ];
   const area = h('div', 'rack');
   let cur = 0;
@@ -124,7 +125,7 @@ function simulation(host, step, api, ctx) {
       return h('div', 'tube-karte',
         tubeSvg(pr, on, r.start),
         h('strong', {}, `Probe ${pr.nr}`),
-        h('span', {}, pr.zusatz),
+        h('span', {}, probenName(pr)),
         h('button', { type: 'button', onclick: () => { if (on) done.delete(pr.id); else done.add(pr.id); render(); } }, on ? 'Zurücksetzen' : r.tasteA),
         h('span', { class: 'tube-ergebnis', 'aria-live': 'polite' }, on ? `Skript: ${pr.erwartung}` : ''),
       );
@@ -135,11 +136,16 @@ function simulation(host, step, api, ctx) {
 }
 
 function versuch(host, step, api, ctx) {
+  const stationen = [ctx.versuch.stationA, ctx.versuch.stationB].map((st) => h('div', 'probe',
+    h('strong', {}, `${st.name}: ${st.titel}`),
+    h('p', 'hint', st.regel || ''),
+    h('ul', {}, st.proben.map((pr) => h('li', {}, `Glas ${pr.nr}: ${probenName(pr)}`)))));
   host.append(
-    h('p', 'frage', 'Jetzt kommt der echte Versuch am Tisch. Lege das Tablet trocken zur Seite.'),
+    h('p', 'frage', 'Jetzt geht es zu deiner Lehrkraft: Dort machst du den Versuch in echt. Lege das Tablet trocken zur Seite.'),
+    ...stationen,
     h('h3', {}, 'Sicherheit'),
     h('ul', {}, ctx.versuch.sicherheit.map((s) => h('li', {}, s))),
-    h('p', 'hint', `Zeit: ${ctx.versuch.stationA.name} ${ctx.versuch.stationA.zeit}, ${ctx.versuch.stationB.name} ${ctx.versuch.stationB.zeit}. Die Lehrkraft stellt Probe 1 im Wasserbad vorab bereit, um Zeit zu sparen.`),
+    h('p', 'hint', `Zeit: ${ctx.versuch.stationA.name} ${ctx.versuch.stationA.zeit}, ${ctx.versuch.stationB.name} ${ctx.versuch.stationB.zeit}. Die Lehrkraft stellt Glas 1 im Wasserbad vorab bereit, um Zeit zu sparen.`),
     h('button', { class: 'primary', type: 'button', onclick: () => api.ok('Versuch beendet. Jetzt trägst du deine Beobachtungen ein.') }, 'Versuch fertig: zum Protokoll'),
   );
   return { reveal() {} };
@@ -164,7 +170,7 @@ function beobachtung(host, step, api, ctx) {
     const notiz = h('input', { type: 'text', class: 'warum', maxlength: '120', placeholder: 'Notiz (freiwillig)', 'aria-label': `Notiz zu Probe ${pr.nr}`, value: cur.notiz });
     notiz.addEventListener('input', () => { cur.notiz = notiz.value; ctx.store.save(); });
     host.append(h('div', 'probe',
-      h('strong', {}, `${pr.station.name}, Probe ${pr.nr}: ${pr.zusatz}`),
+      h('strong', {}, `${pr.station.name}, Probe ${pr.nr}: ${probenName(pr)}`),
       vm ? h('span', 'hint', `Du vermutetest: ${vm}`) : null,
       h('div', 'chips', btns), notiz));
   }
@@ -179,7 +185,7 @@ function beobachtung(host, step, api, ctx) {
       const zeilen = alle.map((pr) => {
         const w = p.beobachtung[pr.id].wahl;
         const passt = beobachtungPasst(pr, w);
-        return h('li', {}, `Probe ${pr.nr} (${pr.zusatz}): Du: ${w}. Skript: ${pr.erwartung}. ${passt ? '✓ passt' : '≠ weicht ab'}`);
+        return h('li', {}, `Probe ${pr.nr} (${probenName(pr)}): Du: ${w}. Skript: ${pr.erwartung}. ${passt ? '✓ passt' : '≠ weicht ab'}`);
       });
       const abw = alle.some((pr) => !beobachtungPasst(pr, p.beobachtung[pr.id].wahl));
       result.hidden = false;

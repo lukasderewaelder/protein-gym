@@ -16,19 +16,19 @@
         "zeilen": [
           "F: Wer hat in der Nacht an den Chemikalien gearbeitet?",
           "A: Niemand. Das Siegel am Kupfersulfat-Behälter ist unbeschädigt.",
-          "F: Was heißt das für Kupfer-Kurt?",
-          "A: Er hat nichts angerührt. Sein Verdacht ist damit entkräftet."
+          "F: Und was hat Kupfer-Kurt gemacht?",
+          "A: Nur seine Runde, mehr nicht. Den Schrank hat er nicht aufgemacht."
         ],
-        "fuss": "Alibi für Kupfer-Kurt"
+        "fuss": "Siegel unbeschädigt"
       },
       "beweis": {
         "zeilen": [
           "F: Wer hat in der Nacht an den Chemikalien gearbeitet?",
           "A: Jemand war am Schrank. Das Siegel am Kupfersulfat-Behälter ist aufgebrochen.",
           "F: Wer hat den Schlüssel?",
-          "A: Kupfer-Kurt. Und der war erstaunlich nervös."
+          "A: Kupfer-Kurt. Er wirkte ziemlich nervös."
         ],
-        "fuss": "Belastet Kupfer-Kurt"
+        "fuss": "Siegel aufgebrochen"
       }
     },
     "sauna": {
@@ -42,7 +42,7 @@
           "Fundort: Wandlampe mit Schaltuhr",
           "Befund: Der Ofen war die ganze Nacht aus.",
           "Ergebnis: Die Sauna war kalt, als der Vorrat gerann.",
-          "Hinweis: Das entlastet Hitze-Hannes."
+          "Hinweis: Den Ofen schaltet nur Hitze-Hannes ein."
         ],
         "fuss": "GEPRÜFT"
       },
@@ -51,7 +51,7 @@
           "Fundort: Wandlampe mit Schaltuhr",
           "Befund: Der Ofen lief die ganze Nacht auf höchster Stufe.",
           "Ergebnis: Die Wärme zog bis in den Vorratsraum.",
-          "Hinweis: Das belastet Hitze-Hannes."
+          "Hinweis: Den Ofen schaltet nur Hitze-Hannes ein."
         ],
         "fuss": "AUFFÄLLIG"
       }
@@ -67,7 +67,7 @@
           "Bereich: Empfang und Trainingsfläche",
           "Aufgabe: Gerätegriffe abwischen.",
           "Hinweis: Desi hat nur die Geräte abgewischt und nichts in der Kühlvitrine angerührt.",
-          "Befund: Das entlastet Desi."
+          "Befund: Die Kühlvitrine steht nicht auf diesem Plan."
         ],
         "fuss": "ABGEHAKT"
       },
@@ -76,7 +76,7 @@
           "Bereich: Kühlvitrine in der Shake-Bar",
           "Aufgabe: Mit Desinfektionsmittel einsprühen.",
           "Hinweis: Desi hat die Vitrine gestern Abend selbst desinfiziert.",
-          "Befund: Das belastet Desi."
+          "Befund: Eingetragen und abgezeichnet von Desi."
         ],
         "fuss": "ERLEDIGT"
       }
@@ -92,7 +92,7 @@
           "Geliefert: eine Kiste Zitronen",
           "Die Kiste ist noch zugeklebt.",
           "Niemand hat sie geöffnet, auch nicht Zoe.",
-          "Das entlastet Zitrus-Zoe."
+          "Die Zitronen hat Zitrus-Zoe bestellt."
         ],
         "fuss": "unberührt"
       },
@@ -101,7 +101,7 @@
           "Geliefert: eine Kiste Zitronen",
           "Die Kiste ist offen, einige Zitronen fehlen.",
           "Zitronensaft stand über Nacht beim Vorrat.",
-          "Das belastet Zitrus-Zoe."
+          "Die Zitronen hat Zitrus-Zoe bestellt."
         ],
         "fuss": "geöffnet"
       }
@@ -129,5 +129,5 @@
       "Zoe wollte nur den Shake verfeinern. Dass die Säure das Eiweiß verändert, wusste sie nicht."
     ]
   },
-  "fehlerText": "Das stimmt noch nicht. Schau dir die Hinweise im Spind an: Wer hat kein Alibi?"
+  "fehlerText": "Das stimmt noch nicht. Lies die Hinweise im Spind noch einmal. Wer hatte keine Ausrede?"
 }

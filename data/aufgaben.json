@@ -450,10 +450,10 @@
       "flag": "a4_done",
       "braucht": ["lab_frei", "k_denat", "k_ausloeser", "k_biuret"],
       "auftrag": "Erst vermuten, dann den Versuch am Tisch machen, beobachten, protokollieren und deuten. Das Tablet bereitet vor und wertet aus, es ersetzt den Versuch nicht.",
-      "tipp": "Schau in den Spind: „Denaturieren heißt Gerinnen“, „Die vier Auslöser“ und „Der Biuret-Nachweis“. Ausgeflockt heißt geronnen, also denaturiert.",
+      "tipp": "Schau in den Spind: „Denaturieren heißt Gerinnen“, „Was Eiweiß gerinnen lässt“ und „Der Biuret-Nachweis“. Ausgeflockt heißt geronnen, also denaturiert.",
       "hilfekarte": {
         "titel": "Hilfekarte: Versuch deuten",
-        "zeilen": ["Auslöser fürs Gerinnen (Denaturieren): Hitze, Säure, Alkohol, Schwermetallsalz.", "Kontrolle ohne Zusatz (Wasser): Hier verändert sich nichts.", "Biuret: Eiweiß wird violett, Wasser und Zuckerlösung bleiben blau.", "Satzbaustein: „Die Beobachtung zeigt …, weil …“"]
+        "zeilen": ["Gerinnen (denaturieren) lassen: Hitze, Säure, Alkohol, Schwermetallsalz.", "Kontrolle mit Wasser: Hier verändert sich nichts.", "Biuret: Eiweiß wird violett, Wasser und Zuckerlösung bleiben blau.", "Satzbaustein: „Die Beobachtung zeigt …, weil …“"]
       },
       "loesung": "Ausgeflockt heißt geronnen (denaturiert): Hitze, Säure, Ethanol und Schwermetallsalz lassen das Eiweiß gerinnen, Wasser nicht. Der Vorgang ist nicht umkehrbar. Eiweiß färbt sich im Biuret-Test violett, Wasser und Zuckerlösung bleiben blau.",
       "niveaus": {
@@ -464,10 +464,7 @@
           {
             "type": "anleitung",
             "auftrag": "Plane den Versuch mit der Schritt-für-Schritt-Anleitung. Hake jeden Schritt ab, wenn du ihn gelesen hast.",
-            "schritte": ["Schutzbrille und Handschuhe anziehen.", "Fünf Reagenzgläser beschriften (1 bis 5) und in den Ständer stellen.", "In jedes Glas gleich viel Eiklarlösung geben (Menge laut Lehrbuch S. 21–22, Exp. 14–16, oder Anleitung der Lehrkraft).", "Probe 1 im Wasserbad erhitzen (die Lehrkraft stellt es bereit).", "Zu den Proben 2 bis 4 Essigsäure, Kupfersulfat-Lösung und Ethanol geben. Ethanol gibt nur die Lehrkraft aus, keine offene Flamme.", "Zu Probe 5 Wasser geben (Kontrolle).", "Beobachten und im Protokoll festhalten. Danach den Biuret-Nachweis mit Eiklarlösung, Wasser und Zuckerlösung an der Nachweis-Station machen."]
-          },
-          {
-            "type": "simulation"
+            "schritte": ["Kittel und Schutzbrille anziehen.", "Fünf Reagenzgläser beschriften (1 bis 5) und in den Ständer stellen.", "In jedes Glas gleich viel Eiklarlösung geben (Menge laut Lehrbuch S. 21–22, Exp. 14–16, oder Anleitung der Lehrkraft).", "Probe 1 im Wasserbad erhitzen (die Lehrkraft stellt es bereit).", "Zu den Gläsern 2 bis 4 je einen Stoff geben: Salzsäure, Kupfersulfat-Lösung (Fehling I) und Ethanol, in jedes Glas nur einen. Ethanol gibt nur die Lehrkraft aus, keine offene Flamme.", "Zu Probe 5 Wasser geben (Kontrolle).", "Beobachten und im Protokoll festhalten. Danach den Biuret-Nachweis mit Eiklarlösung, Wasser und Zuckerlösung an der Nachweis-Station machen."]
           },
           {
             "type": "versuch"
@@ -502,15 +499,12 @@
           },
           {
             "type": "reihenfolge",
-            "auftrag": "Plane den Versuch selbst. Material: Reagenzgläser und Ständer, Eiklarlösung, Essigsäure, Kupfersulfat-Lösung, Ethanol (von der Lehrkraft), Wasser, Wasserbad, Schutzbrille, Handschuhe. Tippe die Schritte in der richtigen Reihenfolge an.",
-            "korrekt": ["Schutzbrille und Handschuhe anziehen.", "Reagenzgläser beschriften und in den Ständer stellen.", "Eiklarlösung in jedes Glas geben.", "Zu jedem Glas einen anderen Zusatz geben (Probe 5 nur Wasser).", "Beobachten und im Protokoll festhalten.", "Lösungen richtig entsorgen (Kupfer in den Sammelbehälter)."],
+            "auftrag": "Plane den Versuch selbst. Material: Reagenzgläser und Ständer, Eiklarlösung, Salzsäure, Kupfersulfat-Lösung (Fehling I), Ethanol (von der Lehrkraft), Wasser, Wasserbad, Kittel, Schutzbrille. Tippe die Schritte in der richtigen Reihenfolge an.",
+            "korrekt": ["Kittel und Schutzbrille anziehen.", "Reagenzgläser beschriften und in den Ständer stellen.", "Eiklarlösung in jedes Glas geben.", "In jedes Glas nur einen Versuch machen: Hitze, Salzsäure, Kupfersulfat-Lösung (Fehling I) oder Ethanol (Probe 5 nur Wasser).", "Beobachten und im Protokoll festhalten.", "Lösungen richtig entsorgen (Kupfer in den Sammelbehälter)."],
             "anzeige": [3, 0, 5, 2, 4, 1],
             "gleichwertig": [
               [1, 2]
             ]
-          },
-          {
-            "type": "simulation"
           },
           {
             "type": "versuch"
@@ -545,16 +539,13 @@
           },
           {
             "type": "reihenfolge",
-            "auftrag": "Plane den Versuch selbst. Material: Reagenzgläser und Ständer, Eiklarlösung, Essigsäure, Kupfersulfat-Lösung, Ethanol (von der Lehrkraft), Wasser, Zuckerlösung, Natronlauge, Wasserbad, Schutzbrille, Handschuhe. Tippe die Schritte in der richtigen Reihenfolge an. Gleichwertige Schritte dürfen vertauscht werden.",
-            "korrekt": ["Schutzbrille und Handschuhe anziehen.", "Fünf Reagenzgläser beschriften und in den Ständer stellen.", "In jedes Glas gleich viel Eiklarlösung geben.", "Probe 5 bekommt nur Wasser (Kontrolle).", "Den Proben 1 bis 4 je einen Auslöser zugeben: Hitze, Säure, Ethanol, Kupfersulfat-Lösung.", "Beobachten und im Protokoll festhalten.", "Für den Biuret-Nachweis Eiklarlösung, Wasser und Zuckerlösung mit Natronlauge und Kupfersulfat-Lösung versetzen.", "Lösungen richtig entsorgen (Kupfer in den Sammelbehälter)."],
+            "auftrag": "Plane den Versuch selbst. Material: Reagenzgläser und Ständer, Eiklarlösung, Salzsäure, Kupfersulfat-Lösung (Fehling I), Ethanol (von der Lehrkraft), Wasser, Zuckerlösung, Natronlauge, Wasserbad, Kittel, Schutzbrille. Tippe die Schritte in der richtigen Reihenfolge an. Gleichwertige Schritte dürfen vertauscht werden.",
+            "korrekt": ["Kittel und Schutzbrille anziehen.", "Fünf Reagenzgläser beschriften und in den Ständer stellen.", "In jedes Glas gleich viel Eiklarlösung geben.", "Probe 5 bekommt nur Wasser (Kontrolle).", "In die Gläser 1 bis 4 je nur einen Versuch machen: Hitze, Salzsäure, Kupfersulfat-Lösung (Fehling I), Ethanol.", "Beobachten und im Protokoll festhalten.", "Für den Biuret-Nachweis Eiklarlösung, Wasser und Zuckerlösung mit Natronlauge und Kupfersulfat-Lösung (Fehling I) versetzen.", "Lösungen richtig entsorgen (Kupfer in den Sammelbehälter)."],
             "anzeige": [4, 7, 1, 0, 6, 3, 2, 5],
             "gleichwertig": [
               [1, 2],
               [3, 4]
             ]
-          },
-          {
-            "type": "simulation"
           },
           {
             "type": "versuch"
@@ -590,18 +581,18 @@
       "zeit": "ca. 8 Minuten",
       "flag": "a5_done",
       "braucht": ["k_hitze", "k_umkehr", "k_haltbar"],
-      "auftrag": "Eiweiß gerinnt im Alltag ständig, zum Beispiel beim Frühstücksei. Ordne die Situationen den Auslösern zu und beantworte kurze Fragen.",
-      "tipp": "Die Karten „Hitze und Eiweiß“, „Nicht umkehrbar“ und „Erhitzen macht haltbar“ im Spind helfen dir. Die vier Auslöser stehen auf der Karte „Die vier Auslöser“.",
+      "auftrag": "Eiweiß gerinnt im Alltag ständig, zum Beispiel beim Frühstücksei. Finde heraus, was das Eiweiß jeweils gerinnen lässt, und beantworte kurze Fragen.",
+      "tipp": "Die Karten „Hitze und Eiweiß“, „Nicht umkehrbar“ und „Erhitzen macht haltbar“ im Spind helfen dir. Was Eiweiß gerinnen lässt, steht auf der Karte „Was Eiweiß gerinnen lässt“.",
       "hilfekarte": {
         "titel": "Hilfekarte: Gerinnen im Alltag",
-        "zeilen": ["Auslöser: Hitze, Säure, Alkohol, Schwermetallsalz.", "Aus klarem Eiklar wird beim Gerinnen festes, weißes Eiweiß.", "Gerinnen ist nicht umkehrbar.", "Erhitzen lässt auch die Eiweiße von Keimen gerinnen."]
+        "zeilen": ["Gerinnen lassen: Hitze, Säure, Alkohol, Schwermetallsalz.", "Aus klarem Eiklar wird beim Gerinnen festes, weißes Eiweiß.", "Gerinnen ist nicht umkehrbar.", "Erhitzen lässt auch die Eiweiße von Keimen gerinnen."]
       },
-      "loesung": "Spiegelei braten: Hitze. Milch mit Zitronensaft: Säure. Hände mit Ethanol desinfizieren: Alkohol. Kupfersulfat: Schwermetallsalz. Gerinntes Eiweiß lässt sich nicht zurückverwandeln. Hitze macht Essen haltbar, weil auch die Eiweiße der Keime gerinnen.",
+      "loesung": "Spiegelei braten: Hitze. Milch mit Zitronensaft: Säure. Hände mit Ethanol desinfizieren: Alkohol. Kupfersalz im Weinberg: Schwermetallsalz. Gerinntes Eiweiß lässt sich nicht zurückverwandeln. Hitze macht Essen haltbar, weil auch die Eiweiße der Keime gerinnen.",
       "niveaus": {
         "A": [
           {
             "type": "zuordnen",
-            "auftrag": "Welcher Auslöser steckt dahinter? Tippe pro Situation einen Auslöser an.",
+            "auftrag": "Was lässt das Eiweiß hier gerinnen? Tippe pro Situation eine Antwort an.",
             "optionen": ["Hitze", "Säure", "Alkohol", "Schwermetallsalz"],
             "paare": [
               {
@@ -617,7 +608,7 @@
                 "richtig": "Alkohol"
               },
               {
-                "text": "Kupfersulfat-Lösung im Versuch",
+                "text": "Pilze im Weinberg mit einem Kupfersalz spritzen",
                 "richtig": "Schwermetallsalz"
               }
             ]
@@ -633,7 +624,7 @@
         "B": [
           {
             "type": "zuordnen",
-            "auftrag": "Welcher Auslöser steckt dahinter? Tippe pro Situation einen Auslöser an.",
+            "auftrag": "Was lässt das Eiweiß hier gerinnen? Tippe pro Situation eine Antwort an.",
             "optionen": ["Hitze", "Säure", "Alkohol", "Schwermetallsalz"],
             "paare": [
               {
@@ -649,7 +640,7 @@
                 "richtig": "Alkohol"
               },
               {
-                "text": "Kupfersulfat-Lösung im Versuch",
+                "text": "Pilze im Weinberg mit einem Kupfersalz spritzen",
                 "richtig": "Schwermetallsalz"
               }
             ]
@@ -672,7 +663,7 @@
         "C": [
           {
             "type": "zuordnen",
-            "auftrag": "Welcher Auslöser steckt dahinter? Tippe pro Situation einen Auslöser an.",
+            "auftrag": "Was lässt das Eiweiß hier gerinnen? Tippe pro Situation eine Antwort an.",
             "optionen": ["Hitze", "Säure", "Alkohol", "Schwermetallsalz"],
             "paare": [
               {
@@ -688,7 +679,7 @@
                 "richtig": "Alkohol"
               },
               {
-                "text": "Kupfersulfat-Lösung im Versuch",
+                "text": "Pilze im Weinberg mit einem Kupfersalz spritzen",
                 "richtig": "Schwermetallsalz"
               }
             ]
@@ -823,7 +814,7 @@
       "tipp": "Der Spind hilft dir, auch mit den Hefter-Einträgen und den Hinweisen zum Fall.",
       "hilfekarte": {
         "titel": "Hilfekarte: Auflösung",
-        "zeilen": ["Protein = Eiweiß. Aminosäuren sind die Bausteine.", "Gerinnen (Denaturieren): Die gefaltete Form geht verloren, die Aminosäuren bleiben, nicht umkehrbar.", "Auslöser: Hitze, Säure, Alkohol, Schwermetallsalz.", "Biuret: Eiweiß wird violett.", "Der Verdächtige hat kein Alibi."]
+        "zeilen": ["Protein = Eiweiß. Aminosäuren sind die Bausteine.", "Gerinnen (Denaturieren): Die gefaltete Form geht verloren, die Aminosäuren bleiben, nicht umkehrbar.", "Gerinnen lassen: Hitze, Säure, Alkohol, Schwermetallsalz.", "Biuret: Eiweiß wird violett.", "Der Verdächtige hat kein Alibi."]
       },
       "loesung": "Siehe die Begründung bei der jeweiligen Frage.",
       "niveaus": {
@@ -847,7 +838,7 @@
           {
             "type": "mehrfach",
             "zaehlt": true,
-            "frage": "Nenne zwei Auslöser, bei denen Eiweiß gerinnt (denaturiert). Wähle zwei aus.",
+            "frage": "Nenne zwei Dinge, die Eiweiß gerinnen (denaturieren) lassen. Wähle zwei aus.",
             "optionen": ["Hitze", "Wasser", "Säure", "Zucker", "Alkohol"],
             "richtig": [0, 2, 4],
             "anzahl": 2,
@@ -859,7 +850,7 @@
             "frage": "Welche Farbe zeigt die Biuret-Probe bei Eiweiß?",
             "optionen": ["Rot", "Violett", "Grün", "Gelb"],
             "richtig": 1,
-            "erklaerung": "Eiweiß färbt sich mit Natronlauge und Kupfersulfat-Lösung violett."
+            "erklaerung": "Eiweiß färbt sich mit Natronlauge und Kupfersulfat-Lösung (Fehling I) violett."
           },
           {
             "type": "verdaechtige"

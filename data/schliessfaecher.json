@@ -38,8 +38,8 @@
     },
     {
       "id": 5, "flag": "bonus_5", "code": "735", "x": 964, "y": 320,
-      "typ": "spass", "name": "Detektiv-Notizblock", "emoji": "📓",
-      "text": "Im Fach liegt ein kleiner Notizblock mit der Aufschrift „Eiweiß-Detektiv“. Perfekt für eigene Notizen zum Fall!",
+      "typ": "spass", "name": "Notizblock", "emoji": "📓",
+      "text": "Im Fach liegt ein kleiner Notizblock mit der Aufschrift „Eiweiß-Profi“. Praktisch für eigene Notizen!",
       "zettel": { "szene": "shakebar", "x": 700, "y": 760, "zeilen": ["Schließfach 5:", "Code {code}", "Der Zettel klebte unter einem Barhocker."] }
     },
     {

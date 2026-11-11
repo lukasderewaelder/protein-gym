@@ -6,7 +6,7 @@ import { buildGrid, findPath, nearestWalkable } from './engine/grid.js';
 import { createPlayer, setPath, updatePlayer } from './engine/player.js';
 import { drawScene, SHIRTS, SKINS, HAIRS, FIGURE_HEIGHT } from './engine/render.js';
 import { loadFirst, loadFigureSprites, loadNpcSprite } from './engine/assets.js';
-import { createDialog, fillNames } from './ui/dialog.js';
+import { createDialog, zeilenFuellen } from './ui/dialog.js';
 import { initStart } from './ui/start.js';
 import { vollbildMoeglich, istVollbild, vollbildAn, umschalten, beiVollbildwechsel } from './ui/vollbild.js';
 import { createEditor, loadEdits } from './engine/editor.js';
@@ -125,7 +125,7 @@ function showCall() {
 /** Tafel „Versuch frei?“: Die Lehrkraft nennt den Code. Nur eine Hürde, keine Sicherheitsfreigabe. */
 function openFreigabe() {
   if (store.hasFlag('lab_frei')) {
-    playDialog('labor.tafel.frei', { speaker: 'Tafel', lines: ['Versuch frei! Denk an Schutzbrille und Handschuhe. Den Versuch findest du an den Stationen.'] });
+    playDialog('labor.tafel.frei', { speaker: 'Tafel', lines: ['Versuch frei! Denk an Kittel und Schutzbrille. Den Versuch machst du mit deiner Lehrkraft in echt.'] });
     return;
   }
   const input = h('input', { class: 'name-input', type: 'text', inputmode: 'numeric', autocomplete: 'off', maxlength: '12', 'aria-label': 'Code der Lehrkraft', placeholder: 'Code' });
@@ -264,7 +264,7 @@ function playDialog(id, fallback, after) {
   const entry = DATA.dialogs[id] || fallback || { speaker: '', lines: ['(Hier fehlt noch ein Text.)'] };
   const names = store.state.names;
   dialog.show(
-    { speaker: entry.speaker, portrait: entry.portrait, lines: entry.lines.map((l) => fillNames(l, names)) },
+    { speaker: entry.speaker, portrait: entry.portrait, lines: zeilenFuellen(entry.lines, names) },
     () => {
       if (entry.setFlag) store.setFlag(entry.setFlag);
       if (after) after();
@@ -317,7 +317,9 @@ function trigger(hs) {
     return;
   }
   if (hs.karte) {
-    if (hs.dialog) playDialog(hs.dialog, undefined, () => collectCard(hs.karte));
+    // Beim ersten Mal das ganze Gespräch, danach (falls vorhanden) die kurze Fassung „<id>.nochmal“
+    const wieder = hs.dialog && store.hasFlag(hs.karte) && DATA.dialogs[`${hs.dialog}.nochmal`];
+    if (hs.dialog) playDialog(wieder ? `${hs.dialog}.nochmal` : hs.dialog, undefined, () => collectCard(hs.karte));
     else collectCard(hs.karte);
     return;
   }

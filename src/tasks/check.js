@@ -112,6 +112,11 @@ export function reihenfolge(korrekt, gewaehlt, gleichwertig = []) {
   return { prefixOk, fertig: prefixOk && gewaehlt.length === korrekt.length };
 }
 
+/** Was im Glas passiert: bei Station A der Einfluss (Hitze, Säure …), bei Station B die Probe. */
+export function probenName(p) {
+  return p.einfluss || p.probe || '';
+}
+
 /** Alle Proben beider Stationen in Reihenfolge. */
 export function alleProben(versuch) {
   return [
@@ -127,11 +132,11 @@ export function protokollText({ names, versuch, protokoll }) {
   const lines = ['Protokoll: Eiweiß-Versuch', `Namen: ${(names || []).join(', ') || '(ohne Namen)'}`, ''];
   for (const st of [versuch.stationA, versuch.stationB]) {
     lines.push(`${st.name}: ${st.titel}`);
-    lines.push('Probe | Zusatz | Vermutung (Begründung) | Beobachtung | Erwartung laut Skript');
+    lines.push(`Probe | ${st.spalte || 'Inhalt'} | Vermutung (Begründung) | Beobachtung | Erwartung laut Skript`);
     for (const p of st.proben) {
       const vm = v[p.id] ? `${v[p.id].wahl || '–'}${v[p.id].warum ? ` (${v[p.id].warum})` : ''}` : '–';
       const bo = b[p.id] ? `${b[p.id].wahl || '–'}${b[p.id].notiz ? ` (${b[p.id].notiz})` : ''}` : '–';
-      lines.push(`${p.nr} | ${p.zusatz} | ${vm} | ${bo} | ${p.erwartung}`);
+      lines.push(`${p.nr} | ${probenName(p)} | ${vm} | ${bo} | ${p.erwartung}`);
     }
     lines.push('');
   }

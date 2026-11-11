@@ -1,4 +1,4 @@
-// Spind (Innenseite = Ermittlungszentrale): Pinnwand mit den gefundenen Hinweisen, Glossar und Hefter.
+// Spind (Innenseite der Spindtür): Pinnwand mit den gefundenen Hinweisen, Glossar und Hefter.
 // Hilfestufe 1, immer ohne Punktabzug erreichbar.
 
 import { h, clear } from './dom.js';

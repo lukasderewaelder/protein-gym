@@ -3,12 +3,12 @@
   "einleitung": "Drei Fragen zur Sicherheit im Labor. Wähle jeweils die richtige Antwort.",
   "fragen": [
     {
-      "frage": "Im Labor kann etwas spritzen. Was schützt deine Augen?",
-      "richtig": "Eine Schutzbrille tragen",
-      "falsch": ["Die Augen kurz zukneifen", "Möglichst nah herangehen, damit man alles sieht"],
-      "erklaerung": "Richtig! Die Schutzbrille schützt deine Augen vor Spritzern. Augen sind besonders empfindlich, deshalb trägt man sie immer, wenn etwas spritzen könnte.",
-      "hinweis": "Überlege, welcher Körperteil bei Spritzern am meisten gefährdet ist. Und womit kann man ihn schützen?",
-      "hilfe": "Es geht um ein Ausrüstungsteil, das man im Gesicht trägt und das die Augen rundherum abdeckt."
+      "frage": "Du gehst ins Labor. Was ziehst du vorher an?",
+      "richtig": "Kittel und Schutzbrille",
+      "falsch": ["Nichts Besonderes, du bist ja nur kurz drin", "Eine Sonnenbrille, falls es blendet"],
+      "erklaerung": "Richtig! Der Kittel schützt Haut und Kleidung, die Schutzbrille deine Augen vor Spritzern. Beides trägst du immer, wenn etwas spritzen könnte.",
+      "hinweis": "Bei Spritzern sind deine Kleidung und deine Augen gefährdet. Womit schützt du beides?",
+      "hilfe": "Es geht um zwei Dinge: ein Kleidungsstück, das du über deiner Kleidung trägst, und eine Brille, die die Augen rundherum abdeckt."
     },
     {
       "frage": "Vor dir steht eine Flüssigkeit, die du nicht kennst. Was tust du?",

@@ -112,22 +112,26 @@
     },
     {
       "id": "k_ausloeser", "typ": "pflicht", "raum": "labor", "ort": "Kupfer-Kurt",
-      "titel": "Die vier Auslöser",
-      "medium": "protokoll", "kopf": "Befragung · Fall Eiweiß-Vorrat",
+      "titel": "Was Eiweiß gerinnen lässt",
+      "medium": "protokoll", "kopf": "Gespräch mit Kupfer-Kurt",
       "zeilen": [
-        "F: Was bringt Eiweiß zum Gerinnen?",
-        "A: Hitze, Säuren, Alkohol und Schwermetallsalze, zum Beispiel Kupfersulfat.",
-        "F: Wer hatte Zugang zum Vorrat?",
-        "A: Vier Verdächtige. Das sind unsere vier Auslöser."
+        "F: Was macht Hitze mit Eiweiß?",
+        "A: Hitze (ab etwa 60 Grad) lässt Eiweiß denaturieren, also gerinnen bzw. stocken.",
+        "F: Und Säuren?",
+        "A: Säuren wie Salzsäure lassen Eiweiß ebenfalls denaturieren.",
+        "F: Und Alkohol?",
+        "A: Auch Alkohol (Ethanol) lässt Eiweiß denaturieren.",
+        "F: Und Schwermetallsalze?",
+        "A: Schwermetallsalze wie Kupfersulfat ebenso. Die Kupfersulfat-Lösung heißt auch Fehling I."
       ],
-      "fuss": "Aufgenommen von: Kupfer-Kurt, Labortechnik (nicht verdächtig, behauptet er)"
+      "fuss": "Notiert nach dem Gespräch mit Kupfer-Kurt, Labortechnik"
     },
     {
       "id": "k_biuret", "typ": "pflicht", "raum": "labor", "ort": "Plakat an der Wand",
       "titel": "Der Biuret-Nachweis",
       "medium": "plakat", "kopf": "Nachweis: Biuret",
       "zeilen": [
-        "Probe + Natronlauge + Kupfersulfat-Lösung",
+        "Probe + Natronlauge + Kupfersulfat-Lösung (Fehling I)",
         "Violett = Eiweiß ist enthalten",
         "Bleibt die Probe blau (zum Beispiel Wasser oder Zuckerlösung), ist kein Eiweiß enthalten."
       ]
@@ -150,7 +154,7 @@
       "titel": "Hitze und Eiweiß",
       "medium": "schild", "kopf": "Hinweis am Saunaofen",
       "zeilen": [
-        "Hitze lässt Eiweiß gerinnen. Sie ist einer der vier Auslöser.",
+        "Hitze (ab etwa 60 Grad) lässt Eiweiß denaturieren, also gerinnen bzw. stocken.",
         "Klares Eiklar wird beim Braten weiß und fest, Milch bildet eine Haut, Fleisch wird fest.",
         "Je heißer, desto schneller geht es."
       ],

@@ -57,7 +57,8 @@ test('Fall-Karten haben eine bekannte Fundart, Text in der passenden Form und ei
       if (t.medium === 'protokoll') assert.equal(parseProtokoll(k.zeilen).length, k.zeilen.length, `${raum}/${art}: F/A-Zeilen`);
       if (['bericht', 'laborzettel'].includes(t.medium)) assert.ok(parseFelder(k.zeilen).filter((f) => f.label).length >= 3, `${raum}/${art}: Felder`);
       const ende = k.zeilen[k.zeilen.length - 1];
-      assert.match(ende, art === 'beweis' ? /belastet|Wer|Kupfer-Kurt\. Und|Nervös|nervös/i : /entlastet|entkräftet/i, `${raum}/${art}: Aussage am Ende`);
+      assert.doesNotMatch(k.zeilen.join(' ') + k.fuss, /entlastet|belastet|entkräftet|Alibi|Verdacht/i, `${raum}/${art}: kein Urteil im Hinweis, das finden die Lernenden selbst heraus`);
+      assert.ok(ende.length > 10, `${raum}/${art}: letzte Zeile`);
     }
   }
 });
@@ -68,7 +69,8 @@ test('Die richtige Wahl wird nur für den gewürfelten Täter akzeptiert, eine f
       assert.equal(taeterRichtig(wahl, taeter), wahl === taeter);
       if (wahl === taeter) continue;
       const alleGefunden = Object.fromEntries(FALL_FLAGS.map((f) => [f, true]));
-      assert.match(hinweisZurWahl(wahl, taeter, F, alleGefunden), /entlastet/);
+      assert.match(hinweisZurWahl(wahl, taeter, F, alleGefunden), /Lies noch einmal/);
+      assert.doesNotMatch(hinweisZurWahl(wahl, taeter, F, alleGefunden), /entlastet|Alibi/);
       assert.match(hinweisZurWahl(wahl, taeter, F, {}), /fehlt dir noch ein Hinweis/);
     }
     assert.equal(taeterRichtig(null, taeter), false);

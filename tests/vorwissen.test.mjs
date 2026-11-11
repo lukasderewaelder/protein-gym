@@ -19,7 +19,7 @@ const BEGRIFFE = [
   { name: 'Wasserabspaltung', re: /Wasserabspaltung|Wassermolekül/, raum: 'training', ein: ['k_bauplan', 'z_peptid'] },
   { name: 'Peptid', re: /Peptid/, raum: 'training', ein: ['z_peptid'] },
   { name: 'Kondensation', re: /Kondensation/, raum: 'training', ein: ['k_bauplan', 'z_peptid'] },
-  { name: 'Denaturieren', re: /denaturier|Denaturier/, raum: 'labor', ein: ['k_denat'] },
+  { name: 'Denaturieren', re: /denaturier|Denaturier/, raum: 'labor', ein: ['k_denat', 'k_ausloeser'] }, // k_ausloeser erklärt es selbst: „lässt Eiweiß denaturieren, also gerinnen bzw. stocken“
   { name: 'gefaltete Form', re: /gefaltet|entfaltet|Form/, raum: 'labor', ein: ['k_denat', 'k_struktur'] },
   { name: 'Auslöser', re: /Auslöser|Schwermetallsalz|Kupfersulfat/, raum: 'labor', ein: ['k_ausloeser', 'k_biuret'] },
   { name: 'Biuret', re: /Biuret/, raum: 'labor', ein: ['k_biuret'] },

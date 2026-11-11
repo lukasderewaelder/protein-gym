@@ -62,8 +62,10 @@ test('Dialoge haben Text und die {name}-Platzhalter sind bekannt', () => {
   for (const [id, d] of Object.entries(dialoge)) {
     assert.ok(Array.isArray(d.lines) && d.lines.length > 0, `${id}: keine Zeilen`);
     for (const l of d.lines) {
-      assert.ok(typeof l === 'string' && l.length > 0, `${id}: leere Zeile`);
-      const tokens = l.match(/\{[^}]*\}/g) || [];
+      const text = typeof l === 'string' ? l : l && l.text;
+      assert.ok(typeof text === 'string' && text.length > 0, `${id}: leere Zeile`);
+      if (typeof l !== 'string') assert.ok(l.von, `${id}: Zeile mit Text braucht einen Sprecher (von)`);
+      const tokens = text.match(/\{[^}]*\}/g) || [];
       for (const t of tokens) assert.equal(t, '{name}', `${id}: unbekannter Platzhalter ${t}`);
     }
   }

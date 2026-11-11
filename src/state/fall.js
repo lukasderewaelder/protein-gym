@@ -59,7 +59,7 @@ export function alleFallKarten(taeter, fall) {
 export const taeterRichtig = (auswahl, taeter) => Boolean(auswahl) && auswahl === taeter;
 
 /**
- * Hilfe bei falscher Wahl: Welche gefundene Karte entlastet diesen Verdächtigen (Alibi)?
+ * Hilfe bei falscher Wahl: auf welche gefundene Karte die Lernenden noch einmal schauen sollen (ohne zu sagen, was darin steht).
  * Fehlt die Karte noch, wird ein Hinweis auf den Raum gegeben.
  */
 export function hinweisZurWahl(auswahl, taeter, fall, flags = {}) {
@@ -69,5 +69,5 @@ export function hinweisZurWahl(auswahl, taeter, fall, flags = {}) {
   const text = fall.hinweise[raum];
   if (hinweisArt(def.verdaechtiger, taeter) === 'beweis') return 'Das passt nicht ganz. Lies die Hinweise im Spind noch einmal.';
   if (!flags[def.flag]) return `Zu ${fall.verdaechtige[auswahl].name} fehlt dir noch ein Hinweis im Raum „${text.raumName}“.`;
-  return `Dieser Hinweis entlastet ${fall.verdaechtige[auswahl].name}: „${text.titel}“ im Spind.`;
+  return `Lies noch einmal, was „${text.titel}“ im Spind über ${fall.verdaechtige[auswahl].name} sagt.`;
 }

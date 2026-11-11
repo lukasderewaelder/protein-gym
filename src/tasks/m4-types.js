@@ -48,7 +48,7 @@ function mehrfach(host, step, api) {
     const chosen = boxes.map((b, i) => (b.checked ? i : -1)).filter((i) => i >= 0);
     const res = checkMehrfach(step, chosen);
     if (res.reason === 'anzahl') { api.say(`Wähle genau ${step.anzahl} aus.`); return; }
-    if (!res.ok) { api.fail('Mindestens eine Antwort ist kein Auslöser. Prüfe noch einmal.'); return; }
+    if (!res.ok) { api.fail('Mindestens eine Antwort lässt Eiweiß nicht gerinnen. Prüfe noch einmal.'); return; }
     check.disabled = true;
     boxes.forEach((b) => { b.disabled = true; });
     api.ok(step.erklaerung);

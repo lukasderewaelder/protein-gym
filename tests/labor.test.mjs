@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
-import { beobachtungPasst, reihenfolge, alleProben, protokollText } from '../src/tasks/check.js';
+import { beobachtungPasst, reihenfolge, alleProben, protokollText, probenName } from '../src/tasks/check.js';
 import { FLAG_LIST } from '../src/state/progress.js';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -17,14 +17,42 @@ test('Versuchsdaten: acht Proben, eindeutige IDs, Erwartungen und Treffer-Listen
   assert.equal(alle.length, 8);
   assert.equal(new Set(alle.map((p) => p.id)).size, 8);
   for (const p of alle) {
-    assert.ok(p.zusatz && p.erwartung, p.id);
+    assert.ok(probenName(p) && p.erwartung, p.id);
+    assert.equal(p.zusatz, undefined, `${p.id}: kein Feld „zusatz“ mehr (Einfluss oder Probe)`);
     assert.ok(Array.isArray(p.passt) && p.passt.length, `${p.id}: passt`);
     for (const w of p.passt) assert.ok(V.beobachtungOptionen.includes(w), `${p.id}: ${w} ist keine Beobachtungsoption`);
     assert.ok(/^#[0-9a-f]{6}$/i.test(p.sim.farbe), `${p.id}: Farbe`);
   }
   assert.equal(V.stationA.proben.length, 5, 'Station Hitze hat fünf Proben');
   assert.equal(V.stationB.proben.length, 3, 'Station Nachweis hat drei Proben');
-  assert.ok(V.stationA.proben.some((p) => /Wasser/.test(p.zusatz)), 'Kontrolle mit Wasser');
+  assert.ok(V.stationA.proben.some((p) => /Wasser/.test(probenName(p))), 'Kontrolle mit Wasser');
+});
+
+test('Je Glas nur ein Versuch: Station A hat fünf verschiedene Einflüsse, Salzsäure statt Essigsäure', () => {
+  const namen = V.stationA.proben.map(probenName);
+  assert.equal(new Set(namen).size, 5);
+  assert.deepEqual(namen.map((n) => n.split(' ')[0]), ['Hitze', 'Salzsäure', 'Kupfersulfat-Lösung', 'Ethanol', 'Wasser']);
+  assert.doesNotMatch(JSON.stringify([V, A.aufgaben.a4]), /Essigsäure/);
+  assert.match(V.stationA.regel + V.stationB.regel, /nur ein/);
+  for (const p of V.stationB.proben) assert.ok(!/ \+ | und /.test(probenName(p)), `${p.id}: nur eine Probe im Glas`);
+});
+
+test('Schutzkleidung im Labor: Kittel und Schutzbrille, keine Handschuhe', () => {
+  const alles = JSON.stringify([V, A, read('fuehrerschein.json'), read('dialoge.json'), read('hefter.json'), read('glossar.json')]);
+  assert.doesNotMatch(alles, /Handschuh/i);
+  assert.match(V.sicherheit[0], /Kittel und Schutzbrille/);
+  assert.match(read('fuehrerschein.json').fragen[0].richtig, /Kittel/);
+});
+
+test('Fehling I steht nur zusammen mit Kupfersulfat-Lösung, nie allein', () => {
+  const alle = ['versuch', 'aufgaben', 'wissen', 'glossar', 'hefter', 'aehnlich', 'dialoge', 'fall'].map((n) => readFileSync(join(root, 'data', `${n}.json`), 'utf8')).join('\n');
+  const treffer = alle.match(/Fehling I/g) || [];
+  assert.ok(treffer.length >= 6, 'Fehling I kommt im Labor mehrfach vor');
+  assert.equal((alle.match(/Kupfersulfat-Lösung \(Fehling I|Kupfersulfat-Lösung, bei uns auch Fehling I|auch Fehling I/g) || []).length, treffer.length, 'jedes Fehling I hängt an Kupfersulfat');
+});
+
+test('Das Labor schickt zur Lehrkraft: kein virtueller Versuch mehr', () => {
+  for (const n of ['A', 'B', 'C']) assert.ok(!A.aufgaben.a4.niveaus[n].some((s) => s.type === 'simulation'), n);
 });
 
 test('Beobachtung wird nie als falsch behandelt, nur mit dem Skript verglichen', () => {
@@ -82,7 +110,7 @@ test('Labor: alle drei Niveaus haben dieselben Stationsschritte und enden mit Ex
   for (const n of ['A', 'B', 'C']) {
     const types = A.aufgaben.a4.niveaus[n].map((s) => s.type);
     assert.equal(types[0], 'vermutung');
-    assert.ok(types.includes('simulation') && types.includes('versuch') && types.includes('beobachtung'));
+    assert.ok(types.includes('versuch') && types.includes('beobachtung'));
     assert.equal(types[types.length - 1], 'export');
   }
   assert.equal(A.aufgaben.a4.niveaus.A[1].type, 'anleitung');
