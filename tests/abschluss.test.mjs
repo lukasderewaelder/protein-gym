@@ -188,3 +188,22 @@ test('Gating: Quiz nur nach der Shake-Bar, Räume schließen unabhängig voneina
   assert.equal(raumFertig(A.raeume.shakebar, A.aufgaben, 1, {}), false);
   assert.equal(raumFertig(A.raeume.abschluss, A.aufgaben, 1, { quiz_task: true }), true);
 });
+
+test('Sauna a5: jede Situation hat eine kurze Überschrift und mindestens drei Sätze, gestuft je Niveau', () => {
+  const saetze = (t) => t.split(/(?<=[.!?])\s+/).filter((x) => x.trim().length > 3).length;
+  const texte = {};
+  for (const n of ['A', 'B', 'C']) {
+    const s = A.aufgaben.a5.niveaus[n][0];
+    assert.equal(s.type, 'zuordnen');
+    for (const p of s.paare) {
+      assert.ok(p.titel && p.titel.length < 40, `${n}: kurze Überschrift`);
+      assert.ok(saetze(p.text) >= 3, `${n} ${p.titel}: mindestens drei Sätze`);
+      (texte[p.richtig] ||= []).push(p.text);
+    }
+  }
+  for (const [art, t] of Object.entries(texte)) assert.equal(new Set(t).size, 3, `${art}: A, B und C unterscheiden sich`);
+  const C = A.aufgaben.a5.niveaus.C[0].paare.map((p) => p.text).join(' ');
+  assert.doesNotMatch(C, /Ethanol|Säure|Schwermetall|Zitronensaft/, 'Niveau C nennt die Stoffe nur indirekt');
+  const ae = read('aehnlich.json')['a5.*.0'];
+  for (const p of ae.paare) assert.ok(p.titel && saetze(p.text) >= 3, `Übung ${p.titel}`);
+});

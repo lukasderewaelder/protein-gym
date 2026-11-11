@@ -712,7 +712,7 @@
         "titel": "Hilfekarte: Gerinnen im Alltag",
         "zeilen": ["Gerinnen lassen: Hitze, Säure, Alkohol, Schwermetallsalz.", "Beim Gerinnen wird das Eiweiß im Eiklar weiß und fest.", "Gerinnen ist nicht umkehrbar.", "Erhitzen lässt auch die Eiweiße von Keimen gerinnen."]
       },
-      "loesung": "Spiegelei braten: Hitze. Milch mit Zitronensaft: Säure. Hände mit Ethanol desinfizieren: Alkohol. Kupfersalz im Weinberg: Schwermetallsalz. Gerinntes Eiweiß lässt sich nicht zurückverwandeln. Hitze macht Essen haltbar, weil auch die Eiweiße der Keime gerinnen.",
+      "loesung": "Sonntagsfrühstück (Spiegelei in der Pfanne): Hitze. Pfannkuchen ohne Buttermilch (Zitronensaft oder Essig): Säure. Besuch im Krankenhaus (Desinfektionsmittel mit Ethanol): Alkohol. Pilz im Weinberg (Kupfersalz): Schwermetallsalz. Geronnenes Eiweiß lässt sich nicht zurückverwandeln. Hitze macht Essen haltbar, weil auch die Eiweiße der Keime gerinnen.",
       "niveaus": {
         "A": [
           {
@@ -721,19 +721,23 @@
             "optionen": ["Hitze", "Säure", "Alkohol", "Schwermetallsalz"],
             "paare": [
               {
-                "text": "Spiegelei in der Pfanne braten",
+                "titel": "Sonntagsfrühstück",
+                "text": "Am Sonntag gibt es Spiegelei. Kaum liegt das Ei in der heißen Pfanne, wird das Eiweiß im Eiklar am Rand weiß. Nach zwei Minuten ist es ganz fest.",
                 "richtig": "Hitze"
               },
               {
-                "text": "Milch mit Zitronensaft oder Essig versetzen",
+                "titel": "Pfannkuchen ohne Buttermilch",
+                "text": "Lena will Pfannkuchen backen, aber die Buttermilch ist alle. Ihr Opa rührt einen Schuss Zitronensaft in normale Milch. Zitronensaft enthält eine Säure. Nach ein paar Minuten wird die Milch dick und bildet weiße Flocken.",
                 "richtig": "Säure"
               },
               {
-                "text": "Hände mit Ethanol desinfizieren",
+                "titel": "Besuch im Krankenhaus",
+                "text": "Vor dem Krankenhauszimmer reibt sich ein Besucher die Hände mit Desinfektionsmittel ein. Es enthält viel Ethanol, also einen Alkohol, und verdunstet schnell. Die Eiweiße der Bakterien auf der Haut gerinnen, die Bakterien sterben ab.",
                 "richtig": "Alkohol"
               },
               {
-                "text": "Pilze im Weinberg mit einem Kupfersalz spritzen",
+                "titel": "Pilz im Weinberg",
+                "text": "Auf den Weinblättern breitet sich ein Pilz aus. Die Winzerin spritzt eine blaue Lösung mit einem Kupfersalz, also einem Schwermetallsalz. Die Eiweiße der Pilzzellen gerinnen, der Pilz stirbt ab und die Trauben bleiben gesund.",
                 "richtig": "Schwermetallsalz"
               }
             ]
@@ -753,19 +757,23 @@
             "optionen": ["Hitze", "Säure", "Alkohol", "Schwermetallsalz"],
             "paare": [
               {
-                "text": "Spiegelei in der Pfanne braten",
+                "titel": "Sonntagsfrühstück",
+                "text": "Am Sonntag gibt es Spiegelei. Kaum liegt das Ei in der Pfanne auf dem Herd, wird das Eiweiß im Eiklar am Rand weiß. Nach zwei Minuten ist es ganz fest.",
                 "richtig": "Hitze"
               },
               {
-                "text": "Milch mit Zitronensaft oder Essig versetzen",
+                "titel": "Pfannkuchen ohne Buttermilch",
+                "text": "Lena will Pfannkuchen backen, aber die Buttermilch ist alle. Ihr Opa rührt einen Schuss Zitronensaft in normale Milch. Nach ein paar Minuten wird die Milch dick und bildet weiße Flocken.",
                 "richtig": "Säure"
               },
               {
-                "text": "Hände mit Ethanol desinfizieren",
+                "titel": "Besuch im Krankenhaus",
+                "text": "Vor dem Krankenhauszimmer reibt sich ein Besucher die Hände mit Desinfektionsmittel ein. Es enthält viel Ethanol und verdunstet schnell. Die Bakterien auf der Haut werden dabei unschädlich gemacht.",
                 "richtig": "Alkohol"
               },
               {
-                "text": "Pilze im Weinberg mit einem Kupfersalz spritzen",
+                "titel": "Pilz im Weinberg",
+                "text": "Auf den Weinblättern breitet sich ein Pilz aus. Die Winzerin spritzt eine blaue Lösung mit einem Kupfersalz. Die Pilzzellen sterben ab, und die Trauben bleiben gesund.",
                 "richtig": "Schwermetallsalz"
               }
             ]
@@ -792,19 +800,23 @@
             "optionen": ["Hitze", "Säure", "Alkohol", "Schwermetallsalz"],
             "paare": [
               {
-                "text": "Spiegelei in der Pfanne braten",
+                "titel": "Sonntagsfrühstück",
+                "text": "Am Sonntag brutzelt das Frühstück auf dem Herd. Das Eiweiß im Eiklar ist erst durchsichtig und wird dann vom Rand her weiß. Nach zwei Minuten kann man das Spiegelei wenden, ohne dass es zerläuft.",
                 "richtig": "Hitze"
               },
               {
-                "text": "Milch mit Zitronensaft oder Essig versetzen",
+                "titel": "Pfannkuchen ohne Buttermilch",
+                "text": "Lena will Pfannkuchen backen, aber die Buttermilch ist alle. Ihr Opa gibt einen Löffel Essig in die Milch und rührt um. Nach ein paar Minuten wird die Milch dick und flockig.",
                 "richtig": "Säure"
               },
               {
-                "text": "Hände mit Ethanol desinfizieren",
+                "titel": "Besuch im Krankenhaus",
+                "text": "Im Krankenhaus hängt neben jeder Tür ein Spender. Wer hineingeht, reibt sich die Hände mit dem Mittel ein: Es riecht wie starker Schnaps und ist nach Sekunden verdunstet. Bakterien auf der Haut überleben das nicht.",
                 "richtig": "Alkohol"
               },
               {
-                "text": "Pilze im Weinberg mit einem Kupfersalz spritzen",
+                "titel": "Pilz im Weinberg",
+                "text": "Im Weinberg sind die Blätter fleckig, ein Pilz breitet sich aus. Die Winzerin spritzt ein altes, blaues Spritzmittel mit Kupfer, die „Bordeauxbrühe“. Der Pilz stirbt ab, die Trauben bleiben gesund.",
                 "richtig": "Schwermetallsalz"
               }
             ]

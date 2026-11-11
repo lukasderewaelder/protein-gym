@@ -149,7 +149,7 @@ function versuch(host, step, api, ctx) {
   const sicherheit = entsorgung.length ? [...v.sicherheit.slice(0, -1), ...entsorgung] : v.sicherheit;
   const zeit = gewaehlt.map((st) => [t.zeit.replace('{zeit}', st.zeit), st.zeitHinweis].filter(Boolean).join(' ')).join(' ');
   const codes = gewaehlt.map((st) => String(st.codeNachVersuch || '')).filter(Boolean);
-  const input = h('input', { class: 'name-input', type: 'text', inputmode: 'numeric', autocomplete: 'off', maxlength: '8', 'aria-label': 'Code deiner Lehrkraft', placeholder: t.codePlatzhalter });
+  const input = h('input', { class: 'code-eingabe', type: 'text', inputmode: 'numeric', autocomplete: 'off', maxlength: '8', 'aria-label': 'Code deiner Lehrkraft', placeholder: t.codePlatzhalter });
   const pruefe = () => {
     // Ein falscher Code zählt nicht als Fehler (api.say), damit das Lösungsbeispiel den Code nie überspringt
     if (codes.includes(input.value.trim())) { input.disabled = true; api.ok(t.codeRichtig); } else api.say(`✗ ${t.codeFalsch}`);

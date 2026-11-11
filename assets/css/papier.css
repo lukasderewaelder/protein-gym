@@ -191,3 +191,16 @@ dialog#zugang.papier .zugang-zu { background: var(--panel-2); }
 
 /* Protokoll zum Kopieren: als Text, nicht als scrollendes Feld */
 .protokoll-text { margin: 6px 0; padding: 8px 12px; white-space: pre-wrap; overflow-wrap: anywhere; font: calc(15px * var(--font-scale)) / 1.35 ui-monospace, "Courier New", monospace; background: #f4f6f8; border: 2px solid #b9c2c8; border-radius: 8px; color: var(--ink); user-select: text; -webkit-user-select: text; }
+
+/* Längere Situationen (zuordnen mit titel, z. B. Sauna a5): Überschrift fett, Situation als normaler Text, beides mindestens 18 px */
+.task-card.papier .probe.situation > strong { font-size: calc(18px * var(--font-scale)); }
+.task-card.papier .situation-text { margin: 2px 0 8px; font-size: calc(18px * var(--font-scale)); line-height: 1.4; font-weight: 400; }
+.task-card.papier .task-body.kompakt .situation-text { margin: 0 0 4px; line-height: 1.3; }
+
+/* Code der Lehrkraft nach dem Versuch: helles, schmales Feld neben dem Knopf */
+.task-card.papier .code-eingabe {
+  width: 8ch; min-height: 44px; padding: 4px 10px; border: 2px solid #5b6b70; border-radius: 8px;
+  background: #fff; color: #1d1d1d; font: 700 calc(24px * var(--font-scale)) ui-monospace, "Courier New", monospace; letter-spacing: 0.12em; text-align: center;
+}
+.task-card.papier .code-eingabe:disabled { background: #eaf6ee; border-color: #3aa060; color: #1d4a2c; }
+.task-card.papier .code-eingabe:focus-visible { outline: 3px solid #e8892e; outline-offset: 2px; }

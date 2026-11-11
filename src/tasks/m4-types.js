@@ -7,7 +7,9 @@ function zuordnen(host, step, api) {
   const gelöst = new Array(step.paare.length).fill(false);
   const zeilen = step.paare.map((p, i) => {
     const btns = step.optionen.map((o) => h('button', { type: 'button', class: 'option', onclick: () => pick(i, o, btns) }, o));
-    const row = h('div', 'probe', h('strong', {}, p.text), h('div', 'zeile', btns));
+    // Längere Situationen (Feld titel): kurze Überschrift, darunter die Situation als normaler Text, dann die Antworten
+    const kopf = p.titel ? [h('strong', {}, p.titel), h('p', 'situation-text', p.text)] : [h('strong', {}, p.text)];
+    const row = h('div', 'probe situation', ...kopf, h('div', 'zeile', btns));
     return { row, btns };
   });
   // Die Situationen stehen bei jedem Start in anderer Reihenfolge (die Wertung hängt nur am Index der Situation)
