@@ -122,22 +122,22 @@ export function createNotebook({ dialogEl, wissen, glossar, hefter, inventar, st
 
   function renderHefter() {
     const flags = store.state.flags;
-    const nodes = [h('p', 'nb-summe', 'Diese Einträge sichern den verbindlichen Stoff. Übernimm sie in deinen Hefter. Die Texte sind Vorschläge in eigenen Worten.')];
+    // Ein weißes Blatt über die ganze Seite: rote Hauptüberschrift, grüne Überschriften zu den wichtigen Teilen
+    const blatt = h('article', 'blatt', h('h3', 'blatt-titel', (hefter.blatt && hefter.blatt.titel) || 'Eiweiße'),
+      h('p', 'blatt-hinweis', 'Diese Einträge sichern den verbindlichen Stoff. Übernimm sie in deinen Hefter. Die Texte sind Vorschläge in eigenen Worten.'));
     for (const e of hefter.eintraege) {
       if (!flags[e.ab]) {
-        nodes.push(h('article', 'karte gesperrt', h('h4', {}, `🔒 ${e.titel}`), h('p', {}, `Kommt, wenn du ${AB_TEXT[e.ab] || 'den Raum'} geschafft hast.`)));
+        blatt.append(h('p', 'blatt-gesperrt', `🔒 ${e.titel}: Kommt, wenn du ${AB_TEXT[e.ab] || 'den Raum'} geschafft hast.`));
         continue;
       }
-      nodes.push(h('article', 'karte',
-        h('h4', {}, e.titel),
-        h('p', 'buch', e.dauer),
-        ...e.teile.map((t, i) => {
-          if (t.typ === 'merksatz') return h('p', 'merksatz', h('strong', {}, 'Merksatz: '), t.text);
-          if (t.typ === 'hinweis') return h('p', 'buch', t.text);
-          return h('div', 'auftrag-abschreiben', h('p', {}, t.text), haken(`${e.id}.${i}`));
-        })));
+      e.teile.forEach((t, i) => {
+        if (t.ueb) blatt.append(h('h4', 'blatt-ueb', t.ueb));
+        if (t.typ === 'merksatz') blatt.append(h('p', 'blatt-merk', t.text));
+        else if (t.typ === 'hinweis') blatt.append(h('p', 'blatt-hinweis', t.text));
+        else blatt.append(h('div', 'blatt-auftrag', h('p', {}, t.text), haken(`${e.id}.${i}`)));
+      });
     }
-    return nodes;
+    return [blatt];
   }
 
   function render() {
