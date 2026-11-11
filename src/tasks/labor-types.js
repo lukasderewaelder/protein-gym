@@ -201,8 +201,8 @@ function beobachtung(host, step, api, ctx) {
 
 function exportStep(host, step, api, ctx) {
   const text = protokollText({ names: ctx.store.state.names, versuch: ctx.versuch, protokoll: protokoll(ctx), stationen: step.stationen });
-  const ta = h('textarea', { rows: 12, readonly: true, 'aria-label': 'Protokoll als Text' });
-  ta.value = text;
+  // Als Text angezeigt (nicht als scrollendes Textfeld), damit nichts gescrollt werden muss; Markieren geht trotzdem
+  const ta = h('pre', { class: 'protokoll-text', 'aria-label': 'Protokoll als Text' }, text);
   const info = h('p', 'hint', '');
   const copy = h('button', {
     type: 'button',
@@ -211,8 +211,11 @@ function exportStep(host, step, api, ctx) {
         await navigator.clipboard.writeText(text);
         info.textContent = 'Das Protokoll liegt in der Zwischenablage.';
       } catch {
-        ta.focus();
-        ta.select();
+        const sel = window.getSelection();
+        const range = document.createRange();
+        range.selectNodeContents(ta);
+        sel.removeAllRanges();
+        sel.addRange(range);
         info.textContent = document.execCommand && document.execCommand('copy') ? 'Das Protokoll liegt in der Zwischenablage.' : 'Markiere den Text und kopiere ihn von Hand, oder mache ein Foto vom Bildschirm.';
       }
     },

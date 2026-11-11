@@ -130,3 +130,64 @@ dialog#zugang.papier { border-width: 3px; }
 dialog#zugang.papier .zugang-zu { background: var(--panel-2); }
 .papier .zugang-sprecher { color: var(--ink); }
 .papier .chip.chip-grau { background: #e6ebee; }
+
+/* ---------- Kein Scrollen: Aufgabenfenster als feste Zonen (Kopf, Seitenbereich, Rückmeldung, Knöpfe) ---------- */
+.task { overflow: hidden; padding: 8px; }
+.task-card.papier { display: flex; flex-direction: column; overflow: hidden; max-height: calc(100dvh - 16px); padding: 10px 18px 12px; }
+.task-card .task-head { flex: none; margin-bottom: 4px; padding-bottom: 4px; }
+.task-card .task-head h2 { font-size: calc(22px * var(--font-scale)); }
+.task-info { flex: none; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 14px; }
+.task-info .task-meta, .task-info .task-steps { margin: 0; }
+.task-info .task-levels { margin: 0; }
+.task-info .task-bar { flex: 1 1 140px; margin: 0; }
+.task-body { flex: 0 1 auto; min-height: 0; overflow: hidden; margin-top: 6px; }
+.task-body > .task-auftrag { margin-top: 0; }
+.task-info .task-nav { flex: none; margin-left: auto; }
+.task-info .task-nav button { min-height: 40px; padding: 4px 12px; }
+.task-card .task-feedback { flex: none; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+.task-card .task-foot { flex: none; position: static; margin-top: 8px; padding: 6px 0 0; }
+.task-body .task-help { margin: 8px 0 0; }
+.papier svg.formel { max-height: 34dvh; }
+.papier .formel-box { margin: 6px 0; }
+@media (max-height: 760px) {
+  .papier .frage, .papier .satz { margin: 4px 0; }
+  .papier .probe { padding: 4px 0; }
+  .papier .optionen, .papier .checkliste { margin: 6px 0; }
+}
+
+/* Kopf in einer Zeile: Titel, Niveau, Schließen; darunter Dauer, Schritt und Balken */
+.task-head { display: flex; align-items: center; gap: 10px; }
+.task-head h2 { flex: 1 1 auto; min-width: 0; }
+.task-head .task-levels { flex: none; margin: 0; gap: 6px; }
+.task-head .task-levels[hidden] { display: none; }
+.papier .task-head { padding-bottom: 6px; }
+/* Mehr als drei Antworten stehen in zwei Spalten */
+.papier .optionen:has(> :nth-child(4)), .papier .checkliste:has(> :nth-child(4)), .papier .zugang-optionen:has(> :nth-child(4)) { grid-template-columns: 1fr 1fr; }
+
+/* Kompakter Seitenbereich: engere Abstände, damit ein Schritt möglichst auf eine Seite passt (Schrift bleibt gleich groß) */
+.task-body.kompakt .frage, .task-body.kompakt .satz { margin: 3px 0; }
+.task-body.kompakt .task-auftrag { margin: 0 0 4px; padding: 4px 12px; }
+.task-body.kompakt .optionen, .task-body.kompakt .checkliste { margin: 4px 0; gap: 6px; }
+.task-body.kompakt .option { min-height: 44px; padding: 4px 14px; }
+.task-body.kompakt .checkliste label { min-height: 44px; padding: 4px 12px; }
+.task-body.kompakt .checkliste { gap: 6px; }
+.task-body.kompakt .probe { padding: 3px 0; }
+.task-body.kompakt .probe .zeile { margin: 3px 0; }
+.task-body.kompakt .formel-box { margin: 3px 0; padding: 4px; }
+.task-body.kompakt .kette-zeile { margin: 6px 0; }
+.task-body.kompakt ol.gewaehlt { margin: 4px 0; }
+.task-body.kompakt .zeile { margin: 4px 0; }
+.task-body.kompakt .hint { margin: 2px 0; }
+
+/* Blättern: Mit mehreren Seiten füllt der Seitenbereich den ganzen freien Platz, das Fenster behält seine Höhe */
+.task-card.papier:has(.task-body.seiten-voll) { height: calc(100dvh - 16px); }
+.task-body.seiten-voll { flex: 1 1 0; }
+/* Kopfzeile unter dem Titel bleibt einzeilig, damit die Höhe nicht springt, wenn „Seite x von y“ erscheint */
+.task-info { flex-wrap: nowrap; }
+.task-info .task-meta { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 0 1 auto; }
+.task-info .task-steps { flex: none; white-space: nowrap; }
+.task-info .task-bar { flex: 1 1 40px; min-width: 40px; }
+.task-card .task-feedback { margin-top: 6px; }
+
+/* Protokoll zum Kopieren: als Text, nicht als scrollendes Feld */
+.protokoll-text { margin: 6px 0; padding: 8px 12px; white-space: pre-wrap; overflow-wrap: anywhere; font: calc(15px * var(--font-scale)) / 1.35 ui-monospace, "Courier New", monospace; background: #f4f6f8; border: 2px solid #b9c2c8; border-radius: 8px; color: var(--ink); user-select: text; -webkit-user-select: text; }

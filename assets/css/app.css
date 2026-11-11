@@ -274,3 +274,11 @@ dialog#menu::backdrop { background: rgba(0, 0, 0, 0.6); }
 .tray-karte.neu { animation: tray-pop 0.9s ease-out; border-color: var(--accent); }
 @keyframes tray-pop { 0% { transform: scale(0.6) translateY(-16px); opacity: 0; } 60% { transform: scale(1.08); opacity: 1; } 100% { transform: scale(1); } }
 @media (prefers-reduced-motion: reduce) { .tray-karte.neu { animation: none; } }
+
+/* ---------- Seiten statt Scrollen (src/ui/seiten.js) ---------- */
+.seiten-nav { display: flex; align-items: center; justify-content: center; gap: 12px; }
+.seiten-nav[hidden] { display: none; }
+.seiten-text { min-width: 7.5em; text-align: center; font-weight: 700; font-size: calc(16px * var(--font-scale)); }
+
+/* Das hidden-Attribut gewinnt immer, auch gegen display: grid oder flex einzelner Bausteine (wichtig für das Blättern) */
+[hidden] { display: none !important; }

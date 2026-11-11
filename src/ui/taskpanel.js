@@ -6,6 +6,7 @@ import { h, clear } from './dom.js';
 import { TYPES } from '../tasks/types.js';
 import { fehlendeKarten, raumFertig, quizErgebnis, aehnlicheAufgabe } from '../tasks/check.js';
 import { encodeProgress } from '../state/progress.js';
+import { macheSeiten } from './seiten.js';
 import { merkeFortschritt, holeFortschritt, loescheFortschritt } from '../state/zwischenstand.js';
 
 /** Namen für Freigaben, die keine Wissenskarte sind (Anzeige im gesperrten Menüeintrag). */
@@ -22,14 +23,16 @@ export function createTaskPanel({ root, data, store, notebook, showCall, onRoomD
   const titleEl = root.querySelector('#task-title');
   const metaEl = root.querySelector('.task-meta');
   const levelsEl = root.querySelector('.task-levels');
-  const auftragEl = root.querySelector('.task-auftrag');
   const stepsEl = root.querySelector('.task-steps');
   const barEl = root.querySelector('.task-bar');
   const bodyEl = root.querySelector('.task-body');
+  const navEl = root.querySelector('.task-nav');
   const feedbackEl = root.querySelector('.task-feedback');
   const helpEl = root.querySelector('.task-help');
   const footEl = root.querySelector('.task-foot');
   const kartenById = new Map(data.wissen.karten.map((k) => [k.id, k]));
+  // Kein Scrollen: Was nicht auf eine Seite passt, wird auf Seiten verteilt (Zurück/Weiter unter dem Aufgabenbereich)
+  const seiten = macheSeiten(bodyEl, { nav: navEl, kleben: (k) => k.matches('.frage, .task-auftrag, h3, .satz, ol.gewaehlt') });
   let S = null;
   let roomId = null;
 
@@ -72,7 +75,6 @@ export function createTaskPanel({ root, data, store, notebook, showCall, onRoomD
     metaEl.textContent = 'Wähle ein Niveau und eine Aufgabe. Zuerst die Wissenskarten im Raum sammeln!';
     renderLevels(() => openMenu(room));
     levelsEl.hidden = rd.aufgaben.every((tid) => data.aufgaben.aufgaben[tid].niveaus.alle);
-    auftragEl.textContent = '';
     stepsEl.textContent = '';
     barEl.hidden = true;
     helpEl.hidden = true;
@@ -128,7 +130,6 @@ export function createTaskPanel({ root, data, store, notebook, showCall, onRoomD
     S.helped = false;
     const list = steps();
     const step = list[S.step];
-    auftragEl.textContent = S.t.auftrag;
     stepsEl.textContent = `${S.t.zaehlen ? 'Frage' : 'Schritt'} ${S.step + 1} von ${list.length}`;
     barEl.hidden = false;
     barEl.firstElementChild.style.setProperty('--fortschritt', `${Math.round(((S.step + 1) / list.length) * 100)}%`);
@@ -147,6 +148,8 @@ export function createTaskPanel({ root, data, store, notebook, showCall, onRoomD
   /** Baut die Bedienung eines Schritts auf (auch für die Ähnlichkeitsaufgabe) und verbindet die Rückmeldungen. */
   function mountStep(step) {
     clear(bodyEl);
+    // Der Auftrag der Aufgabe steht nur im ersten Schritt, als erster Block der ersten Seite
+    if (!S.inSimilar && S.step === 0 && S.t.auftrag) bodyEl.append(h('p', 'task-auftrag', S.t.auftrag));
     const api = {
       say(msg) { feedbackEl.className = 'task-feedback'; feedbackEl.textContent = msg; },
       ok(msg) {
@@ -168,6 +171,8 @@ export function createTaskPanel({ root, data, store, notebook, showCall, onRoomD
       },
     };
     S.inst = TYPES[step.type](bodyEl, step, api, { data: data.aufgaben, versuch: data.versuch, werbung: data.werbung, fall: data.fall, store });
+    bodyEl.append(helpEl); // Tipp, Hilfekarte und Lösung sind der letzte Block des Schritts
+    seiten.zeige(0);
     refreshFoot();
   }
 
@@ -194,6 +199,7 @@ export function createTaskPanel({ root, data, store, notebook, showCall, onRoomD
   function showHelp(kind) {
     clear(helpEl);
     helpEl.hidden = false;
+    queueMicrotask(() => { seiten.neu(); seiten.zeigeBlock(helpEl); });
     if (kind === 'tipp') helpEl.append(h('h3', {}, 'Tipp'), h('p', {}, S.t.tipp));
     else if (kind === 'karte') {
       const k = S.t.hilfekarte;
@@ -260,7 +266,6 @@ export function createTaskPanel({ root, data, store, notebook, showCall, onRoomD
     titleEl.textContent = 'Raum geschafft!';
     metaEl.textContent = '';
     levelsEl.hidden = true;
-    auftragEl.textContent = '';
     stepsEl.textContent = '';
     barEl.hidden = true;
     helpEl.hidden = true;

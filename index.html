@@ -36,13 +36,15 @@
     <div class="task-card papier" role="dialog" aria-modal="true" aria-labelledby="task-title">
       <header class="task-head">
         <h2 id="task-title"></h2>
+        <div class="task-levels" role="group" aria-label="Niveau"></div>
         <button id="task-close" type="button" aria-label="Aufgabe schließen">✕</button>
       </header>
-      <p class="task-meta"></p>
-      <div class="task-levels" role="group" aria-label="Niveau"></div>
-      <p class="task-steps"></p>
-      <div class="task-bar" aria-hidden="true" hidden><span></span></div>
-      <p class="task-auftrag"></p>
+      <div class="task-info">
+        <p class="task-meta"></p>
+        <p class="task-steps"></p>
+        <div class="task-bar" aria-hidden="true" hidden><span></span></div>
+        <nav class="task-nav" aria-label="Seiten" hidden></nav>
+      </div>
       <div class="task-body"></div>
       <p class="task-feedback" role="status" aria-live="polite"></p>
       <div class="task-help" hidden></div>
