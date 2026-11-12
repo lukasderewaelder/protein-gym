@@ -167,7 +167,7 @@ test('Hefter: drei Einträge, frei nach Raum, auf dem Blatt nur Abschreibstoff, 
   assert.equal(H.eintraege[2].ab, A.raeume.lieferung.fertigFlag, 'der Biuret-Eintrag erscheint erst nach der Prüfung der Lieferung');
   assert.deepEqual(H.eintraege.map((e) => e.sperrt), ['training', 'shakebar', 'schluss']);
   assert.deepEqual(H.eintraege.map((e) => e.erledigtMit), ['training_done', 'shakebar_done', 'quiz2_done']);
-  assert.equal(H.blatt.titel, '1.2 Eiweiße');
+  assert.equal(H.blatt.titel, '2. Eiweiße');
   for (const e of H.eintraege) {
     assert.ok(e.anweisungen && e.anweisungen.length >= 1, `${e.id}: Anweisungen für die Leiste`);
     for (const t of e.teile) {
