@@ -140,6 +140,8 @@ self.addEventListener('install', (event) => {
     (async () => {
       const cache = await caches.open(CACHE);
       await cache.addAll(ASSETS.map((url) => new Request(url, { cache: 'reload' })));
+      // Neue Version sofort übernehmen (sonst wartet sie, bis alle Tabs geschlossen sind); geladene Seiten laufen weiter, der nächste Start nutzt sie.
+      self.skipWaiting();
     })(),
   );
 });
