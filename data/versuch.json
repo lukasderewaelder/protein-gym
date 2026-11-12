@@ -10,6 +10,7 @@
   ],
   "versuchSchritt": {
     "einleitung": "Ab zu deiner Lehrkraft! Dort machst du den Versuch in echt.",
+    "ablaufTitel": "Ab an den Lehrertisch! Dort macht ihr den Versuch in echt. So geht ihr vor:",
     "sicherheitTitel": "Sicherheit",
     "zeit": "Dauert etwa {zeit}.",
     "codeFrage": "Nach dem Versuch nennt dir deine Lehrkraft einen Code. Er gilt nur kurz. Erst damit geht es weiter.",
@@ -43,6 +44,15 @@
     "entsorgung": "Glas 3 mit Kupfersulfat-Lösung (Fehling I) kommt in den Sammelbehälter, alles andere in den Ausguss.",
     "zeit": "8 Minuten",
     "zeitHinweis": "Glas 1 steht schon im Wasserbad.",
+    "ablauf": [
+      "Steht auf und geht gemeinsam zum Lehrertisch. Holt dort euer Versuchsprotokoll bei eurer Lehrkraft ab.",
+      "Rüstet euch aus: Kittel und Schutzbrille an.",
+      "Die Materialien stehen auf dem Lehrertisch: Reagenzgläser mit Ständer, Eiklarlösung, Salzsäure, Kupfersulfat-Lösung (Fehling I), Ethanol, Wasser und das Wasserbad. Ethanol gibt euch eure Lehrkraft.",
+      "Das Tablet bleibt an eurem Platz, damit nichts daraufspritzt. Führt den Versuch zusammen durch: In jedes Glas kommt nur ein Einfluss (Gläser unten und auf eurem Protokoll).",
+      "Tragt eure Beobachtungen in das Papierprotokoll ein.",
+      "Räumt auf: {entsorgung}",
+      "Holt euch danach bei eurer Lehrkraft den Code und gebt ihn hier am Tablet ein."
+    ],
     "vermutungOptionen": ["klar", "trüb oder fest"],
     "proben": [
       { "id": "p1", "nr": 1, "aktionen": ["Ins Wasserbad stellen"], "einfluss": "Hitze im Wasserbad", "erwartung": "trüb, fest", "passt": ["trüb", "trüb und fest", "ausgeflockt", "geronnen"], "sim": { "farbe": "#f4efe0", "flocken": 0, "trueb": 1 } },
@@ -60,6 +70,15 @@
     "regel": "Ein Glas, eine Probe, ein Nachweis: erst Natronlauge, dann Kupfersulfat-Lösung (Fehling I).",
     "entsorgung": "Alle Gläser enthalten Kupfersulfat-Lösung (Fehling I) und kommen in den Sammelbehälter.",
     "zeit": "6 Minuten",
+    "ablauf": [
+      "Steht auf und geht gemeinsam zum Lehrertisch. Holt dort euer Versuchsprotokoll bei eurer Lehrkraft ab.",
+      "Rüstet euch aus: Kittel und Schutzbrille an.",
+      "Die Materialien stehen auf dem Lehrertisch: Reagenzgläser mit Ständer, Eiweißshake, Zuckerlösung, Wasser, Natronlauge und Kupfersulfat-Lösung (Fehling I).",
+      "Das Tablet bleibt an eurem Platz, damit nichts daraufspritzt. Führt den Versuch zusammen durch: In jedes Glas kommt eine andere Probe, dazu erst Natronlauge, dann Kupfersulfat-Lösung (Fehling I).",
+      "Tragt eure Beobachtungen in das Papierprotokoll ein.",
+      "Räumt auf: {entsorgung}",
+      "Holt euch danach bei eurer Lehrkraft den Code und gebt ihn hier am Tablet ein."
+    ],
     "vermutungOptionen": ["violett", "nicht violett"],
     "proben": [
       { "id": "b1", "nr": 1, "aktionen": ["Natronlauge zugeben", "Kupfersulfat-Lösung (Fehling I) zugeben"], "probe": "Eiweißshake", "erwartung": "violett", "passt": ["violett"], "sim": { "farbe": "#8f5cc0", "flocken": 0, "trueb": 0 } },

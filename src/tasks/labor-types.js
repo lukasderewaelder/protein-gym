@@ -175,11 +175,17 @@ function versuch(host, step, api, ctx) {
   input.addEventListener('keydown', (e) => { if (e.key === 'Enter') pruefe(); });
   // Live (Code der Lehrkraft nach dem echten Versuch) oder digital (Aktivierungscode, Versuch am Bildschirm, zum Beispiel zu Hause).
   // Die Blöcke stehen direkt im Schrittkörper, damit sich der Inhalt auf Seiten verteilen lässt; beim Wechsel wird der Körper neu gesetzt.
+  // Ausdrücklicher Ablauf der Station (Protokoll abholen, ausrüsten, Material am Lehrertisch, Versuch, aufräumen, Code), ersetzt Einleitung
+  // und Sicherheitsliste. Jeder Punkt ist ein eigener Block, damit sich der Schritt auf Seiten verteilen lässt.
+  const ablauf = gewaehlt.flatMap((st) => (st.ablauf || []).map((s) => s.replaceAll('{entsorgung}', st.entsorgung || '')));
+  const kopf = ablauf.length
+    ? [h('p', 'frage', t.ablaufTitel || t.einleitung), ...ablauf.map((s, i) => h('div', `ablauf-schritt${i === 0 ? ' erst' : ''}`, h('span', 'ablauf-nr', String(i + 1)), h('p', {}, s)))]
+    : [h('p', 'frage', t.einleitung)];
+  const sicherheitsBlock = ablauf.length ? [] : [h('h3', {}, t.sicherheitTitel), h('ul', {}, sicherheit.map((s) => h('li', {}, s)))];
   const liveKnoten = [
-    h('p', 'frage', t.einleitung),
+    ...kopf,
     ...stationen,
-    h('h3', {}, t.sicherheitTitel),
-    h('ul', {}, sicherheit.map((s) => h('li', {}, s))),
+    ...sicherheitsBlock,
     h('p', 'hint', zeit),
     h('div', 'probe', h('p', {}, t.codeFrage), h('div', 'zeile', input, h('button', { class: 'primary', type: 'button', onclick: pruefe }, t.codeKnopf))),
   ];

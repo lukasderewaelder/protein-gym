@@ -164,6 +164,20 @@ test('Sicherheit: drei kurze Punkte (Kittel und Schutzbrille, Tablet, Entsorgung
   assert.match(V.codeHinweis, /keine Sicherheitsfreigabe/);
 });
 
+test('Beide Versuche nennen den Ablauf am Lehrertisch: Protokoll abholen, ausrüsten, Material, Tablet bleibt am Platz, Protokoll, aufräumen, Code', () => {
+  assert.ok(V.versuchSchritt.ablaufTitel && /Lehrertisch/.test(V.versuchSchritt.ablaufTitel));
+  const reihenfolge = [/Lehrertisch.*[Pp]rotokoll.*ab\./, /Kittel und Schutzbrille/, /Materialien stehen auf dem Lehrertisch/, /Tablet bleibt an eurem Platz/, /Papierprotokoll/, /Räumt auf: \{entsorgung\}/, /Code/];
+  for (const st of [V.stationA, V.lieferung]) {
+    assert.equal(st.ablauf.length, reihenfolge.length, `${st.id}: sieben Schritte`);
+    st.ablauf.forEach((s, i) => assert.match(s, reihenfolge[i], `${st.id}, Schritt ${i + 1}`));
+    const text = st.ablauf.join(' ');
+    assert.doesNotMatch(text, /Handschuh|Auslöser/i, `${st.id}: nur Kittel und Schutzbrille, kein „Auslöser“`);
+    assert.match(text, /Kupfersulfat-Lösung \(Fehling I\)/, `${st.id}: Kupfersulfat-Lösung mit Fehling I`);
+  }
+  assert.match(V.stationA.ablauf[2], /Eiklarlösung.*Salzsäure.*Kupfersulfat-Lösung \(Fehling I\).*Ethanol.*Wasser.*Wasserbad/);
+  assert.match(V.lieferung.ablauf[2], /Eiweißshake.*Zuckerlösung.*Wasser.*Natronlauge.*Kupfersulfat-Lösung \(Fehling I\)/);
+});
+
 test('Code der Lehrkraft erst nach dem Versuch: zeitbasiert, im Quelltext nur ein Prüfwert, keine festen Codes', () => {
   assert.equal(V.freigabeCode, undefined, 'kein Code vor dem Versuch');
   for (const st of [V.stationA, V.lieferung]) assert.equal(st.codeNachVersuch, undefined, 'keine festen Codes im Quelltext');

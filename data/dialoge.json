@@ -124,13 +124,13 @@
   "labor.hitze": {
     "speaker": "Hitze-Station",
     "lines": [
-      "Hier geht es um die fünf Gläser fürs Gerinnen. Bereite am Tablet alles vor, den Versuch machst du dann bei deiner Lehrkraft."
+      "Hier geht es um die fünf Gläser fürs Gerinnen. Bereite am Tablet alles vor. Für den Versuch holt ihr euch am Lehrertisch das Protokoll ab, zieht Kittel und Schutzbrille an und macht ihn dort in echt."
     ]
   },
   "labor.nachweis": {
     "speaker": "Nachweis-Station",
     "lines": [
-      "Hier prüfst du die neue Lieferung mit dem Biuret-Nachweis und trägst deine Beobachtung ins Protokoll ein."
+      "Hier prüfst du die neue Lieferung mit dem Biuret-Nachweis. Das Protokoll holt ihr am Lehrertisch ab, dort macht ihr mit Kittel und Schutzbrille auch den Versuch."
     ]
   },
   "labor.nachweis.spaeter": {
@@ -272,7 +272,7 @@
     "portrait": "trainer",
     "lines": [
       "Du hast den Fall gelöst, super! Eine Sache fehlt noch: Heute Morgen ist eine neue Lieferung gekommen.",
-      "Prüf im Labor an der Nachweis-Station, ob sie Eiweiß enthält. Den Versuch machst du bei deiner Lehrkraft."
+      "Prüf im Labor an der Nachweis-Station, ob sie Eiweiß enthält. Den Versuch macht ihr am Lehrertisch bei eurer Lehrkraft."
     ]
   },
   "labor.lieferung.fertig": {

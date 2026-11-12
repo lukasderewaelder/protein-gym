@@ -204,3 +204,9 @@ dialog#zugang.papier .zugang-zu { background: var(--panel-2); }
 }
 .task-card.papier .code-eingabe:disabled { background: #eaf6ee; border-color: #3aa060; color: #1d4a2c; }
 .task-card.papier .code-eingabe:focus-visible { outline: 3px solid #e8892e; outline-offset: 2px; }
+
+/* Ablauf beim Versuch am Lehrertisch: nummerierte Schritte, jeder ein eigener Block (blätterbar) */
+.task-card.papier .ablauf-schritt { display: flex; gap: 12px; align-items: flex-start; margin: 6px 0; }
+.task-card.papier .ablauf-schritt p { margin: 4px 0 0; }
+.task-card.papier .ablauf-schritt.erst p { font-weight: 700; }
+.task-card.papier .ablauf-nr { flex: none; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: #1e7a3a; color: #fff; font: 800 calc(18px * var(--font-scale)) system-ui, sans-serif; }

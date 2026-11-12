@@ -46,7 +46,7 @@
     },
     "labor_aufgabe": {
       "ort": "Labor",
-      "grob": "Du hast alle Hinweise. Jetzt kannst du die Aufgabe im Labor machen. Nach dem echten Versuch nennt dir deine Lehrkraft einen Code.",
+      "grob": "Du hast alle Hinweise. Jetzt kannst du die Aufgabe im Labor machen. Für den echten Versuch holt ihr am Lehrertisch das Protokoll ab, rüstet euch aus und führt ihn durch. Danach nennt euch eure Lehrkraft einen Code.",
       "konkret": "Tippe auf die Station mit dem Ausrufezeichen, den Herd links, und wähle die Aufgabe."
     },
     "sauna_code_suchen": {
@@ -107,7 +107,7 @@
     "lieferung_labor": {
       "ort": "Labor",
       "grob": "Der Fall ist gelöst, aber im Labor wartet noch eine neue Lieferung. Prüf, ob sie Eiweiß enthält.",
-      "konkret": "Geh ins Labor und tippe auf die Nachweis-Station, das Regal rechts. Den Versuch machst du bei deiner Lehrkraft."
+      "konkret": "Geh ins Labor und tippe auf die Nachweis-Station, das Regal rechts. Den Versuch macht ihr am Lehrertisch: Protokoll abholen, Kittel und Schutzbrille an, dann los."
     },
     "schlussquiz": {
       "ort": "Empfang",
