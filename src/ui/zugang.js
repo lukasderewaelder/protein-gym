@@ -487,8 +487,12 @@ export function createZugang({ dlg, store, daten }) {
 
   // ---------- Hilfe von Markus ----------
   /** Zwei Stufen: erst grob, dann auf Knopfdruck konkret. Keine automatischen Hinweise. */
-  function hilfe({ titel, knopf, schritt, beiStufe3 }) {
+  function hilfe({ titel, knopf, schritt, beiStufe3, weg }) {
     const karte = h('div', 'zugang-karte');
+    // „Dein Weg“: die Reihenfolge des Spiels mit Haken und der aktuellen Etappe
+    const wegListe = weg ? h('ol', { class: 'weg', 'aria-label': 'Dein Weg durch das Probetraining' },
+      weg.map((s) => h('li', { class: `weg-${s.status}`, 'aria-current': s.status === 'jetzt' ? 'step' : null },
+        h('span', 'weg-marke', s.status === 'fertig' ? '✓' : s.status === 'jetzt' ? '▶' : '·'), ` ${s.name}`))) : null;
     const stufe2 = h('p', 'hilfe-konkret', schritt.konkret);
     stufe2.hidden = true;
     const s3 = schritt.stufe3;
@@ -497,6 +501,7 @@ export function createZugang({ dlg, store, daten }) {
     const mehr3 = s3 ? h('button', { type: 'button', hidden: true, onclick: () => { mehr3.hidden = true; stufe3.hidden = false; if (beiStufe3) beiStufe3(s3.aktion); } }, s3.knopf || 'Zeig mir die Stelle') : null;
     const mehr = h('button', { type: 'button', onclick: () => { stufe2.hidden = false; mehr.hidden = true; if (mehr3) mehr3.hidden = false; } }, knopf);
     karte.append(
+      ...(wegListe ? [wegListe] : []),
       h('p', 'zugang-sprecher', h('strong', {}, 'Markus'), h('span', 'chip chip-grau', schritt.ort)),
       h('p', {}, schritt.grob),
       stufe2,

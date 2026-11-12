@@ -2,7 +2,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { naechsterSchritt } from '../src/state/naechster-schritt.js';
+import { naechsterSchritt, zielZeile, wegStationen } from '../src/state/naechster-schritt.js';
 import { alleFallKarten } from '../src/state/fall.js';
 
 const lies = (n) => JSON.parse(readFileSync(new URL(`../data/${n}.json`, import.meta.url), 'utf8'));
@@ -96,4 +96,52 @@ test('Ein nicht abgeschriebener Heftereintrag kommt vor dem gesperrten Raum', ()
   assert.equal(naechsterSchritt(f, d), 'hefter');
   assert.notEqual(naechsterSchritt(f, { ...d, haken: { h1: true } }), 'hefter');
   assert.notEqual(naechsterSchritt(f, { aufgaben: A, karten: [] }), 'hefter', 'ohne Hefterdaten wie bisher');
+});
+
+test('Ziel-Zeile: jede Station hat einen kurzen Satz (höchstens 40 Zeichen), Hinweise zählen die fehlenden Karten', () => {
+  for (const [id, s] of Object.entries(H.schritte)) {
+    assert.ok(s.kurz && s.kurz.length <= 40, `${id}: kurz fehlt oder ist zu lang (${(s.kurz || '').length})`);
+    assert.doesNotMatch(s.kurz, /Täter|Verdächtig|Auslöser/, id);
+  }
+  const z0 = zielZeile(schritt({}), {}, daten, H);
+  assert.equal(z0.id, 'spind');
+  assert.equal(z0.text, 'Öffne deinen Spind');
+  const z1 = zielZeile(schritt(mit('spind_gesehen')), mit('spind_gesehen'), daten, H);
+  assert.equal(z1.id, 'empfang_hinweise');
+  assert.match(z1.text, /^Such die Hinweise im Empfang \(noch \d+\)$/);
+  const f = mit('spind_gesehen', 'k_protein', 'k_wichtig');
+  assert.equal(zielZeile(schritt(f), f, daten, H).text, 'Sprich mit Markus', 'ohne Zähler, wenn nichts mehr fehlt');
+  assert.equal(zielZeile('gibtsnicht', {}, daten, H), null);
+});
+
+test('Ziel-Zeile: jeder Spielstand des Verlaufs ergibt eine Zeile mit Ort', () => {
+  for (const id of Object.keys(H.schritte)) {
+    const z = zielZeile(id, {}, daten, H);
+    assert.ok(z && z.text && z.ort, id);
+  }
+});
+
+test('Dein Weg: acht Etappen in Spielreihenfolge, genau eine ist „jetzt“, bis alles fertig ist', () => {
+  const namen = wegStationen({}).map((s) => s.name);
+  assert.deepEqual(namen, ['Empfang', 'Labor', 'Sauna', 'Training', 'Shake-Bar', 'Auflösung', 'Lieferung', 'Schlussquiz']);
+  assert.deepEqual(wegStationen({}).map((s) => s.status), ['jetzt', 'offen', 'offen', 'offen', 'offen', 'offen', 'offen', 'offen']);
+  const mitte = wegStationen(mit('empfang_done', 'labor_done')).map((s) => s.status);
+  assert.deepEqual(mitte, ['fertig', 'fertig', 'jetzt', 'offen', 'offen', 'offen', 'offen', 'offen']);
+  const alle = wegStationen(mit('empfang_done', 'labor_done', 'sauna_done', 'training_done', 'shakebar_done', 'quiz_done', 'lieferung_done', 'quiz2_done'));
+  assert.ok(alle.every((s) => s.status === 'fertig'), 'am Ende keine offene Etappe');
+});
+
+test('Raum-Begrüßungen: jeder Raum mit Aufgabe sagt beim ersten Betreten die Reihenfolge (Hinweise, dann Aufgabe)', () => {
+  const D = lies('dialoge');
+  const S = lies('szenen');
+  const mitAufgabe = ['labor', 'sauna', 'training', 'shakebar'];
+  for (const r of mitAufgabe) {
+    const d = D[`raum.${r}.start`];
+    assert.ok(d, `raum.${r}.start fehlt`);
+    assert.equal(d.setFlag, `raum_${r}_gruss`);
+    assert.match(d.lines.join(' '), /Hinweise/);
+    assert.match(d.lines.join(' '), /Aufgabe/);
+    assert.ok(S.szenen.some((s) => s.id === r), r);
+  }
+  assert.match(D['empfang.intro'].lines.join(' '), /Oben in der Leiste steht immer, was als Nächstes dran ist/);
 });

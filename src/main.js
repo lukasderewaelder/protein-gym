@@ -22,7 +22,7 @@ import { ladeSchluessel, speichereSchluessel, entferneSchluessel } from './state
 import { createZugang, ausweisKarte } from './ui/zugang.js';
 import { liste as inventarListe, neuAnzahl, markiereGesehen } from './state/inventar.js';
 import { renderInventar } from './ui/inventar.js';
-import { naechsterSchritt } from './state/naechster-schritt.js';
+import { naechsterSchritt, zielZeile, wegStationen } from './state/naechster-schritt.js';
 import { zaehleTuerVersuch, tuerHilfeDialog } from './state/tuerhilfe.js';
 import { h, clear } from './ui/dom.js';
 import { renderFund, fundIcon } from './ui/funde.js';
@@ -226,7 +226,7 @@ function renderTray(neuId = null) {
   if (!pflicht.length && !zusatz.length) { tray.hidden = true; return; }
   tray.hidden = false;
   const gefunden = pflicht.filter((k) => store.hasFlag(k.id)).length;
-  if (pflicht.length) tray.append(h('span', { class: 'tray-kopf', 'aria-label': `Hinweise: ${gefunden} von ${pflicht.length} gefunden` }, `Hinweise ${gefunden}/${pflicht.length}`));
+  if (pflicht.length) tray.append(h('span', { class: 'tray-kopf', 'aria-label': `Hinweise: ${gefunden} von ${pflicht.length} gefunden` }, h('span', {}, 'Hinweise'), h('span', {}, `${gefunden}/${pflicht.length}`)));
   for (const k of pflicht) tray.append(store.hasFlag(k.id) ? trayKarte(k, k.id === neuId) : h('span', { class: 'tray-leer', 'aria-hidden': 'true' }));
   for (const k of zusatz) tray.append(trayKarte(k, k.id === neuId));
 }
@@ -289,11 +289,18 @@ async function enterScene(id, { fade = true, pos = null } = {}) {
   store.save();
   $('#room-chip').textContent = scene.name;
   renderTray();
+  zielAktualisieren();
 
   if (fade) { await sleep(40); fadeEl.classList.remove('on'); }
   busy = false;
 
   if (id === 'empfang' && !store.hasFlag('intro_done')) playDialog('empfang.intro', undefined, askVorher);
+  else if (raumGruss(id)) playDialog(`raum.${id}.start`);
+}
+
+/** Beim ersten Betreten eines Raums sagt die Figur dort kurz die Reihenfolge (erst Hinweise, dann Aufgabe); nicht, wenn der Raum schon geschafft ist. */
+function raumGruss(id) {
+  return Boolean(DATA.dialogs[`raum.${id}.start`]) && !store.hasFlag(`raum_${id}_gruss`) && !store.hasFlag(`${id}_done`);
 }
 
 function rebuildCurrent() {
@@ -440,11 +447,28 @@ function sperre(hs) {
   text();
 }
 
+/** Ziel-Zeile in der oberen Leiste: zeigt immer die nächste Station (dieselbe Logik wie „Wie geht’s weiter?“); Antippen öffnet die genauere Hilfe. */
+let zielMerker = '';
+function zielAktualisieren() {
+  const knopf = $('#ziel');
+  if (!DATA.hilfe || !DATA.aufgaben || !store.hasNames()) { knopf.hidden = true; return; }
+  const daten = { aufgaben: DATA.aufgaben, karten: DATA.wissen.karten, hefter: DATA.hefter, haken: store.state.hefterHaken };
+  const z = zielZeile(naechsterSchritt(store.state.flags, daten), store.state.flags, daten, DATA.hilfe);
+  if (!z) { knopf.hidden = true; return; }
+  const schluessel = `${z.ort}|${z.text}`;
+  if (schluessel === zielMerker && !knopf.hidden) return;
+  zielMerker = schluessel;
+  $('#ziel-ort').textContent = z.ort && z.ort !== 'Überall' ? z.ort : '';
+  $('#ziel-text').textContent = z.text;
+  knopf.title = `Als Nächstes: ${z.ort && z.ort !== 'Überall' ? `${z.ort}: ` : ''}${z.text}. Antippen für genauere Hilfe.`;
+  knopf.hidden = false;
+}
+
 /** „Wie geht’s weiter?“: Markus nennt die nächste Station, auf Wunsch genauer. */
 function weiterDialog() {
   const id = naechsterSchritt(store.state.flags, { aufgaben: DATA.aufgaben, karten: DATA.wissen.karten, hefter: DATA.hefter, haken: store.state.hefterHaken });
   zugang.hilfe({
-    titel: DATA.hilfe.titel, knopf: DATA.hilfe.stufe2Knopf, schritt: DATA.hilfe.schritte[id],
+    titel: DATA.hilfe.titel, knopf: DATA.hilfe.stufe2Knopf, schritt: DATA.hilfe.schritte[id], weg: wegStationen(store.state.flags),
     // Hilfe 3 beim Saunacode: Spind öffnen, der kleine Zettel rechts oben an der Pinnwand blinkt kurz
     beiStufe3: (aktion) => { if (aktion === 'saunazettel') { zugang.schliesse(); notebook.open('karten', { hervorheben: true }); } },
   });
@@ -765,6 +789,11 @@ async function boot() {
   $('#zugang-zu').addEventListener('click', () => zugang.schliesse());
   $('#btn-tasche').addEventListener('click', taschenFenster);
   $('#btn-hilfe').addEventListener('click', weiterDialog);
+  $('#ziel').addEventListener('click', weiterDialog);
+  // Ziel-Zeile aktuell halten: bei jedem Flag, beim Raumwechsel (enterScene) und für Hefter-Haken, die kein Flag setzen
+  store.onFlag(zielAktualisieren);
+  setInterval(zielAktualisieren, 1000);
+  zielAktualisieren();
   $('#btn-weiter').addEventListener('click', () => { $('#menu').close(); weiterDialog(); });
   store.onFlag(() => taschePruefen());
   taschePruefen(false);

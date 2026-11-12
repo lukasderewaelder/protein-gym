@@ -255,14 +255,28 @@ dialog#menu::backdrop { background: rgba(0, 0, 0, 0.6); }
 }
 
 /* ---------- Hinweiskärtchen: eine Zeile in der oberen Leiste, gefundene als Symbol, fehlende als leere Plätze ---------- */
+/* Ziel-Zeile: nimmt in der Leiste den Platz zwischen Hinweisen und Knöpfen; Text wird bei Platzmangel mit … gekürzt */
+.ziel {
+  flex: 1 1 0; min-width: 0; height: 44px; margin: 0;
+  display: flex; flex-direction: column; align-items: flex-start; justify-content: center;
+  padding: 2px 12px; text-align: left; line-height: 1.15;
+  background: rgba(240, 138, 36, 0.14); border: 2px solid var(--accent); border-radius: 10px;
+}
+.ziel[hidden] { display: none; }
+/* Ein Absatz, höchstens zwei Zeilen: „▶ Labor · Such die Hinweise (noch 2)“ */
+.ziel-inhalt { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow: hidden; max-width: 100%; font-size: calc(14px * min(var(--font-scale), 1.1)); line-height: 1.15; }
+.ziel-pfeil { color: var(--accent); }
+.ziel-ort { color: var(--muted); }
+.ziel-ort:not(:empty)::after { content: " · "; }
+.ziel-text { font-weight: 700; }
 .tray {
-  flex: 1 1 auto; min-width: 0;
+  flex: 0 1 auto; min-width: 0;
   display: flex; flex-direction: row; align-items: center; gap: 6px;
   overflow: hidden;
 }
 .tray[hidden] { display: none; }
-.tray-kopf { flex: none; margin: 0 2px 0 0; font-size: calc(15px * min(var(--font-scale), 1.1)); font-weight: 700; color: var(--muted); white-space: nowrap; }
-.tray-leer { flex: none; width: 40px; height: 40px; border-radius: 10px; border: 2px dashed #4d7a80; }
+.tray-kopf { flex: none; margin: 0 2px 0 0; display: flex; flex-direction: column; align-items: center; font-size: calc(13px * min(var(--font-scale), 1.1)); line-height: 1.1; font-weight: 700; color: var(--muted); white-space: nowrap; }
+.tray-leer { flex: none; width: 36px; height: 36px; border-radius: 9px; border: 2px dashed #4d7a80; }
 .tray-karte {
   flex: none;
   display: inline-grid; place-items: center;

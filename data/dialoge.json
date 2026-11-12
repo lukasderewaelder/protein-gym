@@ -11,6 +11,7 @@
       "Viele Hinweise helfen dir nur, dich zurechtzufinden. Einige zeigen auf den Verursacher. Keine Sorge: Das war keine böse Absicht, sondern ein Versehen.",
       "Hinweise mit lila Rand sind Zusatzwissen für Neugierige. Du darfst sie lesen, musst aber nicht. Pflicht sind sie nicht.",
       "Warum der ganze Aufwand? Eiweiße sind für unseren Körper enorm wichtig. Was genau dahintersteckt, findest du auf deinem Weg Schritt für Schritt selbst heraus.",
+      "Oben in der Leiste steht immer, was als Nächstes dran ist. Tippst du darauf, bekommst du Hilfe und siehst deinen ganzen Weg.",
       "Tippe auf den Boden, um zu laufen, und auf funkelnde Dinge, um sie dir anzusehen. Schau dich um, öffne den Spind und komm dann für die Einweisung zu mir.",
       "Eine Frage vorab: Warum wird das Eiweiß im Eiklar in der Pfanne eigentlich fest? Merk dir deine Idee, wir kommen später darauf zurück."
     ]
@@ -258,6 +259,39 @@
     "portrait": "trainer",
     "lines": [
       "Zum Schluss die Shake-Bar, die Tür mit dem Becher. Dort wendest du dein Wissen an. Danach lösen wir den Fall gemeinsam: Komm zu mir, wenn du in allen Räumen warst."
+    ]
+  },
+  "raum.labor.start": {
+    "speaker": "Kupfer-Kurt",
+    "portrait": "kurt",
+    "setFlag": "raum_labor_gruss",
+    "lines": [
+      "Willkommen im Labor! Ich bin Kupfer-Kurt. So gehst du vor: Erst suchst du die Hinweise, überall dort, wo es funkelt. Dann machst du am Herd links die Aufgabe.",
+      "Oben in der Leiste steht immer, was als Nächstes dran ist."
+    ]
+  },
+  "raum.sauna.start": {
+    "speaker": "Hitze-Hannes",
+    "portrait": "hannes",
+    "setFlag": "raum_sauna_gruss",
+    "lines": [
+      "Hey, willkommen in der Sauna! Such zuerst die Hinweise, die funkeln. Danach machst du rechts an der Pfanne die Aufgabe. Danach geht es weiter zur Trainingsfläche."
+    ]
+  },
+  "raum.training.start": {
+    "speaker": "Markus",
+    "portrait": "trainer",
+    "setFlag": "raum_training_gruss",
+    "lines": [
+      "Das ist die Trainingsfläche. Auch hier gilt: Erst die Hinweise suchen, dann an der Werkbank rechts die Aufgaben machen. Danach wartet die Shake-Bar."
+    ]
+  },
+  "raum.shakebar.start": {
+    "speaker": "Alex",
+    "portrait": "alex",
+    "setFlag": "raum_shakebar_gruss",
+    "lines": [
+      "Willkommen an der Shake-Bar! Sieh dich zuerst nach Hinweisen um, dann kommt die Aufgabe an der Werbetafel links. Danach lösen wir den Fall bei Markus im Empfang."
     ]
   },
   "hefter.sperre": {

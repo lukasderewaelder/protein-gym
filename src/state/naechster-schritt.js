@@ -26,6 +26,45 @@ function raumStation(raum, flags, daten) {
   return `${raum}_aufgabe`;
 }
 
+/** Reihenfolge des Spiels als Etappen („Dein Weg“): Name und das Flag, das die Etappe abschließt. */
+export const WEG = [
+  { name: 'Empfang', fertig: 'empfang_done' },
+  { name: 'Labor', fertig: 'labor_done' },
+  { name: 'Sauna', fertig: 'sauna_done' },
+  { name: 'Training', fertig: 'training_done' },
+  { name: 'Shake-Bar', fertig: 'shakebar_done' },
+  { name: 'Auflösung', fertig: 'quiz_done' },
+  { name: 'Lieferung', fertig: 'lieferung_done' },
+  { name: 'Schlussquiz', fertig: 'quiz2_done' },
+];
+
+/** Etappen mit Status: 'fertig' (Haken), 'jetzt' (die erste noch offene) oder 'offen'. */
+export function wegStationen(flags) {
+  const f = flags || {};
+  let jetztVergeben = false;
+  return WEG.map((s) => {
+    if (f[s.fertig]) return { name: s.name, status: 'fertig' };
+    if (!jetztVergeben) { jetztVergeben = true; return { name: s.name, status: 'jetzt' }; }
+    return { name: s.name, status: 'offen' };
+  });
+}
+
+/**
+ * Dauerhafte Ziel-Zeile in der oberen Leiste: { ort, text } zur nächsten Station (kurzer Satz `kurz` aus data/hilfe.json). Bei „Hinweise suchen“
+ * kommt die Zahl der noch fehlenden Hinweise dazu („… (noch 2)“). Ohne Eintrag in der Hilfe: null.
+ */
+export function zielZeile(id, flags, daten, hilfe) {
+  const s = hilfe && hilfe.schritte && hilfe.schritte[id];
+  if (!s) return null;
+  let text = s.kurz || s.grob;
+  const m = /^(.+)_hinweise$/.exec(id);
+  if (m && daten && daten.aufgaben && daten.aufgaben.raeume[m[1]]) {
+    const n = fehlendes(m[1], flags || {}, daten).karten.length;
+    if (n > 0) text += ` (noch ${n})`;
+  }
+  return { id, ort: s.ort || '', text };
+}
+
 /**
  * Nächste Station als Schlüssel für data/hilfe.json.
  * flags: Flags des Spielstands; daten: { aufgaben, karten, hefter?, haken? } (aus data/aufgaben.json, den Wissenskarten, data/hefter.json
