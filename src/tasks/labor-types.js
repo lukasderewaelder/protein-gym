@@ -6,7 +6,7 @@
 import { h } from '../ui/dom.js';
 import { svgEl } from './molecule.js';
 import { beobachtungPasst, reihenfolge, alleProben, protokollText, probenName, stationenVon, notizSchluessel } from './check.js';
-import { pruefeCode, schrittFrei, schrittMerken } from '../state/lehrcode.js';
+import { pruefeCode, schrittFrei, schrittMerken, istNotfallCode } from '../state/lehrcode.js';
 import { ladeSchluessel } from '../state/klassenwort.js';
 
 function protokoll(ctx) {
@@ -152,10 +152,12 @@ function versuch(host, step, api, ctx) {
   const zeit = gewaehlt.map((st) => [t.zeit.replace('{zeit}', st.zeit), st.zeitHinweis].filter(Boolean).join(' ')).join(' ');
   const cfg = v.codeZeit || {};
   const versuchId = gewaehlt[0].id;
-  const input = h('input', { class: 'code-eingabe', type: 'text', inputmode: 'numeric', autocomplete: 'off', maxlength: String(cfg.stellen || 6), 'aria-label': 'Code deiner Lehrkraft', placeholder: t.codePlatzhalter });
+  const input = h('input', { class: 'code-eingabe', type: 'text', autocomplete: 'off', maxlength: '10', 'aria-label': 'Code deiner Lehrkraft', placeholder: t.codePlatzhalter });
   // Der Code wechselt alle 30 Sekunden (Klassenwort der Lehrkraft, src/state/lehrcode.js). Falsche, abgelaufene oder schon benutzte Codes
   // zählen nicht als Fehler (api.say), damit das Lösungsbeispiel den Code nie überspringt.
   const pruefe = async () => {
+    // Notfallcode (heutiges Datum): geht immer, ohne Einrichtung, beliebig oft
+    if (istNotfallCode(input.value, Date.now())) { input.disabled = true; api.ok(t.codeRichtig); return; }
     const schluessel = ladeSchluessel(globalThis.localStorage);
     if (!schluessel) { api.say(`✗ ${t.codeNichtEingerichtet}`); return; }
     const schritt = await pruefeCode(schluessel, versuchId, input.value, Date.now(), cfg);

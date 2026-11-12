@@ -81,6 +81,23 @@ export async function pruefeCode(schluesselHex, versuchId, eingabe, zeitMs, cfg 
   return null;
 }
 
+/**
+ * Notfallcode: immer das heutige Datum als dd.mm.yyyy (Ortszeit des Tablets). Er geht ohne Einrichtung, für beide Versuche und beliebig oft.
+ * Er ist bewusst einfach und steht deshalb öffentlich im Quelltext: nur für den Fall, dass die Codes nicht klappen (keine Hürde gegen Raten).
+ */
+export function notfallCode(zeitMs) {
+  const d = new Date(zeitMs);
+  const z = (n) => String(n).padStart(2, '0');
+  return `${z(d.getDate())}.${z(d.getMonth() + 1)}.${d.getFullYear()}`;
+}
+
+/** Ist die Eingabe der Notfallcode von heute? Die acht Ziffern ohne Punkte zählen auch (Zahlentastatur). */
+export function istNotfallCode(eingabe, zeitMs) {
+  const e = String(eingabe || '').replace(/\s+/g, '');
+  const heute = notfallCode(zeitMs);
+  return e === heute || e === heute.replace(/\./g, '');
+}
+
 /** Wurde dieser Zeitschritt auf diesem Gerät für den Versuch noch nicht benutzt? */
 export function schrittFrei(benutzt, versuchId, schritt) {
   return !((benutzt || {})[versuchId] || []).includes(schritt);

@@ -1,7 +1,7 @@
 // Zeitbasierte Codes nach dem Versuch: Berechnung, Toleranz, Wiederverwendung, Einrichtung eines Tablets.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { pruefwertVon, schluesselAus, wortPasst, codeFuer, aktuellerCode, pruefeCode, schrittVon, restSekunden, schrittFrei, schrittMerken, CODE_ZEIT } from '../src/state/lehrcode.js';
+import { pruefwertVon, schluesselAus, wortPasst, codeFuer, aktuellerCode, pruefeCode, notfallCode, istNotfallCode, schrittVon, restSekunden, schrittFrei, schrittMerken, CODE_ZEIT } from '../src/state/lehrcode.js';
 import { ladeSchluessel, speichereSchluessel, entferneSchluessel } from '../src/state/klassenwort.js';
 
 const IT = 1000; // wenige Runden genügen im Test
@@ -72,4 +72,17 @@ test('Einrichtung eines Tablets: nur ein gültiger Schlüssel wird gelesen, ohne
   assert.equal(ladeSchluessel(speicher), '', 'ungültiger Inhalt wird ignoriert');
   assert.equal(ladeSchluessel(null), '');
   assert.equal(speichereSchluessel({ setItem() { throw new Error('voll'); } }, k), false);
+});
+
+test('Notfallcode: heutiges Datum als dd.mm.yyyy, auch ohne Punkte, nur für heute', () => {
+  const heute = new Date(2026, 10, 12, 9, 30).getTime(); // Ortszeit
+  assert.equal(notfallCode(heute), '12.11.2026');
+  assert.equal(notfallCode(new Date(2027, 0, 5, 23, 59).getTime()), '05.01.2027', 'Tag und Monat immer zweistellig');
+  assert.equal(istNotfallCode('12.11.2026', heute), true);
+  assert.equal(istNotfallCode(' 12.11.2026 ', heute), true, 'Leerzeichen stören nicht');
+  assert.equal(istNotfallCode('12112026', heute), true, 'ohne Punkte (Zahlentastatur) auch');
+  assert.equal(istNotfallCode('11.11.2026', heute), false, 'gestern gilt nicht');
+  assert.equal(istNotfallCode('12.11.26', heute), false);
+  assert.equal(istNotfallCode('', heute), false);
+  assert.equal(istNotfallCode('12.11.2026', new Date(2026, 10, 13, 0, 5).getTime()), false, 'am nächsten Tag gilt das neue Datum');
 });
