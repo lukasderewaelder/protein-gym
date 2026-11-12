@@ -180,9 +180,18 @@ test('Hefter: drei Einträge, frei nach Raum, auf dem Blatt nur Abschreibstoff, 
   }
   const merke = H.eintraege.flatMap((e) => e.teile).filter((t) => t.typ === 'merksatz').map((t) => t.merke);
   assert.deepEqual(merke, ['Denaturieren', 'Aminosäuren'], 'nur die wichtigen Pflichtinhalte sind Merksätze');
-  // Wofür und warum stehen vor den Begriffen
-  const ueb1 = H.eintraege[0].teile.map((t) => t.ueb).filter(Boolean);
-  assert.deepEqual(ueb1.slice(0, 3), ['Wofür brauchen wir Eiweiße?', 'Warum müssen wir Eiweiß essen?', 'Protein und Eiweiß']);
+  // Grüne Überschriften (ueb) nur für echte Teilüberschriften; kleine Beschriftungen sind ein label (fette schwarze Zeile)
+  const ERLAUBT = ['Vorkommen und Verwendung', 'Bau', 'Denaturierung', 'Nachweis'];
+  const alleUeb = H.eintraege.flatMap((e) => e.teile.map((t) => t.ueb).filter(Boolean));
+  for (const u of alleUeb) assert.ok(ERLAUBT.some((x) => u === x || u === `${x} (Fortsetzung)`), `keine echte Teilüberschrift: ${u}`);
+  assert.deepEqual(alleUeb, ['Vorkommen und Verwendung', 'Denaturierung', 'Bau', 'Denaturierung (Fortsetzung)', 'Nachweis']);
+  assert.match(H.eintraege[1].teile.find((t) => t.ueb === 'Denaturierung (Fortsetzung)').text, /Reihenfolge der Aminosäuren/, 'Faltung und Gerinnen steht unter Denaturierung');
+  assert.match(H.eintraege[1].anweisungen.join(' '), /unter deine Überschrift Denaturierung/);
+  // Wofür und warum stehen vor dem Begriff „Protein und Eiweiß“
+  const txt1 = H.eintraege[0].teile.map((t) => t.text || '');
+  assert.ok(txt1.findIndex((x) => /^Eiweiße sind Baustoffe/.test(x)) < txt1.findIndex((x) => /^Der Körper baut/.test(x)));
+  assert.ok(txt1.findIndex((x) => /^Der Körper baut/.test(x)) < txt1.findIndex((x) => /^Protein und Eiweiß bedeuten/.test(x)));
+  assert.deepEqual(H.eintraege.flatMap((e) => e.teile.map((t) => t.label).filter(Boolean)), ['Versuchstabelle: Denaturierung', 'Aufbau einer Aminosäure', 'Versuchstabelle: Lieferung']);
   // Abbildungen: bekannte Arten, Formeln nur Glycin und Alanin (plus allgemein)
   const abb = H.eintraege.flatMap((e) => e.teile).filter((t) => t.typ === 'abbildung');
   for (const t of abb) assert.ok(['aminosaeure', 'kette'].includes(t.art), t.art);

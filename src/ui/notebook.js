@@ -140,7 +140,9 @@ export function createNotebook({ dialogEl, wissen, glossar, hefter, inventar, st
         continue;
       }
       for (const t of e.teile) {
+        // Grün (ueb) nur für echte Teilüberschriften; kleine Beschriftungen (label) sind eine fette schwarze Zeile
         if (t.ueb) blatt.append(h('h4', 'blatt-ueb', t.ueb));
+        if (t.label) blatt.append(h('p', 'blatt-label', t.label));
         // Nur Wichtiges ist ein Merksatz: roter Rahmen, Überschrift „Merke: <Begriff>“; alles andere ist normaler Text
         if (t.typ === 'merksatz') blatt.append(h('div', 'blatt-merk', h('p', 'blatt-merke-kopf', t.merke ? `Merke: ${t.merke}` : 'Merke'), h('p', 'blatt-merke-text', t.text)));
         else if (t.typ === 'abbildung') blatt.append(abbildung(t));
@@ -170,7 +172,7 @@ export function createNotebook({ dialogEl, wissen, glossar, hefter, inventar, st
       nav,
       kompakt: false,
       ignorieren: (k) => k.classList.contains('pin-zettel-oben') || k.classList.contains('pin-faeden'),
-      kleben: (k) => k.matches('.pin-summe, .nb-summe, h3, h4'),
+      kleben: (k) => k.matches('.pin-summe, .nb-summe, h3, h4, .blatt-label'),
       beiWechsel: () => { if (tab === 'karten') requestAnimationFrame(zieheFaeden); },
     });
     if (dialogEl.open) requestAnimationFrame(() => seiten && seiten.neu());

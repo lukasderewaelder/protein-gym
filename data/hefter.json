@@ -16,22 +16,20 @@
       "teile": [
         {
           "typ": "text",
-          "ueb": "Wofür brauchen wir Eiweiße?",
+          "ueb": "Vorkommen und Verwendung",
           "text": "Eiweiße sind Baustoffe für Muskeln, Haut und Haare. Sie transportieren Stoffe im Körper und schützen ihn vor Krankheitserregern."
         },
         {
           "typ": "text",
-          "ueb": "Warum müssen wir Eiweiß essen?",
           "text": "Der Körper baut seine Eiweiße ständig ab und neu. Deshalb müssen wir täglich Eiweiß mit der Nahrung aufnehmen."
         },
         {
           "typ": "text",
-          "ueb": "Protein und Eiweiß",
           "text": "Protein und Eiweiß bedeuten dasselbe."
         },
         {
           "typ": "merksatz",
-          "ueb": "Gerinnen (Denaturieren)",
+          "ueb": "Denaturierung",
           "merke": "Denaturieren",
           "text": "Beim Denaturieren (Stocken, Gerinnen) verändert das Eiweiß seine Struktur, es wird z. B. fest. So können z. B. Organismen abgetötet werden. Der Vorgang ist nicht umkehrbar."
         },
@@ -41,7 +39,7 @@
         },
         {
           "typ": "text",
-          "ueb": "Versuchstabelle: Denaturierung",
+          "label": "Versuchstabelle: Denaturierung",
           "text": "Probe · Einfluss · Beobachtung"
         }
       ]
@@ -55,13 +53,14 @@
       "dauer": "ca. 7 Minuten",
       "anweisungen": [
         "Übernimm alles, was auf dem Blatt steht, in deinen Hefter, und zeichne die Abbildungen ab.",
+        "Schreibe die Fortsetzung unter deine Überschrift Denaturierung aus Eintrag 1.",
         "Glycin und Alanin musst du nur abzeichnen, nicht auswendig lernen.",
         "Zusatz für Schnelle: Zwei Aminosäuren verbinden sich über die Peptidbindung zu einem Dipeptid, dabei wird Wasser frei."
       ],
       "teile": [
         {
           "typ": "merksatz",
-          "ueb": "Bau der Eiweiße",
+          "ueb": "Bau",
           "merke": "Aminosäuren",
           "text": "Proteine (Eiweiße) bestehen aus Aminosäuren. Die Aminosäuren sind die Bausteine (Monomere), das Eiweiß ist ein langes Molekül aus vielen Aminosäuren (Polymer)."
         },
@@ -71,14 +70,14 @@
         },
         {
           "typ": "abbildung",
-          "ueb": "Aufbau einer Aminosäure",
+          "label": "Aufbau einer Aminosäure",
           "art": "aminosaeure",
           "formeln": [["allgemein", "R"], ["Glycin", "H"], ["Alanin", "CH₃"]],
           "unterschrift": "Links die Aminogruppe (H₂N), rechts die Carboxygruppe (COOH), oben der Rest R."
         },
         {
           "typ": "text",
-          "ueb": "Faltung und Gerinnen",
+          "ueb": "Denaturierung (Fortsetzung)",
           "text": "Die Kette eines Proteins ist zu einer festen Form gefaltet, schwache Verbindungen (Wasserstoffbrücken) halten die Falten. Beim Denaturieren lösen Hitze, Säuren, Alkohol oder Schwermetallsalze diese Verbindungen, die Kette entfaltet sich und verklumpt. Dabei geht die „aktive“ Form dauerhaft verloren. Zerstört ist das Eiweiß aber nicht: Die Reihenfolge der Aminosäuren in der Kette bleibt erhalten."
         },
         {
@@ -102,12 +101,12 @@
       "teile": [
         {
           "typ": "text",
-          "ueb": "Biuret-Nachweis",
+          "ueb": "Nachweis",
           "text": "Die Probe wird mit Natronlauge und Kupfersulfat-Lösung (Fehling I) versetzt. Eine Violettfärbung zeigt Eiweiß an."
         },
         {
           "typ": "text",
-          "ueb": "Versuchstabelle: Lieferung",
+          "label": "Versuchstabelle: Lieferung",
           "text": "Probe · Beobachtung · Ergebnis"
         }
       ]

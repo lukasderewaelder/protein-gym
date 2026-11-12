@@ -211,6 +211,7 @@ svg.formel .denat-text { fill: var(--muted); font-family: system-ui, sans-serif;
 .blatt .blatt-merke-kopf { margin: 0 0 2px; font-weight: 700; color: #c62828; font-family: var(--font-pixel); font-size: calc(18px * var(--font-scale)); }
 .blatt .blatt-merke-text { margin: 0; }
 .blatt .blatt-text { margin: 8px 0; }
+.blatt .blatt-label { margin: 14px 0 2px; font-weight: 700; color: #1d1d1d; }
 .blatt .blatt-auftrag { margin-top: 10px; color: #3a444c; font-size: calc(17px * var(--font-scale)); }
 .blatt .blatt-auftrag p { margin: 0; }
 .blatt .blatt-gesperrt { margin-top: 22px; padding: 12px 14px; border: 2px dashed #9aa5ad; border-radius: 8px; color: #5b6670; }
