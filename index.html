@@ -20,8 +20,10 @@
 <body>
   <canvas id="stage" aria-label="Spielfläche"></canvas>
 
+  <!-- Obere Leiste: eigener Streifen über der Spielfläche (die Zeichenfläche beginnt darunter), nichts liegt auf der Szene -->
   <div id="hud" hidden>
     <span id="room-chip" class="chip"></span>
+    <div id="tray" class="tray" role="group" aria-label="Hinweiskärtchen in diesem Raum" hidden></div>
     <div class="hud-right">
       <button id="btn-hilfe" class="icon-btn" type="button" aria-label="Wie geht's weiter?" title="Wie geht's weiter?">?</button>
       <button id="btn-tasche" class="icon-btn" type="button" aria-label="Tasche">🎒<span id="tasche-zahl" class="badge" hidden></span></button>
@@ -29,8 +31,6 @@
       <button id="btn-menu" class="icon-btn" type="button" aria-label="Menü">☰</button>
     </div>
   </div>
-
-  <div id="tray" class="tray" aria-label="Hinweiskärtchen in diesem Raum" hidden></div>
 
   <div id="task" class="task" hidden>
     <div class="task-card papier" role="dialog" aria-modal="true" aria-labelledby="task-title">

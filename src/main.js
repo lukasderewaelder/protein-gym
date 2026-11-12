@@ -205,11 +205,17 @@ function passeFundEin(art) {
 
 function trayKarte(k, neu) {
   const art = fundart(k.medium);
-  return h('button', { type: 'button', class: `tray-karte${istZusatz(k) ? ' zusatz' : ''}${neu ? ' neu' : ''}`, style: `--fund-farbe:${art.farbe}`, title: art.name, onclick: () => showFund(k, false) },
-    h('span', 'tray-haken', fundIcon(art.id, 20)), k.titel.replace(/ (Zusatzwissen)$/, ''));
+  const titel = k.titel.replace(/ \(Zusatzwissen\)$/, '');
+  return h('button', {
+    type: 'button', class: `tray-karte${istZusatz(k) ? ' zusatz' : ''}${neu ? ' neu' : ''}`, style: `--fund-farbe:${art.farbe}`,
+    title: istZusatz(k) ? `${titel} (Zusatzwissen)` : titel, 'aria-label': `Hinweiskärtchen: ${titel}`, onclick: () => showFund(k, false),
+  }, h('span', 'tray-haken', fundIcon(art.id, 22)));
 }
 
-/** Leiste mit den Hinweiskärtchen dieses Raums: gefundene sind dauerhaft antippbar, fehlende zeigen nur, dass noch etwas zu entdecken ist. */
+/**
+ * Hinweiskärtchen dieses Raums als eine Zeile in der oberen Leiste (nie über der Szene): gefundene als antippbares Symbol der Fundart,
+ * fehlende als leere Plätze, dazu der Zähler. Zusatzkarten erscheinen erst nach dem Fund.
+ */
 function renderTray(neuId = null) {
   const tray = $('#tray');
   clear(tray);
@@ -220,14 +226,8 @@ function renderTray(neuId = null) {
   if (!pflicht.length && !zusatz.length) { tray.hidden = true; return; }
   tray.hidden = false;
   const gefunden = pflicht.filter((k) => store.hasFlag(k.id)).length;
-  if (pflicht.length) {
-    tray.append(h('div', 'tray-kopf',
-      h('span', {}, `Hinweise: ${gefunden} von ${pflicht.length}`),
-      h('span', 'tray-punkte', pflicht.map((k) => h('i', { class: store.hasFlag(k.id) ? 'an' : '' })))));
-  }
-  for (const k of pflicht.filter((x) => store.hasFlag(x.id))) {
-    tray.append(trayKarte(k, k.id === neuId));
-  }
+  if (pflicht.length) tray.append(h('span', { class: 'tray-kopf', 'aria-label': `Hinweise: ${gefunden} von ${pflicht.length} gefunden` }, `Hinweise ${gefunden}/${pflicht.length}`));
+  for (const k of pflicht) tray.append(store.hasFlag(k.id) ? trayKarte(k, k.id === neuId) : h('span', { class: 'tray-leer', 'aria-hidden': 'true' }));
   for (const k of zusatz) tray.append(trayKarte(k, k.id === neuId));
 }
 

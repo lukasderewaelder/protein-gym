@@ -121,6 +121,42 @@ export const audit = {
     return bad;
   },
 
+  /**
+   * Nichts liegt über der Spielfläche: In jedem Raum darf kein sichtbares Bedienelement (Leiste, Hinweis-Kärtchen, Knöpfe) die Szene
+   * oder die Tippfläche eines Hotspots schneiden. Das Gesprächsfeld wird getrennt gemeldet (es sperrt die Szene, solange es offen ist).
+   */
+  async ueberlagerung() {
+    const pg = window.__pg;
+    const szenen = (await fetch('data/szenen.json').then((r) => r.json())).szenen;
+    const schnitt = (a, b) => a.left < b.right && b.left < a.right && a.top < b.bottom && b.top < a.bottom;
+    const bad = [];
+    const gespraech = [];
+    for (const sz of szenen) {
+      await pg.goto(sz.id);
+      await new Promise((r) => setTimeout(r, 500));
+      const st = document.querySelector('#stage').getBoundingClientRect();
+      const k = Math.min(st.width / 1536, st.height / 1024);
+      const ox = st.left + (st.width - 1536 * k) / 2;
+      const oy = st.top + (st.height - 1024 * k) / 2;
+      const welt = { left: ox, top: oy, right: ox + 1536 * k, bottom: oy + 1024 * k };
+      const ui = [...document.querySelectorAll('#hud, #hud *')].filter((el) => el.getClientRects().length).map((el) => ({ el, r: el.getBoundingClientRect() }));
+      for (const { el, r } of ui) if (schnitt(r, welt)) bad.push(`${sz.id}: ${el.id || el.className || el.tagName} liegt über der Szene`);
+      const box = document.querySelector('#dialog .dialog-box');
+      for (const hs of sz.hotspots) {
+        const z = hs.ziel || hs;
+        const rad = Math.max(z.r || 40, 28 / k) * k;
+        const ziel = { left: ox + z.x * k - rad, right: ox + z.x * k + rad, top: oy + z.y * k - rad, bottom: oy + z.y * k + rad };
+        for (const { el, r } of ui) if (schnitt(r, ziel)) bad.push(`${sz.id}: ${hs.id} verdeckt von ${el.id || el.className || el.tagName}`);
+        if (box) {
+          document.querySelector('#dialog').hidden = false;
+          if (schnitt(box.getBoundingClientRect(), ziel)) gespraech.push(`${sz.id}: ${hs.id}`);
+          document.querySelector('#dialog').hidden = true;
+        }
+      }
+    }
+    return { size: `${innerWidth}x${innerHeight}`, bad, gespraechsfeldUeber: gespraech };
+  },
+
   async alles() {
     const pg = window.__pg;
     pg.unlockAll();
