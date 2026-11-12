@@ -237,7 +237,7 @@ function drawGeraet(ctx, hs, time, offen) {
 }
 
 /**
- * Schloss eines Schließfachs, je nach Art (hs.schloss): „digital“ = Zahlenfeld, „dreh“ = Drehscheibe, „schluessel“ = Schlüsselloch.
+ * Schloss eines Schließfachs, je nach Art (hs.schloss): „digital“ = Zahlenfeld, „dreh“ = Drehscheibe, „rad“ = Zahlenrädchen, „schluessel“ = Schlüsselloch.
  * Oben ein Lämpchen (gelb zu, grün offen), darunter die Nummer des Fachs.
  */
 function drawFach(ctx, hs, time, offen) {
@@ -277,6 +277,22 @@ function drawFach(ctx, hs, time, offen) {
     ctx.lineTo(0, -2);
     ctx.closePath();
     ctx.fill();
+  } else if (art === 'rad') {
+    // Zahlenrädchen wie bei einem Fahrradschloss: drei schmale Rollen mit je einer Ziffer
+    for (let c = 0; c < 3; c++) {
+      const x = -12 + c * 8.5;
+      ctx.fillStyle = '#d7dee0';
+      roundRect(ctx, x, -2, 7, 18, 2);
+      ctx.fill();
+      ctx.fillStyle = '#2b3b3f';
+      ctx.fillRect(x + 1.5, 5, 4, 4);
+    }
+    ctx.strokeStyle = '#9fb0b5';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(-12.5, 7);
+    ctx.lineTo(12.5, 7);
+    ctx.stroke();
   } else if (art === 'schluessel') {
     // Schlüsselloch in einem Metallring
     ctx.fillStyle = '#9fb0b5';

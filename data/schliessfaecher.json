@@ -1,6 +1,6 @@
 {
   "titel": "Bonus-Schließfächer",
-  "hinweis": "Die Schließfächer in der Spindwand im Empfang sind ein Bonus. Sie gehören nicht zum Pflichtstoff und zählen nirgends mit. Jedes Fach hat ein anderes Schloss: Zahlenschloss (digital), Drehschloss oder Schlüssel. Die Codes stehen auf Zetteln, die Schlüssel liegen versteckt in den Räumen.",
+  "hinweis": "Die Schließfächer in der Spindwand im Empfang sind ein Bonus. Sie gehören nicht zum Pflichtstoff und zählen nirgends mit. Es gibt vier Schlossarten: Zahlenfeld, Drehscheibe, Zahlenrädchen (wie bei einem Fahrradschloss) und Schlüssel. Die Codes stehen auf Zetteln, der Schlüssel liegt versteckt in einem Raum.",
   "faecher": [
     {
       "id": 1, "flag": "bonus_1", "schloss": "digital", "code": "417", "x": 491, "y": 320,
@@ -9,11 +9,10 @@
       "zettel": { "szene": "empfang", "x": 1160, "y": 610, "zeilen": ["Schließfach 1:", "Code {code}", "Ein Zettel, der sich hinter dem Sofa versteckt hat. Nicht verraten!"] }
     },
     {
-      "id": 2, "flag": "bonus_2", "schloss": "schluessel", "x": 572, "y": 320,
+      "id": 2, "flag": "bonus_2", "schloss": "rad", "code": "352", "x": 572, "y": 320,
       "typ": "spass", "name": "Kurts Notiz", "emoji": "📝",
       "text": "Im Fach liegt ein Zettel von Kupfer-Kurt: „Ich bin Wissenschaftler, Metalle sind mein Gebiet. Von Eiweißen verstehe ich nicht viel. Ergo: Fragt lieber nicht mich.“ Darunter: „P. S.: Was sagt ein Kupferatom zum anderen? Cu später!“",
-      "schluessel": { "name": "Schlüssel Nr. 2", "fundort": "Ein kleiner Schlüssel mit einer 2 am Anhänger. Er klebte unter dem Labortisch." },
-      "zettel": { "szene": "labor", "x": 520, "y": 790 }
+      "zettel": { "szene": "labor", "x": 520, "y": 790, "zeilen": ["Schließfach 2:", "Code {code}", "Ein Zettel mit drei Zahlen klebte unter dem Labortisch."] }
     },
     {
       "id": 3, "flag": "bonus_3", "schloss": "dreh", "code": "608", "x": 648, "y": 320,

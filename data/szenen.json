@@ -16,7 +16,7 @@
         { "id": "poster", "label": "Poster", "type": "dialog", "x": 1118, "y": 415, "r": 70, "karte": "z_protein", "ziel": { "x": 1185, "y": 185, "r": 70 } },
         { "id": "brett", "label": "Schwarzes Brett", "type": "dialog", "x": 1400, "y": 520, "r": 70, "karte": "z_struktur", "ziel": { "x": 1445, "y": 270, "r": 85 } },
         { "id": "fach_1", "label": "Schließfach 1", "type": "fach", "schloss": "digital", "x": 491, "y": 320, "r": 48, "aktion": "fach", "fach": 1, "ziel": { "x": 491, "y": 225, "r": 40 } },
-        { "id": "fach_2", "label": "Schließfach 2", "type": "fach", "schloss": "schluessel", "x": 572, "y": 320, "r": 48, "aktion": "fach", "fach": 2, "ziel": { "x": 572, "y": 225, "r": 40 } },
+        { "id": "fach_2", "label": "Schließfach 2", "type": "fach", "schloss": "rad", "x": 572, "y": 320, "r": 48, "aktion": "fach", "fach": 2, "ziel": { "x": 572, "y": 225, "r": 40 } },
         { "id": "fach_3", "label": "Schließfach 3", "type": "fach", "schloss": "dreh", "x": 648, "y": 320, "r": 48, "aktion": "fach", "fach": 3, "ziel": { "x": 648, "y": 225, "r": 40 } },
         { "id": "fach_4", "label": "Schließfach 4", "type": "fach", "schloss": "digital", "x": 724, "y": 320, "r": 48, "aktion": "fach", "fach": 4, "ziel": { "x": 724, "y": 225, "r": 40 } },
         { "id": "fach_5", "label": "Schließfach 5", "type": "fach", "schloss": "schluessel", "x": 964, "y": 320, "r": 48, "aktion": "fach", "fach": 5, "ziel": { "x": 964, "y": 225, "r": 40 } },
@@ -64,7 +64,7 @@
         { "id": "plakat", "label": "Plakat: Nachweise", "type": "dialog", "x": 545, "y": 315, "r": 70, "karte": "k_biuret", "ziel": { "x": 505, "y": 125, "r": 70 } },
         { "id": "kurt", "label": "Kupfer-Kurt", "type": "npc", "x": 700, "y": 640, "r": 80, "dialog": "labor.kurt", "karte": "k_ausloeser", "color": "#c97b3c" },
         { "id": "schrank", "label": "Chemikalienschrank", "type": "dialog", "x": 350, "y": 330, "r": 70, "karte": "f_labor", "ziel": { "x": 315, "y": 255, "r": 60 } },
-        { "id": "zettel_2", "label": "Schlüssel", "type": "dialog", "x": 380, "y": 800, "r": 55, "aktion": "zettel", "zettel": 2, "ziel": { "x": 150, "y": 775, "r": 45 } },
+        { "id": "zettel_2", "label": "Zettel", "type": "dialog", "x": 380, "y": 800, "r": 55, "aktion": "zettel", "zettel": 2, "ziel": { "x": 150, "y": 775, "r": 45 } },
         { "id": "tuer_zurueck", "label": "Zum Empfang", "type": "door", "x": 768, "y": 850, "r": 90, "to": "empfang" }
       ]
     },

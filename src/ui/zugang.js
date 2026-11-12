@@ -2,7 +2,7 @@
 
 import { h, clear } from './dom.js';
 import { startTest, aktuelle, antworte, weiter, istFertig } from '../state/fuehrerschein.js';
-import { pruefeCode } from '../state/zugang.js';
+import { pruefeCode, radDrehen } from '../state/zugang.js';
 import { svgEl } from '../tasks/molecule.js';
 
 /** Der Labor-Ausweis als Karte, im Code gezeichnet (Namen der Spielenden). */
@@ -123,9 +123,15 @@ export function createZugang({ dlg, store, daten }) {
       belohnung(null);
     };
     if (store.hasFlag(f.flag)) { oeffnen(); return; }
-    // Jedes Fach hat ein anderes Schloss: digital (Zahlenfeld), Drehschloss (Scheibe) oder Schlüssel
+    // Vier Schlossarten: digital (Zahlenfeld), Drehschloss (Scheibe), Zahlenrädchen (Fahrradschloss) oder Schlüssel
     if (f.schloss === 'schluessel') {
       schluesselschloss({ titel, hat: store.hasFlag(`bz_${f.id}`), name: f.schluessel.name, beiRichtig: oeffnen });
+    } else if (f.schloss === 'rad') {
+      radschloss({
+        titel, text: 'Das Fach hat ein Zahlenschloss wie ein Fahrradschloss. Stelle die drei Rädchen auf den Code und ziehe dann am Schloss.', stellen: 3, code: f.code,
+        hinweis: 'Die Codes stehen auf Zetteln, die in den Räumen versteckt sind. Schau dich um.',
+        beiRichtig: oeffnen,
+      });
     } else if (f.schloss === 'dreh') {
       drehschloss({
         titel, text: 'Das Fach hat ein Drehschloss. Dreh die Scheibe auf die erste Zahl und lass sie einrasten, dann die zweite und die dritte.', stellen: 3, code: f.code,
@@ -163,15 +169,16 @@ export function createZugang({ dlg, store, daten }) {
     const scheibe = svgEl('g', { class: 'dreh-scheibe' });
     svg.append(svgEl('circle', { cx: 150, cy: 150, r: 144, fill: '#3b4a4f', stroke: '#0c1517', 'stroke-width': 4 }));
     scheibe.append(svgEl('circle', { cx: 150, cy: 150, r: 128, fill: '#e9eef0', stroke: '#5b6b70', 'stroke-width': 3 }));
-    const zahlen = [];
+    // Jede Zahl steht fest an ihrem Platz auf der Scheibe und dreht mit ihr (wie bei echten Schlössern). Position und Drehung kommen aus einem
+    // einzigen SVG-Attribut um den Mittelpunkt (150, 150): keine Gegendrehung, kein transform-box, daher verrutscht nichts, auch nicht in Safari.
     for (let i = 0; i < N; i++) {
-      const a = (i * SCHRITT * Math.PI) / 180;
-      const x = 150 + Math.sin(a) * 98;
-      const y = 150 - Math.cos(a) * 98;
-      scheibe.append(svgEl('line', { x1: 150 + Math.sin(a) * 118, y1: 150 - Math.cos(a) * 118, x2: 150 + Math.sin(a) * 126, y2: 150 - Math.cos(a) * 126, stroke: '#5b6b70', 'stroke-width': 3 }));
-      const t = svgEl('text', { x, y, 'text-anchor': 'middle', 'dominant-baseline': 'central', class: 'dreh-zahl' }, String(i));
-      zahlen.push(t);
-      scheibe.append(t);
+      const a = i * SCHRITT;
+      const platz = svgEl('g', { class: 'dreh-platz', transform: `rotate(${a} 150 150)` });
+      platz.append(svgEl('line', { x1: 150, y1: 24, x2: 150, y2: 32, stroke: '#5b6b70', 'stroke-width': 3 }));
+      platz.append(svgEl('text', { x: 150, y: 52, 'text-anchor': 'middle', 'dominant-baseline': 'central', class: 'dreh-zahl' }, String(i)));
+      // 6 und 9 bekommen einen Strich darunter, damit sie auch schräg oder kopfstehend nicht verwechselt werden
+      if (i === 6 || i === 9) platz.append(svgEl('line', { x1: 143, y1: 69, x2: 157, y2: 69, stroke: '#1d1d1d', 'stroke-width': 3, 'stroke-linecap': 'round' }));
+      scheibe.append(platz);
     }
     svg.append(scheibe);
     svg.append(svgEl('circle', { cx: 150, cy: 150, r: 52, fill: '#2b3b3f', stroke: '#0c1517', 'stroke-width': 4 }));
@@ -181,7 +188,6 @@ export function createZugang({ dlg, store, daten }) {
 
     const zeichneScheibe = () => {
       scheibe.style.transform = `rotate(${winkel}deg)`;
-      zahlen.forEach((t) => { t.style.transform = `rotate(${-winkel}deg)`; });
       mitte.textContent = String(aktuelleZahl());
     };
     const zeichne = () => {
@@ -260,6 +266,81 @@ export function createZugang({ dlg, store, daten }) {
       else if (e.key === 'Enter') { e.preventDefault(); einrasten(); }
       else if (e.key === 'Backspace') zurueck();
     };
+  }
+
+  // ---------- Zahlenrädchen (Fahrradschloss) ----------
+  /**
+   * Drei Rädchen mit den Ziffern 0 bis 9: je Rädchen ein Knopf nach oben und unten, Wischen oder Pfeiltasten. „Schloss aufziehen“ prüft den Code.
+   * opts: { titel, text, stellen, code, hinweis, beiRichtig() }. Beliebig oft probieren, die Rädchen bleiben stehen.
+   */
+  function radschloss(opts) {
+    const stellen = opts.stellen || 3;
+    const werte = new Array(stellen).fill(0);
+    let fehler = 0;
+    const meldung = h('p', { class: 'zugang-fb', role: 'status' });
+    const karte = h('div', 'zugang-karte tf rad');
+    const reihe = h('div', 'rad-reihe');
+    const zeilen = [];
+    const zeichne = (i) => {
+      const z = zeilen[i];
+      z.oben.textContent = String(radDrehen(werte[i], -1));
+      z.mitte.textContent = String(werte[i]);
+      z.unten.textContent = String(radDrehen(werte[i], 1));
+      z.fenster.setAttribute('aria-valuenow', String(werte[i]));
+    };
+    const dreheRad = (i, schritt) => {
+      werte[i] = radDrehen(werte[i], schritt);
+      meldung.textContent = '';
+      meldung.className = 'zugang-fb';
+      zeichne(i);
+    };
+    const pruefen = () => {
+      if (pruefeCode(werte.join(''), opts.code)) {
+        reihe.classList.add('ok');
+        meldung.className = 'zugang-fb gut';
+        meldung.textContent = '✓ Das Schloss klickt. Offen!';
+        karte.querySelectorAll('button').forEach((b) => { b.disabled = true; });
+        setTimeout(() => { schliesse(); if (opts.beiRichtig) opts.beiRichtig(); }, 750);
+      } else {
+        fehler++;
+        meldung.className = 'zugang-fb schlecht';
+        meldung.textContent = fehler >= 3 && opts.hinweis ? `✗ Nicht richtig. ${opts.hinweis}` : '✗ Nicht richtig. Versuch es noch einmal.';
+        karte.classList.remove('wackeln');
+        void karte.offsetWidth;
+        karte.classList.add('wackeln');
+      }
+    };
+    for (let i = 0; i < stellen; i++) {
+      const oben = h('span', 'rad-nachbar', '');
+      const mitte = h('span', 'rad-ziffer', '');
+      const unten = h('span', 'rad-nachbar', '');
+      const fenster = h('div', { class: 'rad-fenster', tabindex: '0', role: 'spinbutton', 'aria-label': `Rädchen ${i + 1} von ${stellen}`, 'aria-valuemin': '0', 'aria-valuemax': '9' }, oben, mitte, unten);
+      zeilen.push({ fenster, oben, mitte, unten });
+      // Wischen: alle 30 Pixel ein Schritt, nach oben gewischt zählt hoch
+      let start = null;
+      fenster.addEventListener('pointerdown', (e) => { start = e.clientY; fenster.setPointerCapture(e.pointerId); });
+      fenster.addEventListener('pointermove', (e) => {
+        if (start === null) return;
+        while (start - e.clientY >= 30) { dreheRad(i, 1); start -= 30; }
+        while (e.clientY - start >= 30) { dreheRad(i, -1); start += 30; }
+      });
+      const ende = () => { start = null; };
+      fenster.addEventListener('pointerup', ende);
+      fenster.addEventListener('pointercancel', ende);
+      fenster.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowUp') { e.preventDefault(); dreheRad(i, 1); }
+        else if (e.key === 'ArrowDown') { e.preventDefault(); dreheRad(i, -1); }
+        else if (/^[0-9]$/.test(e.key)) { werte[i] = Number(e.key); zeichne(i); }
+        else if (e.key === 'Enter') { e.preventDefault(); pruefen(); }
+      });
+      reihe.append(h('div', 'rad-spalte',
+        h('button', { type: 'button', class: 'tf-taste', 'aria-label': `Rädchen ${i + 1} hochdrehen`, onclick: () => dreheRad(i, 1) }, '▲'),
+        fenster,
+        h('button', { type: 'button', class: 'tf-taste', 'aria-label': `Rädchen ${i + 1} runterdrehen`, onclick: () => dreheRad(i, -1) }, '▼')));
+      zeichne(i);
+    }
+    karte.append(...[opts.text ? h('p', {}, opts.text) : null, reihe, h('button', { type: 'button', class: 'primary dreh-rast', onclick: pruefen }, 'Schloss aufziehen'), meldung].filter(Boolean));
+    zeige(opts.titel || 'Zahlenschloss', karte);
   }
 
   // ---------- Schlüsselschloss ----------
@@ -432,5 +513,5 @@ export function createZugang({ dlg, store, daten }) {
       h('button', { class: 'primary', type: 'button', onclick: () => schliesse() }, 'Schließen')));
   }
 
-  return { zeige, schliesse, fuehrerschein, tastenfeld, klassenwortFenster, drehschloss, schluesselschloss, schluesselFund, fach, hilfe, codeGross, get offen() { return dlg.open; } };
+  return { zeige, schliesse, fuehrerschein, tastenfeld, klassenwortFenster, drehschloss, radschloss, schluesselschloss, schluesselFund, fach, hilfe, codeGross, get offen() { return dlg.open; } };
 }

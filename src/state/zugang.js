@@ -56,6 +56,11 @@ export function pruefeCode(eingabe, code) {
   return String(eingabe) === String(code);
 }
 
+/** Zahlenrädchen (Fahrradschloss): Ziffer um `schritt` weiterdrehen, mit Umlauf 9 → 0 und 0 → 9. */
+export function radDrehen(ziffer, schritt) {
+  return (((Number(ziffer) + schritt) % 10) + 10) % 10;
+}
+
 /**
  * Spielstände aus der Zeit vor 2.0 nachrüsten, damit niemand ausgesperrt wird:
  * wer das Labor schon geschafft oder betreten hat, gilt als geprüft; wer die Sauna schon hatte, hat sie auch offen.

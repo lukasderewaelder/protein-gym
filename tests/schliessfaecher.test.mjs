@@ -4,13 +4,14 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { FLAG_LIST } from '../src/state/progress.js';
 import { startTest, antworte, aktuelle } from '../src/state/fuehrerschein.js';
+import { radDrehen } from '../src/state/zugang.js';
 
 const lies = (n) => JSON.parse(readFileSync(new URL(`../data/${n}.json`, import.meta.url), 'utf8'));
 const F = lies('schliessfaecher');
 const S = lies('szenen');
 const inv = lies('inventar');
 
-test('Sechs Fächer mit eigenen Flags; Zahlen- und Drehschloss haben dreistellige, verschiedene Codes', () => {
+test('Sechs Fächer mit eigenen Flags; Zahlenfeld, Drehscheibe und Zahlenrädchen haben dreistellige, verschiedene Codes', () => {
   assert.equal(F.faecher.length, 6);
   const codes = new Set();
   for (const f of F.faecher) {
@@ -57,10 +58,17 @@ test('Jedes Fach hat einen Hotspot im Empfang, jeder Zettel hängt im richtigen 
   assert.equal(raeume.size, 5, 'Zettel in allen fünf Räumen');
 });
 
-test('Verschiedene Schlösser: digital, Drehschloss und Schlüssel; Hotspots zeigen dieselbe Art', () => {
+test('Vier Schlossarten: Zahlenfeld (1, 4), Drehscheibe (3, 6), Zahlenrädchen (2), Schlüssel (5); Hotspots zeigen dieselbe Art', () => {
   const arten = new Set(F.faecher.map((f) => f.schloss));
-  assert.deepEqual([...arten].sort(), ['digital', 'dreh', 'schluessel'], 'alle drei Schlossarten kommen vor');
-  for (const art of arten) assert.ok(F.faecher.filter((f) => f.schloss === art).length >= 2, `mindestens zwei Fächer mit ${art}`);
+  assert.deepEqual([...arten].sort(), ['digital', 'dreh', 'rad', 'schluessel'], 'alle vier Schlossarten kommen vor');
+  const art = (id) => F.faecher.find((f) => f.id === id).schloss;
+  assert.deepEqual([1, 2, 3, 4, 5, 6].map(art), ['digital', 'rad', 'dreh', 'digital', 'schluessel', 'dreh']);
+  const f2 = F.faecher.find((f) => f.id === 2);
+  assert.equal(f2.schluessel, undefined, 'Fach 2 hat keinen Schlüssel mehr');
+  assert.equal(f2.zettel.szene, 'labor', 'der Zettel für Fach 2 liegt im Labor (unter dem Labortisch)');
+  assert.match(f2.zettel.zeilen.join(' '), /Labortisch/);
+  const labor = S.szenen.find((s) => s.id === 'labor');
+  assert.equal(labor.hotspots.find((h) => h.zettel === 2).label, 'Zettel');
   const empfang = S.szenen.find((s) => s.id === 'empfang');
   for (const f of F.faecher) {
     const hs = empfang.hotspots.find((h) => h.type === 'fach' && h.fach === f.id);
@@ -99,6 +107,25 @@ test('Easter Eggs: ergo (nur Fach 2), ausgebobbt, Tattoos und Bob Tschigerillo, 
   const f6 = F.faecher.find((f) => f.id === 6);
   assert.ok(f6.extraWennAlle && /Alle sechs Fächer/.test(f6.extraWennAlle));
   assert.ok(F.faecher.every((f) => !f.extra || typeof f.extra === 'string'));
+});
+
+test('Zahlenrädchen drehen mit Umlauf (9 → 0, 0 → 9)', () => {
+  assert.equal(radDrehen(0, 1), 1);
+  assert.equal(radDrehen(9, 1), 0);
+  assert.equal(radDrehen(0, -1), 9);
+  assert.equal(radDrehen(5, -1), 4);
+  assert.equal(radDrehen(3, 12), 5);
+  assert.equal(radDrehen('7', -8), 9, 'auch Ziffern als Text');
+});
+
+test('Drehscheibe: Zahlen drehen nur mit der Scheibe mit (keine eigene CSS-Drehung, die in Safari verrutscht)', () => {
+  const css = readFileSync(new URL('../assets/css/zugang.css', import.meta.url), 'utf8');
+  const regel = css.split(/\r?\n/).find((z) => z.startsWith('.dreh-zahl {'));
+  assert.ok(regel, '.dreh-zahl ist definiert');
+  assert.doesNotMatch(regel, /transform|transition/, 'keine transform-box, transform-origin oder Transition an den Zahlen');
+  const js = readFileSync(new URL('../src/ui/zugang.js', import.meta.url), 'utf8');
+  assert.doesNotMatch(js, /rotate\(\$\{-winkel\}deg\)/, 'keine Gegendrehung der Zahlen');
+  assert.match(js, /rotate\(\$\{a\} 150 150\)/, 'jede Zahl steht fest an ihrem Platz um den Mittelpunkt');
 });
 
 test('Fach-Inhalte werden zu Gegenständen in der Tasche (ohne Doppel-IDs)', () => {
