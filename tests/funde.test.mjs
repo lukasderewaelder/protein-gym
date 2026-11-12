@@ -129,3 +129,12 @@ test('Eiklar wird nie zu Eiweiß und wird nicht selbst fest: fest wird das Eiwei
     }
   }
 });
+
+test('Geblätterte Karten lassen Platz für Leiste und Knopf (sonst kommt man aus Handy-Chats nicht mehr heraus)', () => {
+  const css = readFileSync(new URL('../assets/css/funde.css', import.meta.url), 'utf8');
+  for (const regel of ['.fund.geblaettert {', '.fund.geblaettert.ganz {']) {
+    const zeile = css.split(/\r?\n/).find((z) => z.startsWith(regel) && /dvh/.test(z));
+    assert.ok(zeile, `${regel} begrenzt die Höhe mit dvh`);
+    assert.match(zeile, /min\(76vh, calc\(100dvh - 2\d\dpx\)\)/, 'Höhe = Bildschirm minus Platz für Titel, Leiste und Knopf');
+  }
+});

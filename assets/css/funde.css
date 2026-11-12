@@ -226,7 +226,8 @@ dialog#fund::backdrop { background: rgba(0, 0, 0, 0.62); }
 /* ---------- Kein Scrollen: zu lange Karten werden breiter, sonst geblättert ---------- */
 .fund { overflow: hidden; }
 dialog#fund.breit { width: min(940px, 96vw); }
-.fund.geblaettert { display: flex; flex-direction: column; height: 76vh; }
+/* Die Karte darf nur so hoch werden, dass darunter noch „Neues Hinweiskärtchen“, die Blätterleiste und der Knopf („Einstecken“/„Schließen“) auf den Bildschirm passen (sonst kommt man nicht mehr aus der Karte heraus) */
+.fund.geblaettert { display: flex; flex-direction: column; height: min(76vh, calc(100vh - 240px)); height: min(76vh, calc(100dvh - 240px)); }
 .fund.geblaettert > * { flex: none; }
 .fund.geblaettert > .fund-seiten { flex: 1 1 0; min-height: 0; overflow: hidden; }
 .fund-nav { margin-top: -4px; }
@@ -234,4 +235,4 @@ dialog#fund.breit { width: min(940px, 96vw); }
 .fund-nav .seiten-text { color: #fff; }
 /* Schautafel: Formeln wachsen nicht über ein Viertel der Bildschirmhöhe, damit der Text daneben Platz hat */
 .fund.schautafel .tafel-formel { max-height: 24dvh; width: auto; max-width: 100%; margin: 0 auto; }
-.fund.geblaettert.ganz { display: block; height: 76vh; }
+.fund.geblaettert.ganz { display: block; height: min(76vh, calc(100vh - 240px)); height: min(76vh, calc(100dvh - 240px)); }

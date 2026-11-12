@@ -218,6 +218,12 @@ svg.formel .denat-text { fill: var(--muted); font-family: system-ui, sans-serif;
 .blatt .blatt-merke-text { margin: 0; }
 .blatt .blatt-text { margin: 8px 0; }
 .blatt .blatt-label { margin: 14px 0 2px; font-weight: 700; color: #1d1d1d; }
+.blatt .blatt-einleitung { margin-bottom: 2px; }
+.blatt .blatt-liste { margin: 2px 0 8px; padding-left: 1.4em; }
+.blatt .blatt-liste li { margin: 3px 0; padding-left: 2px; }
+.blatt .blatt-tabelle { width: 100%; border-collapse: collapse; margin: 6px 0 10px; font-size: calc(17px * var(--font-scale)); }
+.blatt .blatt-tabelle th, .blatt .blatt-tabelle td { border: 1.5px solid #8d98a0; padding: 6px 10px; text-align: left; height: 2em; }
+.blatt .blatt-tabelle th { background: #eef5f0; color: #1e7a3a; font-weight: 700; }
 .blatt .blatt-auftrag { margin-top: 10px; color: #3a444c; font-size: calc(17px * var(--font-scale)); }
 .blatt .blatt-auftrag p { margin: 0; }
 .blatt .blatt-gesperrt { margin-top: 22px; padding: 12px 14px; border: 2px dashed #9aa5ad; border-radius: 8px; color: #5b6670; }

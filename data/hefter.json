@@ -1,5 +1,7 @@
 {
-  "blatt": { "titel": "2. Eiweiße" },
+  "blatt": {
+    "titel": "2. Eiweiße"
+  },
   "hinweisNeu": "Neuer Heftereintrag! Übernimm ihn jetzt in deinen Hefter und setze im Spind den Haken „abgeschrieben“. Erst dann geht es weiter.",
   "eintraege": [
     {
@@ -15,9 +17,14 @@
       ],
       "teile": [
         {
-          "typ": "text",
+          "typ": "liste",
           "ueb": "Vorkommen und Verwendung",
-          "text": "Eiweiße sind Baustoffe für Muskeln, Haut und Haare. Sie transportieren Stoffe im Körper und schützen ihn vor Krankheitserregern."
+          "einleitung": "Eiweiße im Körper:",
+          "punkte": [
+            "Baustoffe für Muskeln, Haut und Haare",
+            "Transport von Stoffen im Körper",
+            "Schutz vor Krankheitserregern"
+          ]
         },
         {
           "typ": "text",
@@ -34,13 +41,50 @@
           "text": "Beim Denaturieren (Stocken, Gerinnen) verändert das Eiweiß seine Struktur, es wird z. B. fest. So können z. B. Organismen abgetötet werden. Der Vorgang ist nicht umkehrbar."
         },
         {
-          "typ": "text",
-          "text": "Hitze (ab etwa 60 Grad), Säuren, Alkohol und Schwermetallsalze lassen Eiweiß denaturieren."
+          "typ": "liste",
+          "einleitung": "Eiweiß denaturiert durch:",
+          "punkte": [
+            "Hitze (ab etwa 60 Grad)",
+            "Säuren",
+            "Alkohol",
+            "Schwermetallsalze"
+          ]
         },
         {
-          "typ": "text",
+          "typ": "tabelle",
           "label": "Versuchstabelle: Denaturierung",
-          "text": "Probe · Einfluss · Beobachtung"
+          "kopf": [
+            "Probe",
+            "Einfluss",
+            "Beobachtung"
+          ],
+          "zeilen": [
+            [
+              "1",
+              "Hitze im Wasserbad",
+              ""
+            ],
+            [
+              "2",
+              "Salzsäure",
+              ""
+            ],
+            [
+              "3",
+              "Kupfersulfat-Lösung (Fehling I)",
+              ""
+            ],
+            [
+              "4",
+              "Ethanol",
+              ""
+            ],
+            [
+              "5",
+              "Wasser (Kontrolle)",
+              ""
+            ]
+          ]
         }
       ]
     },
@@ -72,13 +116,32 @@
           "typ": "abbildung",
           "label": "Aufbau einer Aminosäure",
           "art": "aminosaeure",
-          "formeln": [["allgemein", "R"], ["Glycin", "H"], ["Alanin", "CH₃"]],
+          "formeln": [
+            [
+              "allgemein",
+              "R"
+            ],
+            [
+              "Glycin",
+              "H"
+            ],
+            [
+              "Alanin",
+              "CH₃"
+            ]
+          ],
           "unterschrift": "Links die Aminogruppe (H₂N), rechts die Carboxygruppe (COOH), oben der Rest R."
         },
         {
-          "typ": "text",
+          "typ": "liste",
           "ueb": "Denaturierung (Fortsetzung)",
-          "text": "Die Kette eines Proteins ist zu einer festen Form gefaltet, schwache Verbindungen (Wasserstoffbrücken) halten die Falten. Beim Denaturieren lösen Hitze, Säuren, Alkohol oder Schwermetallsalze diese Verbindungen, die Kette entfaltet sich und verklumpt. Dabei geht die „aktive“ Form dauerhaft verloren. Zerstört ist das Eiweiß aber nicht: Die Reihenfolge der Aminosäuren in der Kette bleibt erhalten."
+          "einleitung": "Faltung und Denaturieren:",
+          "punkte": [
+            "Die Kette eines Proteins ist zu einer festen Form gefaltet. Schwache Verbindungen (Wasserstoffbrücken) halten die Falten.",
+            "Hitze, Säuren, Alkohol oder Schwermetallsalze lösen diese Verbindungen: Die Kette entfaltet sich und verklumpt.",
+            "Dabei geht die „aktive“ Form dauerhaft verloren.",
+            "Zerstört ist das Eiweiß aber nicht: Die Reihenfolge der Aminosäuren in der Kette bleibt erhalten."
+          ]
         },
         {
           "typ": "abbildung",
@@ -100,14 +163,41 @@
       ],
       "teile": [
         {
-          "typ": "text",
+          "typ": "liste",
           "ueb": "Nachweis",
-          "text": "Die Probe wird mit Natronlauge und Kupfersulfat-Lösung (Fehling I) versetzt. Eine Violettfärbung zeigt Eiweiß an."
+          "einleitung": "Biuret-Nachweis (Beobachtung: Farbe der Probe):",
+          "punkte": [
+            "Probe mit Natronlauge versetzen",
+            "Kupfersulfat-Lösung (Fehling I) zugeben",
+            "Violett: Eiweiß ist enthalten",
+            "Bleibt die Probe blau: kein Eiweiß enthalten"
+          ]
         },
         {
-          "typ": "text",
+          "typ": "tabelle",
           "label": "Versuchstabelle: Lieferung",
-          "text": "Probe · Beobachtung · Ergebnis"
+          "kopf": [
+            "Probe",
+            "Beobachtung",
+            "Ergebnis"
+          ],
+          "zeilen": [
+            [
+              "Eiweißshake",
+              "",
+              ""
+            ],
+            [
+              "Zuckerlösung",
+              "",
+              ""
+            ],
+            [
+              "Wasser",
+              "",
+              ""
+            ]
+          ]
         }
       ]
     }

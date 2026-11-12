@@ -124,6 +124,18 @@ export function createNotebook({ dialogEl, wissen, glossar, hefter, inventar, st
     return h('p', 'blatt-text', '(Abbildung fehlt)');
   }
 
+  /** Stichpunkte: optionaler Einleitungssatz (fett) und eine Liste. */
+  function liste(t) {
+    return [t.einleitung ? h('p', 'blatt-text blatt-einleitung', t.einleitung) : null, h('ul', 'blatt-liste', t.punkte.map((p) => h('li', {}, p)))].filter(Boolean);
+  }
+
+  /** Übersicht als Tabelle (Kopfzeile, Zeilen; leere Zellen bleiben zum Ausfüllen frei). */
+  function tabelle(t) {
+    return h('table', 'blatt-tabelle',
+      h('thead', {}, h('tr', {}, t.kopf.map((k) => h('th', { scope: 'col' }, k)))),
+      h('tbody', {}, t.zeilen.map((z) => h('tr', {}, z.map((c) => h('td', {}, c))))));
+  }
+
   function renderHefter() {
     const flags = store.state.flags;
     const hk = store.state.hefterHaken || {};
@@ -146,6 +158,9 @@ export function createNotebook({ dialogEl, wissen, glossar, hefter, inventar, st
         // Nur Wichtiges ist ein Merksatz: roter Rahmen, Überschrift „Merke: <Begriff>“; alles andere ist normaler Text
         if (t.typ === 'merksatz') blatt.append(h('div', 'blatt-merk', h('p', 'blatt-merke-kopf', t.merke ? `Merke: ${t.merke}` : 'Merke'), h('p', 'blatt-merke-text', t.text)));
         else if (t.typ === 'abbildung') blatt.append(abbildung(t));
+        // Stichpunkte und Übersichten (Tabellen) statt Fließtext, wo ein Text länger wird
+        else if (t.typ === 'liste') blatt.append(...liste(t));
+        else if (t.typ === 'tabelle') blatt.append(tabelle(t));
         else blatt.append(h('p', 'blatt-text', t.text));
       }
     }

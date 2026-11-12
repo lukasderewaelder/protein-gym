@@ -172,6 +172,9 @@ function showFund(card, isNew = false, extra = []) {
   passeFundEin(box.querySelector('article.fund'));
 }
 
+// Zweiter Weg aus einer Karte: neben die Karte (auf den dunklen Hintergrund) tippen schließt sie wie der Knopf
+$('#fund').addEventListener('click', (e) => { if (e.target === e.currentTarget) e.currentTarget.close(); });
+
 /** Kein Scrollen: Ist eine Karte zu lang, wird das Fenster erst breiter, dann werden ihre Zeilen auf Seiten verteilt. */
 function passeFundEin(art) {
   if (!art) return;

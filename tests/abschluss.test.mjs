@@ -171,8 +171,10 @@ test('Hefter: drei Einträge, frei nach Raum, auf dem Blatt nur Abschreibstoff, 
   for (const e of H.eintraege) {
     assert.ok(e.anweisungen && e.anweisungen.length >= 1, `${e.id}: Anweisungen für die Leiste`);
     for (const t of e.teile) {
-      assert.ok(['merksatz', 'text', 'abbildung'].includes(t.typ), `${e.id}: auf dem Blatt nur Abschreibstoff (${t.typ})`);
-      assert.doesNotMatch(t.text || '', /Schreibe|Übernimm|abschreiben|Zeichne/, `${e.id}: keine Anweisung auf dem Blatt`);
+      assert.ok(['merksatz', 'text', 'abbildung', 'liste', 'tabelle'].includes(t.typ), `${e.id}: auf dem Blatt nur Abschreibstoff (${t.typ})`);
+      assert.doesNotMatch([t.text, t.einleitung, ...(t.punkte || []), ...(t.zeilen || []).flat()].filter(Boolean).join(' '), /Schreibe|Übernimm|abschreiben|Zeichne/, `${e.id}: keine Anweisung auf dem Blatt`);
+      if (t.typ === 'liste') assert.ok(Array.isArray(t.punkte) && t.punkte.length >= 2, `${e.id}: eine Liste hat mindestens zwei Stichpunkte`);
+      if (t.typ === 'tabelle') assert.ok(t.kopf.length >= 2 && t.zeilen.length >= 1 && t.zeilen.every((z) => z.length === t.kopf.length), `${e.id}: Tabelle mit passenden Spalten`);
     }
     const merksaetze = e.teile.filter((t) => t.typ === 'merksatz');
     for (const m of merksaetze) assert.ok(m.merke, 'Merksatz braucht den Begriff für „Merke: …“');
@@ -185,12 +187,17 @@ test('Hefter: drei Einträge, frei nach Raum, auf dem Blatt nur Abschreibstoff, 
   const alleUeb = H.eintraege.flatMap((e) => e.teile.map((t) => t.ueb).filter(Boolean));
   for (const u of alleUeb) assert.ok(ERLAUBT.some((x) => u === x || u === `${x} (Fortsetzung)`), `keine echte Teilüberschrift: ${u}`);
   assert.deepEqual(alleUeb, ['Vorkommen und Verwendung', 'Denaturierung', 'Bau', 'Denaturierung (Fortsetzung)', 'Nachweis']);
-  assert.match(H.eintraege[1].teile.find((t) => t.ueb === 'Denaturierung (Fortsetzung)').text, /Reihenfolge der Aminosäuren/, 'Faltung und Gerinnen steht unter Denaturierung');
+  assert.match(H.eintraege[1].teile.find((t) => t.ueb === 'Denaturierung (Fortsetzung)').punkte.join(' '), /Reihenfolge der Aminosäuren/, 'Faltung und Gerinnen steht unter Denaturierung');
   assert.match(H.eintraege[1].anweisungen.join(' '), /unter deine Überschrift Denaturierung/);
-  // Wofür und warum stehen vor dem Begriff „Protein und Eiweiß“
-  const txt1 = H.eintraege[0].teile.map((t) => t.text || '');
-  assert.ok(txt1.findIndex((x) => /^Eiweiße sind Baustoffe/.test(x)) < txt1.findIndex((x) => /^Der Körper baut/.test(x)));
-  assert.ok(txt1.findIndex((x) => /^Der Körper baut/.test(x)) < txt1.findIndex((x) => /^Protein und Eiweiß bedeuten/.test(x)));
+  // Längere Texte stehen als Stichpunkte oder Übersicht (weniger Fließtext); Wofür und warum stehen vor dem Begriff „Protein und Eiweiß“
+  const t1 = H.eintraege[0].teile;
+  assert.equal(t1[0].typ, 'liste', 'Eiweiße im Körper als Stichpunkte');
+  assert.match(t1[0].punkte.join(' '), /Muskeln.*Transport.*Schutz/);
+  const warum = t1.findIndex((t) => /^Der Körper baut/.test(t.text || ''));
+  assert.ok(warum > 0 && warum < t1.findIndex((t) => /^Protein und Eiweiß bedeuten/.test(t.text || '')));
+  assert.ok(t1.some((t) => t.typ === 'liste' && /Schwermetallsalze/.test(t.punkte.join(' '))), 'Ursachen des Denaturierens als Stichpunkte');
+  assert.ok(H.eintraege.flatMap((e) => e.teile).filter((t) => t.typ === 'tabelle').length === 2, 'beide Versuchstabellen als Übersicht');
+  for (const e of H.eintraege) for (const t of e.teile) if (t.typ === 'text') assert.ok(t.text.length <= 130, `${e.id}: lange Texte gehören in Stichpunkte (${t.text.slice(0, 30)}…)`);
   assert.deepEqual(H.eintraege.flatMap((e) => e.teile.map((t) => t.label).filter(Boolean)), ['Versuchstabelle: Denaturierung', 'Aufbau einer Aminosäure', 'Versuchstabelle: Lieferung']);
   // Abbildungen: bekannte Arten, Formeln nur Glycin und Alanin (plus allgemein)
   const abb = H.eintraege.flatMap((e) => e.teile).filter((t) => t.typ === 'abbildung');
