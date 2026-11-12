@@ -1,5 +1,5 @@
 // Fortschrittscode: kurzer Text, mit dem Lernende nach Speicherverlust weiterspielen können.
-// Enthält Figur-Look, Raum, Fortschritts-Flags (67 Plätze), Täter des Falls (2 Bit), Saunacode (14 Bit), Ergebnis des Schlussquiz (2 Bit) und Niveau je Raum, dazu eine Prüfsumme gegen Tippfehler.
+// Enthält Figur-Look, Raum, Fortschritts-Flags (67 Plätze), Verursacher des Falls (2 Bit), Saunacode (14 Bit), Ergebnis des Schlussquiz (2 Bit) und Niveau je Raum, dazu eine Prüfsumme gegen Tippfehler.
 // Version 6 (Prüfung der neuen Lieferung und Schlussquiz); Codes der Versionen 5 und 4 bleiben lesbar (4 wird nachgerüstet, siehe zugang.js).
 // Alte Stände ohne die neuen Flags holen Prüfung und Schlussquiz nach, bevor das Zertifikat erscheint.
 // Namen stehen bewusst NICHT im Code (Datenschutz); sie werden beim Wiederherstellen neu eingegeben.
@@ -37,7 +37,7 @@ export const ROOM_LIST = ['training', 'labor', 'sauna', 'shakebar'];
 const ALPHABET = '0123456789ABCDEFGHJKMNPQRSTVWXYZ'; // 32 Zeichen ohne I, L, O, U
 const LOOK_BITS = { shirt: 2, hair: 2, skin: 2 };
 const QUIZ_BITS = 3; // 0 bis 4 richtige Antworten, 7 = Auflösung nicht gespielt
-const FALL_BITS = 2; // Täter des Falls (Index in FALL_LIST)
+const FALL_BITS = 2; // Verursacher des Falls (Index in FALL_LIST)
 const SAUNA_BITS = 14; // Saunacode 0 bis 9999 (0 = noch keiner gewürfelt)
 const QUIZ2_BITS = 2; // Schlussquiz: 0 bis 2 richtige Antworten, 3 = nicht gespielt
 const bodyBits = (flags, sauna, quiz2 = 0) => 4 + LOOK_BITS.shirt + LOOK_BITS.hair + LOOK_BITS.skin + 3 + flags + ROOM_LIST.length * 2 + QUIZ_BITS + FALL_BITS + sauna + quiz2;

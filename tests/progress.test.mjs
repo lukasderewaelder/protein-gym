@@ -89,7 +89,7 @@ test('Codes der Version 5 bleiben lesbar: Quiz 1 fertig, Prüfung der Lieferung 
   put(5, 4); put(0, 2); put(0, 2); put(0, 2); put(0, 3); // Version 5, Look, Szene empfang
   for (const f of flags5) put(['shakebar_done', 'quiz_done'].includes(f) ? 1 : 0, 1);
   for (let i = 0; i < 4; i++) put(1, 2);
-  put(3, 3); put(1, 2); put(4826, 14); // Quiz 3 von 4, Täter, Saunacode
+  put(3, 3); put(1, 2); put(4826, 14); // Quiz 3 von 4, Verursacher, Saunacode
   let crc = 0; let b = v; const bytes = [];
   while (b > 0n) { bytes.push(Number(b & 0xffn)); b >>= 8n; }
   for (const byte of bytes.reverse()) { crc ^= byte; for (let i = 0; i < 8; i++) crc = (crc & 0x80) ? ((crc << 1) ^ 0x07) & 0xff : (crc << 1) & 0xff; }

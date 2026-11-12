@@ -19,7 +19,7 @@ export function defaultState() {
     protokoll: {},      // Versuchsprotokoll: vermutung, beobachtung, notiz (bleibt auf dem Gerät, nicht im Fortschrittscode)
     scene: 'empfang',
     flags: {},          // Fortschritt und gesehene Dialoge
-    fall: { taeter: null }, // Täter des Krimis, wird beim Spielstart gewürfelt (siehe ensureFall)
+    fall: { taeter: null }, // Verursacher des Krimis, wird beim Spielstart gewürfelt (siehe ensureFall)
     codes: { sauna: null }, // Saunacode (4 Ziffern), wird beim Spielstart gewürfelt (siehe ensureCodes)
     taskProgress: {},   // Zwischenstand je Aufgabe: { Niveau, Schritt, richtige Erstversuche } (nur auf dem Gerät)
     pos: null,          // Position der Figur { scene, x, y } (nur auf dem Gerät)
@@ -37,7 +37,7 @@ export function createStore(storage, zufall = Math.random) {
   const hoerer = [];
   let verboten = []; // Codes, die der Saunacode nicht sein darf (Code der Lehrkraft)
 
-  /** Täter würfeln, falls noch keiner feststeht (neuer Spielstand oder Speicher aus einer älteren Version). */
+  /** Verursacher würfeln, falls noch keiner feststeht (neuer Spielstand oder Speicher aus einer älteren Version). */
   function ensureFall() {
     if (!state.fall || !istTaeter(state.fall.taeter)) state.fall = { taeter: wuerfleTaeter(zufall) };
   }

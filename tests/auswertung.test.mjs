@@ -28,7 +28,7 @@ test('Zeile: Räume, Aufgaben, Karten, Niveaus, Quiz', () => {
   const z = auswertungZeile(decodeProgress(encodeProgress(mia)).state);
   assert.equal(z.raeumeFertig, 5);
   assert.equal(z.aufgaben, 6, 'sechs Pflichtaufgaben');
-  assert.match(z.fall, /Kupfer-Kurt/, 'Täter des Falls steckt im Code');
+  assert.match(z.fall, /Kupfer-Kurt/, 'Verursacher des Falls steckt im Code');
   assert.equal(z.zusatz, 1, 'Zusatz Peptidbindung gemacht');
   assert.equal(z.karten, 2);
   assert.equal(z.quiz, 4);

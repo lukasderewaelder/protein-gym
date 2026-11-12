@@ -1146,7 +1146,7 @@
         "shakebar_done"
       ],
       "zaehlen": true,
-      "auftrag": "Der Fall ist fast gelöst. Beantworte vier Fragen und benenne dann den Verdächtigen. Nach jeder Antwort siehst du die Begründung.",
+      "auftrag": "Der Fall ist fast gelöst. Beantworte vier Fragen und benenne dann den Verursacher. Nach jeder Antwort siehst du die Begründung.",
       "tipp": "Der Spind hilft dir, auch mit den Hefter-Einträgen und den Hinweisen zum Fall.",
       "hilfekarte": {
         "titel": "Hilfekarte: Auflösung",
@@ -1155,7 +1155,7 @@
           "Gerinnen (Denaturieren): Die gefaltete Form geht verloren, die Aminosäuren bleiben, nicht umkehrbar.",
           "Gerinnen lassen: Hitze, Säure, Alkohol, Schwermetallsalz.",
           "Ein Eiweiß ist eine lange Kette aus vielen Aminosäuren.",
-          "Der Verdächtige hat kein Alibi."
+          "Der Verursacher hat kein Alibi."
         ]
       },
       "loesung": "Siehe die Begründung bei der jeweiligen Frage.",

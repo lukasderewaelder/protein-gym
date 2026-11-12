@@ -43,7 +43,7 @@ function fingerabdruck(host, step, api) {
 }
 
 /**
- * Auflösung des Falls: Wer war es? Die Hinweise aus dem Spind helfen, der gewürfelte Täter steht im Spielstand.
+ * Auflösung des Falls: Wer war es? Die Hinweise aus dem Spind helfen, der gewürfelte Verursacher steht im Spielstand.
  * Pflicht ist die richtige Person. Nach der Wahl erscheint die Auflösung zum gewürfelten Ende.
  */
 function verdaechtige(host, step, api, ctx) {
@@ -73,7 +73,7 @@ function verdaechtige(host, step, api, ctx) {
     ergebnis.hidden = false;
   }
   host.append(
-    h('p', 'frage', 'Wer hat den Vorrat zum Gerinnen gebracht? Lies die Hinweise und tippe auf die Person, die kein Alibi hat.'),
+    h('p', 'frage', 'Wer hat den Vorrat aus Versehen zum Gerinnen gebracht? Lies die Hinweise und tippe auf den Verursacher: die Person, die kein Alibi hat.'),
     liste,
     h('div', 'fall-personen', knoepfe),
     ergebnis,

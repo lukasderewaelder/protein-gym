@@ -94,7 +94,7 @@ test('Shake-Check: keine Körperideale, Gewicht- oder Kalorienangaben', () => {
   assert.doesNotMatch(JSON.stringify({ produkt: WB.produkt, aussagen: WB.aussagen }), /Kalorie|kcal|Kilo|kg\b|abnehmen|Bauch|Sixpack|Körperfett/i);
 });
 
-test('Auflösung: vier gewertete Fragen, Verdächtigen-Wahl, Rückblick, genaue Zahl der richtigen Antworten', () => {
+test('Auflösung: vier gewertete Fragen, Verursacher-Wahl, Rückblick, genaue Zahl der richtigen Antworten', () => {
   const steps = A.aufgaben.quiz.niveaus.alle;
   assert.equal(steps.filter((s) => s.zaehlt).length, 4);
   assert.deepEqual(steps.slice(-2).map((s) => s.type), ['verdaechtige', 'rueckblick']);
@@ -244,4 +244,20 @@ test('Sauna a5: jede Situation hat eine kurze Überschrift und mindestens drei S
   assert.doesNotMatch(C, /Ethanol|Säure|Schwermetall|Zitronensaft/, 'Niveau C nennt die Stoffe nur indirekt');
   const ae = read('aehnlich.json')['a5.*.0'];
   for (const p of ae.paare) assert.ok(p.titel && saetze(p.text) >= 3, `Übung ${p.titel}`);
+});
+
+test('Allgemeiner Arbeitsauftrag: mitschreiben erlaubt, Hefter Pflicht, Hinweise zur Orientierung und zum Verursacher (Einweisung und Spind)', async () => {
+  const { readFileSync } = await import('node:fs');
+  const lies = (n) => JSON.parse(readFileSync(new URL(`../data/${n}.json`, import.meta.url), 'utf8'));
+  const auftrag = lies('hefter').arbeitsauftrag;
+  assert.match(auftrag, /^Arbeitsauftrag: /);
+  assert.match(auftrag, /[Mm]itschreiben/);
+  assert.match(auftrag, /„Hefter“ steht, muss in deinen Hefter/);
+  assert.match(auftrag, /Orientierung.*Verursacher/);
+  const intro = lies('dialoge')['empfang.intro'].lines.join(' ');
+  assert.match(intro, /Arbeitsauftrag: Du darfst dir alles mitschreiben/);
+  assert.match(intro, /muss aber auf jeden Fall in deinen Hefter/);
+  assert.match(intro, /Verursacher.*Versehen/);
+  const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
+  assert.match(html, /id="nb-auftrag"/, 'Zeile im Spind');
 });

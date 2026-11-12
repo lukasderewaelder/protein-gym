@@ -16,6 +16,9 @@ const AB_TEXT = { sauna_done: 'die Sauna', training_done: 'die Trainingsfläche'
 export function createNotebook({ dialogEl, wissen, glossar, hefter, inventar, store, onFund, onOpen, extras, onCode, onZettel, onInventar }) {
   const body = dialogEl.querySelector('.nb-body');
   const tabs = dialogEl.querySelector('.nb-tabs');
+  // Allgemeiner Arbeitsauftrag (data/hefter.json), steht dauerhaft im Kopf des Spinds
+  const auftrag = dialogEl.querySelector('#nb-auftrag');
+  if (auftrag && hefter && hefter.arbeitsauftrag) { auftrag.textContent = hefter.arbeitsauftrag; auftrag.hidden = false; }
   let tab = 'karten';
   let hervor = false;       // Hilfe 3: den Saunazettel kurz blinken lassen
   // Kein Scrollen: Blättern in Pinnwand, Glossar, Hefter und Inventar; „Seite x von y“ steht rechts in der Reiterleiste

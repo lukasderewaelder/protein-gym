@@ -96,7 +96,7 @@ async function loadData() {
   for (const k of wissen.karten) DATA.cards.set(k.id, k);
 }
 
-/** Die vier Fall-Hinweise passend zum gewürfelten Täter als Karten bereitstellen (Pinnwand, Leiste, Fund-Fenster). */
+/** Die vier Fall-Hinweise passend zum gewürfelten Verursacher als Karten bereitstellen (Pinnwand, Leiste, Fund-Fenster). */
 function buildFallCards() {
   const karten = DATA.wissen.karten;
   for (let i = karten.length - 1; i >= 0; i--) if (karten[i].fall) { DATA.cards.delete(karten[i].id); karten.splice(i, 1); }

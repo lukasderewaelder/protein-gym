@@ -1,4 +1,4 @@
-// Der Fall: zufälliger Täter, Beweis- und Alibi-Hinweise, Auflösung, Speicherung im Fortschrittscode.
+// Der Fall: zufälliger Verursacher, Beweis- und Alibi-Hinweise, Auflösung, Speicherung im Fortschrittscode.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -12,14 +12,14 @@ import { createStore } from '../src/state/store.js';
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const F = JSON.parse(readFileSync(join(root, 'data/fall.json'), 'utf8'));
 
-test('Täter wird zufällig gewürfelt: alle vier Enden sind möglich, der Zufall ist austauschbar', () => {
+test('Verursacher wird zufällig gewürfelt: alle vier Enden sind möglich, der Zufall ist austauschbar', () => {
   assert.deepEqual([0, 0.26, 0.51, 0.76, 0.999].map((z) => wuerfleTaeter(() => z)), ['desi', 'kurt', 'hannes', 'zoe', 'zoe']);
   const gesehen = new Set();
   for (let i = 0; i < 400; i++) gesehen.add(wuerfleTaeter());
-  assert.equal(gesehen.size, 4, 'alle vier Täter kommen vor');
+  assert.equal(gesehen.size, 4, 'alle vier Verursacher kommen vor');
 });
 
-test('Jeder Raum gehört genau einem Verdächtigen, jede Person hat Name, Raum und Auslöser', () => {
+test('Jeder Raum gehört genau einem möglichen Verursacher, jede Person hat Name, Raum und Auslöser', () => {
   assert.deepEqual(Object.keys(FALL_HINWEISE).sort(), ['labor', 'sauna', 'shakebar', 'training']);
   assert.deepEqual(Object.values(FALL_HINWEISE).map((h) => h.verdaechtiger).sort(), [...FALL_LIST].sort());
   assert.equal(new Set(FALL_FLAGS).size, 4);
@@ -30,7 +30,7 @@ test('Jeder Raum gehört genau einem Verdächtigen, jede Person hat Name, Raum u
   }
 });
 
-test('Zu jedem Täter gibt es genau einen Beweis und drei Alibis, der Beweis gehört zum Täter', () => {
+test('Zu jedem Verursacher gibt es genau einen Beweis und drei Alibis, der Beweis gehört zum Verursacher', () => {
   for (const taeter of FALL_LIST) {
     const karten = alleFallKarten(taeter, F);
     assert.equal(karten.length, 4);
@@ -63,7 +63,7 @@ test('Fall-Karten haben eine bekannte Fundart, Text in der passenden Form und ei
   }
 });
 
-test('Die richtige Wahl wird nur für den gewürfelten Täter akzeptiert, eine falsche liefert einen Hinweis', () => {
+test('Die richtige Wahl wird nur für den gewürfelten Verursacher akzeptiert, eine falsche liefert einen Hinweis', () => {
   for (const taeter of FALL_LIST) {
     for (const wahl of FALL_LIST) {
       assert.equal(taeterRichtig(wahl, taeter), wahl === taeter);
@@ -97,7 +97,7 @@ test('Texte in Labor und Sauna nehmen nichts vorweg (keine Aminosäuren, keine F
   assert.doesNotMatch(JSON.stringify(F), /Rühl|Arnold|Schwarzenegger/);
 });
 
-test('Der Täter steckt im Fortschrittscode (Version 6) und bleibt beim Weiterspielen erhalten', () => {
+test('Der Verursacher steckt im Fortschrittscode (Version 6) und bleibt beim Weiterspielen erhalten', () => {
   assert.equal(CODE_VERSION, 6);
   for (const taeter of FALL_LIST) {
     const res = decodeProgress(encodeProgress({ shirt: 0, hair: 0, skin: 0, scene: 'labor', flags: { f_labor: true }, levels: {}, quiz: null, fall: { taeter } }));
@@ -107,16 +107,29 @@ test('Der Täter steckt im Fortschrittscode (Version 6) und bleibt beim Weitersp
   }
 });
 
-test('Der Speicherstand würfelt den Täter beim Start einmal und behält ihn', () => {
+test('Der Speicherstand würfelt den Verursacher beim Start einmal und behält ihn', () => {
   const mem = {};
   const st = { getItem: (k) => mem[k] ?? null, setItem: (k, v) => { mem[k] = v; }, removeItem: (k) => { delete mem[k]; } };
   const a = createStore(st, () => 0.6);
   a.load();
   assert.equal(a.state.fall.taeter, 'hannes');
   a.save();
-  const b = createStore(st, () => 0.1); // anderer Zufall: der gespeicherte Täter bleibt
+  const b = createStore(st, () => 0.1); // anderer Zufall: der gespeicherte Verursacher bleibt
   b.load();
   assert.equal(b.state.fall.taeter, 'hannes');
   b.reset();
   assert.equal(b.state.fall.taeter, 'desi', 'neues Spiel würfelt neu');
+});
+
+test('Texte für Lernende sagen „Verursacher“, nie „Täter“ oder „Verdächtige“: Es waren Versehen', async () => {
+  const { readdirSync, readFileSync } = await import('node:fs');
+  const werte = [];
+  const sammle = (x) => { if (typeof x === 'string') werte.push(x); else if (Array.isArray(x)) x.forEach(sammle); else if (x && typeof x === 'object') Object.values(x).forEach(sammle); };
+  const dir = new URL('../data/', import.meta.url);
+  for (const n of readdirSync(dir).filter((f) => f.endsWith('.json'))) sammle(JSON.parse(readFileSync(new URL(n, dir), 'utf8')));
+  werte.push(readFileSync(new URL('../index.html', import.meta.url), 'utf8'));
+  werte.push(readFileSync(new URL('../src/tasks/neu-types.js', import.meta.url), 'utf8'));
+  for (const w of werte) assert.doesNotMatch(w, /Täter|Verdächtig/, w.slice(0, 80));
+  const A = JSON.parse(readFileSync(new URL('../data/aufgaben.json', import.meta.url), 'utf8'));
+  assert.match(A.aufgaben.quiz.auftrag, /Verursacher/);
 });

@@ -118,6 +118,10 @@ dialog#notebook {
 dialog#notebook[open] { display: flex; flex-direction: column; }
 .spind-kopf { position: relative; flex: none; margin: 0; padding: 8px 14px 8px 18px; background: #3d5761; border-bottom: 4px solid #2c4048; }
 .spind-kopf h2 { margin: 0; font-family: var(--font-pixel); letter-spacing: 0.04em; font-size: calc(20px * var(--font-scale)); }
+/* Arbeitsauftrag im Kopf des Spinds (statt des Lüftungsgitters, das sonst dort sitzt) */
+.spind-kopf .nb-auftrag { flex: 1 1 auto; min-width: 0; margin: 0 8px 0 16px; font-size: calc(14px * min(var(--font-scale), 1.15)); line-height: 1.3; color: #e8f1ef; }
+.spind-kopf:has(.nb-auftrag:not([hidden]))::before { display: none; }
+dialog#notebook .spind-kopf h2 { flex: none; white-space: nowrap; }
 .spind-kopf::before { content: ""; position: absolute; right: 76px; top: 50%; width: 150px; height: 22px; margin-top: -11px; border-radius: 3px; background: repeating-linear-gradient(90deg, #223640 0 8px, transparent 8px 16px); opacity: 0.8; pointer-events: none; }
 dialog#notebook .nb-tabs { flex: none; margin: 0; padding: 10px 16px 8px; }
 dialog#notebook .nb-body { flex: 1 1 auto; min-height: 0; overflow: auto; margin: 0 12px 12px; padding: 12px; border-radius: 8px; background: var(--panel); }

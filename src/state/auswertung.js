@@ -64,7 +64,7 @@ export function zusammenfassung(rows) {
 const csvZelle = (v) => `"${String(v ?? '').replaceAll('"', '""')}"`;
 
 export function csvText(rows) {
-  const kopf = ['Name', 'Empfang', 'Labor', 'Sauna', 'Trainingsfläche', 'Shake-Bar', 'Aufgaben (von 6)', 'Zusatz (von 2)', 'Karten', 'Auflösung (von 4)', 'Fall (Täter)', 'Niveau Labor', 'Niveau Sauna', 'Niveau Trainingsfläche', 'Niveau Shake-Bar', 'Hinweis'];
+  const kopf = ['Name', 'Empfang', 'Labor', 'Sauna', 'Trainingsfläche', 'Shake-Bar', 'Aufgaben (von 6)', 'Zusatz (von 2)', 'Karten', 'Auflösung (von 4)', 'Fall (Verursacher)', 'Niveau Labor', 'Niveau Sauna', 'Niveau Trainingsfläche', 'Niveau Shake-Bar', 'Hinweis'];
   const zeilen = rows.map((r) => {
     if (!r.res.ok) return [r.name, ...Array(kopf.length - 2).fill(''), r.res.reason];
     const z = auswertungZeile(r.res.state);

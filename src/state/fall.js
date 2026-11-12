@@ -1,7 +1,7 @@
-// Der Fall: Wer hat den Eiweiß-Vorrat zum Gerinnen gebracht? Der Täter wird beim Spielstart zufällig gewürfelt.
+// Der Fall: Wer hat den Eiweiß-Vorrat zum Gerinnen gebracht? Der Verursacher wird beim Spielstart zufällig gewürfelt.
 // Reine Funktionen (ohne Browser), damit sie sich testen lassen. Texte stehen in data/fall.json.
 
-/** Mögliche Täter, in dieser Reihenfolge im Fortschrittscode (2 Bit). */
+/** Mögliche Verursacher, in dieser Reihenfolge im Fortschrittscode (2 Bit). */
 export const FALL_LIST = ['desi', 'kurt', 'hannes', 'zoe'];
 
 /** Hinweis-Karten je Raum: Raum → { verdaechtiger, flag }. Jeder Raum gehört einer Person. */
@@ -14,18 +14,18 @@ export const FALL_HINWEISE = {
 
 export const FALL_FLAGS = Object.values(FALL_HINWEISE).map((h) => h.flag);
 
-/** Zufälligen Täter wählen. `zufall` ist austauschbar (Tests), Standard Math.random. */
+/** Zufälligen Verursacher wählen. `zufall` ist austauschbar (Tests), Standard Math.random. */
 export function wuerfleTaeter(zufall = Math.random) {
   return FALL_LIST[Math.min(FALL_LIST.length - 1, Math.floor(zufall() * FALL_LIST.length))];
 }
 
 export const istTaeter = (id) => FALL_LIST.includes(id);
 
-/** Ist der Hinweis zu diesem Verdächtigen ein Beweis (belastend) oder ein Alibi (entlastend)? */
+/** Ist der Hinweis zu dieser Person ein Beweis (belastend) oder ein Alibi (entlastend)? */
 export const hinweisArt = (verdaechtiger, taeter) => (verdaechtiger === taeter ? 'beweis' : 'alibi');
 
 /**
- * Die Fund-Karte zu einem Fall-Hinweis, passend zum gewürfelten Täter.
+ * Die Fund-Karte zu einem Fall-Hinweis, passend zum gewürfelten Verursacher.
  * Gibt dieselbe Form wie eine Karte aus data/wissen.json zurück (id, typ, raum, ort, titel, medium, kopf, zeilen, fuss).
  */
 export function fallKarte(raum, taeter, fall) {
@@ -50,12 +50,12 @@ export function fallKarte(raum, taeter, fall) {
   };
 }
 
-/** Alle vier Fall-Karten zum gewürfelten Täter. */
+/** Alle vier Fall-Karten zum gewürfelten Verursacher. */
 export function alleFallKarten(taeter, fall) {
   return Object.keys(FALL_HINWEISE).map((raum) => fallKarte(raum, taeter, fall)).filter(Boolean);
 }
 
-/** Wurde der richtige Verdächtige benannt? */
+/** Wurde der richtige Verursacher benannt? */
 export const taeterRichtig = (auswahl, taeter) => Boolean(auswahl) && auswahl === taeter;
 
 /**
