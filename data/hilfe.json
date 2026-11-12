@@ -1,6 +1,18 @@
 {
   "titel": "Wie geht's weiter?",
   "stufe2Knopf": "Genauer, bitte",
+  "tuerHilfe": {
+    "ab": 2,
+    "figuren": {
+      "Empfang": { "von": "Markus", "portrait": "trainer", "einleitung": "Stopp, da kommst du noch nicht durch. Ich sag dir, was fehlt:" },
+      "Spind": { "von": "Markus", "portrait": "trainer", "einleitung": "Stopp, da kommst du noch nicht durch. Ich sag dir, was fehlt:" },
+      "Trainingsfläche": { "von": "Markus", "portrait": "trainer", "einleitung": "Auf der Trainingsfläche ist noch nicht alles bereit. Das fehlt dir noch:" },
+      "Labor": { "von": "Kupfer-Kurt", "portrait": "kurt", "einleitung": "Tja, so weit bist du noch nicht. Im Labor fehlt dir noch was:" },
+      "Sauna": { "von": "Hitze-Hannes", "portrait": "hannes", "einleitung": "Hey, so schnell geht das nicht! In der Sauna fehlt dir noch was:" },
+      "Shake-Bar": { "von": "Alex", "portrait": "alex", "einleitung": "Die Shake-Bar ist noch nicht dran. Das fehlt dir noch:" },
+      "Standard": { "von": "Markus", "portrait": "trainer", "einleitung": "Stopp, da kommst du noch nicht durch. Ich sag dir, was fehlt:" }
+    }
+  },
   "schritte": {
     "spind": {
       "ort": "Empfang",

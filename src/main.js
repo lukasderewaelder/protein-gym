@@ -23,6 +23,7 @@ import { createZugang, ausweisKarte } from './ui/zugang.js';
 import { liste as inventarListe, neuAnzahl, markiereGesehen } from './state/inventar.js';
 import { renderInventar } from './ui/inventar.js';
 import { naechsterSchritt } from './state/naechster-schritt.js';
+import { zaehleTuerVersuch, tuerHilfeDialog } from './state/tuerhilfe.js';
 import { h, clear } from './ui/dom.js';
 import { renderFund, fundIcon } from './ui/funde.js';
 import { macheSeiten } from './ui/seiten.js';
@@ -360,6 +361,10 @@ function trigger(hs) {
   pending = null;
   if (hs.type === 'door') {
     if (isLocked(hs)) {
+      // Führerschein und Zahlenschloss sind der richtige Weg, kein Fehlversuch; sonst gibt es ab dem 2. Mal konkrete Hilfe von der passenden Figur
+      const richtigerWeg = (hs.sperre === 'labor' && store.hasFlag('empfang_done') && !store.hasFlag('lf_bestanden'))
+        || (hs.sperre === 'sauna' && store.hasFlag('labor_done') && !store.hasFlag('sauna_offen'));
+      if (!richtigerWeg && tuerHilfeZeigen(hs)) return;
       if (hs.sperre) sperre(hs);
       else playDialog(`tuer.${hs.id}`, { speaker: 'Tür', lines: [hs.lockedText || 'Noch gesperrt.'] });
     } else if (hefterSperre(hs.to)) {
@@ -384,6 +389,20 @@ function trigger(hs) {
   if (hs.aktion === 'zettel') { zettelAnsehen(hs); return; }
   if (hs.task && tasks[hs.task]) { tasks[hs.task](hs); return; }
   playDialog(hs.dialog || `${cur.scene.id}.${hs.id}`, { speaker: hs.label, lines: ['(Hier fehlt noch ein Text.)'] });
+}
+
+/**
+ * Verschlossene Tür mehrfach angetippt: Ab dem 2. Mal sagt die Figur, die zum fehlenden Schritt gehört, was konkret noch zu lösen ist
+ * (Schritt aus naechsterSchritt, Texte in data/hilfe.json). Gibt true zurück, wenn die Hilfe gezeigt wird.
+ */
+function tuerHilfeZeigen(hs) {
+  const n = zaehleTuerVersuch(store.state, hs.id);
+  store.save();
+  const schritt = naechsterSchritt(store.state.flags, { aufgaben: DATA.aufgaben, karten: DATA.wissen.karten, hefter: DATA.hefter, haken: store.state.hefterHaken });
+  const entry = tuerHilfeDialog(n, schritt, DATA.hilfe);
+  if (!entry) return false;
+  playDialog('tuer.hilfe', entry);
+  return true;
 }
 
 /** Gesperrte Tür mit eigener Geschichte: Labor (Führerschein, Ausweis) und Sauna (Zahlenschloss). */
