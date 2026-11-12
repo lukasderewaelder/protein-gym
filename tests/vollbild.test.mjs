@@ -1,7 +1,7 @@
 // Vollbild: Unterstützung erkennen, ein- und ausschalten, Fehler abfangen, Querformat nur nach Zusage.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { vollbildMoeglich, istVollbild, vollbildAn, vollbildAus, umschalten, beiVollbildwechsel, vollbildHinweis, istApple } from '../src/ui/vollbild.js';
+import { vollbildMoeglich, istVollbild, vollbildAn, vollbildAus, umschalten, beiVollbildwechsel, vollbildWaechter, vollbildHinweis, istApple } from '../src/ui/vollbild.js';
 
 function fakeDoc({ kann = true, ablehnen = false } = {}) {
   const log = [];
@@ -91,4 +91,54 @@ test('Apple-Geräte werden erkannt, auch iPadOS als Mac mit Touch', () => {
   assert.equal(istApple({ userAgent: 'Mozilla/5.0 (Linux; Android 13)', platform: 'Linux armv8l', maxTouchPoints: 5 }), false);
   assert.equal(istApple({ userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)', platform: 'Win32', maxTouchPoints: 0 }), false);
   assert.equal(istApple(null), false);
+});
+
+test('Wächter: holt Vollbild beim nächsten Tippen zurück, aber nur mit Wunsch, nicht doppelt und nicht am Vollbild-Knopf', async () => {
+  const d = fakeDoc();
+  let wunsch = true;
+  let aufrufe = 0;
+  const knopf = { closest: (s) => (s === '#btn-vollbild' ? knopf : null) };
+  const weg = vollbildWaechter(d, { wunsch: () => wunsch, nachholen: async () => { aufrufe++; await vollbildAn(d, null, null); }, ausser: (z) => Boolean(z && z.closest && z.closest('#btn-vollbild')) });
+  const tippe = async (typ, target = {}) => { d.listeners[typ].forEach((f) => f({ target })); await new Promise((r) => setTimeout(r, 0)); };
+  await tippe('pointerup');
+  assert.equal(aufrufe, 1, 'kein Vollbild und Wunsch: nachholen');
+  assert.equal(istVollbild(d), true);
+  await tippe('click');
+  assert.equal(aufrufe, 1, 'schon im Vollbild: nichts');
+  d.fullscreenElement = null; // Browser beendet Vollbild (Druckdialog, Tastatur, App-Wechsel)
+  await tippe('pointerup', knopf);
+  assert.equal(aufrufe, 1, 'der Vollbild-Knopf entscheidet selbst');
+  wunsch = false;
+  await tippe('pointerup');
+  assert.equal(aufrufe, 1, 'ohne Wunsch: nichts');
+  wunsch = true;
+  d.listeners.pointerup.forEach((f) => f({ target: {} }));
+  d.listeners.click.forEach((f) => f({ target: {} }));
+  await new Promise((r) => setTimeout(r, 0));
+  assert.equal(aufrufe, 2, 'pointerup und click desselben Tipps fordern nur einmal an');
+  weg();
+  assert.equal(d.listeners.pointerup.length, 0);
+  assert.equal(d.listeners.click.length, 0);
+});
+
+test('Esc wird im Vollbild abgefangen (Chrome) und beim Verlassen wieder freigegeben', async () => {
+  const d = fakeDoc(); const log = [];
+  const nav = { keyboard: { lock: async (k) => { log.push(['lock', k]); }, unlock: () => { log.push(['unlock']); } } };
+  await vollbildAn(d, null, nav);
+  await vollbildAus(d, nav);
+  assert.deepEqual(log, [['lock', ['Escape']], ['unlock']]);
+  const ohne = fakeDoc();
+  assert.equal(await vollbildAn(ohne, null, { keyboard: { lock: async () => { throw new Error('nicht erlaubt'); } } }), true, 'fehlende Sperre bricht nichts ab');
+});
+
+test('Keine Browser-Dialoge im Spiel (alert, confirm, prompt beenden das Vollbild); nur der Editiermodus darf prompt nutzen', async () => {
+  const { readdirSync, readFileSync, statSync } = await import('node:fs');
+  const { join } = await import('node:path');
+  const wurzel = new URL('../src/', import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1');
+  const dateien = [];
+  const lauf = (dir) => { for (const n of readdirSync(dir)) { const p = join(dir, n); if (statSync(p).isDirectory()) lauf(p); else if (p.endsWith('.js')) dateien.push(p); } };
+  lauf(wurzel);
+  for (const p of dateien.filter((x) => !/editor\.js$/.test(x))) {
+    assert.doesNotMatch(readFileSync(p, 'utf8'), /\b(window\.)?(alert|confirm|prompt)\(/, p);
+  }
 });

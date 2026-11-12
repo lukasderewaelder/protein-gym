@@ -8,7 +8,7 @@ import { drawScene, zielPos, SHIRTS, SKINS, HAIRS, FIGURE_HEIGHT } from './engin
 import { loadFirst, loadFigureSprites, loadNpcSprite } from './engine/assets.js';
 import { createDialog, zeilenFuellen } from './ui/dialog.js';
 import { initStart } from './ui/start.js';
-import { vollbildMoeglich, istVollbild, vollbildAn, umschalten, beiVollbildwechsel, vollbildHinweis, istApple } from './ui/vollbild.js';
+import { vollbildMoeglich, istVollbild, vollbildAn, umschalten, beiVollbildwechsel, vollbildWaechter, vollbildHinweis, istApple } from './ui/vollbild.js';
 import { createEditor, loadEdits } from './engine/editor.js';
 import { createNotebook } from './ui/notebook.js';
 import { createTaskPanel } from './ui/taskpanel.js';
@@ -651,11 +651,13 @@ function wireMenu() {
   };
   $('#font-down').addEventListener('click', () => bump(-0.1));
   $('#font-up').addEventListener('click', () => bump(0.1));
-  $('#btn-reset').addEventListener('click', () => {
-    if (window.confirm('Alle Daten auf diesem Gerät löschen und neu beginnen?')) {
-      store.reset();
-      location.reload();
-    }
+  // Eigenes Fenster statt window.confirm: Browser-Dialoge beenden das Vollbild. Nach dem Neuladen holt der Start-Knopf es zurück.
+  const neuFrage = $('#neu-frage');
+  $('#btn-reset').addEventListener('click', () => { menu.close(); neuFrage.showModal(); });
+  $('#neu-abbrechen').addEventListener('click', () => neuFrage.close());
+  $('#neu-loeschen').addEventListener('click', () => {
+    store.reset();
+    location.reload();
   });
 }
 
@@ -664,7 +666,8 @@ function wireVollbild() {
   const knopf = $('#btn-vollbild');
   const hinweis = $('#vollbild-hinweis');
   // Der Knopf steht immer im Menü. Geht Vollbild nicht oder lehnt der Browser ab, erklärt ein Hinweis den Weg (Home-Bildschirm, Browser-Menü).
-  const appModus = () => Boolean(window.matchMedia && window.matchMedia('(display-mode: standalone), (display-mode: fullscreen)').matches);
+  // App-Modus = vom Home-Bildschirm gestartet. Chrome meldet „display-mode: fullscreen“ auch beim Vollbild per Knopf, das zählt nicht als App.
+  const appModus = () => !istVollbild() && Boolean(window.matchMedia && window.matchMedia('(display-mode: standalone), (display-mode: fullscreen)').matches);
   const zeigeHinweis = (art) => { hinweis.textContent = hinweis.dataset[art] || ''; hinweis.hidden = !hinweis.textContent; };
   const zeige = (an) => {
     const app = appModus();
@@ -684,15 +687,17 @@ function wireVollbild() {
     zeige(istVollbild());
   });
   if (!vollbildMoeglich()) return; // ohne Unterstützung gibt es nichts nachzuholen
+  // `store.state.vollbild` heißt „Vollbild gewünscht“. Nur der Menüknopf löscht den Wunsch; endet Vollbild durch den Browser (Druckdialog,
+  // Teilen, Bildschirmtastatur, App-Wechsel, Neuladen), bleibt der Wunsch, und der Wächter holt Vollbild beim nächsten Tippen zurück.
   beiVollbildwechsel((an) => {
     zeige(an);
-    if (store.state.vollbild !== an) { store.state.vollbild = an; if (store.hasNames()) store.save(); } // auch Esc des Browsers
     setTimeout(vp.resize, 100);
   });
-  // Nach dem Neuladen darf der Browser Vollbild erst nach einer Geste erlauben: beim ersten Tippen nachholen
-  if (store.state.vollbild && store.hasNames() && !istVollbild()) {
-    document.addEventListener('pointerdown', () => { vollbildAn(); }, { once: true, capture: true });
-  }
+  vollbildWaechter(document, {
+    wunsch: () => Boolean(store.state.vollbild) && store.hasNames(),
+    nachholen: () => vollbildAn(),
+    ausser: (ziel) => Boolean(ziel && ziel.closest && ziel.closest('#btn-vollbild')),
+  });
 }
 
 function registerServiceWorker() {

@@ -97,14 +97,16 @@ textarea { width: 100%; min-height: 100px; padding: 10px 12px; border-radius: 10
 .formelzeile { font-family: ui-monospace, "Courier New", monospace; font-size: calc(22px * var(--font-scale)); overflow-wrap: anywhere; }
 mark { background: var(--accent); color: #1d1305; padding: 0 4px; border-radius: 4px; }
 
-dialog#notebook, dialog#info {
+dialog#notebook, dialog#info, dialog#neu-frage {
   background: var(--panel); color: var(--ink);
   border: 3px solid #35656b; border-radius: 16px;
   padding: 16px 20px;
   width: min(760px, calc(100% - 24px));
   max-height: calc(100dvh - 24px);
 }
-dialog#notebook::backdrop, dialog#info::backdrop { background: rgba(0, 0, 0, 0.6); }
+dialog#notebook::backdrop, dialog#info::backdrop, dialog#neu-frage::backdrop { background: rgba(0, 0, 0, 0.6); }
+/* „Neues Spiel“ fragt im eigenen Fenster nach (ein Browser-Dialog wie confirm() würde das Vollbild beenden) */
+dialog#neu-frage { width: min(520px, calc(100% - 24px)); }
 
 /* Spind: Innenseite der Spindtür, Querformat */
 dialog#notebook {

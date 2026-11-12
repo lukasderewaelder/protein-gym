@@ -30,7 +30,7 @@ export function vollbildHinweis({ moeglich, appModus, ios }) {
 }
 
 /** Vollbild anfordern. Gibt true zurück, wenn der Browser zugesagt hat; Fehler (keine Geste, blockiert) brechen nichts ab. */
-export async function vollbildAn(doc = document, scr = (typeof screen !== 'undefined' ? screen : null)) {
+export async function vollbildAn(doc = document, scr = (typeof screen !== 'undefined' ? screen : null), nav = (typeof navigator !== 'undefined' ? navigator : null)) {
   if (!vollbildMoeglich(doc)) return false;
   if (istVollbild(doc)) return true;
   const el = wurzel(doc);
@@ -42,20 +42,43 @@ export async function vollbildAn(doc = document, scr = (typeof screen !== 'undef
   try {
     if (scr && scr.orientation && scr.orientation.lock) await scr.orientation.lock('landscape');
   } catch { /* Sperre nicht verfügbar */ }
+  // Esc abfangen (Chrome): Ein kurzer Druck schließt dann Spielfenster, statt das Vollbild zu beenden; nur langes Halten beendet es
+  try {
+    if (nav && nav.keyboard && nav.keyboard.lock) await nav.keyboard.lock(['Escape']);
+  } catch { /* Sperre nicht verfügbar */ }
   return true;
 }
 
-export async function vollbildAus(doc = document) {
+export async function vollbildAus(doc = document, nav = (typeof navigator !== 'undefined' ? navigator : null)) {
   if (!istVollbild(doc)) return;
+  try { if (nav && nav.keyboard && nav.keyboard.unlock) nav.keyboard.unlock(); } catch { /* egal */ }
   try {
     if (doc.exitFullscreen) await doc.exitFullscreen();
     else if (doc.webkitExitFullscreen) await doc.webkitExitFullscreen();
   } catch { /* egal */ }
 }
 
-export async function umschalten(doc = document, scr) {
-  if (istVollbild(doc)) { await vollbildAus(doc); return false; }
-  return vollbildAn(doc, scr);
+export async function umschalten(doc = document, scr, nav) {
+  if (istVollbild(doc)) { await vollbildAus(doc, nav); return false; }
+  return vollbildAn(doc, scr, nav);
+}
+
+/**
+ * Wächter: Wollte die Person Vollbild und ist es verschwunden (Druckdialog, Teilen, Bildschirmtastatur, App-Wechsel, Neuladen), holt
+ * das nächste Tippen es zurück. Browser erlauben Vollbild nur nach einer Geste, auf Touch zählt erst das Loslassen (pointerup/click).
+ * `wunsch()` sagt, ob Vollbild gewünscht ist; `nachholen()` fordert es an; `ausser(ziel)` nimmt Tipps aus (der Vollbild-Knopf selbst
+ * entscheidet allein). Gibt eine Abmeldefunktion zurück.
+ */
+export function vollbildWaechter(doc, { wunsch, nachholen, ausser = () => false }) {
+  let laeuft = false;
+  const h = (e) => {
+    if (laeuft || ausser(e && e.target) || !wunsch() || istVollbild(doc) || !vollbildMoeglich(doc)) return;
+    laeuft = true;
+    Promise.resolve().then(nachholen).catch(() => {}).finally(() => { laeuft = false; });
+  };
+  doc.addEventListener('pointerup', h, true);
+  doc.addEventListener('click', h, true);
+  return () => { doc.removeEventListener('pointerup', h, true); doc.removeEventListener('click', h, true); };
 }
 
 /** Auf Änderungen des Vollbildzustands hören (auch wenn die Person mit Esc beendet). Gibt eine Abmeldefunktion zurück. */
