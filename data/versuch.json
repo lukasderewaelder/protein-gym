@@ -1,7 +1,7 @@
 {
-  "codeHinweis": "Die Codes nach dem Versuch ändern sich alle 30 Sekunden und entstehen aus einem geheimen Klassenwort der Lehrkraft. Im Quelltext steht nur ein Prüfwert (klassenwort.hash), nie das Wort. Eine Hürde für die Klasse, keine Sicherheitsfreigabe. Ersatzweise geht immer das heutige Datum als dd.mm.yyyy (Notfallcode, src/state/lehrcode.js).",
+  "codeHinweis": "Die Codes nach dem Versuch ändern sich alle 30 Sekunden und entstehen aus einem geheimen Klassenwort der Lehrkraft. Im Quelltext steht nur ein Prüfwert (klassenwort.hash), nie das Wort. Eine Hürde für die Klasse, keine Sicherheitsfreigabe. Standardmäßig ist das Klassenwort „Proteine“ (bewusst öffentlich): Dazu liegt der abgeleitete Schlüssel als klassenwort.standardSchluessel in den Daten, die Tablets brauchen keine Einrichtung. Für ein privates Klassenwort den Eintrag standardSchluessel löschen und die Tablets einrichten. Ersatzweise geht immer das heutige Datum als dd.mm.yyyy (Notfallcode, src/state/lehrcode.js).",
   "codeZeit": { "sekunden": 30, "vorher": 1, "nachher": 1, "stellen": 6 },
-  "klassenwort": { "hash": "a1f8d3ba4d184f40216e5f36311e872e63b0fd41fa35baa870976df126d7e469", "iterationen": 600000 },
+  "klassenwort": { "hash": "0b1298803f2d831bc7929711f311c54ff43c076c34d7e1c7b132650c4d771f9d", "iterationen": 600000, "standardSchluessel": "2da90f21f88040d7b9aff774d5b32c50bb25b5c0a4eb6ca9cb4e668f7f4eff03" },
   "sicherheit": [
     "Kittel und Schutzbrille an.",
     "Tablet weglegen, damit nichts draufspritzt.",

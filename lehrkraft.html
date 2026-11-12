@@ -47,7 +47,7 @@
     <p class="hint">Füge die Fortschrittscodes der Klasse ein, einen pro Zeile. Wenn du möchtest, schreibe den Namen davor („Mia: PG-…“). Die Codes enthalten keine Namen. Alles wird nur in diesem Fenster berechnet, es wird nichts gesendet oder gespeichert.</p>
     <section class="codes" aria-labelledby="codes-titel">
       <h2 id="codes-titel">Codes nach dem Versuch</h2>
-      <p class="hint">Gib dein Klassenwort ein. Die Codes ändern sich alle 30 Sekunden und gelten pro Tablet nur einmal. Nenne den Gruppen den Code erst, wenn der echte Versuch erledigt ist. Das Klassenwort wird nicht gesendet, die Seite rechnet nur in diesem Fenster.</p>
+      <p class="hint">Gib dein Klassenwort ein (Standard: <b>Proteine</b>, mit großem P). Die Codes ändern sich alle 30 Sekunden und gelten pro Tablet nur einmal. Nenne den Gruppen den Code erst, wenn der echte Versuch erledigt ist. Das Klassenwort wird nicht gesendet, die Seite rechnet nur in diesem Fenster. Mit dem Standardwort müssen die Tablets nicht eingerichtet werden.</p>
       <div class="row">
         <input id="kw" class="text" type="password" autocomplete="off" spellcheck="false" aria-label="Klassenwort" placeholder="Klassenwort">
         <button id="kw-los" class="primary" type="button">Codes anzeigen</button>
@@ -65,7 +65,7 @@
       </div>
       <details class="neu">
         <summary>Neues Klassenwort festlegen (einmalig, danach in den Quelltext eintragen)</summary>
-        <p class="hint">Wähle mindestens drei zufällige Wörter oder zwölf Zeichen, denn der Prüfwert steht öffentlich im Quelltext. Das Wort selbst steht nirgends. Kopiere die Zeile in <code>data/versuch.json</code> (Eintrag <code>klassenwort</code>), pushe, und richte danach jedes Tablet einmal im Menü unter „Für die Lehrkraft“ ein.</p>
+        <p class="hint">Wähle mindestens drei zufällige Wörter oder zwölf Zeichen, denn der Prüfwert steht öffentlich im Quelltext. Das Wort selbst steht nirgends. Kopiere die Zeile in <code>data/versuch.json</code> (die Zeile ersetzt den ganzen Eintrag <code>klassenwort</code>, damit entfällt auch das Standardwort „Proteine“), pushe, und richte danach jedes Tablet einmal im Menü unter „Für die Lehrkraft“ ein.</p>
         <div class="row">
           <input id="neu-wort" class="text" type="password" autocomplete="off" spellcheck="false" aria-label="Neues Klassenwort" placeholder="Neues Klassenwort">
           <button id="neu-los" type="button">Prüfwert erzeugen</button>
@@ -130,7 +130,7 @@
       catch { $('#eingabe').value = t; $('#meldung').textContent = 'Kopieren ging nicht. Die Tabelle steht im Textfeld, bitte von dort kopieren.'; }
     });
     // ---------- Codes nach dem Versuch (zeitbasiert, src/state/lehrcode.js) ----------
-    const MERKEN = 'protein-gym:lehrkraft-seite';
+    const MERKEN = 'protein-gym:lehrkraft-seite-v2';
     let taktId = null;
     const gruppe = (c) => c.slice(0, 3) + ' ' + c.slice(3);
     async function zeigeCodes(schluessel, cfg) {

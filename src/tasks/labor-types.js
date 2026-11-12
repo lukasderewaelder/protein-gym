@@ -6,7 +6,7 @@
 import { h } from '../ui/dom.js';
 import { svgEl } from './molecule.js';
 import { beobachtungPasst, reihenfolge, alleProben, protokollText, probenName, stationenVon, notizSchluessel } from './check.js';
-import { pruefeCode, schrittFrei, schrittMerken, istNotfallCode } from '../state/lehrcode.js';
+import { pruefeCodeMitSchluesseln, schrittFrei, schrittMerken, istNotfallCode } from '../state/lehrcode.js';
 import { ladeSchluessel } from '../state/klassenwort.js';
 
 function protokoll(ctx) {
@@ -158,9 +158,10 @@ function versuch(host, step, api, ctx) {
   const pruefe = async () => {
     // Notfallcode (heutiges Datum): geht immer, ohne Einrichtung, beliebig oft
     if (istNotfallCode(input.value, Date.now())) { input.disabled = true; api.ok(t.codeRichtig); return; }
-    const schluessel = ladeSchluessel(globalThis.localStorage);
-    if (!schluessel) { api.say(`✗ ${t.codeNichtEingerichtet}`); return; }
-    const schritt = await pruefeCode(schluessel, versuchId, input.value, Date.now(), cfg);
+    // Schlüssel: das eingerichtete Klassenwort und der Standardschlüssel (Klassenwort „Proteine“, ohne Einrichtung); fehlt beides, ist das Tablet nicht freigeschaltet
+    const schluessel = [ladeSchluessel(globalThis.localStorage), (v.klassenwort || {}).standardSchluessel].filter(Boolean);
+    if (!schluessel.length) { api.say(`✗ ${t.codeNichtEingerichtet}`); return; }
+    const schritt = await pruefeCodeMitSchluesseln(schluessel, versuchId, input.value, Date.now(), cfg);
     if (schritt === null) { api.say(`✗ ${t.codeFalsch}`); return; }
     const state = ctx.store.state;
     if (!schrittFrei(state.codeBenutzt, versuchId, schritt)) { api.say(`✗ ${t.codeBenutzt}`); return; }

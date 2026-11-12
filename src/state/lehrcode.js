@@ -81,6 +81,15 @@ export async function pruefeCode(schluesselHex, versuchId, eingabe, zeitMs, cfg 
   return null;
 }
 
+/** Wie `pruefeCode`, aber mit mehreren möglichen Schlüsseln (eingerichtetes Klassenwort und Standardschlüssel); der erste Treffer zählt. */
+export async function pruefeCodeMitSchluesseln(schluessel, versuchId, eingabe, zeitMs, cfg = {}) {
+  for (const k of [...new Set((schluessel || []).filter(Boolean))]) {
+    const s = await pruefeCode(k, versuchId, eingabe, zeitMs, cfg);
+    if (s !== null) return s;
+  }
+  return null;
+}
+
 /**
  * Notfallcode: immer das heutige Datum als dd.mm.yyyy (Ortszeit des Tablets). Er geht ohne Einrichtung, für beide Versuche und beliebig oft.
  * Er ist bewusst einfach und steht deshalb öffentlich im Quelltext: nur für den Fall, dass die Codes nicht klappen (keine Hürde gegen Raten).

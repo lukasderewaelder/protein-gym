@@ -1,7 +1,8 @@
 // Zeitbasierte Codes nach dem Versuch: Berechnung, Toleranz, Wiederverwendung, Einrichtung eines Tablets.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { pruefwertVon, schluesselAus, wortPasst, codeFuer, aktuellerCode, pruefeCode, notfallCode, istNotfallCode, schrittVon, restSekunden, schrittFrei, schrittMerken, CODE_ZEIT } from '../src/state/lehrcode.js';
+import { pruefwertVon, schluesselAus, wortPasst, codeFuer, aktuellerCode, pruefeCode, pruefeCodeMitSchluesseln, notfallCode, istNotfallCode, schrittVon, restSekunden, schrittFrei, schrittMerken, CODE_ZEIT } from '../src/state/lehrcode.js';
+import { readFileSync } from 'node:fs';
 import { ladeSchluessel, speichereSchluessel, entferneSchluessel } from '../src/state/klassenwort.js';
 
 const IT = 1000; // wenige Runden genügen im Test
@@ -85,4 +86,22 @@ test('Notfallcode: heutiges Datum als dd.mm.yyyy, auch ohne Punkte, nur für heu
   assert.equal(istNotfallCode('12.11.26', heute), false);
   assert.equal(istNotfallCode('', heute), false);
   assert.equal(istNotfallCode('12.11.2026', new Date(2026, 10, 13, 0, 5).getTime()), false, 'am nächsten Tag gilt das neue Datum');
+});
+
+test('Mehrere Schlüssel: der erste Treffer zählt, ohne passenden Schlüssel kein Treffer', async () => {
+  const a = await schluesselAus('Wort A', IT);
+  const b = await schluesselAus('Wort B', IT);
+  const code = await aktuellerCode(b, 'A', T0 + 5000);
+  assert.equal(await pruefeCodeMitSchluesseln([a, b], 'A', code, T0 + 5000), schrittVon(T0, 30));
+  assert.equal(await pruefeCodeMitSchluesseln(['', null, b], 'A', code, T0 + 5000), schrittVon(T0, 30), 'leere Einträge werden übersprungen');
+  assert.equal(await pruefeCodeMitSchluesseln([a], 'A', code, T0 + 5000), null);
+  assert.equal(await pruefeCodeMitSchluesseln([], 'A', code, T0 + 5000), null);
+});
+
+test('Standardwort „Proteine“: Prüfwert und Standardschlüssel in den Daten gehören zusammen (Tablets brauchen keine Einrichtung)', async () => {
+  const V = JSON.parse(readFileSync(new URL('../data/versuch.json', import.meta.url), 'utf8'));
+  const kw = V.klassenwort;
+  assert.equal(await wortPasst('Proteine', kw.hash, kw.iterationen), true, 'Standardwort passt zum Prüfwert');
+  assert.equal(kw.standardSchluessel, await schluesselAus('Proteine', kw.iterationen), 'Standardschlüssel stammt aus dem Standardwort');
+  assert.equal(await wortPasst('proteine', kw.hash, kw.iterationen), false, 'Groß- und Kleinschreibung zählt');
 });
