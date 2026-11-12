@@ -1,7 +1,7 @@
 // Vollbild: Unterstützung erkennen, ein- und ausschalten, Fehler abfangen, Querformat nur nach Zusage.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { vollbildMoeglich, istVollbild, vollbildAn, vollbildAus, umschalten, beiVollbildwechsel, vollbildWaechter, vollbildHinweis, istApple } from '../src/ui/vollbild.js';
+import { vollbildMoeglich, istVollbild, vollbildAn, vollbildAus, umschalten, beiVollbildwechsel, vollbildWaechter, vollbildHinweis, istApple, istEingabe } from '../src/ui/vollbild.js';
 
 function fakeDoc({ kann = true, ablehnen = false } = {}) {
   const log = [];
@@ -119,6 +119,71 @@ test('Wächter: holt Vollbild beim nächsten Tippen zurück, aber nur mit Wunsch
   weg();
   assert.equal(d.listeners.pointerup.length, 0);
   assert.equal(d.listeners.click.length, 0);
+});
+
+test('Eingabefelder werden erkannt (Text ja, Kästchen und Knöpfe nein)', () => {
+  assert.equal(istEingabe({ tagName: 'INPUT', type: 'text' }), true);
+  assert.equal(istEingabe({ tagName: 'INPUT', type: 'password' }), true);
+  assert.equal(istEingabe({ tagName: 'INPUT' }), true, 'ohne type = text');
+  assert.equal(istEingabe({ tagName: 'TEXTAREA' }), true);
+  assert.equal(istEingabe({ tagName: 'DIV', isContentEditable: true }), true);
+  assert.equal(istEingabe({ tagName: 'INPUT', type: 'checkbox' }), false);
+  assert.equal(istEingabe({ tagName: 'BUTTON' }), false);
+  assert.equal(istEingabe(null), false);
+});
+
+test('Wächter lässt Eingabefelder in Ruhe: Tastatur bleibt offen, danach kommt Vollbild beim nächsten Tippen zurück', async () => {
+  const d = fakeDoc();
+  let aufrufe = 0; let zeit = 1000;
+  const feld = { tagName: 'INPUT', type: 'text' };
+  const knopf = { tagName: 'BUTTON' };
+  const weg = vollbildWaechter(d, { wunsch: () => true, nachholen: async () => { aufrufe++; await vollbildAn(d, null, null); }, jetzt: () => zeit });
+  const sende = async (typ, target) => { (d.listeners[typ] || []).forEach((f) => f({ target })); await new Promise((r) => setTimeout(r, 0)); };
+  // Tippen auf das Feld: Tastatur geht auf, Browser beendet das Vollbild, das folgende click darf es nicht zurückholen
+  await sende('pointerup', feld);
+  d.activeElement = feld;
+  await sende('focusin', feld);
+  await sende('click', feld);
+  assert.equal(aufrufe, 0, 'Tippen auf das Feld');
+  zeit += 5000; // lange getippt, Feld hat noch den Fokus
+  await sende('click', knopf);
+  assert.equal(aufrufe, 0, 'solange das Feld den Fokus hat (Tastatur offen)');
+  // Feld verlassen (Tastatur zu): kurz Ruhe, dann holt das nächste Tippen Vollbild zurück
+  d.activeElement = null;
+  await sende('focusout', feld);
+  await sende('pointerup', knopf);
+  assert.equal(aufrufe, 0, 'unmittelbar nach dem Verlassen');
+  zeit += 400;
+  await sende('pointerup', knopf);
+  assert.equal(aufrufe, 1, 'nach der kurzen Ruhe wird nachgeholt');
+  // Fokus erst vor Kurzem (Feld per Skript fokussiert und gleich wieder verlassen): Ruhe nach dem Fokus
+  d.fullscreenElement = null;
+  await sende('focusin', feld);
+  await sende('focusout', feld);
+  zeit += 400;
+  await sende('click', knopf);
+  assert.equal(aufrufe, 1, 'Ruhe nach dem Fokus (1,5 s)');
+  zeit += 1500;
+  await sende('click', knopf);
+  assert.equal(aufrufe, 2);
+  weg();
+  assert.equal(d.listeners.focusin.length, 0);
+  assert.equal(d.listeners.focusout.length, 0);
+});
+
+test('Wächter: Tippen auf die Beschriftung eines Feldes zählt als Tippen auf das Feld', async () => {
+  const d = fakeDoc();
+  let aufrufe = 0;
+  const feld = { tagName: 'INPUT', type: 'text' };
+  const label = { tagName: 'SPAN', closest: (s) => (s === 'label' ? { control: feld } : null) };
+  const kasten = { tagName: 'SPAN', closest: (s) => (s === 'label' ? { control: { tagName: 'INPUT', type: 'checkbox' } } : null) };
+  vollbildWaechter(d, { wunsch: () => true, nachholen: async () => { aufrufe++; } });
+  d.listeners.pointerup.forEach((f) => f({ target: label }));
+  await new Promise((r) => setTimeout(r, 0));
+  assert.equal(aufrufe, 0, 'Beschriftung eines Textfeldes');
+  d.listeners.pointerup.forEach((f) => f({ target: kasten }));
+  await new Promise((r) => setTimeout(r, 0));
+  assert.equal(aufrufe, 1, 'Beschriftung eines Kästchens ist kein Feld');
 });
 
 test('Esc wird im Vollbild abgefangen (Chrome) und beim Verlassen wieder freigegeben', async () => {
