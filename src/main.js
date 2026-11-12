@@ -8,7 +8,7 @@ import { drawScene, zielPos, SHIRTS, SKINS, HAIRS, FIGURE_HEIGHT } from './engin
 import { loadFirst, loadFigureSprites, loadNpcSprite } from './engine/assets.js';
 import { createDialog, zeilenFuellen } from './ui/dialog.js';
 import { initStart } from './ui/start.js';
-import { vollbildMoeglich, istVollbild, vollbildAn, umschalten, beiVollbildwechsel } from './ui/vollbild.js';
+import { vollbildMoeglich, istVollbild, vollbildAn, umschalten, beiVollbildwechsel, vollbildHinweis, istApple } from './ui/vollbild.js';
 import { createEditor, loadEdits } from './engine/editor.js';
 import { createNotebook } from './ui/notebook.js';
 import { createTaskPanel } from './ui/taskpanel.js';
@@ -660,21 +660,27 @@ function wireMenu() {
 function wireVollbild() {
   const knopf = $('#btn-vollbild');
   const hinweis = $('#vollbild-hinweis');
-  if (!vollbildMoeglich()) {
-    // iPhone und ähnliche Browser: kein Vollbild möglich; als App auf dem Home-Bildschirm läuft das Spiel ohne Leisten
-    const app = window.matchMedia && window.matchMedia('(display-mode: standalone), (display-mode: fullscreen)').matches;
-    hinweis.hidden = app;
-    return;
-  }
-  knopf.hidden = false;
-  const zeige = (an) => { knopf.textContent = `Vollbild: ${an ? 'an' : 'aus'}`; knopf.setAttribute('aria-pressed', String(an)); };
+  // Der Knopf steht immer im Menü. Geht Vollbild nicht oder lehnt der Browser ab, erklärt ein Hinweis den Weg (Home-Bildschirm, Browser-Menü).
+  const appModus = () => Boolean(window.matchMedia && window.matchMedia('(display-mode: standalone), (display-mode: fullscreen)').matches);
+  const zeigeHinweis = (art) => { hinweis.textContent = hinweis.dataset[art] || ''; hinweis.hidden = !hinweis.textContent; };
+  const zeige = (an) => {
+    const app = appModus();
+    knopf.textContent = app ? 'Vollbild: an (App)' : `Vollbild: ${an ? 'an' : 'aus'}`;
+    knopf.setAttribute('aria-pressed', String(an || app));
+  };
   zeige(istVollbild());
   knopf.addEventListener('click', async () => {
+    hinweis.hidden = true;
+    const moeglich = vollbildMoeglich();
+    if (appModus() || !moeglich) { zeigeHinweis(vollbildHinweis({ moeglich, appModus: appModus(), ios: istApple(navigator) })); return; }
+    const warAn = istVollbild();
     const an = await umschalten();
+    if (!warAn && !an) zeigeHinweis(vollbildHinweis({ moeglich, appModus: false, ios: istApple(navigator) })); // abgelehnt
     store.state.vollbild = an;
     store.save();
     zeige(istVollbild());
   });
+  if (!vollbildMoeglich()) return; // ohne Unterstützung gibt es nichts nachzuholen
   beiVollbildwechsel((an) => {
     zeige(an);
     if (store.state.vollbild !== an) { store.state.vollbild = an; if (store.hasNames()) store.save(); } // auch Esc des Browsers

@@ -1,7 +1,7 @@
 // Vollbild: Unterstützung erkennen, ein- und ausschalten, Fehler abfangen, Querformat nur nach Zusage.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { vollbildMoeglich, istVollbild, vollbildAn, vollbildAus, umschalten, beiVollbildwechsel } from '../src/ui/vollbild.js';
+import { vollbildMoeglich, istVollbild, vollbildAn, vollbildAus, umschalten, beiVollbildwechsel, vollbildHinweis, istApple } from '../src/ui/vollbild.js';
 
 function fakeDoc({ kann = true, ablehnen = false } = {}) {
   const log = [];
@@ -73,4 +73,22 @@ test('Wechsel-Hörer meldet den Zustand und lässt sich abmelden', () => {
   assert.deepEqual(gemeldet, [true, false]);
   weg();
   assert.equal(d.listeners.fullscreenchange.length, 0);
+});
+
+test('Hinweis im Menü: App-Modus zuerst, ohne Unterstützung auf Apple-Geräten der Weg über den Home-Bildschirm, sonst „abgelehnt“', () => {
+  assert.equal(vollbildHinweis({ moeglich: true, appModus: true, ios: true }), 'app');
+  assert.equal(vollbildHinweis({ moeglich: false, appModus: true, ios: false }), 'app');
+  assert.equal(vollbildHinweis({ moeglich: false, appModus: false, ios: true }), 'ios');
+  assert.equal(vollbildHinweis({ moeglich: false, appModus: false, ios: false }), 'abgelehnt');
+  assert.equal(vollbildHinweis({ moeglich: true, appModus: false, ios: true }), 'abgelehnt', 'unterstützt, aber vom Browser abgelehnt');
+});
+
+test('Apple-Geräte werden erkannt, auch iPadOS als Mac mit Touch', () => {
+  assert.equal(istApple({ userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X)', platform: 'iPhone', maxTouchPoints: 5 }), true);
+  assert.equal(istApple({ userAgent: 'Mozilla/5.0 (iPad; CPU OS 17_0 like Mac OS X)', platform: 'iPad', maxTouchPoints: 5 }), true);
+  assert.equal(istApple({ userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)', platform: 'MacIntel', maxTouchPoints: 5 }), true, 'iPadOS im Desktop-Modus');
+  assert.equal(istApple({ userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)', platform: 'MacIntel', maxTouchPoints: 0 }), false, 'echter Mac');
+  assert.equal(istApple({ userAgent: 'Mozilla/5.0 (Linux; Android 13)', platform: 'Linux armv8l', maxTouchPoints: 5 }), false);
+  assert.equal(istApple({ userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)', platform: 'Win32', maxTouchPoints: 0 }), false);
+  assert.equal(istApple(null), false);
 });

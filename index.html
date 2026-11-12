@@ -168,8 +168,11 @@
       <button type="button" id="btn-weiter">Wie geht's weiter?</button>
     </div>
     <div class="menu-row">
-      <button type="button" id="btn-vollbild" hidden aria-pressed="false">Vollbild: aus</button>
-      <span id="vollbild-hinweis" class="hint" hidden>Für Vollbild: Teilen → Zum Home-Bildschirm.</span>
+      <button type="button" id="btn-vollbild" aria-pressed="false">Vollbild: aus</button>
+      <span id="vollbild-hinweis" class="hint" role="status" hidden
+        data-ios="Hier gibt es kein Vollbild. Tippe unten auf Teilen → Zum Home-Bildschirm und starte das Spiel von dort."
+        data-abgelehnt="Der Browser hat Vollbild gerade abgelehnt. Versuche es noch einmal oder wähle im Browser-Menü „Vollbild“ (am Computer F11)."
+        data-app="Das Spiel läuft schon ohne Browserleisten."></span>
     </div>
     <div class="menu-row">
       <button type="button" id="btn-zert" hidden>Zertifikat anzeigen</button>

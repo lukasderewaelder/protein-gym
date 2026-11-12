@@ -13,6 +13,22 @@ export function istVollbild(doc = document) {
   return Boolean(doc.fullscreenElement || doc.webkitFullscreenElement);
 }
 
+/** iPhone, iPad und iPod (auch iPadOS, das sich als Mac meldet): Dort heißt der Weg zum Vollbild „Zum Home-Bildschirm“. */
+export function istApple(nav) {
+  if (!nav) return false;
+  return /iPhone|iPad|iPod/.test(nav.userAgent || '') || (nav.platform === 'MacIntel' && (nav.maxTouchPoints || 0) > 1);
+}
+
+/**
+ * Welcher Hinweis gehört ins Menü, wenn Vollbild nicht (mehr) per Knopf geht? 'app' = läuft schon ohne Leisten, 'ios' = nicht möglich auf
+ * Apple-Geräten, 'abgelehnt' = sonst (nicht unterstützt oder vom Browser abgelehnt). Texte stehen als data-Attribute in index.html.
+ */
+export function vollbildHinweis({ moeglich, appModus, ios }) {
+  if (appModus) return 'app';
+  if (!moeglich && ios) return 'ios';
+  return 'abgelehnt';
+}
+
 /** Vollbild anfordern. Gibt true zurück, wenn der Browser zugesagt hat; Fehler (keine Geste, blockiert) brechen nichts ab. */
 export async function vollbildAn(doc = document, scr = (typeof screen !== 'undefined' ? screen : null)) {
   if (!vollbildMoeglich(doc)) return false;
