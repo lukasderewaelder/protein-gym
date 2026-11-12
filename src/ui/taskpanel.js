@@ -31,7 +31,7 @@ export function createTaskPanel({ root, data, store, notebook, showCall, onRoomD
   const footEl = root.querySelector('.task-foot');
   const kartenById = new Map(data.wissen.karten.map((k) => [k.id, k]));
   // Kein Scrollen: Was nicht auf eine Seite passt, wird auf Seiten verteilt (Zurück/Weiter unter dem Aufgabenbereich)
-  const seiten = macheSeiten(bodyEl, { nav: navEl, kleben: (k) => k.matches('.frage, .task-auftrag, h3, .satz, ol.gewaehlt') });
+  const seiten = macheSeiten(bodyEl, { nav: navEl, kleben: (k) => k.matches('.frage, .task-auftrag, h3, .satz, ol.gewaehlt, .task-levels') });
   let S = null;
   let roomId = null;
 

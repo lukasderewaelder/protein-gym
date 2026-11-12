@@ -24,6 +24,7 @@ export function defaultState() {
     taskProgress: {},   // Zwischenstand je Aufgabe: { Niveau, Schritt, richtige Erstversuche } (nur auf dem Gerät)
     pos: null,          // Position der Figur { scene, x, y } (nur auf dem Gerät)
     tuerVersuche: {},   // Wie oft eine verschlossene Tür angetippt wurde (Hilfe ab dem 2. Mal, nur auf dem Gerät)
+    digitalFrei: {},    // Digitaler Versuch freigeschaltet je Station (A Hitze, L Lieferung), nur auf dem Gerät
     fontScale: 1,
     inventarGesehen: {}, // Gegenstände, die die Tasche schon gezeigt hat (nur auf dem Gerät)
     vollbild: false,    // Vollbild war zuletzt an: nach dem Neuladen beim ersten Tippen wieder anfordern (nur auf dem Gerät)

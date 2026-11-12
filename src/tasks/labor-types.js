@@ -8,6 +8,8 @@ import { svgEl } from './molecule.js';
 import { beobachtungPasst, reihenfolge, alleProben, protokollText, probenName, stationenVon, notizSchluessel } from './check.js';
 import { pruefeCodeMitSchluesseln, schrittFrei, schrittMerken, istNotfallCode } from '../state/lehrcode.js';
 import { ladeSchluessel } from '../state/klassenwort.js';
+import { aktivierungOk, digitalFrei, digitalFreischalten } from '../state/digital.js';
+import { digitalVersuch } from './digital-versuch.js';
 
 function protokoll(ctx) {
   if (!ctx.store.state.protokoll) ctx.store.state.protokoll = {};
@@ -171,14 +173,50 @@ function versuch(host, step, api, ctx) {
     api.ok(t.codeRichtig);
   };
   input.addEventListener('keydown', (e) => { if (e.key === 'Enter') pruefe(); });
-  host.append(
+  // Live (Code der Lehrkraft nach dem echten Versuch) oder digital (Aktivierungscode, Versuch am Bildschirm, zum Beispiel zu Hause).
+  // Die Blöcke stehen direkt im Schrittkörper, damit sich der Inhalt auf Seiten verteilen lässt; beim Wechsel wird der Körper neu gesetzt.
+  const liveKnoten = [
     h('p', 'frage', t.einleitung),
     ...stationen,
     h('h3', {}, t.sicherheitTitel),
     h('ul', {}, sicherheit.map((s) => h('li', {}, s))),
     h('p', 'hint', zeit),
     h('div', 'probe', h('p', {}, t.codeFrage), h('div', 'zeile', input, h('button', { class: 'primary', type: 'button', onclick: pruefe }, t.codeKnopf))),
-  );
+  ];
+  const td = t.digital;
+  const station = gewaehlt[0];
+  let nachrichtComment = null;
+  // Nach einer Änderung im Körper das Blättern neu messen lassen (ein Kommentarknoten löst die Beobachtung des Körpers aus)
+  const neuMessen = () => { if (nachrichtComment) nachrichtComment.remove(); nachrichtComment = host.ownerDocument.createComment('neu'); host.append(nachrichtComment); };
+  const modusLive = h('button', { type: 'button', 'aria-pressed': 'true' }, td.modusLive);
+  const modusDigital = h('button', { type: 'button', 'aria-pressed': 'false' }, td.modusDigital);
+  let digital = false;
+  let lab = null;
+  const formular = () => {
+    const code = h('input', { class: 'code-eingabe', type: 'text', autocomplete: 'off', autocapitalize: 'off', spellcheck: 'false', maxlength: '30', 'aria-label': td.platzhalter, placeholder: td.platzhalter });
+    const frei = async () => {
+      if (!(await aktivierungOk(code.value, (v.digital || {}).pruefwert, (v.digital || {}).iterationen))) { api.say(`✗ ${td.falsch}`); return; }
+      digitalFreischalten(ctx.store.state, versuchId);
+      ctx.store.save();
+      zeige(true);
+    };
+    code.addEventListener('keydown', (e) => { if (e.key === 'Enter') frei(); });
+    return [h('div', 'probe', h('p', {}, td.frage), h('div', 'zeile', code, h('button', { class: 'primary', type: 'button', onclick: frei }, td.knopf)))];
+  };
+  const digitalKnoten = () => {
+    if (!digitalFrei(ctx.store.state, versuchId)) return formular();
+    lab = lab || digitalVersuch({ station, t: td, api, tubeSvg, probenName, start: versuchId === 'A' ? '#dfeef4' : '#e6f1f5', nachAenderung: neuMessen });
+    return lab.knoten;
+  };
+  function zeige(dig) {
+    digital = dig;
+    modusLive.setAttribute('aria-pressed', String(!digital));
+    modusDigital.setAttribute('aria-pressed', String(digital));
+    host.replaceChildren(h('div', 'task-levels', modusLive, modusDigital), ...(digital ? digitalKnoten() : liveKnoten));
+  }
+  modusLive.addEventListener('click', () => zeige(false));
+  modusDigital.addEventListener('click', () => zeige(true));
+  zeige(false);
   return { reveal() {} };
 }
 

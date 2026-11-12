@@ -157,6 +157,12 @@ ol.gewaehlt { min-height: 1.5em; font-size: calc(18px * var(--font-scale)); padd
 .tube-karte { display: grid; gap: 4px; justify-items: center; text-align: center; width: 150px; padding: 8px; background: #0d1d20; border: 2px solid #35656b; border-radius: 12px; font-size: calc(16px * var(--font-scale)); }
 .tube-karte svg.tube { width: 70px; height: 150px; }
 .tube-ergebnis { min-height: 2.6em; color: #9be3b0; }
+/* Digitaler Versuch: alle Gläser nebeneinander und niedrig, damit Gläser und Einleitung auf eine Seite passen */
+.rack.digital { flex-wrap: nowrap; gap: 8px; margin: 6px 0; }
+.rack.digital .tube-karte { flex: 1 1 0; width: auto; min-width: 0; padding: 6px; gap: 2px; }
+.rack.digital .tube-karte svg.tube { width: 40px; height: 84px; }
+.rack.digital .tube-karte button { font-size: calc(15px * var(--font-scale)); padding: 4px 6px; min-height: 44px; }
+.rack.digital .tube-ergebnis { min-height: 1.4em; font-size: calc(15px * var(--font-scale)); }
 
 /* Sauna, Shake-Bar, Hefter, Zertifikat */
 svg.formel .denat-text { fill: var(--muted); font-family: system-ui, sans-serif; }

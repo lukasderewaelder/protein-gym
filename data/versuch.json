@@ -1,5 +1,6 @@
 {
   "codeHinweis": "Die Codes nach dem Versuch ändern sich alle 30 Sekunden und entstehen aus einem geheimen Klassenwort der Lehrkraft. Im Quelltext steht nur ein Prüfwert (klassenwort.hash), nie das Wort. Eine Hürde für die Klasse, keine Sicherheitsfreigabe. Standardmäßig ist das Klassenwort „Proteine“ (bewusst öffentlich): Dazu liegt der abgeleitete Schlüssel als klassenwort.standardSchluessel in den Daten, die Tablets brauchen keine Einrichtung. Für ein privates Klassenwort den Eintrag standardSchluessel löschen und die Tablets einrichten. Ersatzweise geht immer das heutige Datum als dd.mm.yyyy (Notfallcode, src/state/lehrcode.js).",
+  "digital": { "pruefwert": "9ead9319d2c427b592daa73985412401f6d51beeca464ee7c9f09d21536b24fa", "iterationen": 100000 },
   "codeZeit": { "sekunden": 30, "vorher": 1, "nachher": 1, "stellen": 6 },
   "klassenwort": { "hash": "0b1298803f2d831bc7929711f311c54ff43c076c34d7e1c7b132650c4d771f9d", "iterationen": 600000, "standardSchluessel": "2da90f21f88040d7b9aff774d5b32c50bb25b5c0a4eb6ca9cb4e668f7f4eff03" },
   "sicherheit": [
@@ -17,7 +18,19 @@
     "codeFalsch": "Das ist nicht der Code. Er gilt nur kurz, frag deine Lehrkraft nach dem aktuellen.",
     "codeBenutzt": "Diesen Code hat dieses Tablet schon benutzt. Warte auf den nächsten.",
     "codeNichtEingerichtet": "Dieses Tablet ist noch nicht freigeschaltet. Deine Lehrkraft richtet es einmal im Menü unter „Für die Lehrkraft“ ein.",
-    "codeRichtig": "Versuch erledigt. Jetzt trägst du ein, was du gesehen hast."
+    "codeRichtig": "Versuch erledigt. Jetzt trägst du ein, was du gesehen hast.",
+    "digital": {
+      "modusLive": "Live durchführen",
+      "modusDigital": "Digital durchführen",
+      "frage": "Du kannst den Versuch auch digital durchführen, zum Beispiel zu Hause. Dafür brauchst du den Aktivierungscode.",
+      "platzhalter": "Aktivierungscode",
+      "knopf": "Freischalten",
+      "falsch": "Das ist nicht der Aktivierungscode. Frag deine Lehrkraft.",
+      "einleitung": "Führe den Versuch selbst durch: Tippe bei jedem Glas auf den Knopf und schau, was passiert.",
+      "hinweis": "Der digitale Versuch ersetzt den echten nur, wenn deine Lehrkraft es erlaubt.",
+      "zuruecksetzen": "Zurücksetzen",
+      "fertig": "Digitaler Versuch erledigt. Jetzt trägst du ein, was du gesehen hast."
+    }
   },
   "beobachtungOptionen": ["klar", "trüb", "trüb und fest", "ausgeflockt", "geronnen", "violett", "blau (kein Violett)", "hellblau", "etwas anderes"],
   "abweichung": "Weicht deine Beobachtung vom Skript ab? Das ist kein Fehler. Notiere, was du gesehen hast, und überlege mit deiner Gruppe mögliche Gründe (Menge, Konzentration, Dauer).",
@@ -32,11 +45,11 @@
     "zeitHinweis": "Glas 1 steht schon im Wasserbad.",
     "vermutungOptionen": ["klar", "trüb oder fest"],
     "proben": [
-      { "id": "p1", "nr": 1, "einfluss": "Hitze im Wasserbad", "erwartung": "trüb, fest", "passt": ["trüb", "trüb und fest", "ausgeflockt", "geronnen"], "sim": { "farbe": "#f4efe0", "flocken": 0, "trueb": 1 } },
-      { "id": "p2", "nr": 2, "einfluss": "Salzsäure", "erwartung": "trüb, ausgeflockt", "passt": ["trüb", "trüb und fest", "ausgeflockt", "geronnen"], "sim": { "farbe": "#efeadb", "flocken": 9, "trueb": 0.7 } },
-      { "id": "p3", "nr": 3, "einfluss": "Kupfersulfat-Lösung (Fehling I)", "erwartung": "ausgeflockt", "passt": ["trüb", "ausgeflockt", "trüb und fest", "geronnen"], "sim": { "farbe": "#c8e3e8", "flocken": 9, "trueb": 0.4 } },
-      { "id": "p4", "nr": 4, "einfluss": "Ethanol", "erwartung": "trüb, ausgeflockt", "passt": ["trüb", "trüb und fest", "ausgeflockt", "geronnen"], "sim": { "farbe": "#f1ecdd", "flocken": 6, "trueb": 0.7 } },
-      { "id": "p5", "nr": 5, "einfluss": "Wasser (Kontrolle)", "erwartung": "klar", "passt": ["klar"], "sim": { "farbe": "#e6f1f5", "flocken": 0, "trueb": 0 } }
+      { "id": "p1", "nr": 1, "aktionen": ["Ins Wasserbad stellen"], "einfluss": "Hitze im Wasserbad", "erwartung": "trüb, fest", "passt": ["trüb", "trüb und fest", "ausgeflockt", "geronnen"], "sim": { "farbe": "#f4efe0", "flocken": 0, "trueb": 1 } },
+      { "id": "p2", "nr": 2, "aktionen": ["Salzsäure zugeben"], "einfluss": "Salzsäure", "erwartung": "trüb, ausgeflockt", "passt": ["trüb", "trüb und fest", "ausgeflockt", "geronnen"], "sim": { "farbe": "#efeadb", "flocken": 9, "trueb": 0.7 } },
+      { "id": "p3", "nr": 3, "aktionen": ["Kupfersulfat-Lösung (Fehling I) zugeben"], "einfluss": "Kupfersulfat-Lösung (Fehling I)", "erwartung": "ausgeflockt", "passt": ["trüb", "ausgeflockt", "trüb und fest", "geronnen"], "sim": { "farbe": "#c8e3e8", "flocken": 9, "trueb": 0.4 } },
+      { "id": "p4", "nr": 4, "aktionen": ["Ethanol zugeben"], "einfluss": "Ethanol", "erwartung": "trüb, ausgeflockt", "passt": ["trüb", "trüb und fest", "ausgeflockt", "geronnen"], "sim": { "farbe": "#f1ecdd", "flocken": 6, "trueb": 0.7 } },
+      { "id": "p5", "nr": 5, "aktionen": ["Wasser zugeben"], "einfluss": "Wasser (Kontrolle)", "erwartung": "klar", "passt": ["klar"], "sim": { "farbe": "#e6f1f5", "flocken": 0, "trueb": 0 } }
     ]
   },
   "lieferung": {
@@ -49,9 +62,9 @@
     "zeit": "6 Minuten",
     "vermutungOptionen": ["violett", "nicht violett"],
     "proben": [
-      { "id": "b1", "nr": 1, "probe": "Eiweißshake", "erwartung": "violett", "passt": ["violett"], "sim": { "farbe": "#8f5cc0", "flocken": 0, "trueb": 0 } },
-      { "id": "b2", "nr": 2, "probe": "Zuckerlösung", "erwartung": "kein Violett (blau)", "passt": ["blau (kein Violett)", "hellblau", "klar"], "sim": { "farbe": "#5a86d0", "flocken": 0, "trueb": 0 } },
-      { "id": "b3", "nr": 3, "probe": "Wasser", "erwartung": "hellblau, kein Violett", "passt": ["hellblau", "klar", "blau (kein Violett)"], "sim": { "farbe": "#9fd0f0", "flocken": 0, "trueb": 0 } }
+      { "id": "b1", "nr": 1, "aktionen": ["Natronlauge zugeben", "Kupfersulfat-Lösung (Fehling I) zugeben"], "probe": "Eiweißshake", "erwartung": "violett", "passt": ["violett"], "sim": { "farbe": "#8f5cc0", "flocken": 0, "trueb": 0 } },
+      { "id": "b2", "nr": 2, "aktionen": ["Natronlauge zugeben", "Kupfersulfat-Lösung (Fehling I) zugeben"], "probe": "Zuckerlösung", "erwartung": "kein Violett (blau)", "passt": ["blau (kein Violett)", "hellblau", "klar"], "sim": { "farbe": "#5a86d0", "flocken": 0, "trueb": 0 } },
+      { "id": "b3", "nr": 3, "aktionen": ["Natronlauge zugeben", "Kupfersulfat-Lösung (Fehling I) zugeben"], "probe": "Wasser", "erwartung": "hellblau, kein Violett", "passt": ["hellblau", "klar", "blau (kein Violett)"], "sim": { "farbe": "#9fd0f0", "flocken": 0, "trueb": 0 } }
     ]
   }
 }
