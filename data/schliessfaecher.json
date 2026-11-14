@@ -4,8 +4,9 @@
   "faecher": [
     {
       "id": 1, "flag": "bonus_1", "schloss": "digital", "code": "417", "x": 491, "y": 320,
-      "typ": "spass", "name": "Buntes Ei", "emoji": "🥚",
-      "text": "Im Fach liegt ein bunt bemaltes Holz-Ei. Auf dem Zettel steht: „Easter Egg Nr. 1 von 6! Warum geht ein Ei nie allein in die Sauna? Es hat Angst, hart gekocht zu werden!“",
+      "typ": "spass", "name": "Buntes Ei und Handkäs", "emoji": "🥚",
+      "text": "Im Fach liegt ein bunt bemaltes Holz-Ei, daneben ein Stück Handkäs. Auf dem Zettel steht: „Easter Egg Nr. 1 von 6! Warum geht ein Ei nie allein in die Sauna? Es hat Angst, hart gekocht zu werden!“",
+      "extra": "Am Handkäs klebt ein Zettel von Markus: „Muss ned schmegge, muss wirke! Handkäs hat viel Eiweiß und kaum Fett.“",
       "zettel": { "szene": "empfang", "x": 1160, "y": 610, "zeilen": ["Schließfach 1:", "Code {code}", "Ein Zettel, der sich hinter dem Sofa versteckt hat. Nicht verraten!"] }
     },
     {
@@ -17,7 +18,7 @@
     {
       "id": 3, "flag": "bonus_3", "schloss": "dreh", "code": "608", "x": 648, "y": 320,
       "typ": "zusatz", "name": "Hantel-Tattoo", "emoji": "🏋️",
-      "text": "Im Fach liegt ein Klebe-Tattoo mit einer Hantel. Für wirklich harte Typen. Wasserfest bis zur ersten Dusche. Das hast du dir mit der Zusatzfrage verdient!",
+      "text": "Im Fach liegt ein Klebe-Tattoo mit einer Hantel. Darunter ein Spruchband: „Bob Tschigerillo!“ Für wirklich harte Typen. Wasserfest bis zur ersten Dusche. Das hast du dir mit der Zusatzfrage verdient!",
       "extra": "Auf der Rückseite hat Hitze-Hannes gekritzelt: „Wer schwitzt, ist noch lange nicht geronnen!“",
       "fragen": [
         {
@@ -33,8 +34,8 @@
     },
     {
       "id": 4, "flag": "bonus_4", "schloss": "digital", "code": "119", "x": 724, "y": 320,
-      "typ": "spass", "name": "Mini-Shaker", "emoji": "🥤",
-      "text": "Im Fach steht ein kleiner leerer Shaker ohne Etikett. Dazu ein Zettel von Markus, deinem Chef: „Nur probieren, was du kennst und was erlaubt ist! Und für teure Eiweiß-Shakes hat sich’s ausgebobbt: Ein Becher Quark liefert auch jede Menge Eiweiß.“",
+      "typ": "spass", "name": "Schale mit Thunfischshake", "emoji": "🐟",
+      "text": "Im Fach steht eine Schale mit einem grauen, dicken Shake. Er riecht streng nach Fisch. Dazu ein Zettel von Markus, deinem Chef: „En leggeren Thunfischshake! Aber nur probieren, was du kennst und was erlaubt ist! Und für teure Eiweiß-Shakes hat sich’s ausgebobbt: Ein Becher Quark liefert auch jede Menge Eiweiß.“",
       "zettel": { "szene": "training", "x": 600, "y": 700, "zeilen": ["Schließfach 4:", "Code {code}", "Der Zettel steckte zwischen zwei Hantelscheiben."] }
     },
     {
@@ -48,8 +49,8 @@
     {
       "id": 6, "flag": "bonus_6", "schloss": "dreh", "code": "484", "x": 1040, "y": 320,
       "typ": "zusatz", "name": "Goldenes Bizeps-Tattoo", "emoji": "💪",
-      "text": "Im Fach liegt ein goldenes Klebe-Tattoo: ein Bizeps mit Sonnenbrille. Für die ganz harten Typen. Geht mit Seife ab. Das hast du dir mit der Zusatzfrage und dem Rätsel verdient!",
-      "extra": "Klein gedruckt auf der Packung: „Macht nicht stärker. Trainieren musst du schon selbst.“",
+      "text": "Im Fach liegt ein goldenes Klebe-Tattoo: ein Bizeps mit Sonnenbrille und dem Schriftzug „Viel hilft viel!“. Für die ganz harten Typen. Geht mit Seife ab. Das hast du dir mit der Zusatzfrage und dem Rätsel verdient!",
+      "extra": "Klein gedruckt auf der Packung: „Viel hilft viel? Stimmt nicht immer: Der Körper verbaut nur so viel Eiweiß, wie er braucht. Und trainieren musst du schon selbst.“",
       "extraWennAlle": "Alle sechs Fächer sind offen. Für die Schatzsuche hat sich’s ausgebobbt, mehr gibt es hier nicht zu finden!",
       "fragen": [
         {

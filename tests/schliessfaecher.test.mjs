@@ -133,3 +133,15 @@ test('Fach-Inhalte werden zu Gegenständen in der Tasche (ohne Doppel-IDs)', () 
   for (const f of F.faecher) assert.ok(!ids.has(`fach${f.id}`), 'kommt erst zur Laufzeit dazu');
   assert.equal(new Set(F.faecher.map((f) => f.flag)).size, 6);
 });
+
+test('Easter Eggs: die vier Meme-Sprüche stehen in ihren Fächern (Handkäs, Hantel-Tattoo, Thunfischshake-Schale, Bizeps-Tattoo)', () => {
+  const fach = (id) => JSON.stringify(F.faecher.find((f) => f.id === id));
+  assert.match(fach(1), /Handkäs/);
+  assert.match(fach(1), /Muss ned schmegge, muss wirke!/);
+  assert.match(fach(3), /Bob Tschigerillo!/);
+  assert.match(fach(4), /Thunfischshake/);
+  assert.match(fach(4), /En leggeren Thunfischshake!/);
+  assert.equal(F.faecher.find((f) => f.id === 4).emoji, '🐟');
+  assert.match(fach(6), /Viel hilft viel!/);
+  assert.match(F.faecher.find((f) => f.id === 6).extra, /Stimmt nicht immer/, 'das Kleingedruckte stellt „Viel hilft viel“ richtig');
+});
