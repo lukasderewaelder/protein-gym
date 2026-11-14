@@ -26,6 +26,7 @@ test('Die obere Leiste ist ein deckender Streifen genau in dieser Höhe', () => 
   assert.match(hud, /height:\s*var\(--leiste-oben\)/);
   assert.match(hud, /background:\s*var\(--bg\)/);
   assert.doesNotMatch(hud, /pointer-events:\s*none/);
+  assert.match(hud, /overflow:\s*hidden/, 'nichts ragt aus der Leiste in die Szene');
 });
 
 test('Die Hinweis-Kärtchen stehen in der Leiste, nicht frei über der Szene', () => {

@@ -1,7 +1,7 @@
 // Vollbild: Unterstützung erkennen, ein- und ausschalten, Fehler abfangen, Querformat nur nach Zusage.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { vollbildMoeglich, istVollbild, vollbildAn, vollbildAus, umschalten, beiVollbildwechsel, vollbildWaechter, vollbildHinweis, istApple, istEingabe } from '../src/ui/vollbild.js';
+import { vollbildMoeglich, istVollbild, vollbildAn, vollbildAus, umschalten, beiVollbildwechsel, vollbildHinweis, istApple } from '../src/ui/vollbild.js';
 
 function fakeDoc({ kann = true, ablehnen = false } = {}) {
   const log = [];
@@ -93,99 +93,6 @@ test('Apple-Geräte werden erkannt, auch iPadOS als Mac mit Touch', () => {
   assert.equal(istApple(null), false);
 });
 
-test('Wächter: holt Vollbild beim nächsten Tippen zurück, aber nur mit Wunsch, nicht doppelt und nicht am Vollbild-Knopf', async () => {
-  const d = fakeDoc();
-  let wunsch = true;
-  let aufrufe = 0;
-  const knopf = { closest: (s) => (s === '#btn-vollbild' ? knopf : null) };
-  const weg = vollbildWaechter(d, { wunsch: () => wunsch, nachholen: async () => { aufrufe++; await vollbildAn(d, null, null); }, ausser: (z) => Boolean(z && z.closest && z.closest('#btn-vollbild')) });
-  const tippe = async (typ, target = {}) => { d.listeners[typ].forEach((f) => f({ target })); await new Promise((r) => setTimeout(r, 0)); };
-  await tippe('pointerup');
-  assert.equal(aufrufe, 1, 'kein Vollbild und Wunsch: nachholen');
-  assert.equal(istVollbild(d), true);
-  await tippe('click');
-  assert.equal(aufrufe, 1, 'schon im Vollbild: nichts');
-  d.fullscreenElement = null; // Browser beendet Vollbild (Druckdialog, Tastatur, App-Wechsel)
-  await tippe('pointerup', knopf);
-  assert.equal(aufrufe, 1, 'der Vollbild-Knopf entscheidet selbst');
-  wunsch = false;
-  await tippe('pointerup');
-  assert.equal(aufrufe, 1, 'ohne Wunsch: nichts');
-  wunsch = true;
-  d.listeners.pointerup.forEach((f) => f({ target: {} }));
-  d.listeners.click.forEach((f) => f({ target: {} }));
-  await new Promise((r) => setTimeout(r, 0));
-  assert.equal(aufrufe, 2, 'pointerup und click desselben Tipps fordern nur einmal an');
-  weg();
-  assert.equal(d.listeners.pointerup.length, 0);
-  assert.equal(d.listeners.click.length, 0);
-});
-
-test('Eingabefelder werden erkannt (Text ja, Kästchen und Knöpfe nein)', () => {
-  assert.equal(istEingabe({ tagName: 'INPUT', type: 'text' }), true);
-  assert.equal(istEingabe({ tagName: 'INPUT', type: 'password' }), true);
-  assert.equal(istEingabe({ tagName: 'INPUT' }), true, 'ohne type = text');
-  assert.equal(istEingabe({ tagName: 'TEXTAREA' }), true);
-  assert.equal(istEingabe({ tagName: 'DIV', isContentEditable: true }), true);
-  assert.equal(istEingabe({ tagName: 'INPUT', type: 'checkbox' }), false);
-  assert.equal(istEingabe({ tagName: 'BUTTON' }), false);
-  assert.equal(istEingabe(null), false);
-});
-
-test('Wächter lässt Eingabefelder in Ruhe: Tastatur bleibt offen, danach kommt Vollbild beim nächsten Tippen zurück', async () => {
-  const d = fakeDoc();
-  let aufrufe = 0; let zeit = 1000;
-  const feld = { tagName: 'INPUT', type: 'text' };
-  const knopf = { tagName: 'BUTTON' };
-  const weg = vollbildWaechter(d, { wunsch: () => true, nachholen: async () => { aufrufe++; await vollbildAn(d, null, null); }, jetzt: () => zeit });
-  const sende = async (typ, target) => { (d.listeners[typ] || []).forEach((f) => f({ target })); await new Promise((r) => setTimeout(r, 0)); };
-  // Tippen auf das Feld: Tastatur geht auf, Browser beendet das Vollbild, das folgende click darf es nicht zurückholen
-  await sende('pointerup', feld);
-  d.activeElement = feld;
-  await sende('focusin', feld);
-  await sende('click', feld);
-  assert.equal(aufrufe, 0, 'Tippen auf das Feld');
-  zeit += 5000; // lange getippt, Feld hat noch den Fokus
-  await sende('click', knopf);
-  assert.equal(aufrufe, 0, 'solange das Feld den Fokus hat (Tastatur offen)');
-  // Feld verlassen (Tastatur zu): kurz Ruhe, dann holt das nächste Tippen Vollbild zurück
-  d.activeElement = null;
-  await sende('focusout', feld);
-  await sende('pointerup', knopf);
-  assert.equal(aufrufe, 0, 'unmittelbar nach dem Verlassen');
-  zeit += 400;
-  await sende('pointerup', knopf);
-  assert.equal(aufrufe, 1, 'nach der kurzen Ruhe wird nachgeholt');
-  // Fokus erst vor Kurzem (Feld per Skript fokussiert und gleich wieder verlassen): Ruhe nach dem Fokus
-  d.fullscreenElement = null;
-  await sende('focusin', feld);
-  await sende('focusout', feld);
-  zeit += 400;
-  await sende('click', knopf);
-  assert.equal(aufrufe, 1, 'Ruhe nach dem Fokus (1,5 s)');
-  zeit += 1500;
-  await sende('click', knopf);
-  assert.equal(aufrufe, 2);
-  weg();
-  assert.equal(d.listeners.focusin.length, 0);
-  assert.equal(d.listeners.focusout.length, 0);
-});
-
-test('Wächter: Tippen auf die Beschriftung eines Feldes zählt als Tippen auf das Feld', async () => {
-  const d = fakeDoc();
-  let aufrufe = 0;
-  const feld = { tagName: 'INPUT', type: 'text' };
-  const label = { tagName: 'SPAN', closest: (s) => (s === 'label' ? { control: feld } : null) };
-  const kasten = { tagName: 'SPAN', closest: (s) => (s === 'label' ? { control: { tagName: 'INPUT', type: 'checkbox' } } : null) };
-  vollbildWaechter(d, { wunsch: () => true, nachholen: async () => { aufrufe++; } });
-  d.listeners.pointerup.forEach((f) => f({ target: label }));
-  await new Promise((r) => setTimeout(r, 0));
-  assert.equal(aufrufe, 0, 'Beschriftung eines Textfeldes');
-  d.listeners.pointerup.forEach((f) => f({ target: kasten }));
-  await new Promise((r) => setTimeout(r, 0));
-  assert.equal(aufrufe, 1, 'Beschriftung eines Kästchens ist kein Feld');
-});
-
 test('Esc wird im Vollbild abgefangen (Chrome) und beim Verlassen wieder freigegeben', async () => {
   const d = fakeDoc(); const log = [];
   const nav = { keyboard: { lock: async (k) => { log.push(['lock', k]); }, unlock: () => { log.push(['unlock']); } } };
@@ -206,4 +113,22 @@ test('Keine Browser-Dialoge im Spiel (alert, confirm, prompt beenden das Vollbil
   for (const p of dateien.filter((x) => !/editor\.js$/.test(x))) {
     assert.doesNotMatch(readFileSync(p, 'utf8'), /\b(window\.)?(alert|confirm|prompt)\(/, p);
   }
+});
+
+test('Vollbild nur per Knopf: kein Tippen im Spiel fordert Vollbild an (kein Wächter auf pointerup/click)', async () => {
+  const { readFileSync } = await import('node:fs');
+  const lies = (p) => readFileSync(new URL(p, import.meta.url), 'utf8');
+  const vb = lies('../src/ui/vollbild.js');
+  const main = lies('../src/main.js');
+  assert.doesNotMatch(vb, /export function vollbildWaechter/, 'kein Wächter mehr');
+  assert.doesNotMatch(vb, /addEventListener\('(pointerup|click|pointerdown)'/, 'vollbild.js hört nicht auf Tippen');
+  assert.doesNotMatch(main, /vollbildWaechter/);
+  // vollbildAn steht in main.js nur beim Start (onGeste); umschalten nur hinter den beiden Knöpfen
+  assert.equal((main.match(/vollbildAn\(/g) || []).length, 1, 'vollbildAn nur einmal (Start)');
+  assert.match(main, /onGeste: \(\) => \{ if \(vollbildMoeglich\(\)\) \{ store\.state\.vollbild = true; vollbildAn\(\)/);
+  assert.match(main, /knopf\.addEventListener\('click', \(\) => schalte\(true\)\)/);
+  assert.match(main, /leiste\.addEventListener\('click', \(\) => schalte\(false\)\)/);
+  const html = lies('../index.html');
+  assert.match(html, /id="btn-vollbild-leiste" class="icon-btn vollbild-leiste"/);
+  assert.match(html, /id="btn-vollbild"/, 'Menüknopf bleibt');
 });

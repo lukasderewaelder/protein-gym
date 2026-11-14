@@ -79,8 +79,8 @@ svg.formel .verbinder { fill: var(--accent); }
 .option.richtig { border-color: #3aa060; background: #173a26; }
 .option.falsch { border-color: #d9453b; background: #3a1b18; }
 .zeile { display: flex; gap: 10px; align-items: center; margin: 10px 0; }
-input.zahl { width: 150px; min-height: 48px; padding: 8px 12px; border-radius: 10px; border: 2px solid #35656b; background: #0d1d20; font-size: calc(20px * var(--font-scale)); }
-textarea { width: 100%; min-height: 100px; padding: 10px 12px; border-radius: 10px; border: 2px solid #35656b; background: #0d1d20; font: inherit; font-size: calc(18px * var(--font-scale)); color: inherit; margin: 6px 0; }
+input.zahl { width: 150px; min-height: 48px; padding: 8px 12px; border-radius: 10px; border: 2px solid #35656b; background: #0d1d20; font-size: max(16px, calc(20px * var(--font-scale))); }
+textarea { width: 100%; min-height: 100px; padding: 10px 12px; border-radius: 10px; border: 2px solid #35656b; background: #0d1d20; font: inherit; font-size: max(16px, calc(18px * var(--font-scale))); color: inherit; margin: 6px 0; }
 .muster { background: #102a1b; border: 2px solid #3aa060; border-radius: 12px; padding: 4px 16px 12px; margin-top: 8px; font-size: calc(18px * var(--font-scale)); }
 .muster[hidden], .ergebnis[hidden] { display: none; }
 .checkliste { list-style: none; padding: 0; margin: 6px 0 10px; }
@@ -157,7 +157,7 @@ dialog#notebook .nb-body[data-tab="karten"] { padding: 0; background: none; }
 .option[aria-pressed="true"]::before, .chip[aria-pressed="true"]::before { content: "● "; color: var(--accent); }
 .probe { border-top: 1px solid #35656b; padding: 8px 0; }
 .probe .zeile { flex-wrap: wrap; margin: 6px 0; }
-input.warum { width: 100%; min-height: 44px; padding: 6px 10px; border-radius: 10px; border: 2px solid #35656b; background: #0d1d20; font-size: calc(17px * var(--font-scale)); color: inherit; }
+input.warum { width: 100%; min-height: 44px; padding: 6px 10px; border-radius: 10px; border: 2px solid #35656b; background: #0d1d20; font-size: max(16px, calc(17px * var(--font-scale))); color: inherit; }
 ol.gewaehlt { min-height: 1.5em; font-size: calc(18px * var(--font-scale)); padding-left: 26px; }
 .rack { display: flex; flex-wrap: wrap; gap: 12px; margin: 10px 0; }
 .tube-karte { display: grid; gap: 4px; justify-items: center; text-align: center; width: 150px; padding: 8px; background: #0d1d20; border: 2px solid #35656b; border-radius: 12px; font-size: calc(16px * var(--font-scale)); }

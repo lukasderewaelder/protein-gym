@@ -17,6 +17,7 @@
 
 * { box-sizing: border-box; }
 
+/* Die Seite steht still: kein Scrollen, kein Gummiband, kein Herunterziehen zum Neuladen (Pull-to-Refresh), kein Zoom (src/ui/ruhe.js) */
 html, body {
   margin: 0;
   height: 100%;
@@ -24,9 +25,15 @@ html, body {
   color: var(--ink);
   font-family: var(--font-body);
   overflow: hidden;
+  overscroll-behavior: none;
   touch-action: manipulation;
   -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
+body { position: fixed; inset: 0; }
+/* Felder mindestens 16 px, sonst vergrößert iOS die Seite beim Antippen (eigene Regeln je Feld nutzen max(16px, …)) */
+input, textarea, select { font-size: max(16px, 1em); }
+dialog, .task, .screen, .zert { overscroll-behavior: contain; }
 
 #stage {
   position: fixed;
@@ -35,7 +42,7 @@ html, body {
   width: 100%;
   height: calc(100% - var(--leiste-oben));
   display: block;
-  touch-action: manipulation;
+  touch-action: none;
   -webkit-user-select: none;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
@@ -72,6 +79,7 @@ button.danger { border-color: var(--danger); }
   background: var(--bg);
   border-bottom: 2px solid #1f3a3f;
   z-index: 6;
+  overflow: hidden; /* nichts aus der Leiste ragt je in die Szene (lange Ziel-Zeile, Aufpoppen der Kärtchen) */
 }
 #hud[hidden] { display: none; }
 /* In der Leiste wächst die Schrift nur begrenzt mit (Menü „Schriftgröße“), damit alle Hinweis-Symbole in eine Zeile passen */
@@ -87,6 +95,12 @@ button.danger { border-color: var(--danger); }
   font-size: calc(18px * var(--font-scale));
 }
 .icon-btn { background: rgba(11, 21, 23, 0.82); font-size: 22px; line-height: 1; }
+/* Vollbild-Knopf in der Leiste: leuchtet, wenn Vollbild gewünscht war und der Browser es beendet hat (Tastatur, Esc, App-Wechsel) */
+.vollbild-leiste[hidden] { display: none; }
+.vollbild-leiste[aria-pressed="true"] { border-color: #3aa060; }
+.vollbild-leiste.zurueck { border-color: var(--accent); background: rgba(240, 138, 36, 0.25); animation: vollbild-leuchten 1.6s ease-in-out 3; }
+@keyframes vollbild-leuchten { 50% { box-shadow: 0 0 0 4px rgba(240, 138, 36, 0.45); } }
+@media (prefers-reduced-motion: reduce) { .vollbild-leiste.zurueck { animation: none; } }
 
 /* ---------- Dialog ---------- */
 .dialog {
@@ -171,7 +185,7 @@ legend { padding: 0; margin-bottom: 8px; font-weight: 600; font-size: calc(18px 
   border-radius: 10px;
   border: 2px solid #35656b;
   background: #0d1d20;
-  font-size: calc(19px * var(--font-scale));
+  font-size: max(16px, calc(19px * var(--font-scale)));
 }
 .shirts { display: flex; gap: 10px; flex-wrap: wrap; }
 .shirts label {
@@ -264,6 +278,7 @@ dialog#menu::backdrop { background: rgba(0, 0, 0, 0.6); }
 }
 .ziel[hidden] { display: none; }
 /* Ein Absatz, höchstens zwei Zeilen: „▶ Labor · Such die Hinweise (noch 2)“ */
+.ziel { overflow: hidden; }
 .ziel-inhalt { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow: hidden; max-width: 100%; font-size: calc(14px * min(var(--font-scale), 1.1)); line-height: 1.15; }
 .ziel-pfeil { color: var(--accent); }
 .ziel-ort { color: var(--muted); }

@@ -139,7 +139,10 @@ export const audit = {
       const ox = st.left + (st.width - 1536 * k) / 2;
       const oy = st.top + (st.height - 1024 * k) / 2;
       const welt = { left: ox, top: oy, right: ox + 1536 * k, bottom: oy + 1024 * k };
-      const ui = [...document.querySelectorAll('#hud, #hud *')].filter((el) => el.getClientRects().length).map((el) => ({ el, r: el.getBoundingClientRect() }));
+      // Die Leiste schneidet ihren Inhalt ab (overflow: hidden): gezählt wird nur, was innerhalb der Leiste sichtbar ist
+      const hud = document.querySelector('#hud').getBoundingClientRect();
+      const kappe = (r) => ({ left: Math.max(r.left, hud.left), right: Math.min(r.right, hud.right), top: Math.max(r.top, hud.top), bottom: Math.min(r.bottom, hud.bottom) });
+      const ui = [...document.querySelectorAll('#hud, #hud *')].filter((el) => el.getClientRects().length).map((el) => ({ el, r: el.id === 'hud' ? el.getBoundingClientRect() : kappe(el.getBoundingClientRect()) })).filter(({ r }) => r.right > r.left && r.bottom > r.top);
       for (const { el, r } of ui) if (schnitt(r, welt)) bad.push(`${sz.id}: ${el.id || el.className || el.tagName} liegt über der Szene`);
       const box = document.querySelector('#dialog .dialog-box');
       for (const hs of sz.hotspots) {
@@ -155,6 +158,34 @@ export const audit = {
       }
     }
     return { size: `${innerWidth}x${innerHeight}`, bad, gespraechsfeldUeber: gespraech };
+  },
+
+  /**
+   * Immer antippbar: In jedem Raum trifft ein Tipp in die Mitte jedes sichtbaren Knopfes der Leiste diesen Knopf selbst (nichts Unsichtbares
+   * liegt darüber), die Seite ist nicht verschoben (scrollX/scrollY 0) und nicht gezoomt (visualViewport.scale 1), und die Mitte der Szene
+   * gehört der Zeichenfläche.
+   */
+  async anklickbar() {
+    const pg = window.__pg;
+    const szenen = (await fetch('data/szenen.json').then((r) => r.json())).szenen;
+    const bad = [];
+    for (const sz of szenen) {
+      await pg.goto(sz.id);
+      await new Promise((r) => setTimeout(r, 500));
+      if (!document.querySelector('#dialog').hidden) document.querySelector('#dialog').hidden = true;
+      for (const el of document.querySelectorAll('#hud button')) {
+        if (!el.getClientRects().length) continue;
+        const r = el.getBoundingClientRect();
+        const treffer = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
+        if (!treffer || !(treffer === el || el.contains(treffer))) bad.push(`${sz.id}: ${el.id || el.className} verdeckt von ${treffer ? (treffer.id || treffer.className || treffer.tagName) : 'nichts'}`);
+      }
+      const st = document.querySelector('#stage').getBoundingClientRect();
+      const mitte = document.elementFromPoint(st.left + st.width / 2, st.top + st.height / 2);
+      if (mitte !== document.querySelector('#stage')) bad.push(`${sz.id}: Mitte der Szene gehört ${mitte ? (mitte.id || mitte.className || mitte.tagName) : 'nichts'}`);
+    }
+    if (scrollX || scrollY) bad.push(`Seite verschoben: ${scrollX}/${scrollY}`);
+    if (window.visualViewport && window.visualViewport.scale !== 1) bad.push(`Seite gezoomt: ${window.visualViewport.scale}`);
+    return { size: `${innerWidth}x${innerHeight}`, bad };
   },
 
   async alles() {

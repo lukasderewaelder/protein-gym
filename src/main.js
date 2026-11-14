@@ -8,7 +8,8 @@ import { drawScene, zielPos, SHIRTS, SKINS, HAIRS, FIGURE_HEIGHT } from './engin
 import { loadFirst, loadFigureSprites, loadNpcSprite } from './engine/assets.js';
 import { createDialog, zeilenFuellen } from './ui/dialog.js';
 import { initStart } from './ui/start.js';
-import { vollbildMoeglich, istVollbild, vollbildAn, umschalten, beiVollbildwechsel, vollbildWaechter, vollbildHinweis, istApple } from './ui/vollbild.js';
+import { vollbildMoeglich, istVollbild, vollbildAn, umschalten, beiVollbildwechsel, vollbildHinweis, istApple } from './ui/vollbild.js';
+import { sperreZoom, haltePosition } from './ui/ruhe.js';
 import { createEditor, loadEdits } from './engine/editor.js';
 import { createNotebook } from './ui/notebook.js';
 import { createTaskPanel } from './ui/taskpanel.js';
@@ -51,6 +52,7 @@ let figureSprites = null;
 let pending = null;           // Hotspot, der bei Ankunft ausgelöst wird
 let busy = false;
 let editor = null;
+let vollbildKnoepfe = null;   // Beschriftung der Vollbild-Knöpfe neu setzen (aus wireVollbild)
 
 /** Aufgabenfenster hängen sich hier ein: tasks.<name> = (hotspot) => { ... } (Hotspot-Feld "task"). */
 const tasks = {
@@ -266,6 +268,21 @@ async function enterScene(id, { fade = true, pos = null } = {}) {
   if (!def) return;
   busy = true;
   const fadeEl = $('#fade');
+  // Immer antippbar: Scheitert das Laden (Bild fehlt, Netz weg), darf `busy` nicht hängen bleiben, sonst läuft die Figur nie wieder
+  try {
+    await szeneLaden(id, def, { fade, pos, fadeEl });
+  } catch (err) {
+    console.error('Raum konnte nicht geladen werden', err);
+    return;
+  } finally {
+    busy = false;
+    fadeEl.classList.remove('on');
+  }
+  if (id === 'empfang' && !store.hasFlag('intro_done')) playDialog('empfang.intro', undefined, askVorher);
+  else if (raumGruss(id)) playDialog(`raum.${id}.start`);
+}
+
+async function szeneLaden(id, def, { fade, pos, fadeEl }) {
   if (fade) { fadeEl.classList.add('on'); await sleep(210); }
 
   const scene = structuredClone(def);
@@ -292,10 +309,6 @@ async function enterScene(id, { fade = true, pos = null } = {}) {
   zielAktualisieren();
 
   if (fade) { await sleep(40); fadeEl.classList.remove('on'); }
-  busy = false;
-
-  if (id === 'empfang' && !store.hasFlag('intro_done')) playDialog('empfang.intro', undefined, askVorher);
-  else if (raumGruss(id)) playDialog(`raum.${id}.start`);
 }
 
 /** Beim ersten Betreten eines Raums sagt die Figur dort kurz die Reihenfolge (erst Hinweise, dann Aufgabe); nicht, wenn der Raum schon geschafft ist. */
@@ -685,43 +698,51 @@ function wireMenu() {
   });
 }
 
-/** Vollbild: Schalter im Menü, Zustand merken, nach dem Neuladen beim ersten Tippen wieder anfordern. */
+/**
+ * Vollbild nur per Knopf (Vorgabe der Lehrkraft): beim Start einmal, danach nur über den Knopf ⛶ in der Leiste oder im Menü. Kein Tippen im
+ * Spiel fordert Vollbild an; sonst springt das Bild mitten im Tipp und der Tipp geht verloren. Endet Vollbild durch den Browser (Tastatur, Esc,
+ * App-Wechsel, Neuladen), bleibt das Spiel ruhig im Fenster, und der Leisten-Knopf leuchtet, solange Vollbild gewünscht war.
+ */
 function wireVollbild() {
   const knopf = $('#btn-vollbild');
+  const leiste = $('#btn-vollbild-leiste');
   const hinweis = $('#vollbild-hinweis');
-  // Der Knopf steht immer im Menü. Geht Vollbild nicht oder lehnt der Browser ab, erklärt ein Hinweis den Weg (Home-Bildschirm, Browser-Menü).
+  // Geht Vollbild nicht oder lehnt der Browser ab, erklärt ein Hinweis im Menü den Weg (Home-Bildschirm, Browser-Menü).
   // App-Modus = vom Home-Bildschirm gestartet. Chrome meldet „display-mode: fullscreen“ auch beim Vollbild per Knopf, das zählt nicht als App.
   const appModus = () => !istVollbild() && Boolean(window.matchMedia && window.matchMedia('(display-mode: standalone), (display-mode: fullscreen)').matches);
   const zeigeHinweis = (art) => { hinweis.textContent = hinweis.dataset[art] || ''; hinweis.hidden = !hinweis.textContent; };
-  const zeige = (an) => {
+  const zeige = () => {
+    const an = istVollbild();
     const app = appModus();
     knopf.textContent = app ? 'Vollbild: an (App)' : `Vollbild: ${an ? 'an' : 'aus'}`;
     knopf.setAttribute('aria-pressed', String(an || app));
+    // Leisten-Knopf nur, wo Vollbild per Knopf möglich ist (nicht iPhone, nicht als App vom Home-Bildschirm)
+    leiste.hidden = app || !vollbildMoeglich();
+    leiste.setAttribute('aria-pressed', String(an));
+    const titel = an ? 'Vollbild aus' : 'Vollbild an';
+    leiste.title = titel;
+    leiste.setAttribute('aria-label', titel);
+    leiste.classList.toggle('zurueck', !an && Boolean(store.state.vollbild));
   };
-  zeige(istVollbild());
-  knopf.addEventListener('click', async () => {
+  const schalte = async (mitHinweis) => {
     hinweis.hidden = true;
     const moeglich = vollbildMoeglich();
-    if (appModus() || !moeglich) { zeigeHinweis(vollbildHinweis({ moeglich, appModus: appModus(), ios: istApple(navigator) })); return; }
+    if (appModus() || !moeglich) { if (mitHinweis) zeigeHinweis(vollbildHinweis({ moeglich, appModus: appModus(), ios: istApple(navigator) })); return; }
     const warAn = istVollbild();
     const an = await umschalten();
-    if (!warAn && !an) zeigeHinweis(vollbildHinweis({ moeglich, appModus: false, ios: istApple(navigator) })); // abgelehnt
+    if (!warAn && !an && mitHinweis) zeigeHinweis(vollbildHinweis({ moeglich, appModus: false, ios: istApple(navigator) })); // abgelehnt
     store.state.vollbild = an;
     store.save();
-    zeige(istVollbild());
+    zeige();
+  };
+  knopf.addEventListener('click', () => schalte(true));
+  leiste.addEventListener('click', () => schalte(false));
+  zeige();
+  beiVollbildwechsel(() => {
+    zeige();
+    setTimeout(() => vp.sync(), 100);
   });
-  if (!vollbildMoeglich()) return; // ohne Unterstützung gibt es nichts nachzuholen
-  // `store.state.vollbild` heißt „Vollbild gewünscht“. Nur der Menüknopf löscht den Wunsch; endet Vollbild durch den Browser (Druckdialog,
-  // Teilen, Bildschirmtastatur, App-Wechsel, Neuladen), bleibt der Wunsch, und der Wächter holt Vollbild beim nächsten Tippen zurück.
-  beiVollbildwechsel((an) => {
-    zeige(an);
-    setTimeout(vp.resize, 100);
-  });
-  vollbildWaechter(document, {
-    wunsch: () => Boolean(store.state.vollbild) && store.hasNames(),
-    nachholen: () => vollbildAn(),
-    ausser: (ziel) => Boolean(ziel && ziel.closest && ziel.closest('#btn-vollbild')),
-  });
+  return zeige;
 }
 
 function registerServiceWorker() {
@@ -779,8 +800,11 @@ async function boot() {
   vp.resize();
   window.addEventListener('resize', vp.resize);
   window.addEventListener('orientationchange', () => setTimeout(vp.resize, 200));
+  // Kein Zoom (Zwei Finger, Strg + Mausrad, Strg + Plus) und die Seite steht still (nach Tastatur oder Fokus wieder ganz oben)
+  sperreZoom(document);
+  haltePosition(document, window, { nachher: () => vp.sync() });
   wireMenu();
-  wireVollbild();
+  vollbildKnoepfe = wireVollbild();
   registerServiceWorker();
   await loadData();
   buildFallCards();
@@ -819,7 +843,7 @@ async function boot() {
 
   const start = initStart($('#start'), {
     // Tippen auf „Los geht’s“ / „Weiterspielen“ ist die Geste, die der Browser für Vollbild braucht
-    onGeste: () => { if (vollbildMoeglich()) { store.state.vollbild = true; vollbildAn(); } },
+    onGeste: () => { if (vollbildMoeglich()) { store.state.vollbild = true; vollbildAn().then(() => vollbildKnoepfe && vollbildKnoepfe()); } },
     onNew: async ({ names }) => {
       Object.assign(store.state, { names, shirt: 0, hair: 0, skin: 0 });
       store.save();

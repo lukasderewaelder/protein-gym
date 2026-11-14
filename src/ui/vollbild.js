@@ -1,4 +1,5 @@
 // Vollbildmodus. Browser erlauben ihn nur nach einer Geste (Tippen oder Klick) und nicht überall (iPhone: nein, iPad: ja).
+// Vollbild gibt es nur auf ausdrücklichen Wunsch: beim Start und über den Knopf ⛶ in der Leiste oder im Menü.
 // Alle Browserzugriffe laufen über ein übergebenes Dokument, damit sich das ohne Browser testen lässt.
 
 /** Das Element, das in den Vollbildmodus gehen soll (ganze Seite). */
@@ -63,54 +64,8 @@ export async function umschalten(doc = document, scr, nav) {
   return vollbildAn(doc, scr, nav);
 }
 
-/** Felder, in die man tippt (Text, Zahl, Passwort …) und die die Bildschirmtastatur öffnen; Kästchen, Knöpfe und Regler nicht. */
-export function istEingabe(el) {
-  if (!el) return false;
-  if (el.isContentEditable) return true;
-  const tag = String(el.tagName || '').toLowerCase();
-  if (tag === 'textarea' || tag === 'select') return true;
-  if (tag !== 'input') return false;
-  const art = String(el.type || 'text').toLowerCase();
-  return !['checkbox', 'radio', 'button', 'submit', 'reset', 'range', 'color', 'file', 'image'].includes(art);
-}
-
-/** Tippen auf ein Feld oder auf die Beschriftung (label) eines Feldes. */
-function zielIstEingabe(ziel) {
-  if (istEingabe(ziel)) return true;
-  const label = ziel && ziel.closest && ziel.closest('label');
-  return Boolean(label && istEingabe(label.control));
-}
-
-/**
- * Wächter: Wollte die Person Vollbild und ist es verschwunden (Druckdialog, Teilen, App-Wechsel, Neuladen), holt das nächste Tippen es
- * zurück. Browser erlauben Vollbild nur nach einer Geste, auf Touch zählt erst das Loslassen (pointerup/click).
- * `wunsch()` sagt, ob Vollbild gewünscht ist; `nachholen()` fordert es an; `ausser(ziel)` nimmt Tipps aus (der Vollbild-Knopf selbst
- * entscheidet allein). **Eingabefelder bleiben in Ruhe:** Wer ein Feld antippt oder in einem schreibt, hat die Bildschirmtastatur offen, und
- * ein neues Vollbild würde sie nach etwa einer Sekunde wieder schließen. Darum holt der Wächter Vollbild nicht zurück, solange ein Feld den
- * Fokus hat, kurz nach einem Fokuswechsel (`ruhe` ms nach Fokus, 300 ms nach dem Verlassen) und beim Tippen auf ein Feld. Das nächste Tippen
- * außerhalb eines Feldes holt es dann zurück. Gibt eine Abmeldefunktion zurück.
- */
-export function vollbildWaechter(doc, { wunsch, nachholen, ausser = () => false, jetzt = () => Date.now(), ruhe = 1500 }) {
-  let laeuft = false;
-  let ruhigBis = 0;
-  const h = (e) => {
-    const ziel = e && e.target;
-    if (laeuft || ausser(ziel) || !wunsch() || istVollbild(doc) || !vollbildMoeglich(doc)) return;
-    if (zielIstEingabe(ziel) || istEingabe(doc.activeElement) || jetzt() < ruhigBis) return;
-    laeuft = true;
-    Promise.resolve().then(nachholen).catch(() => {}).finally(() => { laeuft = false; });
-  };
-  const fokus = (e) => { if (istEingabe(e && e.target)) ruhigBis = jetzt() + ruhe; };
-  const verlassen = (e) => { if (istEingabe(e && e.target)) ruhigBis = Math.max(ruhigBis, jetzt() + 300); };
-  doc.addEventListener('pointerup', h, true);
-  doc.addEventListener('click', h, true);
-  doc.addEventListener('focusin', fokus, true);
-  doc.addEventListener('focusout', verlassen, true);
-  return () => {
-    doc.removeEventListener('pointerup', h, true); doc.removeEventListener('click', h, true);
-    doc.removeEventListener('focusin', fokus, true); doc.removeEventListener('focusout', verlassen, true);
-  };
-}
+// Kein Wächter mehr: Vollbild kommt nur über den Start und den Knopf ⛶ (Vorgabe der Lehrkraft). Ein automatisches Nachholen beim
+// Tippen ließ das Bild mitten im Tipp springen und schluckte den Tipp oder schloss die Bildschirmtastatur.
 
 /** Auf Änderungen des Vollbildzustands hören (auch wenn die Person mit Esc beendet). Gibt eine Abmeldefunktion zurück. */
 export function beiVollbildwechsel(fn, doc = document) {
