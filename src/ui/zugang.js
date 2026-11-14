@@ -1,6 +1,7 @@
 // Fenster für den Zugang: Laborführerschein, Labor-Ausweis, Zahlenschloss. Alles in einem eigenen Dialog (#zugang).
 
 import { h, clear } from './dom.js';
+import { tastaturFeld } from './tastatur.js';
 import { startTest, aktuelle, antworte, weiter, istFertig } from '../state/fuehrerschein.js';
 import { pruefeCode, radDrehen } from '../state/zugang.js';
 import { svgEl } from '../tasks/molecule.js';
@@ -471,6 +472,7 @@ export function createZugang({ dlg, store, daten }) {
       meldung.textContent = ok ? '✓ Eingerichtet. Die Codes nach dem Versuch werden jetzt geprüft.' : '✗ Das Klassenwort stimmt nicht.';
       if (ok) { status.className = 'zugang-gut'; status.textContent = '✓ Dieses Tablet ist eingerichtet.'; }
     };
+    tastaturFeld(wort, 'text');
     wort.addEventListener('keydown', (e) => { if (e.key === 'Enter') speichern(); });
     karte.append(
       h('p', {}, 'Nur für die Lehrkraft: Gib das Klassenwort einmal ein. Danach nimmt dieses Tablet die Codes an, die deine Lehrkraft nach dem Versuch nennt.'),
@@ -482,7 +484,6 @@ export function createZugang({ dlg, store, daten }) {
         h('button', { type: 'button', onclick: () => { opts.entfernen(); status.className = 'hint'; status.textContent = 'Einrichtung entfernt.'; meldung.textContent = ''; } }, 'Einrichtung entfernen'),
         h('button', { type: 'button', onclick: () => schliesse() }, 'Schließen')));
     zeige('Für die Lehrkraft', karte);
-    if (opts.hatPruefwert) wort.focus({ preventScroll: true });
   }
 
   // ---------- Hilfe von Markus ----------

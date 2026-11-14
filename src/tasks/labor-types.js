@@ -4,6 +4,7 @@
 // die Erwartung des Skripts dient nur zum Vergleich.
 
 import { h } from '../ui/dom.js';
+import { tastaturFeld } from '../ui/tastatur.js';
 import { svgEl } from './molecule.js';
 import { beobachtungPasst, reihenfolge, alleProben, protokollText, probenName, stationenVon, notizSchluessel } from './check.js';
 import { pruefeCodeMitSchluesseln, schrittFrei, schrittMerken, istNotfallCode } from '../state/lehrcode.js';
@@ -42,6 +43,7 @@ function vermutung(host, step, api, ctx) {
       });
       pressed.push(btns);
       const warum = h('input', { type: 'text', class: 'warum', maxlength: '120', placeholder: 'Warum? (freiwillig)', 'aria-label': `Begründung für Probe ${pr.nr}`, value: cur.warum });
+      tastaturFeld(warum, 'text');
       warum.addEventListener('input', () => { cur.warum = warum.value; ctx.store.save(); });
       host.append(h('div', 'probe', h('strong', {}, `Probe ${pr.nr}: ${probenName(pr)}`), h('div', 'zeile', btns), warum));
     }
@@ -172,6 +174,8 @@ function versuch(host, step, api, ctx) {
     input.disabled = true;
     api.ok(t.codeRichtig);
   };
+  // Zahlenfeld im Spiel statt Systemtastatur (das Vollbild bleibt); Ziffern und Punkt für den Notfallcode (Datum)
+  tastaturFeld(input, 'ziffern');
   input.addEventListener('keydown', (e) => { if (e.key === 'Enter') pruefe(); });
   // Live (Code der Lehrkraft nach dem echten Versuch) oder digital (Aktivierungscode, Versuch am Bildschirm, zum Beispiel zu Hause).
   // Die Blöcke stehen direkt im Schrittkörper, damit sich der Inhalt auf Seiten verteilen lässt; beim Wechsel wird der Körper neu gesetzt.
@@ -206,6 +210,7 @@ function versuch(host, step, api, ctx) {
       ctx.store.save();
       zeige(true);
     };
+    tastaturFeld(code, 'text');
     code.addEventListener('keydown', (e) => { if (e.key === 'Enter') frei(); });
     return [h('div', 'probe', h('p', {}, td.frage), h('div', 'zeile', code, h('button', { class: 'primary', type: 'button', onclick: frei }, td.knopf)))];
   };
@@ -244,6 +249,7 @@ function beobachtung(host, step, api, ctx) {
       return b;
     });
     const notiz = h('input', { type: 'text', class: 'warum', maxlength: '120', placeholder: 'Notiz (freiwillig)', 'aria-label': `Notiz zu Probe ${pr.nr}`, value: cur.notiz });
+    tastaturFeld(notiz, 'text');
     notiz.addEventListener('input', () => { cur.notiz = notiz.value; ctx.store.save(); });
     host.append(h('div', 'probe',
       h('strong', {}, `${pr.station.name}, Probe ${pr.nr}: ${probenName(pr)}`),
@@ -252,6 +258,7 @@ function beobachtung(host, step, api, ctx) {
   }
   const besonder = h('textarea', { rows: 2, 'aria-label': 'Besonderheiten', placeholder: 'Besonderheiten oder Auffälliges (freiwillig)' });
   besonder.value = p[nk] || '';
+  tastaturFeld(besonder, 'text');
   besonder.addEventListener('input', () => { p[nk] = besonder.value; ctx.store.save(); });
   const compare = h('button', {
     class: 'primary', type: 'button',

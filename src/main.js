@@ -10,6 +10,7 @@ import { createDialog, zeilenFuellen } from './ui/dialog.js';
 import { initStart } from './ui/start.js';
 import { vollbildMoeglich, istVollbild, vollbildAn, umschalten, beiVollbildwechsel, vollbildHinweis, istApple } from './ui/vollbild.js';
 import { sperreZoom, haltePosition } from './ui/ruhe.js';
+import { createTastatur, tastaturFeld } from './ui/tastatur.js';
 import { createEditor, loadEdits } from './engine/editor.js';
 import { createNotebook } from './ui/notebook.js';
 import { createTaskPanel } from './ui/taskpanel.js';
@@ -338,6 +339,7 @@ function playDialog(id, fallback, after) {
 function askVorher() {
   if (store.state.protokoll && store.state.protokoll.vorher) return;
   const ta = h('textarea', { rows: 3, 'aria-label': 'Deine Idee', placeholder: 'Meine Idee: …' });
+  tastaturFeld(ta, 'text');
   showInfo('Deine Idee',
     h('p', {}, 'Warum wird das Eiweiß im Eiklar in der Pfanne eigentlich fest? Schreibe kurz auf, was du vermutest. Es gibt kein Richtig oder Falsch, am Ende vergleichst du.'),
     ta,
@@ -350,7 +352,6 @@ function askVorher() {
         $('#info').close();
       },
     }, 'Speichern'));
-  ta.focus({ preventScroll: true });
 }
 
 async function showZertifikat() {
@@ -803,6 +804,8 @@ async function boot() {
   // Kein Zoom (Zwei Finger, Strg + Mausrad, Strg + Plus) und die Seite steht still (nach Tastatur oder Fokus wieder ganz oben)
   sperreZoom(document);
   haltePosition(document, window, { nachher: () => vp.sync() });
+  // Bildschirmtastatur und Zahlenfeld im Spiel: Die Systemtastatur öffnet sich nicht, das Vollbild bleibt (src/ui/tastatur.js)
+  createTastatur(document);
   wireMenu();
   vollbildKnoepfe = wireVollbild();
   registerServiceWorker();
