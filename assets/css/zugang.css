@@ -60,6 +60,19 @@ dialog#zugang h2 { margin: 0 0 10px; font-size: calc(24px * var(--font-scale)); 
 /* Tasche und Inventar */
 dialog#notebook .nb-body[data-tab="inventar"] { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 0 14px; align-content: start; }
 dialog#notebook .nb-body[data-tab="inventar"] > .nb-summe { grid-column: 1 / -1; margin: 0 0 4px; }
+/* Tasche ohne Scrollen: Fenster als Spalte, die Liste füllt den freien Platz und wird geblättert (src/ui/seiten.js) */
+dialog#zugang.tasche { overflow: hidden; }
+dialog#zugang.tasche[open] { display: flex; flex-direction: column; }
+dialog#zugang.tasche:has(.seiten-voll) { height: calc(100dvh - 24px); }
+dialog#zugang.tasche #zugang-inhalt { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
+dialog#zugang.tasche h2 { flex: none; }
+dialog#zugang.tasche { width: min(860px, calc(100% - 24px)); }
+/* Breites Fenster mit einer Spalte: Die langen Texte brechen seltener um, so passen mehr Karten auf eine Seite als mit zwei Spalten */
+.tasche-liste { display: grid; gap: 10px; align-content: start; }
+.tasche-liste.seiten-voll { flex: 1 1 0; min-height: 0; overflow: hidden; }
+.tasche-liste > * { margin: 0; }
+.tasche-nav { flex: none; padding-top: 10px; }
+.tasche-nav button { min-height: 44px; padding: 4px 14px; }
 .inv-karte { display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: center; }
 .inv-karte.benutzt { opacity: 0.6; }
 .inv-karte.benutzt .inv-bild { filter: grayscale(0.85); }

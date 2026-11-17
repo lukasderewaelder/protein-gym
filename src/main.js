@@ -517,10 +517,20 @@ function inventarGesehen() {
   store.save();
   taschePruefen(false);
 }
+// Kein Scrollen: Mit vielen Gegenständen wird die Tasche geblättert („Zurück · Seite x von y · Weiter“ unter der Liste)
+let taschenSeiten = null;
 function taschenFenster() {
-  zugang.zeige('Tasche', h('div', 'tasche-liste', ...renderInventar({ daten: DATA.inventar, store })));
+  if (taschenSeiten) { taschenSeiten.ende(); taschenSeiten = null; }
+  const liste = h('div', 'tasche-liste', ...renderInventar({ daten: DATA.inventar, store }));
+  // Die Leiste ist beim ersten Messen sichtbar, damit ihr Platz von der Liste abgeht; bei nur einer Seite blendet macheSeiten sie aus
+  const nav = h('nav', { class: 'tasche-nav', 'aria-label': 'Seiten der Tasche' });
+  zugang.zeige('Tasche', liste, nav);
+  $('#zugang').classList.add('tasche');
+  taschenSeiten = macheSeiten(liste, { nav, kompakt: false });
+  taschenSeiten.neu();
   inventarGesehen();
 }
+$('#zugang').addEventListener('close', () => { if (taschenSeiten) { taschenSeiten.ende(); taschenSeiten = null; } });
 
 /** Notizen, die im Spielverlauf an der Pinnwand entstehen (derzeit keine: der Saunazettel hängt immer rechts oben). */
 function extraKarten() {

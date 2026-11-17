@@ -33,6 +33,7 @@ export function createZugang({ dlg, store, daten }) {
 
   function zeige(titel, ...nodes) {
     dlg.onkeydown = null; // Tastatur-Eingaben des vorigen Schlosses enden mit dem Fenster
+    dlg.classList.remove('tasche'); // Blätter-Aufbau der Tasche gilt nur für die Tasche
     clear(inhalt);
     inhalt.append(h('h2', {}, titel), ...nodes);
     if (!dlg.open) dlg.showModal();
