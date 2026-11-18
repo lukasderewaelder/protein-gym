@@ -1,0 +1,4 @@
+{
+  "hinweis": "Prüfwert für den Lehrkraft-Modus (index.html?gott=1). Das Token selbst steht nur verschlüsselt in lehrkraft.html (src/state/gott.js, tools/lehrkraft-seite.mjs).",
+  "gottPruefwert": "108b593e8b0e576cbe6f690b91e216f648f70248c701efc1a369b93f81e10b43"
+}

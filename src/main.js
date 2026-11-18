@@ -1,6 +1,9 @@
 // Protein-Gym: Start, Szenenwechsel, Laufen per Tippen, Hotspots, Dialoge.
 
-import { createStore, browserStorage } from './state/store.js';
+import { createStore, browserStorage, GOTT_SPIEL_KEY } from './state/store.js';
+import { GOTT_KEY, gottToken, gottStand } from './state/gott.js';
+import { sha256 } from './state/tresor.js';
+import { FALL_LIST } from './state/fall.js';
 import { createViewport } from './engine/viewport.js';
 import { buildGrid, findPath, nearestWalkable } from './engine/grid.js';
 import { createPlayer, setPath, updatePlayer } from './engine/player.js';
@@ -37,7 +40,11 @@ import { fundart, istZusatz } from './ui/funde-core.js';
 const $ = (sel) => document.querySelector(sel);
 const params = new URLSearchParams(location.search);
 const storage = browserStorage();
-const store = createStore(storage);
+// Lehrkraft-Modus (index.html?gott=1, nur über die Lehrkräfte-Seite): eigener Spielstand, damit der Stand der Lernenden auf dem Gerät bleibt.
+// Die Freigabe wird nach dem Laden der Daten geprüft (gottPruefen); ohne gültige Freigabe geht es ins normale Spiel.
+const gottWunsch = params.has('gott');
+let gott = false;
+const store = createStore(storage, Math.random, gottWunsch ? GOTT_SPIEL_KEY : undefined);
 store.load();
 
 const canvas = $('#stage');
@@ -817,6 +824,62 @@ function wireVollbild() {
   return zeige;
 }
 
+// ---------- Lehrkraft-Modus (src/state/gott.js) ----------
+/** Freigabe der Lehrkräfte-Seite prüfen: gültiges Token auf dem Gerät, dessen Prüfwert in data/lehrkraft.json steht. */
+async function gottPruefen() {
+  try {
+    const token = gottToken(globalThis.localStorage.getItem(GOTT_KEY));
+    if (!token) return false;
+    const d = await fetch('data/lehrkraft.json', { cache: 'no-store' }).then((r) => r.json());
+    return (await sha256(token)) === d.gottPruefwert;
+  } catch {
+    return false;
+  }
+}
+
+/** Lehrkraft-Modus beenden: Freigabe löschen (sie soll nicht auf einem Schülergerät liegen bleiben), zurück ins normale Spiel. */
+function gottBeenden() {
+  try { globalThis.localStorage.removeItem(GOTT_KEY); } catch { /* egal */ }
+  location.replace(location.pathname);
+}
+
+/** Fenster des Lehrkraft-Modus (Knopf in der Leiste): Raum wechseln, jede Aufgabe öffnen, Spind ansehen, Verursacher wählen, beenden. */
+let gottSeiten = null;
+function gottFenster() {
+  if (gottSeiten) { gottSeiten.ende(); gottSeiten = null; }
+  const knopf = (text, fn, extra = {}) => h('button', { type: 'button', class: 'gott-knopf', ...extra, onclick: fn }, text);
+  const zu = (fn) => () => { zugang.schliesse(); fn(); };
+  const raeume = [...DATA.scenes.values()].map((s) => knopf(s.name, zu(() => enterScene(s.id)), { 'aria-pressed': String(Boolean(cur && cur.scene.id === s.id)) }));
+  const aufgaben = Object.entries(DATA.aufgaben.raeume).flatMap(([rid, rd]) => rd.aufgaben.map((tid) => {
+    const t = DATA.aufgaben.aufgaben[tid];
+    return knopf(h('span', {}, h('small', {}, rd.titel), ' ', t.titel), zu(() => taskPanel.openTask(tid, rid)), { class: 'gott-knopf gott-aufgabe' });
+  }));
+  const ansehen = [
+    knopf('Pinnwand', zu(() => notebook.open('karten'))),
+    knopf('Glossar', zu(() => notebook.open('glossar'))),
+    knopf('Hefter', zu(() => notebook.open('hefter'))),
+    knopf('Tasche', () => { if (gottSeiten) { gottSeiten.ende(); gottSeiten = null; } taschenFenster(); }),
+  ];
+  const verursacher = FALL_LIST.map((id) => knopf(DATA.fall.verdaechtige[id].name, () => {
+    store.state.fall = { taeter: id };
+    store.save();
+    buildFallCards();
+    gottFenster();
+  }, { 'aria-pressed': String(store.state.fall.taeter === id) }));
+  const liste = h('div', 'tasche-liste gott-liste',
+    h('h3', {}, 'Raum wechseln'), ...raeume,
+    h('h3', {}, 'Aufgabe öffnen (jedes Niveau, mit „Lösung zeigen“)'), ...aufgaben,
+    h('h3', {}, 'Ansehen'), ...ansehen,
+    h('h3', {}, 'Verursacher des Falls (ändert die Fall-Hinweise)'), ...verursacher,
+    h('h3', {}, 'Ende'), knopf('Lehrkraft-Modus beenden', gottBeenden, { class: 'gott-knopf gott-ende' }));
+  const nav = h('nav', { class: 'tasche-nav', 'aria-label': 'Seiten des Lehrkraft-Modus' });
+  zugang.zeige('Lehrkraft-Modus', h('p', 'hint', 'Alles ist frei. Eigener Spielstand: Der Spielstand der Lernenden auf diesem Gerät bleibt unberührt.'), liste, nav);
+  $('#zugang').classList.add('tasche');
+  gottSeiten = macheSeiten(liste, { nav, kompakt: false, kleben: (k) => k.tagName === 'H3' });
+  gottSeiten.neu();
+}
+$('#zugang').addEventListener('close', () => { if (gottSeiten) { gottSeiten.ende(); gottSeiten = null; } });
+
 function registerServiceWorker() {
   if (!('serviceWorker' in navigator)) return;
   const local = ['localhost', '127.0.0.1', '[::1]'].includes(location.hostname);
@@ -881,6 +944,15 @@ async function boot() {
   vollbildKnoepfe = wireVollbild();
   registerServiceWorker();
   await loadData();
+  if (gottWunsch) {
+    gott = await gottPruefen();
+    if (!gott) { location.replace(location.pathname); return; }
+    gottStand(store.state, { karten: DATA.wissen.karten, dialoge: DATA.dialogs, szenen: [...DATA.scenes.keys()], hefter: DATA.hefter, tipps: TIPPS });
+    store.save();
+    document.body.classList.add('gott');
+    $('#btn-gott').hidden = false;
+    $('#btn-gott').addEventListener('click', gottFenster);
+  }
   buildFallCards();
   await refreshFigure();
   zugang = createZugang({ dlg: $('#zugang'), store, daten: { fuehrerschein: DATA.fuehrerschein } });
@@ -915,6 +987,7 @@ async function boot() {
     notebook,
     showCall,
     onRoomDone: raumGeschafft,
+    gott,
   });
 
   if (params.has('edit')) {

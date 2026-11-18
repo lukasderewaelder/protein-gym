@@ -7,3 +7,5 @@ grafik/*.png
 # interne Planung und Notizen, nur lokal
 planung/
 print/
+# Klartext der Lehrkräfte-Seite (im Repo nur verschlüsselt in lehrkraft.html, tools/lehrkraft-seite.mjs)
+inhalt/lehrkraft-quelle.html

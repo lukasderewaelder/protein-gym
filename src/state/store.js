@@ -5,6 +5,8 @@ import { wuerfleTaeter, istTaeter } from './fall.js';
 import { wuerfleSaunaCode, istSaunaCode, migriereZweiNull } from './zugang.js';
 
 export const STORAGE_KEY = 'protein-gym:v1';
+/** Spielstand des Lehrkraft-Modus (src/state/gott.js), getrennt vom Spielstand der Lernenden. */
+export const GOTT_SPIEL_KEY = 'protein-gym:gott-spiel';
 
 export function defaultState() {
   return {
@@ -32,7 +34,8 @@ export function defaultState() {
   };
 }
 
-export function createStore(storage, zufall = Math.random) {
+/** schluessel: eigener Speicherplatz (der Lehrkraft-Modus spielt in GOTT_KEY, der Spielstand der Lernenden bleibt unberührt). */
+export function createStore(storage, zufall = Math.random, schluessel = STORAGE_KEY) {
   let mem = null;
   let state = defaultState();
   const hoerer = [];
@@ -50,15 +53,15 @@ export function createStore(storage, zufall = Math.random) {
   }
 
   function readRaw() {
-    try { return storage ? storage.getItem(STORAGE_KEY) : mem; } catch { return mem; }
+    try { return storage ? storage.getItem(schluessel) : mem; } catch { return mem; }
   }
   function writeRaw(text) {
     mem = text;
-    try { if (storage) storage.setItem(STORAGE_KEY, text); } catch { /* Speicher gesperrt: Arbeitsspeicher genügt */ }
+    try { if (storage) storage.setItem(schluessel, text); } catch { /* Speicher gesperrt: Arbeitsspeicher genügt */ }
   }
   function removeRaw() {
     mem = null;
-    try { if (storage) storage.removeItem(STORAGE_KEY); } catch { /* ignorieren */ }
+    try { if (storage) storage.removeItem(schluessel); } catch { /* ignorieren */ }
   }
 
   function load() {

@@ -18,7 +18,7 @@ const FLAG_TEXTE = {
   lieferung_done: 'die Prüfung der neuen Lieferung im Labor',
 };
 
-export function createTaskPanel({ root, data, store, notebook, showCall, onRoomDone }) {
+export function createTaskPanel({ root, data, store, notebook, showCall, onRoomDone, gott = false }) {
   const card = root.querySelector('.task-card');
   const titleEl = root.querySelector('#task-title');
   const metaEl = root.querySelector('.task-meta');
@@ -220,13 +220,16 @@ export function createTaskPanel({ root, data, store, notebook, showCall, onRoomD
   function refreshFoot() {
     clear(footEl);
     if (!S) return;
-    const unlocked = S.attempts >= 2 || S.helped;
+    const unlocked = gott || S.attempts >= 2 || S.helped;
     footEl.append(
       h('button', { type: 'button', onclick: () => notebook.open('karten') }, 'Spind'),
       h('button', { type: 'button', onclick: () => notebook.open('glossar') }, 'Glossar'),
       h('button', { type: 'button', disabled: !unlocked, onclick: () => showHelp('tipp') }, unlocked ? 'Tipp' : 'Tipp (nach 2 Fehlern)'),
       h('button', { type: 'button', disabled: !unlocked, onclick: () => showHelp('karte') }, unlocked ? 'Hilfekarte' : 'Hilfekarte (nach 2 Fehlern)'),
-      h('button', { type: 'button', onclick: () => showCall() }, 'Hilfe rufen'),
+      // Lehrkraft-Modus: Tipp und Hilfekarte sind immer frei, statt „Hilfe rufen“ gibt es „Lösung zeigen“
+      gott
+        ? h('button', { type: 'button', disabled: S.solved, onclick: () => { revealSolution(); refreshFoot(); } }, 'Lösung zeigen')
+        : h('button', { type: 'button', onclick: () => showCall() }, 'Hilfe rufen'),
     );
     if (S.helped && S.similar && !S.inSimilar) {
       footEl.append(h('button', { class: 'primary', type: 'button', onclick: startSimilar }, 'Ähnliche Aufgabe üben'));

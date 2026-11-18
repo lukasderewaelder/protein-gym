@@ -166,3 +166,14 @@ dialog#zugang.tasche { width: min(860px, calc(100% - 24px)); }
 @media (prefers-reduced-motion: reduce) {
   .dreh-scheibe, .schluessel-key { transition: none; }
 }
+
+/* Lehrkraft-Modus (Fenster über den Knopf in der Leiste, gottFenster in main.js): Knöpfe im Raster, Überschriften über die ganze Breite */
+.gott-liste { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+.gott-liste h3 { grid-column: 1 / -1; margin: 6px 0 0; font-size: var(--ds-klein); }
+.gott-knopf { min-height: 48px; padding: 6px 10px; border-radius: var(--ds-radius); border: 2px solid var(--ds-linie); background: var(--ds-flaeche); color: var(--ds-ink); font: 400 var(--ds-klein) / 1.25 var(--ds-font); text-align: left; cursor: pointer; }
+.gott-knopf[aria-pressed="true"] { border-width: 3px; border-color: var(--ds-ink); font-weight: 700; }
+.gott-aufgabe { grid-column: span 2; }
+.gott-aufgabe small { display: block; font-size: var(--ds-klein); color: var(--ds-muted); }
+.gott-ende { grid-column: span 2; }
+/* Hinweis in der Leiste: Hier spielt die Lehrkraft, nicht die Klasse */
+#hud .gott-chip { background: #ffd24a; color: #1d1305; border-color: #b08900; font-weight: 700; cursor: pointer; }

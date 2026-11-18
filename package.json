@@ -8,6 +8,7 @@
     "serve": "node tools/serve.mjs",
     "precache": "node tools/precache.mjs",
     "hefter": "node tools/hefter-md.mjs",
+    "lehrkraft": "node tools/lehrkraft-seite.mjs",
     "test": "node --test \"tests/*.test.mjs\""
   }
 }
