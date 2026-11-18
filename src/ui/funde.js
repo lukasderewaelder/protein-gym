@@ -48,6 +48,29 @@ function kettenSkizze() {
   return svg;
 }
 
+/**
+ * Skizze für die Merktafel „Denaturieren“ (Labor, Karte k_denat mit skizze: "denat"): links der Wollfaden als ordentliches Knäuel
+ * (Struktur), in der Mitte die Hitze, rechts der entfaltete, verklumpte Faden. Ohne Aminosäuren und ohne Wasserstoffbrücken (Spirale).
+ */
+function denatSkizze() {
+  const svg = document.createElementNS(NS, 'svg');
+  svg.setAttribute('viewBox', '0 0 300 84');
+  svg.setAttribute('class', 'fund-skizze');
+  svg.setAttribute('aria-hidden', 'true');
+  const pfad = (d, klasse) => { const p = document.createElementNS(NS, 'path'); p.setAttribute('d', d); p.setAttribute('class', klasse); svg.append(p); };
+  const text = (x, y, t, klasse) => { const e = document.createElementNS(NS, 'text'); e.setAttribute('x', String(x)); e.setAttribute('y', String(y)); e.setAttribute('text-anchor', 'middle'); e.setAttribute('class', klasse); e.textContent = t; svg.append(e); };
+  // geordnetes Knäuel: ein Faden, der in vier Bahnen ordentlich hin und her gefaltet ist
+  pfad('M18 10 H74 a7 7 0 0 1 0 14 H18 a7 7 0 0 0 0 14 H74 a7 7 0 0 1 0 14 H18', 'skizze-faden');
+  // Pfeil mit „Hitze“
+  pfad('M104 34 H168 M159 26 L169 34 L159 42', 'skizze-pfeil');
+  text(136, 22, 'Hitze', 'skizze-text');
+  // verklumpter Faden: wirr, überkreuzt, zusammengeballt
+  pfad('M206 14 c22 -8 44 6 30 18 c-14 10 -34 -8 -22 -18 c14 -10 36 4 40 18 c4 14 -18 24 -32 18 c-18 -8 -6 -28 12 -26 c20 2 24 24 8 30', 'skizze-klumpen');
+  text(46, 76, 'Struktur', 'skizze-text');
+  text(240, 76, 'verklumpt', 'skizze-text rot');
+  return svg;
+}
+
 const absaetze = (zeilen, cls = 'fund-zeile') => zeilen.map((z) => h('p', cls, z));
 
 const BODIES = {
@@ -59,7 +82,7 @@ const BODIES = {
       h('figure', 'fund-tafel', aminoTafel(s.felder[0] || 'R', s.name), h('figcaption', {}, s.name)))),
     h('div', 'fund-text', tafelText(k.zeilen).map((z, i) => h('p', `fund-zeile${i === 0 ? ' chip chip-grau' : i === 1 ? ' chip chip-orange' : ''}`, z))),
   ],
-  whiteboard: (k) => [kettenSkizze(), h('div', 'fund-text', absaetze(k.zeilen))],
+  whiteboard: (k) => [k.skizze === 'denat' ? denatSkizze() : kettenSkizze(), h('div', 'fund-text', absaetze(k.zeilen))],
   heft: (k) => [h('div', 'fund-text', absaetze(k.zeilen))],
   plakat: (k) => [h('ul', 'fund-liste', k.zeilen.map((z) => h('li', /^Zusatz:/.test(z) ? 'klein' : '', z)))],
   zeitung: (k) => [

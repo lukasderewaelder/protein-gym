@@ -138,3 +138,43 @@ test('Geblätterte Karten lassen Platz für Leiste und Knopf (sonst kommt man au
     assert.match(zeile, /min\(76vh, calc\(100dvh - 2\d\dpx\)\)/, 'Höhe = Bildschirm minus Platz für Titel, Leiste und Knopf');
   }
 });
+
+test('Eiklar und Eiweiß: Alltag und Chemie sind im ersten Hinweis, im Glossar und in der Einweisung klar getrennt', () => {
+  const protein = fundText(karten.find((k) => k.id === 'k_protein'));
+  assert.match(protein, /Alltag: [^.]*Eiweiß[^.]*klare Teil des Eis[^.]*Eiklar/);
+  assert.match(protein, /Chemie: [^.]*Eiweiß[^.]*Stoff[^.]*Protein/);
+  const G = JSON.parse(readFileSync(join(root, 'data/glossar.json'), 'utf8')).begriffe;
+  for (const name of ['Eiweiß: Alltag und Chemie', 'Eiklar']) {
+    const g = G.find((x) => x.begriff === name);
+    assert.ok(g, name + ' fehlt im Glossar');
+    assert.equal(g.ab, 'k_protein');
+  }
+  assert.match(G.find((x) => x.begriff === 'Eiweiß: Alltag und Chemie').text, /Alltag.*Chemie.*Protein/);
+  const A = JSON.parse(readFileSync(join(root, 'data/aufgaben.json'), 'utf8'));
+  const frage = A.aufgaben.a0.niveaus.alle.find((s) => s.type === 'zuordnen' && s.optionen.includes('Eiklar'));
+  assert.ok(frage, 'Einweisung (a0) hat die Eiklar-oder-Eiweiß-Frage');
+  assert.ok(frage.paare.some((p) => p.richtig === 'Eiklar') && frage.paare.some((p) => /Protein/.test(p.richtig)));
+  const aehnlich = JSON.parse(readFileSync(join(root, 'data/aehnlich.json'), 'utf8'));
+  assert.ok(aehnlich['a0.*.2'], 'Ähnlichkeitsaufgabe zum neuen Schritt');
+});
+
+test('Denaturieren im Labor: Merktafel mit Skizze, Struktur mit Wollfaden-Bild erklärt, „fest“ von der Struktur getrennt', () => {
+  const k = karten.find((x) => x.id === 'k_denat');
+  assert.equal(k.medium, 'whiteboard', 'kein Lagerzettel mehr, darin ging der Begriff unter');
+  assert.equal(k.skizze, 'denat');
+  assert.match(k.titel, /Denaturieren/);
+  assert.match(k.titel, /Struktur/);
+  const t = fundText(k);
+  assert.match(t, /Struktur: [^.]*Wollfaden[^.]*Knäuel[^.]*\. Diese Anordnung heißt Struktur/);
+  assert.match(t, /Denaturieren: Die Struktur geht verloren/);
+  assert.match(t, /„Fest“ heißt hier nur: nicht mehr flüssig/);
+  assert.doesNotMatch(t, /Lagern|feste Form/);
+  // Spirale: im Labor noch keine Aminosäuren und keine Wasserstoffbrücken
+  assert.doesNotMatch(t, /Aminosäure|Wasserstoffbrücke/);
+  // Überall dort, wo früher „feste Form“ stand, heißt es jetzt Struktur
+  for (const datei of ['wissen', 'glossar', 'hefter', 'aufgaben']) {
+    assert.doesNotMatch(readFileSync(join(root, 'data', datei + '.json'), 'utf8'), /feste[nr]? Form/, datei);
+  }
+  const svg = readFileSync(join(root, 'src/ui/funde.js'), 'utf8');
+  assert.ok(svg.includes("k.skizze === 'denat' ? denatSkizze()"));
+});

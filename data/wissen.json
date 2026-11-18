@@ -32,8 +32,8 @@
       "medium": "haftnotiz", "kopf": "Nicht vergessen!",
       "zeilen": [
         "Protein = Eiweiß.",
-        "Fremdwort und deutsches Wort für denselben Stoff.",
-        "Steckt im Eiklar, aber auch in Milch, Fleisch, Linsen und sogar in Haaren."
+        "Alltag: „Eiweiß“ ist der klare Teil des Eis, genauer das Eiklar.",
+        "Chemie: „Eiweiß“ ist ein Stoff, das Protein. Er steckt im Eiklar, aber auch in Milch, Fleisch, Linsen und Haaren."
       ],
       "fuss": "– dein Empfangsteam"
     },
@@ -57,19 +57,19 @@
         "Ein Protein = viele Hundert Bausteine",
         "Reihenfolge entscheidet → andere Reihenfolge = anderes Protein",
         "wie Buchstaben und Wörter!",
-        "Danach faltet sich die Kette zu einer festen Form (siehe Aushang)."
+        "Danach faltet sich die Kette zu ihrer Struktur (siehe Aushang)."
       ],
       "fuss": "Wo hinkt der Vergleich? Ein Protein ist viel mehr als eine Reihe aus Buchstaben."
     },
     {
       "id": "k_struktur", "typ": "pflicht", "raum": "training", "ort": "Aushang",
-      "titel": "Gefaltet und fest: die Struktur",
+      "titel": "Gefaltet: die Struktur",
       "medium": "schild", "kopf": "Aushang: So ist ein Eiweiß aufgebaut",
       "zeilen": [
-        "Ein Protein ist eine lange Kette aus Aminosäuren. Die Kette ist zu einer festen Form gefaltet, ähnlich wie ein verknäultes Wollband.",
+        "Ein Protein ist eine lange Kette aus Aminosäuren. Die Kette ist zu ihrer Struktur gefaltet, ähnlich wie ein Wollfaden zu einem Knäuel. Die Struktur bestimmt, was das Eiweiß kann.",
         "Schwache Verbindungen (Wasserstoffbrücken) halten die Falten zusammen.",
         "Hitze, Säuren, Alkohol und Schwermetallsalze lösen diese Verbindungen: Die Kette entfaltet sich und verklumpt. Das Eiweiß gerinnt.",
-        "Die Aminosäuren selbst bleiben erhalten, auch ihre Reihenfolge in der Kette. Zerstört ist das Eiweiß also nicht. Aber ohne die richtige Form verliert es dauerhaft seine „aktive“ Form und kann nicht mehr wirken."
+        "Die Aminosäuren selbst bleiben erhalten, auch ihre Reihenfolge in der Kette. Zerstört ist das Eiweiß also nicht. Aber ohne die richtige Struktur kann es dauerhaft nicht mehr wirken."
       ],
       "fuss": "So erklärt sich der Fall"
     },
@@ -99,16 +99,14 @@
     },
     {
       "id": "k_denat", "typ": "pflicht", "raum": "labor", "ort": "Kühlschrank",
-      "titel": "Denaturieren heißt Gerinnen",
-      "medium": "laborzettel", "kopf": "Lagerzettel: Eier",
+      "titel": "Denaturieren: Die Struktur geht verloren",
+      "medium": "whiteboard", "skizze": "denat", "kopf": "Merktafel am Kühlschrank",
       "zeilen": [
-        "Probe: Eiklar (Eiweiß)",
-        "Hinweis: Kühl lagern, nicht in die Wärme stellen.",
-        "Form: Ein Eiweiß hat eine feste Form. Sie sorgt dafür, dass es seine Aufgabe erfüllen kann.",
-        "Begriff: Geht die Form verloren, nennt man das denaturieren. Im Alltag sagt man: Das Eiweiß stockt, gerinnt oder flockt aus.",
-        "Befund: Das Eiweiß im klaren, flüssigen Eiklar wird weiß und fest. Es ist nicht verschwunden, nur verändert. Nicht umkehrbar."
+        "1. Struktur: Ein Eiweiß-Teilchen ist wie ein langer Wollfaden, der zu einem Knäuel gefaltet ist. Diese Anordnung heißt Struktur. Sie sorgt dafür, dass das Eiweiß seine Aufgabe erfüllen kann.",
+        "2. Denaturieren: Die Struktur geht verloren. Der Faden entfaltet sich, die Teilchen verklumpen. Das Eiweiß gerinnt. Im Alltag sagt man auch: Es stockt oder flockt aus.",
+        "3. Was du siehst: Das Eiweiß im klaren, flüssigen Eiklar wird weiß und fest. „Fest“ heißt hier nur: nicht mehr flüssig. Es ist nichts verschwunden, nur verändert. Nicht umkehrbar."
       ],
-      "fuss": "GEPRÜFT"
+      "fuss": "– Laborteam"
     },
     {
       "id": "k_ausloeser", "typ": "pflicht", "raum": "labor", "ort": "Kupfer-Kurt",
@@ -169,7 +167,7 @@
         "1. Pfanne erhitzen, das Ei hineingleiten lassen.",
         "2. Das Eiweiß im klaren Eiklar wird weiß und fest: Es gerinnt.",
         "3. Aus dem gebratenen Ei wird nie wieder klares Eiklar.",
-        "Warum? Die Form des Eiweißes ist verloren, und sie kommt nicht von allein zurück. Das Gerinnen ist nicht umkehrbar."
+        "Warum? Die Struktur des Eiweißes ist verloren, und sie kommt nicht von allein zurück. Das Gerinnen ist nicht umkehrbar."
       ],
       "fuss": "Küchentipp: Aus Spiegelei wird nie wieder rohes Ei."
     },

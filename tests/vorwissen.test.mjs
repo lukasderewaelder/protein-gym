@@ -21,6 +21,8 @@ const BEGRIFFE = [
   { name: 'Kondensation', re: /Kondensation/, raum: 'training', ein: ['k_bauplan', 'z_peptid'] },
   { name: 'Denaturieren', re: /denaturier|Denaturier/, raum: 'labor', ein: ['k_denat', 'k_ausloeser'] }, // k_ausloeser erklärt es selbst (Hitze-Beispiel): „lässt Eiweiß denaturieren, also gerinnen bzw. stocken“
   { name: 'gefaltete Form', re: /gefaltet|entfaltet|Form/, raum: 'labor', ein: ['k_denat', 'k_struktur'] },
+  // Seit 2026-11-18 führt der Labor-Hinweis k_denat das Wort „Struktur“ mit dem Wollfaden-Bild ein (Aminosäuren und Wasserstoffbrücken bleiben Trainingsfläche)
+  { name: 'Struktur', re: /Struktur/, raum: 'labor', ein: ['k_denat', 'k_struktur'] },
   { name: 'Auslöser', re: /Auslöser|Schwermetallsalz|Kupfersulfat/, raum: 'labor', ein: ['k_ausloeser', 'k_biuret'] },
   { name: 'Biuret', re: /Biuret/, raum: 'labor', ein: ['k_biuret'] },
   { name: 'Ninhydrin', re: /Ninhydrin/, raum: 'shakebar', ein: ['z_ninhydrin'] },

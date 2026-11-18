@@ -31,7 +31,7 @@ function zuordnen(host, step, api) {
       b.classList.add('falsch');
       b.textContent = `✗ ${o}`;
       b.disabled = true;
-      api.fail('Das passt nicht. Überlege, was in dieser Situation mit dem Eiweiß passiert.');
+      api.fail(step.falsch || 'Das passt nicht. Überlege, was in dieser Situation mit dem Eiweiß passiert.');
     }
   }
   return {

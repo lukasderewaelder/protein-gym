@@ -119,12 +119,12 @@
       "flag": "a0_done",
       "braucht": ["spind_gesehen", "k_protein", "k_wichtig"],
       "auftrag": "Du hast den Spind geöffnet und die ersten Hinweise gefunden. Zeig, was du schon weißt.",
-      "tipp": "Die Hinweise „Protein = Eiweiß“ und „Warum Eiweiße wichtig sind“ liegen im Spind.",
+      "tipp": "Die Hinweise „Protein = Eiweiß“ (dort steht auch, was Eiklar ist) und „Warum Eiweiße wichtig sind“ liegen im Spind.",
       "hilfekarte": {
         "titel": "Hilfekarte: Einweisung",
-        "zeilen": ["Protein = Eiweiß (zwei Wörter für dasselbe).", "Eiweiß baut Muskeln, Haut und Haare auf, transportiert Stoffe und schützt vor Krankheitserregern."]
+        "zeilen": ["Protein = Eiweiß (zwei Wörter für dasselbe).", "Alltag: „Eiweiß“ ist oft der klare Teil des Eis, genauer das Eiklar. Chemie: Eiweiß ist ein Stoff (Protein).", "Eiweiß baut Muskeln, Haut und Haare auf, transportiert Stoffe und schützt vor Krankheitserregern."]
       },
-      "loesung": "Protein und Eiweiß sind dasselbe. Eiweiß baut Muskeln, Haut und Haare auf, es transportiert Stoffe wie Sauerstoff und schützt als Antikörper vor Krankheitserregern.",
+      "loesung": "Protein und Eiweiß sind dasselbe. Im Alltag nennt man den klaren Teil des Eis „Eiweiß“, genauer ist es das Eiklar; in der Chemie ist Eiweiß der Stoff, das Protein. Eiweiß baut Muskeln, Haut und Haare auf, es transportiert Stoffe wie Sauerstoff und schützt als Antikörper vor Krankheitserregern.",
       "niveaus": {
         "alle": [
           {
@@ -156,6 +156,18 @@
             "text": "Protein und {1} sind zwei Wörter für denselben Stoff. Eiweiß hilft zum Beispiel beim {2} von Muskeln.",
             "loesungen": ["Eiweiß", "Aufbau"],
             "optionen": ["Eiweiß", "Aufbau", "Zucker", "Abbau"]
+          },
+          {
+            "type": "zuordnen",
+            "auftrag": "Alltag und Chemie: Ist das Eiklar (ein Teil des Eis) oder Eiweiß (der Stoff) gemeint? Tippe pro Beispiel an.",
+            "optionen": ["Eiklar", "Eiweiß (Protein)"],
+            "falsch": "Das passt nicht. Eiklar ist ein Teil des Eis, Eiweiß (Protein) ist der Stoff.",
+            "paare": [
+              { "text": "Im Backrezept steht: Eiweiß steif schlagen.", "richtig": "Eiklar" },
+              { "text": "Der klare Teil des Hühnereis, neben dem Eigelb", "richtig": "Eiklar" },
+              { "text": "Der Stoff, der auch in Milch, Fleisch und Linsen steckt", "richtig": "Eiweiß (Protein)" },
+              { "text": "Daraus bestehen Muskeln, Haut und Haare zu großen Teilen", "richtig": "Eiweiß (Protein)" }
+            ]
           }
         ]
       }
@@ -356,10 +368,10 @@
       "flag": "a3_done",
       "braucht": ["k_kette", "k_bauplan", "k_struktur"],
       "auftrag": "Wie ist ein Eiweiß aufgebaut, und was passiert beim Gerinnen? Damit löst du die Frage vom Anfang.",
-      "tipp": "Schau in den Spind: „So entstehen Eiweiße“, „Eine Kette aus Bausteinen“ und „Gefaltet und fest: die Struktur“.",
+      "tipp": "Schau in den Spind: „So entstehen Eiweiße“, „Eine Kette aus Bausteinen“ und „Gefaltet: die Struktur“.",
       "hilfekarte": {
         "titel": "Hilfekarte: Bau und Faltung",
-        "zeilen": ["Aminosäuren verbinden sich unter Wasserabspaltung (Kondensation) zu einer langen Kette.", "Die Kette ist zu einer festen Form gefaltet. Schwache Verbindungen halten die Falten.", "Beim Gerinnen lösen sich diese Verbindungen: Die Kette entfaltet sich und verklumpt.", "Die Aminosäuren bleiben, das Eiweiß verliert seine Wirkung."]
+        "zeilen": ["Aminosäuren verbinden sich unter Wasserabspaltung (Kondensation) zu einer langen Kette.", "Die Kette ist zu ihrer Struktur gefaltet. Schwache Verbindungen halten die Falten.", "Beim Gerinnen lösen sich diese Verbindungen: Die Kette entfaltet sich und verklumpt.", "Die Aminosäuren bleiben, das Eiweiß verliert seine Wirkung."]
       },
       "loesung": "Viele Aminosäuren verbinden sich unter Wasserabspaltung zu einer langen Kette. Die Kette ist gefaltet, schwache Verbindungen halten die Falten. Hitze, Säure, Alkohol oder Schwermetallsalze lösen sie, die Kette entfaltet sich und verklumpt: Das Eiweiß gerinnt. Die Aminosäuren bleiben, aber ohne die Form ist die Wirkung weg und die Form kommt nicht zurück.",
       "niveaus": {
@@ -476,7 +488,7 @@
         "k_ausloeser"
       ],
       "auftrag": "Erst vermuten, dann den Versuch am Tisch machen, beobachten, protokollieren und deuten. Das Tablet bereitet vor und wertet aus, es ersetzt den Versuch nicht.",
-      "tipp": "Schau in den Spind: „Denaturieren heißt Gerinnen“ und „Was wir im Versuch testen“. Vergleiche jede Probe mit der Kontrollprobe: Was ist anders?",
+      "tipp": "Schau in den Spind: „Denaturieren: Die Struktur geht verloren“ und „Was wir im Versuch testen“. Vergleiche jede Probe mit der Kontrollprobe: Was ist anders?",
       "hilfekarte": {
         "titel": "Hilfekarte: Versuch deuten",
         "zeilen": [
