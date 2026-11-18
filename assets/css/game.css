@@ -331,4 +331,6 @@ dialog#notebook .nb-body[data-tab="glossar"], dialog#notebook .nb-body[data-tab=
 .tastatur.ziffern > .taste.ok { width: 100%; min-height: 50px; font-size: 20px; }
 /* Das Feld, in das gerade geschrieben wird */
 input.tastatur-aktiv, textarea.tastatur-aktiv { outline: 3px solid #e8892e; outline-offset: 2px; }
-input[data-tastatur], textarea[data-tastatur] { cursor: pointer; caret-color: transparent; }
+input[data-tastatur], textarea[data-tastatur] { cursor: pointer; caret-color: transparent; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+/* Fenster bekommen beim Öffnen selbst den Fokus (autofocus, damit kein Eingabefeld ihn bekommt): ohne Rahmen */
+dialog:focus:not(:focus-visible) { outline: none; }

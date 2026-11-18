@@ -94,3 +94,19 @@ test('Alle Eingabefelder im Spiel nutzen die Bildschirmtastatur (Codes mit Zahle
   assert.match(lies('../src/tasks/labor-types.js'), /tastaturFeld\(input, 'ziffern'\)/);
   assert.match(lies('../src/main.js'), /createTastatur\(document\)/);
 });
+
+test('Kein Eingabefeld im Spiel bekommt den Fokus (sonst beendet das iPad das Vollbild, auch bei readonly)', () => {
+  const tastatur = readFileSync(new URL('../src/ui/tastatur.js', import.meta.url), 'utf8');
+  // Antippen: weder Maus/Stift (pointerdown) noch Touch (touchstart) setzen den Fokus; geöffnet wird beim Loslassen
+  assert.match(tastatur, /istTastaturFeld\(feldVon\(ziel\)\)\) \{ e\.preventDefault\(\)/);
+  assert.match(tastatur, /'touchstart'[\s\S]*preventDefault\(\)[\s\S]*passive: false/);
+  assert.match(tastatur, /'pointerup'/);
+  // Gelangt der Fokus trotzdem ins Feld, wird er sofort abgegeben (nur Tab mit echter Tastatur darf bleiben)
+  assert.match(tastatur, /'focusin'[\s\S]*f\.blur\(\)/);
+  assert.match(tastatur, /tabZuletzt/);
+  // Fenster fokussieren sich selbst, damit showModal() nicht das erste Eingabefeld fokussiert
+  const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
+  for (const id of ['zugang', 'fund', 'notebook', 'info', 'neu-frage', 'menu']) {
+    assert.match(html, new RegExp(`<dialog id="${id}" autofocus tabindex="-1"`), `dialog#${id} ohne autofocus`);
+  }
+});

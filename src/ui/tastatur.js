@@ -1,6 +1,7 @@
 // Bildschirmtastatur im Spiel: Zahlenfeld und QWERTZ mit Umlauten, Groß- und Kleinschreibung.
 // Die Systemtastatur öffnet sich dadurch gar nicht erst (Felder sind `readonly`, `inputmode="none"`), das Vollbild bleibt (iPad-Safari
-// beendet Vollbild sonst bei jeder Eingabe). Eine echte Tastatur (Chromebook, PC) tippt weiter mit: Ihre Tasten landen im offenen Feld.
+// beendet Vollbild sonst bei jeder Eingabe). Wichtig: Die Felder bekommen **nie den Fokus** (kein Antippen, kein Autofokus eines Fensters):
+// Schon ein fokussiertes Textfeld beendet auf dem iPad das Vollbild, auch wenn es nur lesbar ist. Eine echte Tastatur (Chromebook, PC) tippt weiter mit: Ihre Tasten landen im offenen Feld.
 // Oben: reine Logik (ohne Browser, getestet in tests/tastatur.test.mjs). Unten: das Fenster (createTastatur).
 
 export const LOESCHEN = '⌫';
@@ -199,19 +200,38 @@ export function createTastatur(doc = document) {
     el = null; anzeige = null; feld = null; tastenKnoepfe = [];
   }
 
-  // Antippen eines Feldes öffnet die Tastatur; ein Tipp daneben schließt sie (der Tipp selbst wirkt normal weiter)
+  const feldVon = (ziel) => (ziel && ziel.closest ? ziel.closest('[data-tastatur]') : null);
+  let tabZuletzt = 0;
+
+  // Antippen eines Feldes öffnet die Tastatur, ohne dass das Feld den Fokus bekommt (preventDefault bei pointerdown und touchstart,
+  // geöffnet wird beim Loslassen). Ein Tipp daneben schließt sie (der Tipp selbst wirkt normal weiter).
   doc.addEventListener('pointerdown', (e) => {
     const ziel = e.target;
     if (el && el.contains(ziel)) return;
-    const f = ziel && ziel.closest ? ziel.closest('[data-tastatur]') : null;
-    if (!istTastaturFeld(f) && el) schliesse();
+    if (istTastaturFeld(feldVon(ziel))) { e.preventDefault(); return; }
+    if (el) schliesse();
+  }, true);
+  doc.addEventListener('touchstart', (e) => {
+    if (istTastaturFeld(feldVon(e.target))) e.preventDefault();
+  }, { capture: true, passive: false });
+  doc.addEventListener('pointerup', (e) => {
+    const f = feldVon(e.target);
+    if (istTastaturFeld(f)) oeffne(f);
   }, true);
   doc.addEventListener('click', (e) => {
-    const f = e.target && e.target.closest ? e.target.closest('[data-tastatur]') : null;
+    const f = feldVon(e.target);
     if (istTastaturFeld(f)) oeffne(f);
+  }, true);
+  // Bekommt ein Feld trotzdem den Fokus (Autofokus beim Öffnen eines Fensters, Safari beim Tippen), wird er sofort wieder abgegeben.
+  // Nur mit der Tab-Taste (echte Tastatur) darf ein Feld den Fokus behalten; der erste Tastendruck öffnet dann die Tastatur.
+  doc.addEventListener('focusin', (e) => {
+    const f = feldVon(e.target);
+    if (!istTastaturFeld(f) || Date.now() - tabZuletzt < 600) return;
+    f.blur();
   }, true);
   // Echte Tastatur: tippt ins offene Feld; ist das Feld nur fokussiert (Tab), öffnet der erste Tastendruck die Tastatur
   doc.addEventListener('keydown', (e) => {
+    if (e.key === 'Tab') tabZuletzt = Date.now();
     if (e.isTrusted === false) return; // das eigene „Enter“ nach OK nicht wieder auffangen
     if (!el && istTastaturFeld(doc.activeElement) && tasteVon(e)) oeffne(doc.activeElement);
     if (!el) return;
