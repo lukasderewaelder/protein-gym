@@ -21,10 +21,10 @@ Bitte nur die Texte ändern; die Zeichen am Zeilenanfang haben eine Bedeutung:
 2. Eiweiße
 
 ## Hinweis über dem Blatt
-Genau so in deinen Hefter: alles abschreiben, mit Überschriften, Merksätzen, Tabellen und Zeichnungen.
+Schreibe alles genau so mit Überschriften, Merksätzen und Zeichnungen in deinen Hefter
 
 ## Arbeitsauftrag oben im Spind
-Arbeitsauftrag: Mitschreiben darfst du alles. Was unter „Hefter“ steht, muss in deinen Hefter. Viele Hinweise dienen der Orientierung, einige zeigen auf den Verursacher.
+Arbeitsauftrag: Sammle Informationen, mache dir dazu Notizen. Was unter „Hefter“ steht, muss später aber in deinen Hefter.
 
 ## Meldung bei einem neuen Eintrag
 Neuer Heftereintrag! Übernimm ihn jetzt in deinen Hefter und setze im Spind den Haken „abgeschrieben“. Erst dann geht es weiter.
@@ -35,7 +35,7 @@ Dauer: ca. 5 Minuten
 
 ## Anweisungen
 - Übernimm alles, was auf dem Blatt steht, in deinen Hefter.
-- Die Versuchstabelle übernimmst du aus deinem Versuchsprotokoll.
+- Anstatt der Versuchstabelle heftest du aus das Protokoll ein.
 
 ## Blatt
 
@@ -43,7 +43,7 @@ Dauer: ca. 5 Minuten
 
 Eiweiße im Körper:
 - Baustoffe für Muskeln, Haut und Haare
-- Transport von Stoffen im Körper
+- Transport von Stoffen im Körper (z.B. Sauerstofftransport durch Hämoglobin)
 - Schutz vor Krankheitserregern
 
 Der Körper baut seine Eiweiße ständig ab und neu. Deshalb müssen wir täglich Eiweiß mit der Nahrung aufnehmen.
@@ -52,13 +52,13 @@ Protein und Eiweiß bedeuten dasselbe.
 
 ### Denaturierung
 
-> **Merke: Denaturieren** Beim Denaturieren (Stocken, Gerinnen) verändert das Eiweiß seine Struktur, es wird z. B. fest. So können z. B. Organismen abgetötet werden. Der Vorgang ist nicht umkehrbar.
+> **Merke: Denaturieren** Beim Denaturieren (Stocken, Gerinnen) verliert das Eiweiß seine aktive Struktur, es wird z. B. fest. So können z. B. Organismen abgetötet werden. Der Vorgang ist nicht umkehrbar.
 
 Eiweiß denaturiert durch:
 - Hitze (ab etwa 60 Grad)
-- Säuren
-- Alkohol
-- Schwermetallsalze
+- Säuren 
+- Alkohol (Ethanol, im Krankenhaus häufig iso-Propanol)
+- Schwermetallsalze (z.B. Kupfersulfat (Fehling I))
 
 **Versuchstabelle: Denaturierung**
 | Probe | Einfluss | Beobachtung |
@@ -75,7 +75,7 @@ Dauer: ca. 7 Minuten
 
 ## Anweisungen
 - Übernimm alles, was auf dem Blatt steht, in deinen Hefter, und zeichne die Abbildungen ab.
-- Schreibe die Fortsetzung unter deine Überschrift Denaturierung aus Eintrag 1.
+- Schreibe die Fortsetzung unter deine Überschrift Denaturierung aus Eintrag 1, falls du noch Platz hast. Ansonsten schreibe hier weiter.
 - Glycin und Alanin musst du nur abzeichnen, nicht auswendig lernen.
 - Zusatz für Schnelle: Zwei Aminosäuren verbinden sich über die Peptidbindung zu einem Dipeptid, dabei wird Wasser frei.
 
@@ -83,7 +83,7 @@ Dauer: ca. 7 Minuten
 
 ### Bau
 
-> **Merke: Aminosäuren** Proteine (Eiweiße) bestehen aus Aminosäuren. Die Aminosäuren sind die Bausteine (Monomere), das Eiweiß ist ein langes Molekül aus vielen Aminosäuren (Polymer).
+> **Merke: Aminosäuren**  Aminosäuren sind die Grundbausteine (Monomere), aus denen Proteine aufgebaut sind. Eiweiße sind lange Moleküle aus vielen Aminosäuren (Polymere).
 
 Bei der Verknüpfung wird Wasser abgespalten (Kondensation).
 
@@ -97,8 +97,8 @@ unterschrift: Links die Aminogruppe (H₂N), rechts die Carboxygruppe (COOH), ob
 ### Denaturierung (Fortsetzung)
 
 Faltung und Denaturieren:
-- Die Kette eines Proteins ist zu ihrer Struktur gefaltet. Schwache Verbindungen (Wasserstoffbrücken) halten die Falten.
-- Hitze, Säuren, Alkohol oder Schwermetallsalze lösen diese Verbindungen: Die Kette entfaltet sich und verklumpt.
+- Die Kette eines Proteins hat eine räumliche Struktur (Helix oder gefaltet). Schwache zwischenmolekulare Kräfte halten diese Strukturen zusammen.
+- Hitze, Säuren, Alkohole oder Schwermetallsalze lösen diese Kräfte: Die Kette entfaltet sich und verklumpt.
 - Dabei geht die „aktive“ Form dauerhaft verloren.
 - Zerstört ist das Eiweiß aber nicht: Die Reihenfolge der Aminosäuren in der Kette bleibt erhalten.
 
@@ -113,7 +113,7 @@ Dauer: ca. 4 Minuten
 
 ## Anweisungen
 - Übernimm alles, was auf dem Blatt steht, in deinen Hefter.
-- Die Versuchstabelle übernimmst du aus deinem Versuchsprotokoll. Das Protokoll zum Biuret-Nachweis holst du bei deiner Lehrkraft ab.
+- Anstatt der Versuchstabelle heftest du aus das Protokoll ein.
 
 ## Blatt
 
@@ -122,7 +122,7 @@ Dauer: ca. 4 Minuten
 Biuret-Nachweis (Beobachtung: Farbe der Probe):
 - Probe mit Natronlauge versetzen
 - Kupfersulfat-Lösung (Fehling I) zugeben
-- Violett: Eiweiß ist enthalten
+- positiver Nachweis: Probe verfärbt sich violett
 - Bleibt die Probe blau: kein Eiweiß enthalten
 
 **Versuchstabelle: Lieferung**

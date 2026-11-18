@@ -150,7 +150,7 @@ test('Denaturieren: Hefter und Quiz sagen „verändert, nicht zerstört“, die
   const m = H.eintraege[0].teile.find((t) => t.typ === 'merksatz');
   assert.equal(m.merke, 'Denaturieren');
   assert.match(m.text, /Stocken, Gerinnen/);
-  assert.match(m.text, /verändert das Eiweiß seine Struktur, es wird z\. B\. fest/);
+  assert.match(m.text, /(verändert|verliert) das Eiweiß seine (aktive )?Struktur, es wird z\. B\. fest/);
   assert.match(m.text, /Organismen abgetötet/);
   assert.match(m.text, /nicht umkehrbar/);
   const e2 = JSON.stringify(H.eintraege[1].teile);
@@ -203,7 +203,7 @@ test('Hefter: drei Einträge, frei nach Raum, auf dem Blatt nur Abschreibstoff, 
   const abb = H.eintraege.flatMap((e) => e.teile).filter((t) => t.typ === 'abbildung');
   for (const t of abb) assert.ok(['aminosaeure', 'kette'].includes(t.art), t.art);
   assert.deepEqual(abb.find((t) => t.art === 'aminosaeure').formeln.map((f) => f[0]), ['allgemein', 'Glycin', 'Alanin']);
-  assert.match(JSON.stringify(H.eintraege[2]), /Biuret.*Lehrkraft ab/);
+  assert.match(JSON.stringify(H.eintraege[2]), /Biuret[\s\S]*Protokoll/);
   assert.doesNotMatch(JSON.stringify(H.eintraege[0]), /Biuret/, 'Eintrag 1 handelt nur vom Gerinnen');
 });
 
@@ -251,9 +251,9 @@ test('Allgemeiner Arbeitsauftrag: mitschreiben erlaubt, Hefter Pflicht, Hinweise
   const lies = (n) => JSON.parse(readFileSync(new URL(`../data/${n}.json`, import.meta.url), 'utf8'));
   const auftrag = lies('hefter').arbeitsauftrag;
   assert.match(auftrag, /^Arbeitsauftrag: /);
-  assert.match(auftrag, /[Mm]itschreiben/);
-  assert.match(auftrag, /„Hefter“ steht, muss in deinen Hefter/);
-  assert.match(auftrag, /Orientierung.*Verursacher/);
+  // Seit 2026-11-18 (Text der Lehrkraft): Notizen machen, Hefter-Texte sind Pflicht; Orientierung/Verursacher sagt Markus im Tipp „verursacher“
+  assert.match(auftrag, /Notizen/);
+  assert.match(auftrag, /„Hefter“ steht, muss [^.]*in deinen Hefter/);
   // Früher in der Begrüßung, jetzt als Tipp beim ersten Mal (Spind zum ersten Mal geöffnet, erster Fall-Hinweis)
   const D = lies('dialoge');
   assert.match(D['tipp.hefter'].lines.join(' '), /Arbeitsauftrag: Du darfst dir alles mitschreiben/);

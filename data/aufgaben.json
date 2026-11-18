@@ -159,7 +159,7 @@
           },
           {
             "type": "zuordnen",
-            "auftrag": "Alltag und Chemie: Ist das Eiklar (ein Teil des Eis) oder Eiweiß (der Stoff) gemeint? Tippe pro Beispiel an.",
+            "auftrag": "Eiklar (ein Teil des Eis) oder Eiweiß (der Stoff)? Tippe pro Beispiel an.",
             "optionen": ["Eiklar", "Eiweiß (Protein)"],
             "falsch": "Das passt nicht. Eiklar ist ein Teil des Eis, Eiweiß (Protein) ist der Stoff.",
             "paare": [

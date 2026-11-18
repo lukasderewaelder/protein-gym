@@ -50,7 +50,7 @@ test('Fehling I steht nur zusammen mit Kupfersulfat-Lösung, nie allein', () => 
   const alle = ['versuch', 'aufgaben', 'wissen', 'glossar', 'hefter', 'aehnlich', 'dialoge', 'fall'].map((n) => readFileSync(join(root, 'data', `${n}.json`), 'utf8')).join('\n');
   const treffer = alle.match(/Fehling I/g) || [];
   assert.ok(treffer.length >= 6, 'Fehling I kommt im Labor mehrfach vor');
-  assert.equal((alle.match(/Kupfersulfat-Lösung \(Fehling I|Kupfersulfat-Lösung, bei uns auch Fehling I|auch Fehling I/g) || []).length, treffer.length, 'jedes Fehling I hängt an Kupfersulfat');
+  assert.equal((alle.match(/Kupfersulfat(-Lösung)? \(Fehling I|Kupfersulfat-Lösung, bei uns auch Fehling I|auch Fehling I/g) || []).length, treffer.length, 'jedes Fehling I hängt an Kupfersulfat');
 });
 
 test('Das Labor schickt zur Lehrkraft: kein virtueller Versuch mehr', () => {

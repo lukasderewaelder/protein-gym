@@ -44,7 +44,7 @@ test('Spind: alle Reiter gleich groß, Hefter sagt, dass genau so abgeschrieben 
   assert.doesNotMatch(game, /dialog#notebook:has\(\.seiten-voll\)/);
   const hefter = JSON.parse(readFileSync(new URL('../data/hefter.json', import.meta.url), 'utf8'));
   assert.match(hefter.hinweis, /[Gg]enau so/);
-  assert.match(hefter.hinweis, /abschreiben/);
+  assert.match(hefter.hinweis, /Hefter/);
   const nb = readFileSync(new URL('../src/ui/notebook.js', import.meta.url), 'utf8');
   assert.match(nb, /hefter\.hinweis \? h\('p', 'hefter-hinweis', hefter\.hinweis\)/);
 });
