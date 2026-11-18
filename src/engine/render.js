@@ -354,12 +354,12 @@ function drawTuerAnim(ctx, a, scene) {
   ctx.restore();
 }
 
-function drawMarker(ctx, hs, time, locked, showLabel) {
+function drawMarker(ctx, hs, time, locked, showLabel, dy = 0, ausruf = false) {
   const pulse = 1 + Math.sin(time * 4) * 0.08;
   const r = 26 * pulse;
   const z = zielPos(hs);
   ctx.save();
-  ctx.translate(z.x, z.y + (hs.type === 'npc' ? -FIGURE_HEIGHT - 36 : 0));
+  ctx.translate(z.x, z.y + (hs.type === 'npc' ? -FIGURE_HEIGHT - 36 : 0) + dy);
   ctx.fillStyle = locked ? 'rgba(120,130,135,0.75)' : 'rgba(255,214,64,0.88)';
   ctx.strokeStyle = '#1c1c1c';
   ctx.lineWidth = 4;
@@ -378,7 +378,7 @@ function drawMarker(ctx, hs, time, locked, showLabel) {
     ctx.font = 'bold 34px system-ui, sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText(hs.type === 'door' ? '↓' : '!', 0, 2);
+    ctx.fillText(hs.type === 'door' && !ausruf ? '↓' : '!', 0, 2); // Ziel-Tür: gelbes „!“ wie alle Ziele
   }
   if (showLabel) {
     ctx.font = '600 26px system-ui, sans-serif';
@@ -394,8 +394,74 @@ function drawMarker(ctx, hs, time, locked, showLabel) {
   ctx.restore();
 }
 
+/** Personen: kleine Sprechblase „…“ über dem Kopf. Muss man gerade mit der Person reden (nächstes Ziel), ist sie gelb und pulsiert. */
+function drawSprechblase(ctx, hs, time, ziel) {
+  const s = ziel ? 1 + Math.sin(time * 4) * 0.08 : 1;
+  ctx.save();
+  ctx.translate(hs.x, hs.y - FIGURE_HEIGHT - 40);
+  ctx.scale(s, s);
+  const w = 66;
+  const hoehe = 44;
+  ctx.fillStyle = ziel ? 'rgba(255,214,64,0.95)' : 'rgba(255,255,255,0.95)';
+  ctx.strokeStyle = '#1c1c1c';
+  ctx.lineWidth = 4;
+  ctx.lineJoin = 'round';
+  // Blase mit Spitze nach unten (zur Person)
+  ctx.beginPath();
+  const x = -w / 2;
+  const y = -hoehe / 2;
+  const r = 14;
+  ctx.moveTo(x + r, y);
+  ctx.arcTo(x + w, y, x + w, y + hoehe, r);
+  ctx.arcTo(x + w, y + hoehe, x, y + hoehe, r);
+  ctx.lineTo(8, y + hoehe);
+  ctx.lineTo(0, y + hoehe + 14);
+  ctx.lineTo(-8, y + hoehe);
+  ctx.arcTo(x, y + hoehe, x, y, r);
+  ctx.arcTo(x, y, x + w, y, r);
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+  ctx.fillStyle = '#1c1c1c';
+  for (const dx of [-14, 0, 14]) {
+    ctx.beginPath();
+    ctx.arc(dx, 0, 4.5, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  ctx.restore();
+}
+
+/** Andere Türen (nicht das nächste Ziel): kleine weiße Marke „↓“ zur Orientierung, verschlossene grau mit Schloss. */
+function drawTuerMarke(ctx, hs, locked) {
+  const z = zielPos(hs);
+  ctx.save();
+  ctx.translate(z.x, z.y);
+  ctx.fillStyle = locked ? 'rgba(120,130,135,0.75)' : 'rgba(255,255,255,0.8)';
+  ctx.strokeStyle = '#1c1c1c';
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.arc(0, 0, 19, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.stroke();
+  ctx.fillStyle = '#1c1c1c';
+  if (locked) {
+    ctx.fillRect(-8, -1, 16, 11);
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.arc(0, -2, 6, Math.PI, 0);
+    ctx.stroke();
+  } else {
+    ctx.font = 'bold 24px system-ui, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('↓', 0, 1);
+  }
+  ctx.restore();
+}
+
 /**
- * st: { scene, bg, figureSprites, player, shirtCss, npcs: [{ hs, sprite }], time, isLocked(hs), showLabels, overlay(ctx) }
+ * st: { scene, bg, figureSprites, player, shirtCss, npcs: [{ hs, sprite }], time, isLocked(hs), showLabels, overlay(ctx), ziel }
+ * ziel: Hotspot-ID des nächsten Ziels im Raum (gelbes „!“ bzw. gelbe Sprechblase), siehe zielMarke in src/state/naechster-schritt.js.
  */
 export function drawScene(ctx, st) {
   const { scene, bg, time } = st;
@@ -420,17 +486,29 @@ export function drawScene(ctx, st) {
   drawables.sort((a, b) => a.y - b.y).forEach((d) => d.draw());
 
   // Erkunden: Hinweis-Objekte (Typ „dialog“) zeigen sich erst in der Nähe der Figur als Funke und bleiben nach dem Fund als Haken.
-  // Türen, Aufgabenstationen und Personen sind immer markiert. Im Editiermodus (showAll) sieht man alles.
+  // Führung: Nur das nächste Ziel trägt das gelbe „!“ (st.ziel), Personen haben eine Sprechblase (gelb, wenn man mit ihnen reden muss),
+  // andere Türen eine kleine weiße Marke, andere Aufgabenstationen keine. Im Editiermodus (showAll) sieht man alles wie früher.
   for (const hs of scene.hotspots || []) {
     if (!st.showAll && st.isHidden && st.isHidden(hs)) continue;
+    const istZiel = !st.showAll && st.ziel === hs.id;
     if (hs.type === 'fach') { drawFach(ctx, hs, time, st.fachOffen ? st.fachOffen(hs) : false); continue; }
-    if (hs.type === 'geraet') { drawGeraet(ctx, hs, time, st.geraetOffen ? st.geraetOffen(hs) : false); continue; }
+    if (hs.type === 'geraet') {
+      drawGeraet(ctx, hs, time, st.geraetOffen ? st.geraetOffen(hs) : false);
+      if (istZiel) drawMarker(ctx, hs, time, false, false, -90);
+      continue;
+    }
     if (!st.showAll && hs.type === 'dialog') {
       if (st.isFound && st.isFound(hs)) drawFound(ctx, hs, st.fundInfo ? st.fundInfo(hs) : null);
       else if (Math.hypot(st.player.x - hs.x, st.player.y - hs.y) < 240) drawSpark(ctx, hs, time);
+      if (istZiel) drawMarker(ctx, hs, time, false, false);
       continue;
     }
-    drawMarker(ctx, hs, time, st.isLocked ? st.isLocked(hs) : false, showLabels);
+    if (!st.showAll && hs.type === 'npc') { drawSprechblase(ctx, hs, time, istZiel); continue; }
+    if (!st.showAll && !istZiel) {
+      if (hs.type === 'door') drawTuerMarke(ctx, hs, st.isLocked ? st.isLocked(hs) : false);
+      continue;
+    }
+    drawMarker(ctx, hs, time, istZiel ? false : (st.isLocked ? st.isLocked(hs) : false), showLabels, 0, istZiel);
     // Editiermodus: Linie vom Standort zum Gegenstand (ziel)
     if (st.showAll && hs.ziel) {
       ctx.save();

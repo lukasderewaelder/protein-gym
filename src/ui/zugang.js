@@ -5,6 +5,7 @@ import { tastaturFeld } from './tastatur.js';
 import { startTest, aktuelle, antworte, weiter, istFertig } from '../state/fuehrerschein.js';
 import { pruefeCode, radDrehen } from '../state/zugang.js';
 import { svgEl } from '../tasks/molecule.js';
+import { meldeFalsch } from './falsch.js';
 
 /** Der Labor-Ausweis als Karte, im Code gezeichnet (Namen der Spielenden). */
 export function ausweisKarte(namen, klein = false) {
@@ -61,7 +62,7 @@ export function createZugang({ dlg, store, daten }) {
           const r = antworte(t, i);
           if (r.stufe === 'nichts') return;
           frage(r);
-          if (!r.richtig) { const k = inhalt.querySelector('.zugang-karte'); if (k) { k.classList.remove('wackeln'); void k.offsetWidth; k.classList.add('wackeln'); } }
+          if (!r.richtig) { meldeFalsch(); const k = inhalt.querySelector('.zugang-karte'); if (k) { k.classList.remove('wackeln'); void k.offsetWidth; k.classList.add('wackeln'); } }
         },
       }, o.text));
       const fuss = gefunden
@@ -235,6 +236,7 @@ export function createZugang({ dlg, store, daten }) {
         setTimeout(() => { schliesse(); if (opts.beiRichtig) opts.beiRichtig(); }, 750);
       } else {
         fehler++;
+        meldeFalsch();
         meldung.className = 'zugang-fb schlecht';
         meldung.textContent = fehler >= 3 && opts.hinweis ? `✗ Nicht richtig. ${opts.hinweis}` : '✗ Nicht richtig. Versuch es noch einmal.';
         eingabe = '';
@@ -305,6 +307,7 @@ export function createZugang({ dlg, store, daten }) {
         setTimeout(() => { schliesse(); if (opts.beiRichtig) opts.beiRichtig(); }, 750);
       } else {
         fehler++;
+        meldeFalsch();
         meldung.className = 'zugang-fb schlecht';
         meldung.textContent = fehler >= 3 && opts.hinweis ? `✗ Nicht richtig. ${opts.hinweis}` : '✗ Nicht richtig. Versuch es noch einmal.';
         karte.classList.remove('wackeln');
@@ -434,6 +437,7 @@ export function createZugang({ dlg, store, daten }) {
         setTimeout(() => { schliesse(); if (opts.beiRichtig) opts.beiRichtig(); }, opts.richtigText ? 1000 : 650);
       } else {
         fehler++;
+        meldeFalsch();
         meldung.className = 'zugang-fb schlecht';
         meldung.textContent = opts.falschText ? `✗ ${opts.falschText}` : (fehler >= 3 && opts.hinweis ? `✗ Nicht richtig. ${opts.hinweis}` : '✗ Nicht richtig. Versuch es noch einmal.');
         eingabe = '';
@@ -469,6 +473,7 @@ export function createZugang({ dlg, store, daten }) {
       meldung.textContent = 'Prüfe …';
       const ok = await opts.pruefen(wort.value);
       wort.value = '';
+      if (!ok) meldeFalsch();
       meldung.className = ok ? 'zugang-fb gut' : 'zugang-fb schlecht';
       meldung.textContent = ok ? '✓ Eingerichtet. Die Codes nach dem Versuch werden jetzt geprüft.' : '✗ Das Klassenwort stimmt nicht.';
       if (ok) { status.className = 'zugang-gut'; status.textContent = '✓ Dieses Tablet ist eingerichtet.'; }

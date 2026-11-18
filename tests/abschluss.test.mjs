@@ -254,10 +254,11 @@ test('Allgemeiner Arbeitsauftrag: mitschreiben erlaubt, Hefter Pflicht, Hinweise
   assert.match(auftrag, /[Mm]itschreiben/);
   assert.match(auftrag, /„Hefter“ steht, muss in deinen Hefter/);
   assert.match(auftrag, /Orientierung.*Verursacher/);
-  const intro = lies('dialoge')['empfang.intro'].lines.join(' ');
-  assert.match(intro, /Arbeitsauftrag: Du darfst dir alles mitschreiben/);
-  assert.match(intro, /muss aber auf jeden Fall in deinen Hefter/);
-  assert.match(intro, /Verursacher.*Versehen/);
+  // Früher in der Begrüßung, jetzt als Tipp beim ersten Mal (Spind zum ersten Mal geöffnet, erster Fall-Hinweis)
+  const D = lies('dialoge');
+  assert.match(D['tipp.hefter'].lines.join(' '), /Arbeitsauftrag: Du darfst dir alles mitschreiben/);
+  assert.match(D['tipp.hefter'].lines.join(' '), /muss aber auf jeden Fall in deinen Hefter/);
+  assert.match(D['tipp.verursacher'].lines.join(' '), /Verursacher.*Versehen/);
   const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
   assert.match(html, /id="nb-auftrag"/, 'Zeile im Spind');
 });

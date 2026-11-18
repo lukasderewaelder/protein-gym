@@ -24,7 +24,9 @@ import { ladeSchluessel, speichereSchluessel, entferneSchluessel } from './state
 import { createZugang, ausweisKarte } from './ui/zugang.js';
 import { liste as inventarListe, neuAnzahl, markiereGesehen } from './state/inventar.js';
 import { renderInventar } from './ui/inventar.js';
-import { naechsterSchritt, zielZeile, wegStationen } from './state/naechster-schritt.js';
+import { naechsterSchritt, zielZeile, wegStationen, zielMarke } from './state/naechster-schritt.js';
+import { neueHilfeUhr, tick as uhrTick, falsch as uhrFalsch, fortschritt as uhrFortschritt } from './state/hilfe-uhr.js';
+import { meldeFalsch, beiFalsch } from './ui/falsch.js';
 import { zaehleTuerVersuch, tuerHilfeDialog } from './state/tuerhilfe.js';
 import { h, clear } from './ui/dom.js';
 import { renderFund, fundIcon } from './ui/funde.js';
@@ -110,7 +112,7 @@ function buildFallCards() {
 function coach() {
   if (!store.hasFlag('empfang_done')) {
     if (!store.hasFlag('spind_gesehen')) playDialog('empfang.coach.spind');
-    else if (!store.hasFlag('k_protein') && !store.hasFlag('k_wichtig')) playDialog('empfang.coach.keinhinweis');
+    else if (!store.hasFlag('k_protein') && !store.hasFlag('k_wichtig')) { meldeFalsch(); playDialog('empfang.coach.keinhinweis'); }
     else taskPanel.openMenu('empfang');
     return;
   }
@@ -153,6 +155,11 @@ function collectCard(id) {
   const isNew = !store.hasFlag(id);
   if (isNew) store.setFlag(id);
   showFund(card, isNew);
+  if (isNew) {
+    tipp('warum');
+    if (istZusatz(card)) tipp('zusatz');
+    if (card.fall) tipp('verursacher');
+  }
   renderTray(isNew ? id : null);
 }
 
@@ -388,6 +395,7 @@ function trigger(hs) {
       // Führerschein und Zahlenschloss sind der richtige Weg, kein Fehlversuch; sonst gibt es ab dem 2. Mal konkrete Hilfe von der passenden Figur
       const richtigerWeg = (hs.sperre === 'labor' && store.hasFlag('empfang_done') && !store.hasFlag('lf_bestanden'))
         || (hs.sperre === 'sauna' && store.hasFlag('labor_done') && !store.hasFlag('sauna_offen'));
+      if (!richtigerWeg) meldeFalsch();
       if (!richtigerWeg && tuerHilfeZeigen(hs)) return;
       if (hs.sperre) sperre(hs);
       else playDialog(`tuer.${hs.id}`, { speaker: 'Tür', lines: [hs.lockedText || 'Noch gesperrt.'] });
@@ -461,14 +469,22 @@ function sperre(hs) {
   text();
 }
 
-/** Ziel-Zeile in der oberen Leiste: zeigt immer die nächste Station (dieselbe Logik wie „Wie geht’s weiter?“); Antippen öffnet die genauere Hilfe. */
+/**
+ * Ziel-Zeile in der oberen Leiste: nächste Station (dieselbe Logik wie „Wie geht’s weiter?“), Antippen öffnet die genauere Hilfe.
+ * Nur bei Bedarf (src/state/hilfe-uhr.js): nach 1 Minute ohne Fortschritt oder nach 2× etwas Falschem; der nächste Fortschritt blendet sie wieder aus.
+ * Außerdem bestimmt sie das nächste Ziel im Raum (gelbes „!“ bzw. gelbe Sprechblase, zielHs).
+ */
 let zielMerker = '';
+let zielHs = null;
+const hilfeUhr = neueHilfeUhr();
 function zielAktualisieren() {
   const knopf = $('#ziel');
-  if (!DATA.hilfe || !DATA.aufgaben || !store.hasNames()) { knopf.hidden = true; return; }
+  if (!DATA.hilfe || !DATA.aufgaben || !store.hasNames()) { knopf.hidden = true; zielHs = null; return; }
   const daten = { aufgaben: DATA.aufgaben, karten: DATA.wissen.karten, hefter: DATA.hefter, haken: store.state.hefterHaken };
-  const z = zielZeile(naechsterSchritt(store.state.flags, daten), store.state.flags, daten, DATA.hilfe);
-  if (!z) { knopf.hidden = true; return; }
+  const station = naechsterSchritt(store.state.flags, daten);
+  zielHs = zielMarke(station, store.state.scene, [...DATA.scenes.values()]);
+  const z = zielZeile(station, store.state.flags, daten, DATA.hilfe);
+  if (!z || !hilfeUhr.sichtbar) { knopf.hidden = true; return; }
   const schluessel = `${z.ort}|${z.text}`;
   if (schluessel === zielMerker && !knopf.hidden) return;
   zielMerker = schluessel;
@@ -476,6 +492,42 @@ function zielAktualisieren() {
   $('#ziel-text').textContent = z.text;
   knopf.title = `Als Nächstes: ${z.ort && z.ort !== 'Überall' ? `${z.ort}: ` : ''}${z.text}. Antippen für genauere Hilfe.`;
   knopf.hidden = false;
+}
+
+/** Ist gerade ein Fenster, ein Gespräch oder eine Aufgabe offen? Dann zählt die Hilfe-Uhr nicht und Tipps warten. */
+function fensterOffen() {
+  return [...document.querySelectorAll('dialog')].some((d) => d.open) || !$('#dialog').hidden || !$('#task').hidden || !$('#start').hidden;
+}
+
+/** Die Hilfe erscheint gerade: Zeile einblenden, kurz aufleuchten lassen, beim ersten Mal erklärt Markus sie. */
+function hilfeErscheint() {
+  zielAktualisieren();
+  const knopf = $('#ziel');
+  if (knopf.hidden) return;
+  knopf.classList.remove('neu');
+  void knopf.offsetWidth;
+  knopf.classList.add('neu');
+  tipp('leiste');
+}
+
+/**
+ * Tipps beim ersten Mal: Was früher alles in der Begrüßung stand, sagt Markus jetzt, wenn die Situation zum ersten Mal eintritt
+ * (Texte „tipp.<name>“ in data/dialoge.json). Gemerkt in store.state.tipps (nur auf dem Gerät, keine Flags: Fortschrittscode und
+ * Hilfe-Uhr bleiben unberührt). Gespielt wird erst, wenn kein Fenster offen ist, mehrere nacheinander.
+ */
+const TIPPS = ['hefter', 'warum', 'zusatz', 'verursacher', 'leiste'];
+const tippSchlange = [];
+function tipp(name) {
+  const t = store.state.tipps || (store.state.tipps = {});
+  if (t[name] || tippSchlange.includes(name) || !DATA.dialogs[`tipp.${name}`]) return;
+  tippSchlange.push(name);
+}
+function tippsAbspielen() {
+  if (!tippSchlange.length || busy || fensterOffen()) return;
+  const name = tippSchlange.shift();
+  store.state.tipps[name] = true;
+  store.save();
+  playDialog(`tipp.${name}`);
 }
 
 /** „Wie geht’s weiter?“: Markus nennt die nächste Station, auf Wunsch genauer. */
@@ -630,6 +682,7 @@ function frame(now) {
       npcs: cur.npcs,
       time,
       isLocked,
+      ziel: zielHs,
       fachOffen: (hs) => store.hasFlag(`bonus_${hs.fach}`),
       isHidden: (hs) => !istSichtbar(hs, (f) => store.hasFlag(f)),
       geraetOffen: (hs) => (hs.leser === 'labor' ? store.hasFlag('labor_offen') : false),
@@ -828,13 +881,25 @@ async function boot() {
   $('#btn-hilfe').addEventListener('click', weiterDialog);
   $('#ziel').addEventListener('click', weiterDialog);
   // Ziel-Zeile aktuell halten: bei jedem Flag, beim Raumwechsel (enterScene) und für Hefter-Haken, die kein Flag setzen
-  store.onFlag(zielAktualisieren);
-  setInterval(zielAktualisieren, 1000);
+  // Fortschritt = ein neues Flag: Die Hilfe-Uhr beginnt von vorn (und blendet die Zeile wieder aus)
+  const bekannteFlags = new Set(Object.keys(store.state.flags || {}));
+  store.onFlag((name) => {
+    if (!bekannteFlags.has(name)) { bekannteFlags.add(name); uhrFortschritt(hilfeUhr); }
+    zielAktualisieren();
+  });
+  beiFalsch(() => { if (uhrFalsch(hilfeUhr)) hilfeErscheint(); });
+  // Alte Spielstände haben die Begrüßung mit allen Erklärungen schon gehört
+  if (!store.state.tipps && store.hasFlag('intro_done')) { store.state.tipps = Object.fromEntries(TIPPS.map((n) => [n, true])); store.save(); }
+  setInterval(() => {
+    if (uhrTick(hilfeUhr, 1000, store.hasNames() && !fensterOffen())) hilfeErscheint();
+    zielAktualisieren();
+    tippsAbspielen();
+  }, 1000);
   zielAktualisieren();
   $('#btn-weiter').addEventListener('click', () => { $('#menu').close(); weiterDialog(); });
   store.onFlag(() => taschePruefen());
   taschePruefen(false);
-  notebook = createNotebook({ onOpen: () => store.setFlag('spind_gesehen'), onFund: (k) => showFund(k, false), inventar: DATA.inventar, onInventar: inventarGesehen, extras: extraKarten, onCode: codeAnsehen, onZettel: saunaZettelGesehen, dialogEl: $('#notebook'), wissen: DATA.wissen, glossar: DATA.glossar, hefter: DATA.hefter, store });
+  notebook = createNotebook({ onOpen: () => { store.setFlag('spind_gesehen'); tipp('hefter'); }, onFund: (k) => showFund(k, false), inventar: DATA.inventar, onInventar: inventarGesehen, extras: extraKarten, onCode: codeAnsehen, onZettel: saunaZettelGesehen, dialogEl: $('#notebook'), wissen: DATA.wissen, glossar: DATA.glossar, hefter: DATA.hefter, store });
   taskPanel = createTaskPanel({
     root: $('#task'),
     data: { aufgaben: DATA.aufgaben, wissen: DATA.wissen, versuch: DATA.versuch, werbung: DATA.werbung, aehnlich: DATA.aehnlich, fall: DATA.fall, hefter: DATA.hefter },

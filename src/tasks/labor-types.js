@@ -6,6 +6,7 @@
 import { h } from '../ui/dom.js';
 import { tastaturFeld } from '../ui/tastatur.js';
 import { svgEl } from './molecule.js';
+import { meldeFalsch } from '../ui/falsch.js';
 import { beobachtungPasst, reihenfolge, alleProben, protokollText, probenName, stationenVon, notizSchluessel } from './check.js';
 import { pruefeCodeMitSchluesseln, schrittFrei, schrittMerken, istNotfallCode } from '../state/lehrcode.js';
 import { ladeSchluessel } from '../state/klassenwort.js';
@@ -166,7 +167,7 @@ function versuch(host, step, api, ctx) {
     const schluessel = [ladeSchluessel(globalThis.localStorage), (v.klassenwort || {}).standardSchluessel].filter(Boolean);
     if (!schluessel.length) { api.say(`✗ ${t.codeNichtEingerichtet}`); return; }
     const schritt = await pruefeCodeMitSchluesseln(schluessel, versuchId, input.value, Date.now(), cfg);
-    if (schritt === null) { api.say(`✗ ${t.codeFalsch}`); return; }
+    if (schritt === null) { meldeFalsch(); api.say(`✗ ${t.codeFalsch}`); return; }
     const state = ctx.store.state;
     if (!schrittFrei(state.codeBenutzt, versuchId, schritt)) { api.say(`✗ ${t.codeBenutzt}`); return; }
     state.codeBenutzt = schrittMerken(state.codeBenutzt, versuchId, schritt);
@@ -205,7 +206,7 @@ function versuch(host, step, api, ctx) {
   const formular = () => {
     const code = h('input', { class: 'code-eingabe', type: 'text', autocomplete: 'off', autocapitalize: 'off', spellcheck: 'false', maxlength: '30', 'aria-label': td.platzhalter, placeholder: td.platzhalter });
     const frei = async () => {
-      if (!(await aktivierungOk(code.value, (v.digital || {}).pruefwert, (v.digital || {}).iterationen))) { api.say(`✗ ${td.falsch}`); return; }
+      if (!(await aktivierungOk(code.value, (v.digital || {}).pruefwert, (v.digital || {}).iterationen))) { meldeFalsch(); api.say(`✗ ${td.falsch}`); return; }
       digitalFreischalten(ctx.store.state, versuchId);
       ctx.store.save();
       zeige(true);

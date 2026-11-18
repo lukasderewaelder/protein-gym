@@ -2,7 +2,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { naechsterSchritt, zielZeile, wegStationen } from '../src/state/naechster-schritt.js';
+import { naechsterSchritt, zielZeile, wegStationen, ZIELORT, zielMarke } from '../src/state/naechster-schritt.js';
 import { alleFallKarten } from '../src/state/fall.js';
 
 const lies = (n) => JSON.parse(readFileSync(new URL(`../data/${n}.json`, import.meta.url), 'utf8'));
@@ -143,5 +143,56 @@ test('Raum-Begrüßungen: jeder Raum mit Aufgabe sagt beim ersten Betreten die R
     assert.match(d.lines.join(' '), /Aufgabe/);
     assert.ok(S.szenen.some((s) => s.id === r), r);
   }
-  assert.match(D['empfang.intro'].lines.join(' '), /Oben in der Leiste steht immer, was als Nächstes dran ist/);
+  // Die Leiste kommt nur bei Bedarf: kein Text verspricht, dass dort „immer“ etwas steht
+  assert.doesNotMatch(JSON.stringify(D), /Oben in der Leiste steht immer/);
+});
+
+test('Begrüßung kurz: höchstens 4 Sprechblasen, nennt gelbes !, Sprechblase und den Knopf „?“', () => {
+  const intro = lies('dialoge')['empfang.intro'].lines;
+  assert.ok(intro.length <= 4, `${intro.length} Sprechblasen`);
+  const text = intro.join(' ');
+  assert.match(text, /gelbe !/);
+  assert.match(text, /Sprechblase/);
+  assert.match(text, /„\?“/);
+  assert.match(text, /Spind/);
+});
+
+test('Tipps beim ersten Mal: alle fünf vorhanden, Markus spricht, keine Flags, main.js löst jeden aus', () => {
+  const D = lies('dialoge');
+  const main = readFileSync(new URL('../src/main.js', import.meta.url), 'utf8');
+  for (const n of ['hefter', 'warum', 'zusatz', 'verursacher', 'leiste']) {
+    const d = D[`tipp.${n}`];
+    assert.ok(d, `tipp.${n} fehlt`);
+    assert.equal(d.speaker, 'Markus');
+    assert.equal(d.setFlag, undefined, 'Tipps setzen keine Flags (Fortschrittscode, Hilfe-Uhr)');
+    assert.ok(main.includes(`tipp('${n}')`), `tipp('${n}') wird nie ausgelöst`);
+  }
+  assert.match(D['tipp.zusatz'].lines.join(' '), /lila Rand/);
+  assert.match(D['tipp.warum'].lines.join(' '), /Eiweiße sind für unseren Körper/);
+});
+
+test('Gelbes !: jede Station mit Ziel zeigt auf einen Hotspot, den es im Raum gibt', () => {
+  const S = lies('szenen').szenen;
+  for (const id of Object.keys(H.schritte)) {
+    if (id === 'fertig') { assert.equal(ZIELORT[id], undefined); continue; }
+    const ort = ZIELORT[id];
+    assert.ok(ort, `${id} hat keinen Zielort`);
+    const szene = S.find((s) => s.id === ort.szene);
+    assert.ok(szene, `${id}: Raum ${ort.szene}`);
+    if (/_hinweise$/.test(id)) { assert.equal(ort.hotspot, null, id); continue; }
+    assert.ok(szene.hotspots.some((x) => x.id === ort.hotspot), `${id}: Hotspot ${ort.hotspot} fehlt in ${ort.szene}`);
+  }
+});
+
+test('Gelbes !: im Zielraum am Ziel, sonst an der Tür dorthin', () => {
+  const S = lies('szenen').szenen;
+  assert.equal(zielMarke('labor_aufgabe', 'labor', S), 'hitze');
+  assert.equal(zielMarke('labor_aufgabe', 'empfang', S), 'tuer_labor');
+  assert.equal(zielMarke('einweisung', 'sauna', S), 'tuer_zurueck');
+  assert.equal(zielMarke('spind', 'empfang', S), 'spind');
+  assert.equal(zielMarke('leser', 'empfang', S), 'leser_labor');
+  assert.equal(zielMarke('sauna_hinweise', 'sauna', S), null, 'Hinweise funkeln selbst');
+  assert.equal(zielMarke('sauna_hinweise', 'empfang', S), 'tuer_sauna');
+  assert.equal(zielMarke('fertig', 'empfang', S), null);
+  for (const id of Object.keys(ZIELORT)) if (ZIELORT[id].szene !== 'empfang') assert.ok(zielMarke(id, 'empfang', S), id);
 });

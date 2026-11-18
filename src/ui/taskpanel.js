@@ -7,6 +7,7 @@ import { TYPES } from '../tasks/types.js';
 import { fehlendeKarten, raumFertig, quizErgebnis, aehnlicheAufgabe } from '../tasks/check.js';
 import { encodeProgress } from '../state/progress.js';
 import { macheSeiten } from './seiten.js';
+import { meldeFalsch } from './falsch.js';
 import { merkeFortschritt, holeFortschritt, loescheFortschritt } from '../state/zwischenstand.js';
 
 /** Namen für Freigaben, die keine Wissenskarte sind (Anzeige im gesperrten Menüeintrag). */
@@ -160,6 +161,7 @@ export function createTaskPanel({ root, data, store, notebook, showCall, onRoomD
       },
       fail(msg) {
         S.attempts++;
+        meldeFalsch();
         feedbackEl.className = 'task-feedback schlecht';
         feedbackEl.textContent = `✗ ${msg}`;
         card.classList.remove('wackeln');

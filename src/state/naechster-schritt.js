@@ -90,3 +90,47 @@ export function naechsterSchritt(flags, daten) {
   if (!f.quiz2_done) return hefterFehlt('schluss') ? 'hefter' : 'schlussquiz';
   return 'fertig';
 }
+
+/**
+ * Gelbes „!“: Wo liegt das nächste Ziel? Station → { szene, hotspot }. Die Stationen „…_hinweise“ haben nur ihren Raum
+ * (dort funkeln die Hinweise selbst), „fertig“ hat kein Ziel.
+ */
+export const ZIELORT = {
+  spind: { szene: 'empfang', hotspot: 'spind' },
+  sauna_code_suchen: { szene: 'empfang', hotspot: 'spind' },
+  hefter: { szene: 'empfang', hotspot: 'spind' },
+  einweisung: { szene: 'empfang', hotspot: 'trainer' },
+  aufloesung: { szene: 'empfang', hotspot: 'trainer' },
+  schlussquiz: { szene: 'empfang', hotspot: 'trainer' },
+  fuehrerschein: { szene: 'empfang', hotspot: 'tuer_labor' },
+  leser: { szene: 'empfang', hotspot: 'leser_labor' },
+  saunatuer: { szene: 'empfang', hotspot: 'tuer_sauna' },
+  empfang_hinweise: { szene: 'empfang', hotspot: null },
+  labor_hinweise: { szene: 'labor', hotspot: null },
+  labor_aufgabe: { szene: 'labor', hotspot: 'hitze' },
+  lieferung_labor: { szene: 'labor', hotspot: 'nachweis' },
+  sauna_hinweise: { szene: 'sauna', hotspot: null },
+  sauna_aufgabe: { szene: 'sauna', hotspot: 'pfanne' },
+  training_hinweise: { szene: 'training', hotspot: null },
+  training_aufgabe: { szene: 'training', hotspot: 'bau' },
+  shakebar_hinweise: { szene: 'shakebar', hotspot: null },
+  shakebar_aufgabe: { szene: 'shakebar', hotspot: 'werbetafel' },
+};
+
+/**
+ * Hotspot-ID, die im aktuellen Raum das gelbe „!“ trägt: das Ziel selbst, sonst die Tür in Richtung Zielraum
+ * (im Empfang die Tür in den Zielraum, in den anderen Räumen die Tür zurück zum Empfang), sonst null.
+ * szenen: Liste der Szenen aus data/szenen.json ({ id, hotspots }).
+ */
+export function zielMarke(stationId, aktuelleSzene, szenen) {
+  const ort = ZIELORT[stationId];
+  if (!ort || !aktuelleSzene) return null;
+  const szene = (szenen || []).find((s) => s.id === aktuelleSzene);
+  if (!szene) return null;
+  const hs = szene.hotspots || [];
+  if (ort.szene === aktuelleSzene) return ort.hotspot && hs.some((x) => x.id === ort.hotspot) ? ort.hotspot : null;
+  const tuer = aktuelleSzene === 'empfang'
+    ? hs.find((x) => x.type === 'door' && x.to === ort.szene)
+    : hs.find((x) => x.type === 'door' && x.to === 'empfang');
+  return tuer ? tuer.id : null;
+}
