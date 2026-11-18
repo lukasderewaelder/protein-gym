@@ -200,13 +200,13 @@ function blitz() {
   return s;
 }
 
-/** Erfundenes Dosen-Etikett (Abbildung zur Aufgabe): Marke, Sorte, Spruch, Zutaten, Aufkleber „frei erfunden“. Keine Zahlen, keine Körperideale. */
+/** Erfundenes Dosen-Etikett (Abbildung zur Aufgabe): Marke, Sorte, Spruch, Zutaten, auf Wunsch ein Aufkleber (`aufkleber`). Keine Zahlen, keine Körperideale. */
 export function doseEtikett(w) {
   const pr = w.produkt;
   const [erst, ...rest] = pr.name.split(' ');
-  return h('figure', { class: 'dose', 'aria-label': `Etikett der Dose ${pr.name} (frei erfunden). Zutaten: ${pr.zutaten.join(', ')}.` },
+  return h('figure', { class: 'dose', 'aria-label': `Etikett der Dose ${pr.name}. Zutaten: ${pr.zutaten.join(', ')}.` },
     h('span', 'dose-deckel'),
-    h('span', 'dose-aufkleber', pr.aufkleber || 'frei erfunden'),
+    pr.aufkleber ? h('span', 'dose-aufkleber', pr.aufkleber) : null,
     h('div', 'dose-streifen', blitz(), h('strong', 'dose-marke', erst.toUpperCase()), rest.length ? h('span', 'dose-marke-2', rest.join(' ')) : null),
     pr.sorte ? h('p', 'dose-sorte', pr.sorte) : null,
     pr.slogan ? h('p', 'dose-slogan', pr.slogan) : null,
@@ -252,10 +252,12 @@ function werbung(host, step, api, ctx) {
           })));
       } else {
         teile.push(h('p', 'shake-erledigt', `✓ ${w.urteile[a.urteil]}: ${a.begruendungen[a.richtig]}`), h('p', 'muster', a.erklaerung));
-        if (z.i < w.aussagen.length - 1) teile.push(knopf('Nächste Aussage →', 'primary', () => { z = werbungSchritt(w, z, { art: 'weiter' }).z; falscheWahl = {}; zeichne(); api.say(''); }));
       }
     }
     rechts.replaceChildren(...teile);
+    // „Nächste Aussage“ steht unten als Hauptknopf, wie jedes Weiter im Aufgabenfenster
+    const naechste = z.phase === 'erklaert' && z.i < w.aussagen.length - 1;
+    if (api.weiter) api.weiter(naechste ? 'Nächste Aussage →' : null, () => { z = werbungSchritt(w, z, { art: 'weiter' }).z; falscheWahl = {}; zeichne(); api.say(''); });
   }
   let falscheWahl = {};
   function wahl(art, nr) {
@@ -279,8 +281,7 @@ function werbung(host, step, api, ctx) {
       // Lösungsbeispiel: Die aktuelle Aussage wird aufgelöst, alle übrigen gelten als geprüft
       z = { i: z.i, phase: 'erklaert', geloest: w.aussagen.map((_, k) => k) };
       zeichne();
-      const knopfWeiter = rechts.querySelector('.primary');
-      if (knopfWeiter) knopfWeiter.remove();
+      if (api.weiter) api.weiter(null);
     },
   };
 }
@@ -294,8 +295,8 @@ function rueckblick(host, step, api, ctx) {
       h('p', 'frage', vorher ? `Deine Idee damals: „${vorher}“` : 'Du hattest damals keine Idee aufgeschrieben.'),
       h('div', 'muster',
         h('p', 'muster-text', h('strong', {}, 'Jetzt kannst du es erklären: '), 'Hitze löst die schwachen Verbindungen, die die Falten des Eiweißes halten. Die Kette entfaltet sich und verklumpt: Das Eiweiß gerinnt, und das ist nicht umkehrbar.')),
-      h('button', { class: 'primary', type: 'button', onclick: () => api.ok('Gut. Jetzt weißt du, wie ein Eiweiß aufgebaut ist.') }, 'Weiter'),
     );
+    api.frei(); // weiter mit dem Knopf unten
     return { reveal() {} };
   }
   host.append(
@@ -303,8 +304,8 @@ function rueckblick(host, step, api, ctx) {
     h('p', 'frage', vorher ? `Deine Idee damals: „${vorher}“` : 'Du hattest damals keine Idee aufgeschrieben.'),
     h('div', 'muster',
       h('p', 'muster-text', h('strong', {}, 'Das wissen wir jetzt: '), 'Das Eiweiß im Eiklar wird fest, weil Hitze die räumliche Struktur der Eiweiße verändert: Das Eiweiß wird denaturiert, man sagt auch, es stockt oder gerinnt. Die Aminosäuren bleiben, aber der Vorgang ist nicht umkehrbar.')),
-    h('button', { class: 'primary', type: 'button', onclick: () => api.ok('Gut. Jetzt bekommst du dein Zertifikat.') }, 'Weiter zum Zertifikat'),
   );
+  api.frei(); // weiter mit dem Knopf unten („Aufgabe abschließen“ führt zum Zertifikat)
   return { reveal() {} };
 }
 

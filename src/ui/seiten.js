@@ -57,8 +57,9 @@ export function macheSeiten(host, { nav, ignorieren = () => false, kleben = () =
   const vor = doc.createElement('button');
   const text = doc.createElement('span');
   zurueck.type = vor.type = 'button';
-  zurueck.textContent = '← Zurück';
-  vor.textContent = 'Weiter →';
+  // Seitenwechsel heißt nie „Weiter“: Das Wort gehört nur dem Hauptknopf unten im Aufgabenfenster (Wunsch der Lehrkraft)
+  zurueck.textContent = '← Vorige Seite';
+  vor.textContent = 'Nächste Seite →';
   text.className = 'seiten-text';
   text.setAttribute('aria-live', 'polite');
   nav.replaceChildren(zurueck, text, vor);

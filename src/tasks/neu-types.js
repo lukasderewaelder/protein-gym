@@ -7,7 +7,7 @@ import { alleFallKarten, taeterRichtig, hinweisZurWahl } from '../state/fall.js'
 
 const NAMEN = { amino: 'Aminogruppe (–NH₂)', carboxy: 'Carboxygruppe (–COOH)', rest: 'Rest R (bei jeder Aminosäure anders)', c: 'zentrales Kohlenstoffatom', h: 'Wasserstoffatom' };
 
-/** Formel zeigen: Tippen auf Teile nennt nur den Namen, nichts wird bewertet. Der Schritt ist mit „Verstanden“ erledigt. */
+/** Formel zeigen: Tippen auf Teile nennt nur den Namen, nichts wird bewertet. Der Schritt ist sofort erledigt, weiter mit dem Knopf unten. */
 function zeigen(host, step, api, ctx) {
   const info = h('p', { class: 'hint', 'aria-live': 'polite' }, 'Tippe auf einen Teil der Formel, dann steht hier sein Name.');
   const children = [h('p', 'frage', step.auftrag)];
@@ -16,8 +16,8 @@ function zeigen(host, step, api, ctx) {
     const dia = aminoDiagram(mol, { onPart: (id) => { info.textContent = `${mol.name}: ${NAMEN[id]}`; } });
     children.push(h('div', 'formel-box', dia.svg), info);
   }
-  children.push(h('button', { class: 'primary', type: 'button', onclick: () => api.ok('Gut. Das musst du dir nicht merken.') }, 'Verstanden'));
   host.append(...children);
+  api.frei();
   return { reveal() {} };
 }
 

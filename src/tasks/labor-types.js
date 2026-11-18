@@ -7,7 +7,7 @@ import { h } from '../ui/dom.js';
 import { tastaturFeld } from '../ui/tastatur.js';
 import { svgEl } from './molecule.js';
 import { meldeFalsch } from '../ui/falsch.js';
-import { beobachtungPasst, reihenfolge, falscheZeilen, verschiebe, alleProben, protokollText, probenName, stationenVon, notizSchluessel } from './check.js';
+import { beobachtungPasst, beobachtungsOptionen, reihenfolge, falscheZeilen, verschiebe, alleProben, protokollText, probenName, stationenVon, notizSchluessel } from './check.js';
 import { pruefeCodeMitSchluesseln, schrittFrei, schrittMerken, istNotfallCode } from '../state/lehrcode.js';
 import { ladeSchluessel } from '../state/klassenwort.js';
 import { aktivierungOk, digitalFrei, digitalFreischalten } from '../state/digital.js';
@@ -317,10 +317,12 @@ function beobachtung(host, step, api, ctx) {
   const nk = notizSchluessel(step.stationen);
   const result = h('div', { class: 'ergebnis', hidden: true });
   host.append(h('p', 'frage', 'Trage ein, was du wirklich gesehen hast.'));
+  // Je Versuch dieselben Antworten wie bei der Vermutung (vier), dazu „etwas anderes“
+  const optionenVon = new Map(stationenVon(ctx.versuch, step.stationen).flatMap((st) => st.proben.map((x) => [x.id, beobachtungsOptionen(st)])));
   for (const pr of alle) {
     const cur = p.beobachtung[pr.id] = p.beobachtung[pr.id] || { wahl: '', notiz: '' };
     const vm = p.vermutung && p.vermutung[pr.id] && p.vermutung[pr.id].wahl;
-    const btns = ctx.versuch.beobachtungOptionen.map((o) => {
+    const btns = optionenVon.get(pr.id).map((o) => {
       const b = h('button', {
         type: 'button', class: 'chip', 'aria-pressed': String(cur.wahl === o),
         onclick: () => { cur.wahl = o; ctx.store.save(); btns.forEach((x) => x.setAttribute('aria-pressed', String(x === b))); },

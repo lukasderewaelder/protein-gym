@@ -4,8 +4,7 @@
     "name": "Muskel-Blitz Shake",
     "sorte": "Schoko-Geschmack",
     "slogan": "Der Eiweiß-Kick für deinen Tag!",
-    "aufkleber": "frei erfunden",
-    "zutaten": ["Milcheiweiß (Molkenprotein)", "Kakao", "Zitronensäure", "Süßstoff"]
+    "zutaten": ["Milcheiweiß (Molkenprotein)", "Kakao", "Süßstoff"]
   },
   "urteile": ["stimmt", "stimmt teilweise", "stimmt nicht"],
   "aussagen": [
@@ -19,9 +18,9 @@
     {
       "text": "Nie erhitzen, sonst ist das Eiweiß zerstört!",
       "urteil": 2,
-      "begruendungen": ["Erhitzen lässt Eiweiß nur gerinnen (denaturieren), die Aminosäuren bleiben.", "Beim Erhitzen zerfallen alle Aminosäuren.", "Erhitztes Eiweiß wird beim Abkühlen wieder klar."],
+      "begruendungen": ["Die Aminosäure-Kette bleibt in ihrer Reihenfolge bestehen, nur die räumliche Struktur hat sich verändert.", "Beim Erhitzen zerfallen alle Aminosäuren.", "Erhitztes Eiweiß wird beim Abkühlen wieder klar."],
       "richtig": 0,
-      "erklaerung": "Beim Erhitzen gerinnt das Eiweiß: Die Struktur ändert sich, die Aminosäuren bleiben erhalten."
+      "erklaerung": "Beim Erhitzen gerinnt das Eiweiß. Zerstört ist es nicht: Die Aminosäure-Kette bleibt in ihrer Reihenfolge bestehen, nur die räumliche Struktur hat sich verändert."
     },
     {
       "text": "Eiweiß aus Nahrung ist wertlos, nur Aminosäuren aus Pulver wirken.",
@@ -35,7 +34,7 @@
       "urteil": 2,
       "begruendungen": ["Das Eiweiß ist nur geronnen (denaturiert), es ist nicht verdorben.", "Geronnenes Eiweiß ist giftig.", "Dann sind alle Aminosäuren weg."],
       "richtig": 0,
-      "erklaerung": "Säure lässt Eiweiß gerinnen. Das ist nicht gefährlich, die Aminosäuren bleiben erhalten."
+      "erklaerung": "Säure lässt Eiweiß gerinnen. Das ist nicht gefährlich: Die Aminosäure-Kette bleibt bestehen, nur die räumliche Struktur ändert sich."
     },
     {
       "text": "Im Pulver steckt Eiweiß aus Milch, wie in Quark.",

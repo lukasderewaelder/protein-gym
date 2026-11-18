@@ -8,7 +8,7 @@ import { aminoDiagram, peptidDiagram, ketteDiagram, denatDiagram } from './molec
 import { LABOR_TYPES } from './labor-types.js';
 import { M4_TYPES } from './m4-types.js';
 import { NEU_TYPES } from './neu-types.js';
-import { formelTippTreffer, checkZahl, checkLuecken, reactionPair, leavingParticles, dipeptidFormula, dipeptidName, checkOrdnen, parseNumber } from './check.js';
+import { formelTippTreffer, checkZahl, checkLuecken, reactionPair, leavingParticles, dipeptidFormula, dipeptidName, checkOrdnen, parseNumber, anzeigeReihe } from './check.js';
 
 const PART_NAMES = { amino: 'die Aminogruppe', carboxy: 'die Carboxygruppe', rest: 'der Rest R' };
 const PART_AKK = { amino: 'die Aminogruppe', carboxy: 'die Carboxygruppe', rest: 'den Rest R' };
@@ -73,7 +73,8 @@ function luecken(host, step, api) {
       sentence.append(document.createTextNode(p));
     }
   }
-  const chips = h('div', 'chips', step.optionen.map((o) => h('button', { class: 'chip', type: 'button', onclick: () => pick(o) }, o)));
+  // Begriffe in zufälliger Reihenfolge, sonst stehen die richtigen oft vorn (Wunsch der Lehrkraft)
+  const chips = h('div', 'chips', anzeigeReihe(step.optionen).map((i) => step.optionen[i]).map((o) => h('button', { class: 'chip', type: 'button', onclick: () => pick(o) }, o)));
   const check = h('button', { class: 'primary', type: 'button', onclick: onCheck }, 'Prüfen');
   host.append(h('p', 'frage', step.auftrag || 'Ergänze den Satz.'), sentence, chips, check);
 
@@ -135,7 +136,8 @@ function waehlen(host, step, api) {
   if (step.bild === 'denat') host.append(h('div', 'formel-box', denatDiagram()));
   if (step.bild && step.bild.kette) host.append(h('div', 'formel-box', ketteDiagram(step.bild.kette)));
   const buttons = step.optionen.map((o, i) => h('button', { class: 'option', type: 'button', onclick: () => choose(i) }, o));
-  host.append(h('p', 'frage', step.frage), h('div', 'optionen', buttons));
+  // Antworten in zufälliger Reihenfolge (die richtige stand in den Daten fast immer vorn); buttons[i] bleibt Antwort i der Daten
+  host.append(h('p', 'frage', step.frage), h('div', 'optionen', anzeigeReihe(step.optionen).map((i) => buttons[i])));
   function lock() { buttons.forEach((b) => { b.disabled = true; }); }
   function choose(i) {
     if (i === step.richtig) {

@@ -105,8 +105,8 @@ test('Auflösung: vier gewertete Fragen, Verursacher-Wahl, Rückblick, genaue Za
 
 test('Quiz-Antworten entsprechen den Lernzielen', () => {
   const s = A.aufgaben.quiz.niveaus.alle;
-  assert.match(s[0].optionen[s[0].richtig], /Protein und Eiweiß sind dasselbe, und Aminosäuren sind die Bausteine/);
-  assert.match(s[1].optionen[s[1].richtig], /„aktive“ Form geht dauerhaft verloren.*Reihenfolge der Aminosäuren/);
+  assert.match(s[0].optionen[s[0].richtig], /Proteine: lange Ketten, deren Bausteine Aminosäuren sind/);
+  assert.match(s[1].optionen[s[1].richtig], /räumliche Struktur hat sich verändert.*Reihenfolge der Aminosäuren/);
   assert.match(s[2].frage, /Wähle alle Ursachen aus/);
   assert.equal(s[2].alle, true);
   assert.deepEqual(s[2].richtig.map((i) => s[2].optionen[i]).sort(), ['Ethanol', 'Hitze', 'Schwermetalle', 'Säuren']);
@@ -126,7 +126,7 @@ test('Schlussquiz: zwei gewertete Fragen zum Nachweis, eigener Raum, kommt nach 
   assert.equal(A.raeume.schluss.fertigFlag, 'quiz2_done');
   assert.deepEqual(quizErgebnis(steps, [true, false]), { richtig: 1, von: 2 });
   assert.match(steps[0].optionen[steps[0].richtig], /Violett/);
-  assert.match(steps[1].optionen[steps[1].richtig], /kein Eiweiß/);
+  assert.match(steps[1].optionen[steps[1].richtig], /violett.*noch vorhanden/); // geronnenes Eiweiß bleibt nachweisbar (Kette bleibt)
 });
 
 test('Mehrfachwahl: Anzahl und Richtigkeit', () => {

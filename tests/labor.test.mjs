@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
-import { beobachtungPasst, reihenfolge, alleProben, protokollText, probenName } from '../src/tasks/check.js';
+import { beobachtungPasst, beobachtungsOptionen, reihenfolge, alleProben, protokollText, probenName } from '../src/tasks/check.js';
 import { FLAG_LIST } from '../src/state/progress.js';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -20,10 +20,16 @@ test('Versuchsdaten: acht Proben, eindeutige IDs, Erwartungen und Treffer-Listen
     assert.ok(probenName(p) && p.erwartung, p.id);
     assert.equal(p.zusatz, undefined, `${p.id}: kein Feld „zusatz“ mehr (Einfluss oder Probe)`);
     assert.ok(Array.isArray(p.passt) && p.passt.length, `${p.id}: passt`);
-    for (const w of p.passt) assert.ok(V.beobachtungOptionen.includes(w), `${p.id}: ${w} ist keine Beobachtungsoption`);
+    const st = V.stationA.proben.some((x) => x.id === p.id) ? V.stationA : V.lieferung;
+    for (const w of p.passt) assert.ok(beobachtungsOptionen(st).includes(w), `${p.id}: ${w} ist keine Beobachtungsoption`);
     assert.ok(/^#[0-9a-f]{6}$/i.test(p.sim.farbe), `${p.id}: Farbe`);
   }
   assert.equal(V.stationA.proben.length, 5, 'Station Hitze hat fünf Proben');
+  // Vermutung und Beobachtung: bei beiden Versuchen gleich viele Antworten (Wunsch der Lehrkraft), Beobachtung dazu „etwas anderes“
+  assert.equal(V.stationA.vermutungOptionen.length, 4);
+  assert.equal(V.lieferung.vermutungOptionen.length, 4);
+  assert.deepEqual(beobachtungsOptionen(V.lieferung).slice(-1), ['etwas anderes']);
+  assert.equal(V.beobachtungOptionen, undefined, 'keine gemeinsame Liste mehr (Hitze-Antworten beim Biuret-Test und umgekehrt)');
   assert.equal(V.lieferung.proben.length, 3, 'Die neue Lieferung hat drei Proben');
   assert.deepEqual(V.lieferung.proben.map(probenName), ['Eiweißshake', 'Zuckerlösung', 'Wasser']);
   assert.ok(V.stationA.proben.some((p) => /Wasser/.test(probenName(p))), 'Kontrolle mit Wasser');

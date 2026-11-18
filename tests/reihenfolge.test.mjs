@@ -170,3 +170,15 @@ test('Ziehliste: Pointer-Events für Finger und Maus, die gezogene Karte bleibt 
   // Anweisung und „Prüfen“ stehen in einem Block mit der Liste (kein Seitenumbruch dazwischen)
   assert.match(src, /h\('div', 'zieh-block',\s*h\('div', 'zieh-kopf'/);
 });
+
+test('Antworten und Begriffe erscheinen gemischt, Zahlen bleiben aufsteigend (anzeigeReihe)', async () => {
+  const { anzeigeReihe } = await import('../src/tasks/check.js');
+  const opt = ['richtig', 'a', 'b', 'c'];
+  const reihen = new Set();
+  let n = 0.11;
+  for (let k = 0; k < 40; k++) reihen.add(anzeigeReihe(opt, () => { n = (n * 9301 + 0.49297) % 1; return n; }).join(''));
+  assert.ok(reihen.size > 3, 'verschiedene Reihenfolgen');
+  for (const r of reihen) assert.deepEqual([...r].map(Number).sort(), [0, 1, 2, 3], 'jede Antwort genau einmal');
+  assert.deepEqual(anzeigeReihe(['4', '2', '3', '1']), [3, 1, 2, 0]);
+  assert.deepEqual(anzeigeReihe(['44', '242', '484', '22']), [3, 0, 1, 2]);
+});

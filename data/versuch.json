@@ -33,7 +33,6 @@
       "fertig": "Digitaler Versuch erledigt. Jetzt trägst du ein, was du gesehen hast."
     }
   },
-  "beobachtungOptionen": ["klar", "trüb", "trüb und fest", "ausgeflockt", "geronnen", "violett", "blau (kein Violett)", "hellblau", "etwas anderes"],
   "abweichung": "Weicht deine Beobachtung vom Skript ab? Das ist kein Fehler. Notiere, was du gesehen hast, und überlege mit deiner Gruppe mögliche Gründe (Menge, Konzentration, Dauer).",
   "stationA": {
     "id": "A",
@@ -53,12 +52,12 @@
       "Räumt auf: {entsorgung}",
       "Holt euch danach bei eurer Lehrkraft den Code und gebt ihn hier am Tablet ein."
     ],
-    "vermutungOptionen": ["klar", "trüb oder fest"],
+    "vermutungOptionen": ["klar", "trüb", "ausgeflockt", "fest"],
     "proben": [
-      { "id": "p1", "nr": 1, "aktionen": ["Ins Wasserbad stellen"], "einfluss": "Hitze im Wasserbad", "erwartung": "trüb, fest", "passt": ["trüb", "trüb und fest", "ausgeflockt", "geronnen"], "sim": { "farbe": "#f4efe0", "flocken": 0, "trueb": 1 } },
-      { "id": "p2", "nr": 2, "aktionen": ["Salzsäure zugeben"], "einfluss": "Salzsäure", "erwartung": "trüb, ausgeflockt", "passt": ["trüb", "trüb und fest", "ausgeflockt", "geronnen"], "sim": { "farbe": "#efeadb", "flocken": 9, "trueb": 0.7 } },
-      { "id": "p3", "nr": 3, "aktionen": ["Kupfersulfat-Lösung (Fehling I) zugeben"], "einfluss": "Kupfersulfat-Lösung (Fehling I)", "erwartung": "ausgeflockt", "passt": ["trüb", "ausgeflockt", "trüb und fest", "geronnen"], "sim": { "farbe": "#c8e3e8", "flocken": 9, "trueb": 0.4 } },
-      { "id": "p4", "nr": 4, "aktionen": ["Ethanol zugeben"], "einfluss": "Ethanol", "erwartung": "trüb, ausgeflockt", "passt": ["trüb", "trüb und fest", "ausgeflockt", "geronnen"], "sim": { "farbe": "#f1ecdd", "flocken": 6, "trueb": 0.7 } },
+      { "id": "p1", "nr": 1, "aktionen": ["Ins Wasserbad stellen"], "einfluss": "Hitze im Wasserbad", "erwartung": "trüb, fest", "passt": ["trüb", "ausgeflockt", "fest"], "sim": { "farbe": "#f4efe0", "flocken": 0, "trueb": 1 } },
+      { "id": "p2", "nr": 2, "aktionen": ["Salzsäure zugeben"], "einfluss": "Salzsäure", "erwartung": "trüb, ausgeflockt", "passt": ["trüb", "ausgeflockt", "fest"], "sim": { "farbe": "#efeadb", "flocken": 9, "trueb": 0.7 } },
+      { "id": "p3", "nr": 3, "aktionen": ["Kupfersulfat-Lösung (Fehling I) zugeben"], "einfluss": "Kupfersulfat-Lösung (Fehling I)", "erwartung": "ausgeflockt", "passt": ["trüb", "ausgeflockt", "fest"], "sim": { "farbe": "#c8e3e8", "flocken": 9, "trueb": 0.4 } },
+      { "id": "p4", "nr": 4, "aktionen": ["Ethanol zugeben"], "einfluss": "Ethanol", "erwartung": "trüb, ausgeflockt", "passt": ["trüb", "ausgeflockt", "fest"], "sim": { "farbe": "#f1ecdd", "flocken": 6, "trueb": 0.7 } },
       { "id": "p5", "nr": 5, "aktionen": ["Wasser zugeben"], "einfluss": "Wasser (Kontrolle)", "erwartung": "klar", "passt": ["klar"], "sim": { "farbe": "#e6f1f5", "flocken": 0, "trueb": 0 } }
     ]
   },
@@ -79,11 +78,11 @@
       "Räumt auf: {entsorgung}",
       "Holt euch danach bei eurer Lehrkraft den Code und gebt ihn hier am Tablet ein."
     ],
-    "vermutungOptionen": ["violett", "nicht violett"],
+    "vermutungOptionen": ["violett", "blau", "grün", "farblos"],
     "proben": [
       { "id": "b1", "nr": 1, "aktionen": ["Natronlauge zugeben", "Kupfersulfat-Lösung (Fehling I) zugeben"], "probe": "Eiweißshake", "erwartung": "violett", "passt": ["violett"], "sim": { "farbe": "#8f5cc0", "flocken": 0, "trueb": 0 } },
-      { "id": "b2", "nr": 2, "aktionen": ["Natronlauge zugeben", "Kupfersulfat-Lösung (Fehling I) zugeben"], "probe": "Zuckerlösung", "erwartung": "kein Violett (blau)", "passt": ["blau (kein Violett)", "hellblau", "klar"], "sim": { "farbe": "#5a86d0", "flocken": 0, "trueb": 0 } },
-      { "id": "b3", "nr": 3, "aktionen": ["Natronlauge zugeben", "Kupfersulfat-Lösung (Fehling I) zugeben"], "probe": "Wasser", "erwartung": "hellblau, kein Violett", "passt": ["hellblau", "klar", "blau (kein Violett)"], "sim": { "farbe": "#9fd0f0", "flocken": 0, "trueb": 0 } }
+      { "id": "b2", "nr": 2, "aktionen": ["Natronlauge zugeben", "Kupfersulfat-Lösung (Fehling I) zugeben"], "probe": "Zuckerlösung", "erwartung": "kein Violett (blau)", "passt": ["blau"], "sim": { "farbe": "#5a86d0", "flocken": 0, "trueb": 0 } },
+      { "id": "b3", "nr": 3, "aktionen": ["Natronlauge zugeben", "Kupfersulfat-Lösung (Fehling I) zugeben"], "probe": "Wasser", "erwartung": "hellblau, kein Violett", "passt": ["blau"], "sim": { "farbe": "#9fd0f0", "flocken": 0, "trueb": 0 } }
     ]
   }
 }

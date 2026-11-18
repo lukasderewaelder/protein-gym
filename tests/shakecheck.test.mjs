@@ -37,14 +37,15 @@ test('Alle Aussagen nacheinander: erst die letzte meldet „alle geprüft“, da
   assert.equal(z.geloest.length, W.aussagen.length);
 });
 
-test('Etikett: erfunden, mit Sorte, Spruch und Aufkleber, ohne Zahlen und ohne Körperideale', () => {
+test('Etikett: mit Sorte und Spruch, ohne Aufkleber und Zitronensäure, ohne Zahlen und ohne Körperideale', () => {
   const p = W.produkt;
-  for (const k of ['name', 'sorte', 'slogan', 'aufkleber']) assert.ok(p[k], `produkt.${k} fehlt`);
-  assert.match(p.aufkleber, /erfunden/);
+  for (const k of ['name', 'sorte', 'slogan']) assert.ok(p[k], `produkt.${k} fehlt`);
+  assert.equal(p.aufkleber, undefined, 'kein Aufkleber „frei erfunden“ (Wunsch der Lehrkraft)');
+  assert.ok(!p.zutaten.includes('Zitronensäure'));
   const { hinweis, ...ohneHinweis } = W; // der Hinweis nennt die Regel selbst („keine Zahlen zu Gewicht oder Kalorien“)
   assert.match(hinweis, /keine Körperideale/);
   const alles = JSON.stringify(ohneHinweis);
-  assert.doesNotMatch([p.name, p.sorte, p.slogan, p.aufkleber, ...p.zutaten].join(' '), /\d/, 'keine Zahlen auf dem Etikett');
+  assert.doesNotMatch([p.name, p.sorte, p.slogan, ...p.zutaten].join(' '), /\d/, 'keine Zahlen auf dem Etikett');
   assert.doesNotMatch(alles, /schlank|Sixpack|Traumk(ö|o)rper|abnehmen|Kalorie|kcal|Gewicht|Figur/i, 'keine Körperideale');
 });
 

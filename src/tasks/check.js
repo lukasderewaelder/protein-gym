@@ -187,6 +187,21 @@ export function protokollText({ names, versuch, protokoll, stationen }) {
   return lines.join('\n');
 }
 
+/**
+ * Reihenfolge, in der Antworten oder Begriffe gezeigt werden (Indizes in die Liste der Daten): bei jedem Öffnen neu gemischt,
+ * damit die richtige Antwort nicht immer oben steht. Reine Zahlen (2, 3, 4 …) bleiben aufsteigend, das liest sich leichter.
+ */
+export function anzeigeReihe(optionen, zufall = Math.random) {
+  const idx = optionen.map((_, i) => i);
+  if (optionen.every((o) => /^\s*-?\d+([.,]\d+)?\s*$/.test(String(o)))) return idx.sort((a, b) => parseFloat(String(optionen[a]).replace(',', '.')) - parseFloat(String(optionen[b]).replace(',', '.')));
+  return mische(idx, zufall);
+}
+
+/** Antworten der Beobachtung einer Station: dieselben vier wie bei der Vermutung, dazu „etwas anderes“ (Beobachtungen sind nie falsch). */
+export function beobachtungsOptionen(station) {
+  return [...(station.vermutungOptionen || []), 'etwas anderes'];
+}
+
 /** Mischt eine Liste (Fisher-Yates) und lässt die Eingabe unverändert. `zufall` liefert Zahlen in [0, 1). */
 export function mische(liste, zufall = Math.random) {
   const a = [...liste];

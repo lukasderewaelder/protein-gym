@@ -207,10 +207,10 @@
           },
           {
             "type": "waehlen",
-            "frage": "Auf einem Riegel steht „Protein“, auf einem anderen „Eiweiß“. Was stimmt?",
-            "optionen": ["Das ist dasselbe: Protein ist das Fremdwort für Eiweiß.", "Protein ist pflanzlich, Eiweiß ist tierisch.", "Protein ist ein Fett, Eiweiß ein Zucker.", "Eiweiß ist gesünder als Protein."],
+            "frage": "Ein Riegel wirbt: „Mit Protein statt Eiweiß, für mehr Kraft!“ Was ist an der Werbung falsch?",
+            "optionen": ["Protein und Eiweiß sind zwei Namen für denselben Stoff, „statt“ ergibt keinen Sinn.", "Nichts, denn Protein ist die reine Form von Eiweiß und wirkt deshalb stärker.", "Eiweiß steckt nur im Ei, Protein dagegen in vielen anderen Lebensmitteln.", "Nichts, denn Protein ist nur der Name für pflanzliches Eiweiß."],
             "richtig": 0,
-            "erklaerung": "Protein und Eiweiß sind zwei Wörter für denselben Stoff."
+            "erklaerung": "Protein ist das Fremdwort für Eiweiß. Und Eiweiß steckt nicht nur im Ei: Im Alltag meint man damit oft das Eiklar, in der Chemie den Stoff Protein."
           },
           {
             "type": "waehlen",
@@ -221,10 +221,10 @@
           },
           {
             "type": "waehlen",
-            "frage": "Glycin ist eine Aminosäure. Warum ist Glycin allein kein Eiweiß?",
-            "optionen": ["Es ist nur ein einzelner Baustein. Ein Eiweiß ist eine lange Kette aus vielen Bausteinen.", "Glycin ist keine Aminosäure.", "Glycin ist zu groß für ein Eiweiß.", "Glycin enthält kein Wasser."],
+            "frage": "Zwei Eiweiße enthalten genau dieselben Aminosäuren, von jeder Sorte gleich viele. Trotzdem sind es zwei verschiedene Eiweiße. Wie kann das sein?",
+            "optionen": ["Die Aminosäuren sind in einer anderen Reihenfolge zur Kette verknüpft.", "Das geht nicht: Gleiche Bausteine ergeben immer dasselbe Eiweiß.", "Eines der beiden Eiweiße enthält zusätzlich Zucker als Baustein.", "In einem der beiden Eiweiße sind die Aminosäuren größer geworden."],
             "richtig": 0,
-            "erklaerung": "Ein Eiweiß besteht aus vielen Aminosäuren, die in einer Kette verbunden sind. Glycin allein ist nur ein Baustein. Deshalb zeigt auch der Biuret-Test bei Glycin kein Violett."
+            "erklaerung": "Wie bei Buchstaben und Wörtern: Dieselben Bausteine in anderer Reihenfolge ergeben ein anderes Eiweiß."
           }
         ],
         "C": [
@@ -235,10 +235,10 @@
           },
           {
             "type": "waehlen",
-            "frage": "Auf einem Riegel steht „Protein“, auf einem anderen „Eiweiß“. Was stimmt?",
-            "optionen": ["Das ist dasselbe: Protein ist das Fremdwort für Eiweiß.", "Protein ist pflanzlich, Eiweiß ist tierisch.", "Protein ist ein Fett, Eiweiß ein Zucker.", "Eiweiß ist gesünder als Protein."],
+            "frage": "Ein Riegel wirbt: „Mit Protein statt Eiweiß, für mehr Kraft!“ Was ist an der Werbung falsch?",
+            "optionen": ["Protein und Eiweiß sind zwei Namen für denselben Stoff, „statt“ ergibt keinen Sinn.", "Nichts, denn Protein ist die reine Form von Eiweiß und wirkt deshalb stärker.", "Eiweiß steckt nur im Ei, Protein dagegen in vielen anderen Lebensmitteln.", "Nichts, denn Protein ist nur der Name für pflanzliches Eiweiß."],
             "richtig": 0,
-            "erklaerung": "Protein und Eiweiß sind zwei Wörter für denselben Stoff."
+            "erklaerung": "Protein ist das Fremdwort für Eiweiß. Und Eiweiß steckt nicht nur im Ei: Im Alltag meint man damit oft das Eiklar, in der Chemie den Stoff Protein."
           },
           {
             "type": "zuordnen",
@@ -265,10 +265,10 @@
           },
           {
             "type": "waehlen",
-            "frage": "Glycin ist eine Aminosäure. Warum ist Glycin allein kein Eiweiß?",
-            "optionen": ["Es ist nur ein einzelner Baustein. Ein Eiweiß ist eine lange Kette aus vielen Bausteinen.", "Glycin ist keine Aminosäure.", "Glycin ist zu groß für ein Eiweiß.", "Glycin enthält kein Wasser."],
+            "frage": "Zwei Eiweiße enthalten genau dieselben Aminosäuren, von jeder Sorte gleich viele. Trotzdem sind es zwei verschiedene Eiweiße. Wie kann das sein?",
+            "optionen": ["Die Aminosäuren sind in einer anderen Reihenfolge zur Kette verknüpft.", "Das geht nicht: Gleiche Bausteine ergeben immer dasselbe Eiweiß.", "Eines der beiden Eiweiße enthält zusätzlich Zucker als Baustein.", "In einem der beiden Eiweiße sind die Aminosäuren größer geworden."],
             "richtig": 0,
-            "erklaerung": "Ein Eiweiß besteht aus vielen Aminosäuren, die in einer Kette verbunden sind. Glycin allein ist nur ein Baustein. Deshalb zeigt auch der Biuret-Test bei Glycin kein Violett."
+            "erklaerung": "Wie bei Buchstaben und Wörtern: Dieselben Bausteine in anderer Reihenfolge ergeben ein anderes Eiweiß."
           }
         ]
       }
@@ -344,10 +344,10 @@
           },
           {
             "type": "waehlen",
-            "frage": "Sind Gly–Ala und Ala–Gly dasselbe Dipeptid?",
-            "optionen": ["Nein, die Reihenfolge zählt: Es sind zwei verschiedene Dipeptide.", "Ja, die beiden Bausteine sind ja dieselben.", "Nur wenn man die Kette umdreht und kühlt.", "Das lässt sich nicht sagen."],
-            "richtig": 0,
-            "erklaerung": "Die Reihenfolge der Bausteine entscheidet, welches Dipeptid entsteht."
+            "frage": "Aus Glycin und Alanin sollen Dipeptide entstehen. Jede Aminosäure darf auch doppelt vorkommen, die Reihenfolge zählt. Wie viele verschiedene Dipeptide sind möglich?",
+            "optionen": ["2", "3", "4", "6"],
+            "richtig": 2,
+            "erklaerung": "Gly–Gly, Gly–Ala, Ala–Gly und Ala–Ala: vier Dipeptide (2 · 2 = 4). Gly–Ala und Ala–Gly sind verschieden."
           },
           {
             "type": "waehlen",
@@ -419,10 +419,10 @@
           {
             "type": "waehlen",
             "bild": "denat",
-            "frage": "Warum lässt sich das Gerinnen nicht rückgängig machen?",
-            "optionen": ["Die entfalteten Ketten verklumpen und falten sich nicht von allein zur alten Form zurück.", "Beim Abkühlen entsteht die Struktur neu.", "Die Aminosäuren sind verschwunden.", "Es war nur zu wenig Wasser im Ei."],
+            "frage": "Ein gekochtes Ei kühlt im Kühlschrank ab. Das Eiweiß darin wird trotzdem nicht wieder flüssig. Welche Erklärung passt?",
+            "optionen": ["Die entfalteten Ketten sind verklumpt und finden nicht von allein in ihre alte Struktur zurück.", "Beim Kochen sind Aminosäuren aus den Ketten verloren gegangen, deshalb fehlen ihnen Stücke.", "Die Kälte im Kühlschrank lässt das Eiweiß zusätzlich gerinnen und hält es so fest.", "Beim Kochen ist das Wasser verdampft, ohne Wasser kann das Eiweiß nicht flüssig werden."],
             "richtig": 0,
-            "erklaerung": "Die Aminosäuren sind noch da, aber die Form ist weg und kommt nicht von selbst zurück."
+            "erklaerung": "Die Ketten bleiben ganz, aber sie sind entfaltet und miteinander verklumpt. Die alte Struktur kommt nicht von allein zurück: Das Gerinnen ist nicht umkehrbar."
           },
           {
             "type": "waehlen",
@@ -453,10 +453,10 @@
           {
             "type": "waehlen",
             "bild": "denat",
-            "frage": "Warum lässt sich das Gerinnen nicht rückgängig machen?",
-            "optionen": ["Die entfalteten Ketten verklumpen und falten sich nicht von allein zur alten Form zurück.", "Beim Abkühlen entsteht die Struktur neu.", "Die Aminosäuren sind verschwunden.", "Es war nur zu wenig Wasser im Ei."],
+            "frage": "Ein gekochtes Ei kühlt im Kühlschrank ab. Das Eiweiß darin wird trotzdem nicht wieder flüssig. Welche Erklärung passt?",
+            "optionen": ["Die entfalteten Ketten sind verklumpt und finden nicht von allein in ihre alte Struktur zurück.", "Beim Kochen sind Aminosäuren aus den Ketten verloren gegangen, deshalb fehlen ihnen Stücke.", "Die Kälte im Kühlschrank lässt das Eiweiß zusätzlich gerinnen und hält es so fest.", "Beim Kochen ist das Wasser verdampft, ohne Wasser kann das Eiweiß nicht flüssig werden."],
             "richtig": 0,
-            "erklaerung": "Die Aminosäuren sind noch da, aber die Form ist weg und kommt nicht von selbst zurück."
+            "erklaerung": "Die Ketten bleiben ganz, aber sie sind entfaltet und miteinander verklumpt. Die alte Struktur kommt nicht von allein zurück: Das Gerinnen ist nicht umkehrbar."
           },
           {
             "type": "waehlen",
@@ -467,10 +467,10 @@
           },
           {
             "type": "waehlen",
-            "frage": "Was hält die Falten in einem Eiweiß zusammen?",
-            "optionen": ["Schwache Verbindungen (Wasserstoffbrücken) zwischen Teilen der Kette.", "Ein Klebstoff aus Zucker.", "Die Hitze der Umgebung.", "Eine Hülle aus Fett."],
+            "frage": "Beim Erhitzen geht die Faltung verloren, die Kette aus Aminosäuren bleibt aber ganz. Was wird beim Erhitzen also gelöst?",
+            "optionen": ["Die schwachen Wasserstoffbrücken zwischen Teilen der Kette.", "Die Verknüpfungen zwischen den Aminosäuren in der Kette.", "Die Verbindungen der Atome innerhalb jeder Aminosäure.", "Eine Hülle aus Fett, die jedes Eiweiß umgibt."],
             "richtig": 0,
-            "erklaerung": "Wasserstoffbrücken sind schwache Verbindungen. Schon Hitze, Säure, Alkohol oder Schwermetallsalze können sie lösen."
+            "erklaerung": "Gelöst werden nur die schwachen Wasserstoffbrücken, die die Falten halten. Die Verknüpfungen in der Kette bleiben, deshalb bleibt auch die Reihenfolge der Aminosäuren."
           },
           {
             "type": "rueckblick",
@@ -608,14 +608,15 @@
         "B": [
           {
             "type": "waehlen",
-            "frage": "Probe 5 bekommt nur Wasser. Wozu ist diese Probe da?",
+            "frage": "Angenommen, eine Probe mit Zusatz wird trüb. Wozu brauchst du dann Probe 5 (nur Wasser)?",
             "optionen": [
-              "Sie zeigt, wie die Eiklarlösung ohne Zusatz aussieht. Das ist der Vergleich.",
-              "Sie soll das Eiweiß zum Gerinnen bringen.",
-              "Sie ist Reserve, falls ein Glas kaputtgeht."
+              "Um zu prüfen, ob die Trübung wirklich vom Zusatz kommt und nicht auch ohne Zusatz entsteht.",
+              "Um das Eiweiß in der trüben Probe mit Wasser wieder zu verdünnen und klar zu machen.",
+              "Um zu zeigen, dass auch Wasser das Eiweiß im Eiklar gerinnen lässt.",
+              "Damit alle fünf Plätze im Ständer belegt sind und der Versuch vollständig ist."
             ],
             "richtig": 0,
-            "erklaerung": "Die Kontrollprobe ist der Vergleich: Nur was anders aussieht als Wasser, hat etwas bewirkt."
+            "erklaerung": "Probe 5 ist die Kontrollprobe: Sie zeigt, wie die Eiklarlösung ohne Zusatz aussieht. Nur was anders aussieht, hat der Zusatz bewirkt."
           },
           {
             "type": "waehlen",
@@ -630,14 +631,15 @@
           },
           {
             "type": "waehlen",
-            "frage": "Warum bekommt jedes Glas gleich viel Eiklarlösung?",
+            "frage": "Eine Gruppe gibt in Glas 2 doppelt so viel Eiklarlösung wie in die anderen Gläser. Was ist daran das Problem?",
             "optionen": [
-              "Damit nur der Zusatz, zum Beispiel Hitze oder Säure, einen Unterschied macht.",
-              "Damit alle Gläser gleich schwer sind.",
-              "Damit mehr Eiweiß gerinnt."
+              "Ein Unterschied könnte jetzt auch von der Menge kommen, nicht nur vom Zusatz.",
+              "Kein Problem: Es kommt nur darauf an, welcher Zusatz in welchem Glas ist.",
+              "Doppelt so viel Eiklarlösung kann in einem Reagenzglas nicht gerinnen.",
+              "Die beiden Hälften der Eiklarlösung mischen sich im Glas nicht richtig."
             ],
             "richtig": 0,
-            "erklaerung": "Fair vergleichen: Nur eine Sache ändern, alles andere gleich lassen."
+            "erklaerung": "Ein fairer Vergleich ändert nur eine Sache: den Zusatz. Alles andere, auch die Menge der Eiklarlösung, bleibt gleich."
           },
           {
             "type": "reihenfolge",
@@ -707,14 +709,15 @@
         "C": [
           {
             "type": "waehlen",
-            "frage": "Probe 5 bekommt nur Wasser. Wozu ist diese Probe da?",
+            "frage": "Angenommen, eine Probe mit Zusatz wird trüb. Wozu brauchst du dann Probe 5 (nur Wasser)?",
             "optionen": [
-              "Sie zeigt, wie die Eiklarlösung ohne Zusatz aussieht. Das ist der Vergleich.",
-              "Sie soll das Eiweiß zum Gerinnen bringen.",
-              "Sie ist Reserve, falls ein Glas kaputtgeht."
+              "Um zu prüfen, ob die Trübung wirklich vom Zusatz kommt und nicht auch ohne Zusatz entsteht.",
+              "Um das Eiweiß in der trüben Probe mit Wasser wieder zu verdünnen und klar zu machen.",
+              "Um zu zeigen, dass auch Wasser das Eiweiß im Eiklar gerinnen lässt.",
+              "Damit alle fünf Plätze im Ständer belegt sind und der Versuch vollständig ist."
             ],
             "richtig": 0,
-            "erklaerung": "Die Kontrollprobe ist der Vergleich: Nur was anders aussieht als Wasser, hat etwas bewirkt."
+            "erklaerung": "Probe 5 ist die Kontrollprobe: Sie zeigt, wie die Eiklarlösung ohne Zusatz aussieht. Nur was anders aussieht, hat der Zusatz bewirkt."
           },
           {
             "type": "waehlen",
@@ -729,14 +732,15 @@
           },
           {
             "type": "waehlen",
-            "frage": "Warum bekommt jedes Glas gleich viel Eiklarlösung?",
+            "frage": "Eine Gruppe gibt in Glas 2 doppelt so viel Eiklarlösung wie in die anderen Gläser. Was ist daran das Problem?",
             "optionen": [
-              "Damit nur der Zusatz, zum Beispiel Hitze oder Säure, einen Unterschied macht.",
-              "Damit alle Gläser gleich schwer sind.",
-              "Damit mehr Eiweiß gerinnt."
+              "Ein Unterschied könnte jetzt auch von der Menge kommen, nicht nur vom Zusatz.",
+              "Kein Problem: Es kommt nur darauf an, welcher Zusatz in welchem Glas ist.",
+              "Doppelt so viel Eiklarlösung kann in einem Reagenzglas nicht gerinnen.",
+              "Die beiden Hälften der Eiklarlösung mischen sich im Glas nicht richtig."
             ],
             "richtig": 0,
-            "erklaerung": "Fair vergleichen: Nur eine Sache ändern, alles andere gleich lassen."
+            "erklaerung": "Ein fairer Vergleich ändert nur eine Sache: den Zusatz. Alles andere, auch die Menge der Eiklarlösung, bleibt gleich."
           },
           {
             "type": "reihenfolge",
@@ -890,10 +894,10 @@
           },
           {
             "type": "waehlen",
-            "frage": "Kann man aus einem gebratenen Ei wieder rohes Eiklar machen?",
-            "optionen": ["Nein, das Gerinnen ist nicht umkehrbar.", "Ja, wenn es wieder abkühlt.", "Ja, mit etwas Wasser.", "Nur in der Sauna."],
+            "frage": "Butter wird beim Erhitzen flüssig und beim Abkühlen wieder fest. Beim Eiweiß im Eiklar ist es anders. Warum?",
+            "optionen": ["Butter schmilzt nur. Das Eiweiß verändert sich beim Gerinnen dauerhaft.", "Butter enthält kein Wasser, deshalb kann nur sie wieder fest werden.", "Auch das Eiweiß wird wieder flüssig, es braucht nur viel länger als Butter.", "Das Ei müsste nur kälter gestellt werden als die Butter, dann wird es wieder flüssig."],
             "richtig": 0,
-            "erklaerung": "Wenn Eiweiß gerinnt, verändert es sich dauerhaft. Es wird nicht wieder klar, auch nicht beim Abkühlen."
+            "erklaerung": "Schmelzen ist umkehrbar, Gerinnen nicht: Das geronnene Eiweiß bleibt verändert und wird nicht von allein wieder flüssig."
           },
           {
             "type": "waehlen",
@@ -933,17 +937,17 @@
           },
           {
             "type": "waehlen",
-            "frage": "Kann man aus einem gebratenen Ei wieder rohes Eiklar machen?",
-            "optionen": ["Nein, das Gerinnen ist nicht umkehrbar.", "Ja, wenn es wieder abkühlt.", "Ja, mit etwas Wasser.", "Nur in der Sauna."],
+            "frage": "Butter wird beim Erhitzen flüssig und beim Abkühlen wieder fest. Beim Eiweiß im Eiklar ist es anders. Warum?",
+            "optionen": ["Butter schmilzt nur. Das Eiweiß verändert sich beim Gerinnen dauerhaft.", "Butter enthält kein Wasser, deshalb kann nur sie wieder fest werden.", "Auch das Eiweiß wird wieder flüssig, es braucht nur viel länger als Butter.", "Das Ei müsste nur kälter gestellt werden als die Butter, dann wird es wieder flüssig."],
             "richtig": 0,
-            "erklaerung": "Wenn Eiweiß gerinnt, verändert es sich dauerhaft. Es wird nicht wieder klar, auch nicht beim Abkühlen."
+            "erklaerung": "Schmelzen ist umkehrbar, Gerinnen nicht: Das geronnene Eiweiß bleibt verändert und wird nicht von allein wieder flüssig."
           },
           {
             "type": "waehlen",
-            "frage": "Warum macht Erhitzen Lebensmittel haltbar?",
-            "optionen": ["Auch Keime bestehen aus Eiweißen. Hitze lässt sie gerinnen, und die Keime verlieren ihre Wirkung.", "Hitze verwandelt Eiweiß in Zucker.", "Erhitzte Lebensmittel enthalten kein Wasser mehr.", "Keime schlafen bei Hitze nur ein."],
+            "frage": "Frische Milch wird kurz erhitzt und hält danach länger. Welche Begründung passt?",
+            "optionen": ["Auch Keime bestehen aus Eiweißen. Hitze lässt sie gerinnen, die Keime verlieren ihre Wirkung.", "Hitze lässt das Wasser aus der Milch verdampfen, und ohne Wasser verdirbt nichts.", "Die Keime werden durch die Hitze nur betäubt und wachen im Kühlschrank nicht mehr auf.", "Beim Erhitzen wird das Eiweiß der Milch zu Zucker, und Zucker verdirbt nicht."],
             "richtig": 0,
-            "erklaerung": "Hitze lässt die Eiweiße der Keime gerinnen, deshalb wirken die Keime nicht mehr."
+            "erklaerung": "Hitze lässt die Eiweiße der Keime gerinnen. Geronnen wirken sie nicht mehr, deshalb hält erhitzte Milch länger."
           },
           {
             "type": "luecken",
@@ -1008,10 +1012,10 @@
           },
           {
             "type": "waehlen",
-            "frage": "Der Verkäufer sagt: „Unser Pulver ist besser als Essen, denn Essen muss erst zerlegt werden.“ Was stimmt?",
-            "optionen": ["Auch Eiweiß aus Pulver wird zerlegt: Jedes Eiweiß wird im Körper zu Aminosäuren abgebaut.", "Das stimmt, Essen kann der Körper nicht nutzen.", "Pulver enthält keine Aminosäuren.", "Nur Pulver gerinnt nicht."],
+            "frage": "Ein Verkäufer sagt: „Unser Shake ist besser als Essen, weil Essen erst zerlegt werden muss.“ Welches Gegenargument trifft?",
+            "optionen": ["Auch das Eiweiß im Shake wird bei der Verdauung zu Aminosäuren zerlegt, genau wie Eiweiß aus Essen.", "Keines: Eiweiß aus dem Shake baut der Körper unverändert in die Muskeln ein.", "Eiweiß aus Essen ist meist gekocht und deshalb für den Körper wertlos.", "Im Shake steckt gar kein Eiweiß, sondern nur Zucker mit Geschmack."],
             "richtig": 0,
-            "erklaerung": "Jedes Nahrungseiweiß, ob aus Pulver oder Essen, wird bei der Verdauung zu Aminosäuren abgebaut."
+            "erklaerung": "Jedes Eiweiß wird bei der Verdauung zu Aminosäuren zerlegt, aus denen der Körper sein eigenes Eiweiß baut. Pulver ist nicht automatisch besser."
           }
         ]
       }
@@ -1059,7 +1063,7 @@
         "quiz_done",
         "k_biuret"
       ],
-      "auftrag": "Eine neue Lieferung ist da. Enthält sie Eiweiß? Vermute, mache den Biuret-Nachweis bei deiner Lehrkraft, beobachte und deute.",
+      "auftrag": "Eine neue Lieferung ist da. Enthält sie Eiweiß? Wie die Biuret-Probe geht, steht auf dem Plakat „Nachweis von Eiweiß: Biuret-Probe“ hier im Labor. Vermute, plane, mache den Nachweis bei deiner Lehrkraft und deute.",
       "tipp": "Schau in den Spind: „Nachweis von Eiweiß: Biuret-Probe“ und im Hefter den Eintrag dazu. Violett zeigt Eiweiß an.",
       "hilfekarte": {
         "titel": "Hilfekarte: Biuret-Nachweis",
@@ -1081,7 +1085,7 @@
           },
           {
             "type": "anleitung",
-            "auftrag": "Plane den Versuch mit der Schritt-für-Schritt-Anleitung. Hake jeden Schritt ab, wenn du ihn gelesen hast.",
+            "auftrag": "Plane den Versuch mit der Anleitung. Die Durchführung steht auch auf dem Plakat zur Biuret-Probe hier im Labor. Hake jeden Schritt ab, wenn du ihn gelesen hast.",
             "schritte": [
               "Kittel und Schutzbrille anziehen.",
               "Drei Reagenzgläser beschriften (1 bis 3) und in den Ständer stellen.",
@@ -1125,7 +1129,7 @@
           },
           {
             "type": "reihenfolge",
-            "auftrag": "Plane den Versuch selbst. Material: Reagenzgläser und Ständer, Eiweißshake, Zuckerlösung, Wasser, Natronlauge, Kupfersulfat-Lösung (Fehling I), Kittel, Schutzbrille. Tippe die Schritte in der richtigen Reihenfolge an.",
+            "auftrag": "Plane den Versuch selbst. Material: Reagenzgläser und Ständer, Eiweißshake, Zuckerlösung, Wasser, Natronlauge, Kupfersulfat-Lösung (Fehling I), Kittel, Schutzbrille. Ziehe die Schritte in die richtige Reihenfolge.",
             "korrekt": [
               "Kittel und Schutzbrille anziehen.",
               "Reagenzgläser beschriften und in den Ständer stellen.",
@@ -1147,7 +1151,8 @@
                 1,
                 2
               ]
-            ]
+            ],
+            "frage": "Ziehe die Schritte in die richtige Reihenfolge. Die Durchführung steht auf dem Plakat zur Biuret-Probe hier im Labor."
           },
           {
             "type": "versuch",
@@ -1163,15 +1168,15 @@
           },
           {
             "type": "waehlen",
-            "frage": "Im Biuret-Test wird der Eiweißshake violett, die Probe mit Wasser bleibt blau. Was zeigt das?",
+            "frage": "Der Eiweißshake wird violett, die Zuckerlösung bleibt blau. Jemand sagt: „Dann ist in der Zuckerlösung gar nichts gelöst.“ Was stimmt?",
             "optionen": [
-              "Nur der Eiweißshake enthält Eiweiß.",
-              "Wasser enthält Eiweiß.",
-              "Der Test funktioniert nicht.",
-              "Beide Proben sind gleich."
+              "Falsch: Der Test zeigt nur, dass kein Eiweiß enthalten ist. Der Zucker ist trotzdem gelöst.",
+              "Richtig: Was beim Biuret-Test blau bleibt, ist immer reines Wasser.",
+              "Falsch: Die Zuckerlösung enthält Eiweiß, es reagiert nur langsamer.",
+              "Richtig: Zucker löst sich im Wasser auf und ist dann verschwunden."
             ],
             "richtig": 0,
-            "erklaerung": "Violett zeigt Eiweiß an. Wasser enthält keins und bleibt blau."
+            "erklaerung": "Ein Nachweis beantwortet nur eine Frage: Ist Eiweiß enthalten? Was sonst in der Probe gelöst ist, zeigt er nicht."
           }
         ],
         "C": [
@@ -1183,7 +1188,7 @@
           },
           {
             "type": "reihenfolge",
-            "auftrag": "Plane den Versuch selbst. Material: Reagenzgläser und Ständer, Eiweißshake, Zuckerlösung, Wasser, Natronlauge, Kupfersulfat-Lösung (Fehling I), Kittel, Schutzbrille. Tippe die Schritte in der richtigen Reihenfolge an. Gleichwertige Schritte dürfen vertauscht werden.",
+            "auftrag": "Plane den Versuch selbst. Material: Reagenzgläser und Ständer, Eiweißshake, Zuckerlösung, Wasser, Natronlauge, Kupfersulfat-Lösung (Fehling I), Kittel, Schutzbrille. Ziehe die Schritte in die richtige Reihenfolge. Gleichwertige Schritte dürfen vertauscht werden.",
             "korrekt": [
               "Kittel und Schutzbrille anziehen.",
               "Drei Reagenzgläser beschriften und in den Ständer stellen.",
@@ -1207,7 +1212,8 @@
                 1,
                 2
               ]
-            ]
+            ],
+            "frage": "Ziehe die Schritte in die richtige Reihenfolge. Die Durchführung steht auf dem Plakat zur Biuret-Probe hier im Labor."
           },
           {
             "type": "versuch",
@@ -1223,24 +1229,24 @@
           },
           {
             "type": "waehlen",
-            "frage": "Im Biuret-Test wird der Eiweißshake violett, die Probe mit Wasser bleibt blau. Was zeigt das?",
+            "frage": "Der Eiweißshake wird violett, die Zuckerlösung bleibt blau. Jemand sagt: „Dann ist in der Zuckerlösung gar nichts gelöst.“ Was stimmt?",
             "optionen": [
-              "Nur der Eiweißshake enthält Eiweiß.",
-              "Wasser enthält Eiweiß.",
-              "Der Test funktioniert nicht.",
-              "Beide Proben sind gleich."
+              "Falsch: Der Test zeigt nur, dass kein Eiweiß enthalten ist. Der Zucker ist trotzdem gelöst.",
+              "Richtig: Was beim Biuret-Test blau bleibt, ist immer reines Wasser.",
+              "Falsch: Die Zuckerlösung enthält Eiweiß, es reagiert nur langsamer.",
+              "Richtig: Zucker löst sich im Wasser auf und ist dann verschwunden."
             ],
             "richtig": 0,
-            "erklaerung": "Violett zeigt Eiweiß an. Wasser enthält keins und bleibt blau."
+            "erklaerung": "Ein Nachweis beantwortet nur eine Frage: Ist Eiweiß enthalten? Was sonst in der Probe gelöst ist, zeigt er nicht."
           },
           {
             "type": "waehlen",
-            "frage": "Warum gehört eine Probe mit Wasser zum Versuch?",
+            "frage": "Dass Wasser kein Eiweiß enthält, weißt du schon vorher. Warum testest du es trotzdem mit?",
             "optionen": [
-              "Sie zeigt als Vergleich, wie der Test ohne Eiweiß aussieht.",
-              "Wasser macht die Farbe violett.",
-              "Ohne Wasser funktioniert die Natronlauge nicht.",
-              "Wasser ist selbst ein Eiweiß."
+              "So siehst du, welche Farbe der Test ohne Eiweiß zeigt, und kannst die anderen Proben damit vergleichen.",
+              "Das Wasser verdünnt die Natronlauge, damit sie in den anderen Gläsern nicht gefährlich ist.",
+              "Wasser färbt sich violett und zeigt so, dass die Chemikalien noch frisch sind.",
+              "Ohne eine Probe mit Wasser reagiert die Natronlauge in den anderen Gläsern nicht."
             ],
             "richtig": 0,
             "erklaerung": "Die Wasser-Probe ist der Vergleich: Sie bleibt blau. So erkennst du, dass Violett wirklich vom Eiweiß kommt."
@@ -1274,28 +1280,28 @@
           {
             "type": "waehlen",
             "zaehlt": true,
-            "frage": "Welche Aussage stimmt?",
+            "frage": "Auf einer Packung steht „reich an Eiweiß“. Welche Aussage dazu stimmt?",
             "optionen": [
-              "Protein und Eiweiß sind dasselbe, und Aminosäuren sind die Bausteine der Proteine.",
-              "Protein ist pflanzlich, Eiweiß tierisch, beide bestehen aus Fettsäuren.",
-              "Eiweiß besteht aus Zucker, Protein aus Aminosäuren.",
-              "Aminosäuren sind winzige Hantelscheiben."
+              "Gemeint sind Proteine: lange Ketten, deren Bausteine Aminosäuren sind.",
+              "Gemeint ist Eiklar: Nur Lebensmittel mit Ei enthalten Eiweiß.",
+              "Gemeint sind einzelne Aminosäuren, die noch nicht verknüpft sind.",
+              "Gemeint sind Proteine: lange Ketten, deren Bausteine Fettsäuren sind."
             ],
             "richtig": 0,
-            "erklaerung": "„Protein“ ist das Fremdwort für „Eiweiß“. Proteine bestehen aus Aminosäuren, den Bausteinen."
+            "erklaerung": "Eiweiß heißt in der Chemie Protein. Proteine sind lange Ketten aus Aminosäuren, und sie stecken in vielen Lebensmitteln, nicht nur im Ei."
           },
           {
             "type": "waehlen",
             "zaehlt": true,
-            "frage": "Was passiert beim Gerinnen (Denaturieren) eines Eiweißes?",
+            "frage": "Was ist nach dem Gerinnen (Denaturieren) eines Eiweißes anders als vorher?",
             "optionen": [
-              "Die „aktive“ Form geht dauerhaft verloren, die Reihenfolge der Aminosäuren (Kette) bleibt.",
-              "Die Aminosäuren verschwinden.",
-              "Das Eiweiß wird zu Zucker.",
-              "Es wird wieder klar, wenn es abkühlt."
+              "Die räumliche Struktur hat sich verändert, die Reihenfolge der Aminosäuren in der Kette ist gleich geblieben.",
+              "Die Kette ist in einzelne Aminosäuren zerfallen, die räumliche Struktur ist gleich geblieben.",
+              "Die Aminosäuren haben ihre Reihenfolge getauscht, deshalb passt die Faltung nicht mehr.",
+              "Struktur und Kette sind gleich geblieben, nur das Wasser im Eiweiß ist verdampft."
             ],
             "richtig": 0,
-            "erklaerung": "Das Eiweiß verliert dauerhaft seine gefaltete, „aktive“ Form, die Ketten verklumpen. Zerstört ist es aber nicht: Die Reihenfolge der Aminosäuren bleibt. Rückgängig machen lässt sich das Gerinnen nicht."
+            "erklaerung": "Das Eiweiß verliert dauerhaft seine gefaltete, „aktive“ Form, die Ketten verklumpen. Zerstört ist es aber nicht: Die Aminosäure-Kette bleibt in ihrer Reihenfolge bestehen. Rückgängig machen lässt sich das Gerinnen nicht."
           },
           {
             "type": "mehrfach",
@@ -1378,15 +1384,15 @@
           {
             "type": "waehlen",
             "zaehlt": true,
-            "frage": "Eine Probe aus einer Lieferung bleibt beim Biuret-Test blau. Was heißt das?",
+            "frage": "Ein Shake aus der Lieferung wurde erhitzt, das Eiweiß darin ist geronnen. Was zeigt der Biuret-Test?",
             "optionen": [
-              "Die Probe enthält kein Eiweiß.",
-              "Die Probe enthält besonders viel Eiweiß.",
-              "Der Test ist kaputt.",
-              "Die Probe ist denaturiert."
+              "Er färbt sich trotzdem violett, denn das Eiweiß ist geronnen, aber noch vorhanden.",
+              "Er bleibt blau, denn geronnenes Eiweiß ist kein Eiweiß mehr.",
+              "Er bleibt blau, denn beim Erhitzen wurde das Eiweiß zu Zucker.",
+              "Er färbt sich violett und wird gleich wieder blau, weil das Eiweiß geronnen ist."
             ],
             "richtig": 0,
-            "erklaerung": "Bleibt die Probe blau, ist kein Eiweiß enthalten. Nur bei Eiweiß wird sie violett."
+            "erklaerung": "Beim Gerinnen ändert sich nur die räumliche Struktur, die Kette aus Aminosäuren bleibt. Es ist also noch Eiweiß da, und der Biuret-Test zeigt Violett."
           }
         ]
       }

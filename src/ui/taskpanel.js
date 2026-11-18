@@ -145,6 +145,7 @@ export function createTaskPanel({ root, data, store, notebook, showCall, onRoomD
     helpEl.hidden = true;
     clear(helpEl);
     S.inSimilar = false;
+    S.zwischen = null;
     S.similar = aehnlicheAufgabe({
       step, taskId: S.id, level: levelKey(), index: S.step,
       aehnlich: data.aehnlich || {}, molekuele: data.aufgaben.molekuele,
@@ -164,6 +165,17 @@ export function createTaskPanel({ root, data, store, notebook, showCall, onRoomD
         S.solved = true;
         feedbackEl.className = 'task-feedback gut';
         feedbackEl.textContent = `✓ ${msg}`;
+        refreshFoot();
+      },
+      /** Schritt ohne Prüfung erledigt (Anschauen, Rückblick): Es erscheint nur der Knopf unten, keine Rückmeldung. */
+      frei() {
+        if (!S.solved && !S.inSimilar) S.first[S.step] = S.attempts === 0;
+        S.solved = true;
+        refreshFoot();
+      },
+      /** Weiter innerhalb eines Schritts (zum Beispiel „Nächste Aussage“): erscheint als Hauptknopf unten, wie jedes Weiter. null entfernt ihn. */
+      weiter(label, fn) {
+        S.zwischen = label ? { label, fn } : null;
         refreshFoot();
       },
       fail(msg) {
@@ -233,6 +245,11 @@ export function createTaskPanel({ root, data, store, notebook, showCall, onRoomD
     );
     if (S.helped && S.similar && !S.inSimilar) {
       footEl.append(h('button', { class: 'primary', type: 'button', onclick: startSimilar }, 'Ähnliche Aufgabe üben'));
+    }
+    // Alle Weiter- und Abschließen-Knöpfe stehen hier unten und sind der eine gelbe Hauptknopf (Wunsch der Lehrkraft)
+    if (!S.solved && S.zwischen) {
+      const z = S.zwischen;
+      footEl.append(h('button', { class: 'primary', type: 'button', onclick: () => { S.zwischen = null; z.fn(); refreshFoot(); } }, z.label));
     }
     if (S.solved) {
       const last = S.step >= steps().length - 1;

@@ -98,6 +98,8 @@ dialog#zugang.papier h2 { border-bottom: 2px solid var(--ds-linie); }
 .papier .task-foot { background: #fff; border-top: 2px solid var(--ds-linie); }
 .papier .task-foot button:not(.primary) { background: transparent; font-size: var(--ds-klein); }
 .papier .task-foot button:not(.primary):hover:not(:disabled) { background: var(--ds-flaeche); }
+/* Der eine Hauptknopf (Weiter, Aufgabe abschließen, Nächste Aussage) steht immer unten rechts, auch wenn die Leiste umbricht */
+.papier .task-foot .primary { margin-left: auto; }
 
 /* ---------- Antworten: gleich aufgebaut, Zustand über Rahmen und Zeichen ---------- */
 .papier .option, .papier .chip, .papier .platz, .papier .luecke { font-size: var(--ds-text); font-weight: 400; color: var(--ds-ink); }
