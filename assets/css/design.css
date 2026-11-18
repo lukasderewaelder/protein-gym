@@ -169,3 +169,25 @@ dialog#zugang.papier h2 { border-bottom: 2px solid var(--ds-linie); }
 .papier .zieh-text { flex: 1 1 auto; min-width: 0; }
 .papier .zieh-knoepfe { flex: none; display: flex; gap: 4px; }
 .papier .zieh-knopf { min-height: 34px; min-width: 40px; padding: 0 8px; font-size: var(--ds-klein); }
+
+/* ---------- Zuordnen in Behälter: Stapel oben, Behälter darunter nebeneinander ---------- */
+.papier .sortier { margin: 4px 0; }
+.papier .sortier-stapel { margin-bottom: var(--ds-abstand-1); }
+.papier .sortier-info { margin: 0 0 4px; color: var(--ds-muted); font-size: var(--ds-klein); }
+.papier .sortier-karte {
+  display: flex; align-items: flex-start; gap: 10px; padding: 6px 12px; background: #fff; border: 3px solid var(--ds-ink); border-radius: var(--ds-radius);
+  font-size: var(--ds-text); line-height: 1.35; cursor: grab; touch-action: none; user-select: none; -webkit-user-select: none; position: relative;
+}
+.papier .sortier-karte.zieht { cursor: grabbing; z-index: 5; box-shadow: 0 8px 18px rgba(0, 0, 0, 0.22); }
+.papier .sortier-karte p { margin: 0; }
+.papier .sortier-karte strong { display: block; font-weight: 700; }
+.papier .sortier-griff { flex: none; color: var(--ds-muted); font-size: var(--ds-text); line-height: 1.35; }
+.papier .behaelter-reihe { display: grid; grid-template-columns: repeat(var(--spalten, 3), minmax(0, 1fr)); gap: var(--ds-abstand-1); }
+.papier .behaelter { display: flex; flex-direction: column; min-height: 96px; padding: 6px; border: 2px dashed var(--ds-linie); border-radius: var(--ds-radius); background: var(--ds-flaeche); }
+.papier .behaelter.ziel { border: 3px solid var(--ds-ink); background: var(--ds-gewaehlt); }
+.papier .behaelter-kopf { min-height: 36px; padding: 2px 8px; font-weight: 700; background: #fff; }
+.papier .behaelter-kopf:disabled { opacity: 1; }
+.papier .behaelter-inhalt { display: grid; gap: 4px; margin-top: 6px; align-content: start; }
+.papier .sortier-chip { min-height: 32px; padding: 2px 8px; font-size: var(--ds-klein); line-height: 1.25; text-align: left; background: #fff; }
+.papier .sortier-chip.richtig { background: var(--ds-ok-hell); border: 3px solid var(--ds-ok); opacity: 1; }
+.papier .sortier-chip.falsch { background: var(--ds-fehler-hell); border: 3px solid var(--ds-fehler); }

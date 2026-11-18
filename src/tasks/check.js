@@ -274,3 +274,21 @@ export function werbungSchritt(w, z, aktion) {
   }
   return { z, ok: false, alle: false };
 }
+
+/**
+ * Zuordnen in Behälter (Prüfen am Ende): belegung[i] = gewählter Behälter für Fall i oder null.
+ * Gibt { offen, falsch, richtig, fertig } zurück: offen = noch nicht verteilte Fälle, falsch/richtig = Fälle (Indizes) nach dem Prüfen,
+ * fertig = alle verteilt und alle richtig.
+ */
+export function pruefeBehaelter(paare, belegung) {
+  const offen = [];
+  const falsch = [];
+  const richtig = [];
+  paare.forEach((p, i) => {
+    const b = belegung[i];
+    if (b == null) offen.push(i);
+    else if (b === p.richtig) richtig.push(i);
+    else falsch.push(i);
+  });
+  return { offen, falsch, richtig, fertig: !offen.length && !falsch.length };
+}

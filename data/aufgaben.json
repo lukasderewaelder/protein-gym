@@ -129,23 +129,23 @@
         "alle": [
           {
             "type": "zuordnen",
-            "auftrag": "Wofür braucht dein Körper Eiweiß? Tippe pro Beispiel an, welche Aufgabe gemeint ist.",
+            "ansicht": "behaelter", "auftrag": "Wofür braucht dein Körper Eiweiß? Ordne jede Karte einem Behälter zu.",
             "optionen": ["Aufbau", "Transport", "Abwehr"],
             "paare": [
               {
-                "text": "Muskeln wachsen und werden repariert",
+                "text": "Muskeln wachsen und werden repariert", "kurz": "Muskeln wachsen",
                 "richtig": "Aufbau"
               },
               {
-                "text": "Sauerstoff im Blut wird zu den Muskeln gebracht",
+                "text": "Sauerstoff im Blut wird zu den Muskeln gebracht", "kurz": "Sauerstoff im Blut",
                 "richtig": "Transport"
               },
               {
-                "text": "Antikörper bekämpfen Krankheitserreger",
+                "text": "Antikörper bekämpfen Krankheitserreger", "kurz": "Antikörper",
                 "richtig": "Abwehr"
               },
               {
-                "text": "Haare und Haut bestehen daraus",
+                "text": "Haare und Haut bestehen daraus", "kurz": "Haare und Haut",
                 "richtig": "Aufbau"
               }
             ]
@@ -242,7 +242,7 @@
           },
           {
             "type": "zuordnen",
-            "auftrag": "Gehört das zur Aminosäure oder zum Protein (Eiweiß)? Tippe pro Aussage an, in beliebiger Reihenfolge.",
+            "ansicht": "behaelter", "auftrag": "Gehört das zur Aminosäure oder zum Protein (Eiweiß)? Ordne jede Karte einem Behälter zu.",
             "optionen": ["Aminosäure", "Protein (Eiweiß)"],
             "paare": [
               {
@@ -827,26 +827,26 @@
         "A": [
           {
             "type": "zuordnen",
-            "auftrag": "Was lässt das Eiweiß hier gerinnen? Tippe pro Situation eine Antwort an.",
+            "ansicht": "behaelter", "auftrag": "Was lässt das Eiweiß hier gerinnen? Ordne jede Situation einem Behälter zu.",
             "optionen": ["Hitze", "Säure", "Alkohol", "Schwermetallsalz"],
             "paare": [
               {
-                "titel": "Sonntagsfrühstück",
+                "titel": "Sonntagsfrühstück", "kurz": "Frühstück",
                 "text": "Am Sonntag gibt es Spiegelei. Kaum liegt das Ei in der heißen Pfanne, wird das Eiweiß im Eiklar am Rand weiß. Nach zwei Minuten ist es ganz fest.",
                 "richtig": "Hitze"
               },
               {
-                "titel": "Pfannkuchen ohne Buttermilch",
+                "titel": "Pfannkuchen ohne Buttermilch", "kurz": "Pfannkuchen",
                 "text": "Lena will Pfannkuchen backen, aber die Buttermilch ist alle. Ihr Opa rührt einen Schuss Zitronensaft in normale Milch. Zitronensaft enthält eine Säure. Nach ein paar Minuten wird die Milch dick und bildet weiße Flocken.",
                 "richtig": "Säure"
               },
               {
-                "titel": "Besuch im Krankenhaus",
+                "titel": "Besuch im Krankenhaus", "kurz": "Krankenhaus",
                 "text": "Vor dem Krankenhauszimmer reibt sich ein Besucher die Hände mit Desinfektionsmittel ein. Es enthält viel Ethanol, also einen Alkohol, und verdunstet schnell. Die Eiweiße der Bakterien auf der Haut gerinnen, die Bakterien sterben ab.",
                 "richtig": "Alkohol"
               },
               {
-                "titel": "Pilz im Weinberg",
+                "titel": "Pilz im Weinberg", "kurz": "Weinberg",
                 "text": "Auf den Weinblättern breitet sich ein Pilz aus. Die Winzerin spritzt eine blaue Lösung mit einem Kupfersalz, also einem Schwermetallsalz. Die Eiweiße der Pilzzellen gerinnen, der Pilz stirbt ab und die Trauben bleiben gesund.",
                 "richtig": "Schwermetallsalz"
               }
@@ -863,26 +863,26 @@
         "B": [
           {
             "type": "zuordnen",
-            "auftrag": "Was lässt das Eiweiß hier gerinnen? Tippe pro Situation eine Antwort an.",
+            "ansicht": "behaelter", "auftrag": "Was lässt das Eiweiß hier gerinnen? Ordne jede Situation einem Behälter zu.",
             "optionen": ["Hitze", "Säure", "Alkohol", "Schwermetallsalz"],
             "paare": [
               {
-                "titel": "Sonntagsfrühstück",
+                "titel": "Sonntagsfrühstück", "kurz": "Frühstück",
                 "text": "Am Sonntag gibt es Spiegelei. Kaum liegt das Ei in der Pfanne auf dem Herd, wird das Eiweiß im Eiklar am Rand weiß. Nach zwei Minuten ist es ganz fest.",
                 "richtig": "Hitze"
               },
               {
-                "titel": "Pfannkuchen ohne Buttermilch",
+                "titel": "Pfannkuchen ohne Buttermilch", "kurz": "Pfannkuchen",
                 "text": "Lena will Pfannkuchen backen, aber die Buttermilch ist alle. Ihr Opa rührt einen Schuss Zitronensaft in normale Milch. Nach ein paar Minuten wird die Milch dick und bildet weiße Flocken.",
                 "richtig": "Säure"
               },
               {
-                "titel": "Besuch im Krankenhaus",
+                "titel": "Besuch im Krankenhaus", "kurz": "Krankenhaus",
                 "text": "Vor dem Krankenhauszimmer reibt sich ein Besucher die Hände mit Desinfektionsmittel ein. Es enthält viel Ethanol und verdunstet schnell. Die Bakterien auf der Haut werden dabei unschädlich gemacht.",
                 "richtig": "Alkohol"
               },
               {
-                "titel": "Pilz im Weinberg",
+                "titel": "Pilz im Weinberg", "kurz": "Weinberg",
                 "text": "Auf den Weinblättern breitet sich ein Pilz aus. Die Winzerin spritzt eine blaue Lösung mit einem Kupfersalz. Die Pilzzellen sterben ab, und die Trauben bleiben gesund.",
                 "richtig": "Schwermetallsalz"
               }
@@ -906,26 +906,26 @@
         "C": [
           {
             "type": "zuordnen",
-            "auftrag": "Was lässt das Eiweiß hier gerinnen? Tippe pro Situation eine Antwort an.",
+            "ansicht": "behaelter", "auftrag": "Was lässt das Eiweiß hier gerinnen? Ordne jede Situation einem Behälter zu.",
             "optionen": ["Hitze", "Säure", "Alkohol", "Schwermetallsalz"],
             "paare": [
               {
-                "titel": "Sonntagsfrühstück",
+                "titel": "Sonntagsfrühstück", "kurz": "Frühstück",
                 "text": "Am Sonntag brutzelt das Frühstück auf dem Herd. Das Eiweiß im Eiklar ist erst durchsichtig und wird dann vom Rand her weiß. Nach zwei Minuten kann man das Spiegelei wenden, ohne dass es zerläuft.",
                 "richtig": "Hitze"
               },
               {
-                "titel": "Pfannkuchen ohne Buttermilch",
+                "titel": "Pfannkuchen ohne Buttermilch", "kurz": "Pfannkuchen",
                 "text": "Lena will Pfannkuchen backen, aber die Buttermilch ist alle. Ihr Opa gibt einen Löffel Essig in die Milch und rührt um. Nach ein paar Minuten wird die Milch dick und flockig.",
                 "richtig": "Säure"
               },
               {
-                "titel": "Besuch im Krankenhaus",
+                "titel": "Besuch im Krankenhaus", "kurz": "Krankenhaus",
                 "text": "Im Krankenhaus hängt neben jeder Tür ein Spender. Wer hineingeht, reibt sich die Hände mit dem Mittel ein: Es riecht wie starker Schnaps und ist nach Sekunden verdunstet. Bakterien auf der Haut überleben das nicht.",
                 "richtig": "Alkohol"
               },
               {
-                "titel": "Pilz im Weinberg",
+                "titel": "Pilz im Weinberg", "kurz": "Weinberg",
                 "text": "Im Weinberg sind die Blätter fleckig, ein Pilz breitet sich aus. Die Winzerin spritzt ein altes, blaues Spritzmittel mit Kupfer, die „Bordeauxbrühe“. Der Pilz stirbt ab, die Trauben bleiben gesund.",
                 "richtig": "Schwermetallsalz"
               }

@@ -32,7 +32,14 @@ export function createTaskPanel({ root, data, store, notebook, showCall, onRoomD
   const footEl = root.querySelector('.task-foot');
   const kartenById = new Map(data.wissen.karten.map((k) => [k.id, k]));
   // Kein Scrollen: Was nicht auf eine Seite passt, wird auf Seiten verteilt (Zurück/Weiter unter dem Aufgabenbereich)
-  const seiten = macheSeiten(bodyEl, { nav: navEl, kleben: (k) => k.matches('.frage, .task-auftrag, h3, .satz, ol.gewaehlt, .task-levels') });
+  // Steht auf Seite 1 nur der einleitende Auftrag (der Inhalt passt nur allein auf eine Seite), wird der Auftrag ausgeblendet:
+  // Eine Seite, auf der es nichts zu tun gibt, verwirrt mehr, als der Einleitungssatz hilft. Die Aufgabe selbst nennt, was zu tun ist.
+  const nurAuftrag = (seite, anzahl) => {
+    if (seite !== 0 || anzahl < 2) return;
+    const sichtbar = [...bodyEl.children].filter((k) => !k.hasAttribute('data-seite-aus') && !k.hidden && k.getClientRects().length);
+    if (sichtbar.length === 1 && sichtbar[0].classList.contains('task-auftrag')) sichtbar[0].remove();
+  };
+  const seiten = macheSeiten(bodyEl, { nav: navEl, beiWechsel: nurAuftrag, kleben: (k) => k.matches('.frage, .task-auftrag, h3, .satz, ol.gewaehlt, .task-levels') });
   let S = null;
   let roomId = null;
 

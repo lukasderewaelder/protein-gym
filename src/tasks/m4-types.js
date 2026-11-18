@@ -1,9 +1,131 @@
 // Schritt-Typen für Sauna, Shake-Bar und Abschlussquiz: Zuordnen, Mehrfachwahl, Werbung prüfen, Rückblick.
 
 import { h } from '../ui/dom.js';
-import { checkMehrfach, mische, werbungSchritt, WERBUNG_START } from './check.js';
+import { checkMehrfach, mische, werbungSchritt, WERBUNG_START, pruefeBehaelter } from './check.js';
+
+/**
+ * Zuordnen in Behälter (step.ansicht === 'behaelter'): Die Fälle liegen als Stapel, oben die aktuelle Karte ganz lesbar.
+ * Man zieht sie mit dem Finger (oder der Maus) in einen Behälter oder tippt auf den Kopf des Behälters. Karten im Behälter lassen
+ * sich antippen und kommen zurück auf den Stapel. „Prüfen“ erst, wenn alles verteilt ist: richtige Karten bleiben mit ✓ (fest),
+ * falsche bekommen ✗ und lassen sich umsortieren. Reine Logik: pruefeBehaelter in src/tasks/check.js.
+ */
+function behaelter(host, step, api) {
+  const n = step.paare.length;
+  const reihe = mische(step.paare.map((_, i) => i)); // Reihenfolge des Stapels, bei jedem Start anders
+  const belegung = new Array(n).fill(null);
+  const fest = new Set();      // richtig geprüfte Karten
+  let falsch = new Set();      // nach dem Prüfen falsch
+  let gesperrt = false;
+  const name = (i) => step.paare[i].kurz || step.paare[i].titel || step.paare[i].text;
+  const pruefen = h('button', { class: 'primary', type: 'button', onclick: onPruefen }, 'Prüfen');
+  const stapel = h('div', 'sortier-stapel');
+  const kaesten = step.optionen.map((o) => {
+    const inhalt = h('div', 'behaelter-inhalt');
+    const kopf = h('button', { type: 'button', class: 'behaelter-kopf', 'aria-label': `Aktuelle Karte in „${o}“ legen`, onclick: () => lege(o) }, o);
+    const el = h('div', { class: 'behaelter', 'data-behaelter': o }, kopf, inhalt);
+    return { o, el, inhalt, kopf };
+  });
+  host.append(h('div', 'sortier',
+    h('div', 'zieh-kopf', h('p', 'frage', step.auftrag), pruefen),
+    stapel,
+    h('div', { class: 'behaelter-reihe', style: `--spalten:${kaesten.length}` }, kaesten.map((k) => k.el))));
+
+  const offen = () => reihe.filter((i) => belegung[i] == null);
+  function lege(o, i = offen()[0]) {
+    if (gesperrt || i == null) return;
+    belegung[i] = o;
+    falsch.delete(i);
+    zeichne();
+  }
+  function zurueck(i) {
+    if (gesperrt || fest.has(i)) return;
+    belegung[i] = null;
+    falsch.delete(i);
+    // zurückgeholte Karte kommt oben auf den Stapel
+    reihe.splice(reihe.indexOf(i), 1);
+    reihe.unshift(i);
+    zeichne();
+  }
+  function zeichne() {
+    const o = offen();
+    if (o.length) {
+      const i = o[0];
+      const p = step.paare[i];
+      const karte = h('div', { class: 'sortier-karte', 'data-fall': String(i) },
+        h('span', { class: 'sortier-griff', 'aria-hidden': 'true' }, '⠿'),
+        h('div', 'sortier-inhalt', p.titel ? h('strong', {}, p.titel) : null, h('p', {}, p.text)));
+      stapel.replaceChildren(h('p', 'sortier-info', `Karte ${n - o.length + 1} von ${n} · ziehe sie in einen Behälter oder tippe auf einen Behälter`), karte);
+      verdrahte(karte, i);
+    } else {
+      stapel.replaceChildren(h('p', 'sortier-info', gesperrt ? 'Alle Karten liegen richtig.' : 'Alle Karten sind verteilt. Tippe auf „Prüfen“.'));
+    }
+    for (const k of kaesten) {
+      k.kopf.disabled = gesperrt || !o.length;
+      k.inhalt.replaceChildren(...reihe.filter((i) => belegung[i] === k.o).map((i) => {
+        const zustand = fest.has(i) ? 'richtig' : falsch.has(i) ? 'falsch' : '';
+        const zeichen = zustand === 'richtig' ? '✓ ' : zustand === 'falsch' ? '✗ ' : '';
+        return h('button', {
+          type: 'button', class: `sortier-chip${zustand ? ' ' + zustand : ''}`, disabled: gesperrt || fest.has(i),
+          'aria-label': `${name(i)} liegt in „${k.o}“${zustand === 'falsch' ? ', falsch' : ''}. Antippen holt die Karte zurück.`,
+          onclick: () => zurueck(i),
+        }, zeichen + name(i));
+      }));
+    }
+    pruefen.disabled = gesperrt || o.length > 0;
+  }
+  function onPruefen() {
+    const r = pruefeBehaelter(step.paare, belegung);
+    if (r.offen.length) { api.say('Verteile erst alle Karten.'); return; }
+    r.richtig.forEach((i) => fest.add(i));
+    falsch = new Set(r.falsch);
+    if (r.fertig) { gesperrt = true; zeichne(); api.ok(step.erklaerung || 'Alle Karten liegen im richtigen Behälter.'); return; }
+    zeichne();
+    api.fail('Karten mit ✗ liegen im falschen Behälter. Tippe sie an, dann legst du sie neu.');
+  }
+
+  // Ziehen: Die Karte folgt dem Finger; losgelassen über einem Behälter landet sie dort, sonst springt sie zurück
+  function verdrahte(karte, i) {
+    let zug = null;
+    karte.addEventListener('pointerdown', (e) => {
+      if (gesperrt || (e.pointerType === 'mouse' && e.button !== 0)) return;
+      zug = { x: e.clientX, y: e.clientY, id: e.pointerId };
+      karte.setPointerCapture(e.pointerId);
+      karte.classList.add('zieht');
+      e.preventDefault();
+    });
+    const ueber = (e) => kaesten.find((k) => { const r = k.el.getBoundingClientRect(); return e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom; });
+    karte.addEventListener('pointermove', (e) => {
+      if (!zug || e.pointerId !== zug.id) return;
+      karte.style.transform = `translate(${e.clientX - zug.x}px, ${e.clientY - zug.y}px)`;
+      const z = ueber(e);
+      kaesten.forEach((k) => k.el.classList.toggle('ziel', k === z));
+    });
+    const ende = (e, ablegen) => {
+      if (!zug || e.pointerId !== zug.id) return;
+      const z = ablegen ? ueber(e) : null;
+      zug = null;
+      karte.classList.remove('zieht');
+      karte.style.transform = '';
+      kaesten.forEach((k) => k.el.classList.remove('ziel'));
+      if (z) lege(z.o, i);
+    };
+    karte.addEventListener('pointerup', (e) => ende(e, true));
+    karte.addEventListener('pointercancel', (e) => ende(e, false));
+  }
+
+  zeichne();
+  return {
+    reveal() {
+      step.paare.forEach((p, i) => { belegung[i] = p.richtig; fest.add(i); });
+      falsch = new Set();
+      gesperrt = true;
+      zeichne();
+    },
+  };
+}
 
 function zuordnen(host, step, api) {
+  if (step.ansicht === 'behaelter') return behaelter(host, step, api);
   const gelöst = new Array(step.paare.length).fill(false);
   const zeilen = step.paare.map((p, i) => {
     const btns = step.optionen.map((o) => h('button', { type: 'button', class: 'option', onclick: () => pick(i, o, btns) }, o));
