@@ -461,7 +461,7 @@ function drawTuerMarke(ctx, hs, locked) {
 
 /**
  * st: { scene, bg, figureSprites, player, shirtCss, npcs: [{ hs, sprite }], time, isLocked(hs), showLabels, overlay(ctx), ziel }
- * ziel: Hotspot-ID des nächsten Ziels im Raum (gelbes „!“ bzw. gelbe Sprechblase), siehe zielMarke in src/state/naechster-schritt.js.
+ * hatNeues(hs): Person trägt nur dann eine Sprechblase. ziel: Hotspot-ID des nächsten Ziels im Raum (gelbes „!“ bzw. gelbe Sprechblase), siehe zielMarke in src/state/naechster-schritt.js.
  */
 export function drawScene(ctx, st) {
   const { scene, bg, time } = st;
@@ -503,7 +503,8 @@ export function drawScene(ctx, st) {
       if (istZiel) drawMarker(ctx, hs, time, false, false);
       continue;
     }
-    if (!st.showAll && hs.type === 'npc') { drawSprechblase(ctx, hs, time, istZiel); continue; }
+    // Sprechblase nur, wenn die Person etwas Neues zu sagen hat (st.hatNeues, src/state/sprechblasen.js); ohne die Funktion immer
+    if (!st.showAll && hs.type === 'npc') { if (!st.hatNeues || st.hatNeues(hs)) drawSprechblase(ctx, hs, time, istZiel); continue; }
     if (!st.showAll && !istZiel) {
       if (hs.type === 'door') drawTuerMarke(ctx, hs, st.isLocked ? st.isLocked(hs) : false);
       continue;

@@ -25,6 +25,7 @@ import { createZugang, ausweisKarte } from './ui/zugang.js';
 import { liste as inventarListe, neuAnzahl, markiereGesehen } from './state/inventar.js';
 import { renderInventar } from './ui/inventar.js';
 import { naechsterSchritt, zielZeile, wegStationen, zielMarke } from './state/naechster-schritt.js';
+import { neuigkeit, merkeGehoert, coachStufe } from './state/sprechblasen.js';
 import { neueHilfeUhr, tick as uhrTick, falsch as uhrFalsch, fortschritt as uhrFortschritt } from './state/hilfe-uhr.js';
 import { meldeFalsch, beiFalsch } from './ui/falsch.js';
 import { zaehleTuerVersuch, tuerHilfeDialog } from './state/tuerhilfe.js';
@@ -124,7 +125,8 @@ function coach() {
     else showZertifikat();
     return;
   }
-  const weiter = !store.hasFlag('labor_done') ? 'labor' : !store.hasFlag('sauna_done') ? 'sauna' : !store.hasFlag('training_done') ? 'training' : 'shakebar';
+  const weiter = coachStufe(store.state.flags);
+  gehoertMerken(`coach_${weiter}`);
   playDialog(`empfang.coach.${weiter}`);
 }
 
@@ -420,6 +422,7 @@ function trigger(hs) {
   if (hs.aktion === 'fach') { zugang.fach(DATA.faecher.faecher.find((x) => x.id === hs.fach)); return; }
   if (hs.aktion === 'zettel') { zettelAnsehen(hs); return; }
   if (hs.task && tasks[hs.task]) { tasks[hs.task](hs); return; }
+  if (hs.type === 'npc') gehoertMerken(`person_${hs.id}`);
   playDialog(hs.dialog || `${cur.scene.id}.${hs.id}`, { speaker: hs.label, lines: ['(Hier fehlt noch ein Text.)'] });
 }
 
@@ -476,12 +479,16 @@ function sperre(hs) {
  */
 let zielMerker = '';
 let zielHs = null;
+let aktuelleStation = null; // nächste Station (naechsterSchritt), wird in zielAktualisieren erneuert
+/** Gespräch als gehört merken: Die Sprechblase der Person verschwindet (Sprechblasen nur bei Neuem). */
+function gehoertMerken(key) { if (merkeGehoert(store.state, key)) store.save(); }
 const hilfeUhr = neueHilfeUhr();
 function zielAktualisieren() {
   const knopf = $('#ziel');
-  if (!DATA.hilfe || !DATA.aufgaben || !store.hasNames()) { knopf.hidden = true; zielHs = null; return; }
+  if (!DATA.hilfe || !DATA.aufgaben || !store.hasNames()) { knopf.hidden = true; zielHs = null; aktuelleStation = null; return; }
   const daten = { aufgaben: DATA.aufgaben, karten: DATA.wissen.karten, hefter: DATA.hefter, haken: store.state.hefterHaken };
   const station = naechsterSchritt(store.state.flags, daten);
+  aktuelleStation = station;
   zielHs = zielMarke(station, store.state.scene, [...DATA.scenes.values()]);
   const z = zielZeile(station, store.state.flags, daten, DATA.hilfe);
   if (!z || !hilfeUhr.sichtbar) { knopf.hidden = true; return; }
@@ -683,6 +690,7 @@ function frame(now) {
       time,
       isLocked,
       ziel: zielHs,
+      hatNeues: (hs) => neuigkeit(hs, { flags: store.state.flags, station: aktuelleStation, gehoert: store.state.gehoert, szene: store.state.scene }) !== null,
       fachOffen: (hs) => store.hasFlag(`bonus_${hs.fach}`),
       isHidden: (hs) => !istSichtbar(hs, (f) => store.hasFlag(f)),
       geraetOffen: (hs) => (hs.leser === 'labor' ? store.hasFlag('labor_offen') : false),

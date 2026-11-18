@@ -27,6 +27,7 @@ export function defaultState() {
     digitalFrei: {},    // Digitaler Versuch freigeschaltet je Station (A Hitze, L Lieferung), nur auf dem Gerät
     fontScale: 1,
     inventarGesehen: {}, // Gegenstände, die die Tasche schon gezeigt hat (nur auf dem Gerät)
+    gehoert: {},        // Gespräche, die man schon gehört hat, für die Sprechblasen (src/state/sprechblasen.js, nur auf dem Gerät)
     vollbild: false,    // Vollbild war zuletzt an: nach dem Neuladen beim ersten Tippen wieder anfordern (nur auf dem Gerät)
   };
 }
