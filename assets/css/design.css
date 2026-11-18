@@ -1,0 +1,151 @@
+/* Design-Satz für die Aufgabenfenster und das Papier-Fenster (Führerschein, Schlösser, Hilfe), Stand 2026-11-18.
+   Ziel: ruhig, einheitlich, nicht überfrachtend, auch für neurodivergente Kinder. Geladen NACH papier.css; gilt nur unter `.papier`.
+   Regeln (kurz, die Begründung steht in CLAUDE.md, Abschnitt „Design-Satz“):
+   · Eine Schrift (Atkinson Hyperlegible, für gute Lesbarkeit gemacht). Monospace nur für Codes und Formeln.
+   · Drei Größen: Titel, Text, Klein (je mal --font-scale). Zwei Gewichte: 400 und 700. Fett nur für Titel, Fragen und Beschriftungen.
+   · Farben: dunkler Text auf Weiß, Neutral für alles Bedienbare. Orange nur für den einen Hauptknopf. Grün und Rot nur für
+     Rückmeldung und markierte Antworten, immer zusätzlich mit ✓ oder ✗ und dickerem Rahmen (nie Farbe allein).
+   · Aufbau jeder Ansicht: Titel · Fortschritt · Auftrag · Inhalt · Rückmeldung · Fußleiste. Abstände 8, 16, 24 px. Knöpfe 48 px hoch. */
+
+@font-face {
+  font-family: "Atkinson Hyperlegible";
+  font-style: normal; font-weight: 400; font-display: swap;
+  src: url("../schrift/atkinson-hyperlegible-latin-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Atkinson Hyperlegible";
+  font-style: normal; font-weight: 700; font-display: swap;
+  src: url("../schrift/atkinson-hyperlegible-latin-700.woff2") format("woff2");
+}
+
+.papier {
+  --ds-font: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --ds-mono: ui-monospace, "Courier New", monospace;
+  /* Größen */
+  --ds-titel: calc(24px * var(--font-scale));
+  --ds-text: calc(20px * var(--font-scale));
+  --ds-klein: calc(16px * var(--font-scale));
+  /* Farben */
+  --ds-ink: #1b2a30;
+  --ds-muted: #4b5b62;
+  --ds-linie: #c3ced3;
+  --ds-flaeche: #f3f6f7;
+  --ds-gewaehlt: #e3ecef;
+  --ds-ok: #1e7a3a;
+  --ds-ok-hell: #eaf5ee;
+  --ds-fehler: #b3261e;
+  --ds-fehler-hell: #fdeeed;
+  --ds-aktion: #f08a24;
+  --ds-aktion-rand: #b85f0a;
+  --ds-fokus: #0b6bcb;
+  /* Maße */
+  --ds-radius: 10px;
+  --ds-knopf: 48px;
+  --ds-abstand-1: 8px;
+  --ds-abstand-2: 16px;
+  --ds-abstand-3: 24px;
+
+  --ink: var(--ds-ink);
+  --muted: var(--ds-muted);
+  font-family: var(--ds-font);
+  font-size: var(--ds-text);
+  line-height: 1.45;
+  color: var(--ds-ink);
+}
+.papier button, .papier input, .papier textarea, .papier select { font-family: inherit; }
+
+/* ---------- Titel ---------- */
+.papier .task-head { border-bottom: 2px solid var(--ds-linie); }
+.papier .task-head h2, dialog#zugang.papier h2, .task-card .task-head h2 {
+  color: var(--ds-ink); font-family: var(--ds-font); font-size: var(--ds-titel); font-weight: 700; letter-spacing: 0; line-height: 1.2;
+}
+dialog#zugang.papier h2 { border-bottom: 2px solid var(--ds-linie); }
+
+/* ---------- Fortschritt und Meta ---------- */
+.papier .task-meta, .papier .task-steps, .papier .zugang-schritt, .papier .hint {
+  color: var(--ds-muted); font-size: var(--ds-klein); font-weight: 400;
+}
+.papier .task-bar { background: #dfe6e9; }
+.papier .task-bar > span { background: #35656b; }
+.papier .task-nav .seiten-text { font-size: var(--ds-klein); font-weight: 400; color: var(--ds-ink); }
+
+/* ---------- Auftrag und Frage ---------- */
+.papier .task-auftrag {
+  background: none; color: var(--ds-ink); border-left: 4px solid var(--ds-linie); border-radius: 0;
+  font-size: var(--ds-text); padding: 4px 14px;
+}
+.papier .frage, .papier .zugang-frage { font-size: var(--ds-text); font-weight: 700; }
+.papier .satz { font-size: var(--ds-text); font-weight: 400; }
+.papier .probe > strong, .papier .probe.situation > strong, .task-card.papier .probe.situation > strong { font-size: var(--ds-text); font-weight: 700; }
+.task-card.papier .situation-text { font-size: var(--ds-text); font-weight: 400; }
+.papier h3, .papier h4 { font-family: var(--ds-font); font-size: var(--ds-text); font-weight: 700; }
+
+/* ---------- Knöpfe: alle gleich hoch, neutral; nur der Hauptknopf ist orange ---------- */
+.papier button {
+  min-height: var(--ds-knopf); padding: 8px 16px; border: 2px solid var(--ds-linie); border-radius: var(--ds-radius);
+  background: var(--ds-flaeche); color: var(--ds-ink); font-size: var(--ds-text); font-weight: 400;
+}
+.papier button:hover:not(:disabled) { background: var(--ds-gewaehlt); }
+.papier button:disabled { opacity: 0.5; }
+.papier button.primary { background: var(--ds-aktion); border-color: var(--ds-aktion-rand); color: #1d1305; font-weight: 700; }
+.papier button.primary:hover:not(:disabled) { background: #ffa04a; }
+.papier button:focus-visible, .papier input:focus-visible, .papier textarea:focus-visible { outline: 3px solid var(--ds-fokus); outline-offset: 2px; }
+/* Niveau und Seitenwechsel sind Nebensache: kleiner, ohne Orange */
+.papier .task-levels button { min-height: 40px; padding: 4px 12px; font-size: var(--ds-klein); }
+.papier .task-levels button[aria-pressed="true"] { background: var(--ds-gewaehlt); border: 3px solid var(--ds-ink); color: var(--ds-ink); font-weight: 700; }
+.papier .task-nav button { min-height: 40px; padding: 4px 12px; font-size: var(--ds-klein); }
+/* Hilfen in der Fußleiste: zurückhaltend, ohne Füllung */
+.papier .task-foot { background: #fff; border-top: 2px solid var(--ds-linie); }
+.papier .task-foot button:not(.primary) { background: transparent; font-size: var(--ds-klein); }
+.papier .task-foot button:not(.primary):hover:not(:disabled) { background: var(--ds-flaeche); }
+
+/* ---------- Antworten: gleich aufgebaut, Zustand über Rahmen und Zeichen ---------- */
+.papier .option, .papier .chip, .papier .platz, .papier .luecke { font-size: var(--ds-text); font-weight: 400; color: var(--ds-ink); }
+.papier .chip { font-family: var(--ds-font); border: 2px solid var(--ds-linie); background: var(--ds-flaeche); }
+.papier .platz { font-family: var(--ds-mono); }
+.papier .option[aria-pressed="true"], .papier .chip[aria-pressed="true"], .papier .chip.gewaehlt {
+  background: var(--ds-gewaehlt); border: 3px solid var(--ds-ink); color: var(--ds-ink); font-weight: 400;
+}
+.papier .option[aria-pressed="true"]::before, .papier .chip[aria-pressed="true"]::before { color: var(--ds-ink); }
+.papier .option.richtig, .papier .zugang-optionen .option.richtig, .papier .luecke.ok, .papier .platz.ok, .papier .fall-person.richtig {
+  background: var(--ds-ok-hell); border: 3px solid var(--ds-ok); color: var(--ds-ink);
+}
+.papier .option.falsch, .papier .zugang-optionen .option.falsch, .papier .luecke.wrong, .papier .platz.wrong {
+  background: var(--ds-fehler-hell); border: 3px solid var(--ds-fehler); color: var(--ds-ink);
+}
+.papier .luecke.aktiv { border: 3px solid var(--ds-ink); }
+.papier .platz.voll { background: var(--ds-gewaehlt); }
+.papier .checkliste label { font-size: var(--ds-text); background: var(--ds-flaeche); border-color: var(--ds-linie); }
+.papier .checkliste label:has(input:checked) { background: var(--ds-gewaehlt); border: 3px solid var(--ds-ink); font-weight: 400; }
+.papier .checkliste input { accent-color: var(--ds-ink); }
+.papier input.zahl, .papier input.warum, .papier textarea { font-size: max(16px, var(--ds-text)); border: 2px solid var(--ds-linie); border-radius: var(--ds-radius); }
+.papier mark { background: #fbe9a8; color: var(--ds-ink); }
+
+/* ---------- Rückmeldung ---------- */
+.papier .task-feedback, .papier .zugang-fb { font-size: var(--ds-text); font-weight: 400; border-radius: var(--ds-radius); }
+.papier .task-feedback:not(.gut):not(.schlecht), .papier .zugang-fb:not(.gut):not(.schlecht) { background: var(--ds-flaeche); border-color: var(--ds-linie); color: var(--ds-ink); }
+.papier .task-feedback.gut, .papier .zugang-fb.gut { background: var(--ds-ok-hell); border: 3px solid var(--ds-ok); color: var(--ds-ink); }
+.papier .task-feedback.schlecht, .papier .zugang-fb.schlecht { background: var(--ds-fehler-hell); border: 3px solid var(--ds-fehler); color: var(--ds-ink); }
+.papier .zugang-gut, .papier .task-fertig, .papier .tube-ergebnis { color: var(--ds-ink); }
+.papier .error { color: var(--ds-fehler); }
+.papier .wackeln { animation: none; } /* kein Rütteln bei Fehlern: ruhige Rückmeldung nur über Text und Rahmen */
+
+/* ---------- Hilfe, Info-Kästen, Karten im Aufgabentext ---------- */
+.papier .task-help { background: var(--ds-flaeche); border: 2px solid var(--ds-linie); color: var(--ds-ink); font-size: var(--ds-text); }
+.papier .muster, .papier .ergebnis, .papier .fall-aufloesung, .papier .hilfe-konkret {
+  background: var(--ds-ok-hell); border: 2px solid var(--ds-ok); color: var(--ds-ink); font-size: var(--ds-text);
+}
+.papier .hilfe-konkret { border-width: 0 0 0 4px; }
+.papier .merksatz { border: 2px solid var(--ds-ink); }
+.papier .merksatz-abschreiben, .papier .auftrag-abschreiben { border-left-color: var(--ds-ink); }
+.papier .etikett { background: var(--ds-flaeche); border-color: var(--ds-linie); font-size: var(--ds-text); }
+.papier .karte, .papier .tube-karte, .papier .fall-hinweise li, .papier .fall-person { background: var(--ds-flaeche); border-color: var(--ds-linie); font-size: var(--ds-text); }
+.papier .code { border-color: var(--ds-ink); }
+.papier .task-eintrag.fertig { border: 3px solid var(--ds-ok); background: var(--ds-ok-hell); }
+.papier .ablauf-nr, .task-card.papier .ablauf-nr { background: var(--ds-ink); font-family: var(--ds-font); font-weight: 700; font-size: var(--ds-text); }
+.papier .protokoll-text { font-family: var(--ds-mono); font-size: var(--ds-klein); }
+.papier .formelzeile { font-family: var(--ds-mono); font-size: var(--ds-text); }
+
+@media (prefers-reduced-motion: reduce) {
+  .papier * { animation: none !important; transition: none !important; }
+}

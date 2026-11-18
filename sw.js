@@ -2,10 +2,11 @@
 // Der Block zwischen den Marken wird von tools/precache.mjs erzeugt (node tools/precache.mjs).
 
 // >>> precache
-const VERSION = 'ff9f7037fb';
+const VERSION = '110f3cb22a';
 const ASSETS = [
   './',
   './assets/css/app.css',
+  './assets/css/design.css',
   './assets/css/funde.css',
   './assets/css/game.css',
   './assets/css/papier.css',
@@ -69,6 +70,8 @@ const ASSETS = [
   './assets/portraits/zoe_0.webp',
   './assets/portraits/zoe_1.webp',
   './assets/portraits/zoe_2.webp',
+  './assets/schrift/atkinson-hyperlegible-latin-400.woff2',
+  './assets/schrift/atkinson-hyperlegible-latin-700.woff2',
   './assets/szenen/szene_empfang.webp',
   './assets/szenen/szene_labor.webp',
   './assets/szenen/szene_sauna.webp',

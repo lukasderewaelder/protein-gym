@@ -1,8 +1,8 @@
-/* Helles Papier-Thema für Aufgaben, Quizzes und das Zugangsfenster (Führerschein, Bonus-Fächer, Hilfe).
-   Gleiche Sprache wie der Hefter: weißes Blatt, rote Hauptüberschrift, grüne Auftragsleiste, rote Rahmen nur für Merksätze.
+/* Helles Papier-Thema für Aufgaben, Quizzes und das Zugangsfenster (Führerschein, Bonus-Fächer, Hilfe): Weiß, Layout und Zonen.
+   Schrift, Größen, Farben und Zustände legt der Design-Satz in design.css fest (wird danach geladen und gewinnt).
    Aufbau jedes Fensters, von oben nach unten:
-   1 Titel (rot)  ·  2 Fortschritt („Schritt 2 von 4“ mit Balken)  ·  3 Auftrag (grüne Leiste)  ·  4 Frage (fett)
-   5 Antworten (gleich breite helle Knöpfe)  ·  6 Rückmeldung (✓ grün / ✗ rot, immer mit Text)  ·  7 Hilfe  ·  8 Knöpfe (ein Hauptknopf). */
+   1 Titel  ·  2 Fortschritt („Schritt 2 von 4“ mit Balken)  ·  3 Auftrag  ·  4 Frage (fett)
+   5 Antworten (gleich breite helle Knöpfe)  ·  6 Rückmeldung (✓ / ✗, immer mit Text)  ·  7 Hilfe  ·  8 Knöpfe (ein Hauptknopf). */
 
 .papier {
   --ink: #1b1f23;
@@ -37,13 +37,12 @@
 .papier .task-levels button[aria-pressed="true"] { background: var(--accent); border-color: #b85f0a; color: #1d1305; }
 
 /* ---------- 1 Titel ---------- */
-.papier .task-head { border-bottom: 3px solid var(--papier-rot); padding-bottom: 6px; margin-bottom: 6px; }
-.papier .task-head h2, dialog#zugang.papier h2 { color: var(--papier-rot); font-family: var(--font-pixel); }
-dialog#zugang.papier h2 { margin-top: 2px; padding-right: 44px; border-bottom: 3px solid var(--papier-rot); padding-bottom: 6px; }
+.papier .task-head { padding-bottom: 6px; margin-bottom: 6px; }
+dialog#zugang.papier h2 { margin-top: 2px; padding-right: 44px; padding-bottom: 6px; }
 .papier .task-meta { margin: 2px 0 6px; }
 
 /* ---------- 2 Fortschritt ---------- */
-.papier .task-steps { margin: 8px 0 4px; font-weight: 700; color: var(--papier-gruen); font-size: calc(16px * var(--font-scale)); }
+.papier .task-steps { margin: 8px 0 4px; }
 .papier .task-steps:empty { display: none; }
 .task-bar { height: 8px; margin: 0 0 8px; border-radius: 4px; background: #dfe5e8; overflow: hidden; }
 .task-bar > span { display: block; height: 100%; width: var(--fortschritt, 0%); background: var(--papier-gruen); border-radius: 4px; transition: width 0.3s; }
@@ -52,7 +51,7 @@ dialog#zugang.papier h2 { margin-top: 2px; padding-right: 44px; border-bottom: 3
 .papier .zugang-schritt { color: var(--papier-gruen); font-weight: 700; }
 
 /* ---------- 3 Auftrag, 4 Frage ---------- */
-.papier .task-auftrag { margin: 6px 0 10px; padding: 8px 14px; border-left: 5px solid var(--papier-gruen); background: var(--papier-gruen-hell); border-radius: 0 8px 8px 0; font-size: calc(18px * var(--font-scale)); color: #17331f; }
+.papier .task-auftrag { margin: 6px 0 10px; padding: 8px 14px; }
 .papier .task-auftrag:empty { display: none; }
 .papier .frage { font-weight: 600; font-size: calc(20px * var(--font-scale)); }
 .papier .satz { font-size: calc(19px * var(--font-scale)); }
