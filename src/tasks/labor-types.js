@@ -7,7 +7,7 @@ import { h } from '../ui/dom.js';
 import { tastaturFeld } from '../ui/tastatur.js';
 import { svgEl } from './molecule.js';
 import { meldeFalsch } from '../ui/falsch.js';
-import { beobachtungPasst, reihenfolge, alleProben, protokollText, probenName, stationenVon, notizSchluessel } from './check.js';
+import { beobachtungPasst, reihenfolge, falscheZeilen, verschiebe, alleProben, protokollText, probenName, stationenVon, notizSchluessel } from './check.js';
 import { pruefeCodeMitSchluesseln, schrittFrei, schrittMerken, istNotfallCode } from '../state/lehrcode.js';
 import { ladeSchluessel } from '../state/klassenwort.js';
 import { aktivierungOk, digitalFrei, digitalFreischalten } from '../state/digital.js';
@@ -63,30 +63,108 @@ function anleitung(host, step, api) {
   return { reveal() { boxes.forEach((b) => { b.checked = true; }); } };
 }
 
+/**
+ * Reihenfolge ziehen: Die Schritte stehen untereinander als Karten, man zieht sie nach oben oder unten (Finger, Stift, Maus) oder nutzt
+ * die Knöpfe ▲ ▼ (Tastatur, Hilfe). „Prüfen“ markiert falsche Karten mit ✗; nach drei Fehlversuchen zeigt das Lösungsbeispiel die Lösung.
+ * Reine Logik in src/tasks/check.js (falscheZeilen, verschiebe); die Prüfung kennt gleichwertige Schritte (step.gleichwertig).
+ */
 function reihenfolgeStep(host, step, api) {
-  const chosen = [];
-  const order = step.anzeige.map((i) => step.korrekt[i]);
-  const list = h('ol', 'gewaehlt');
-  const btns = order.map((text) => h('button', { type: 'button', class: 'option', onclick: () => pick(text, btnOf(text)) }, text));
-  const btnOf = (t) => btns[order.indexOf(t)];
-  host.append(h('p', 'frage', step.auftrag), h('p', 'frage', 'Deine Reihenfolge:'), list, h('div', 'optionen', btns));
-  function pick(text, btn) {
-    const next = [...chosen, text];
-    const r = reihenfolge(step.korrekt, next, step.gleichwertig);
-    if (!r.prefixOk) { api.fail('Das ist noch nicht dran. Welcher Schritt kommt als Nächstes?'); return; }
-    chosen.push(text);
-    btn.disabled = true;
-    list.append(h('li', {}, text));
-    if (r.fertig) api.ok('Die Reihenfolge stimmt.'); else api.say('Richtig. Weiter mit dem nächsten Schritt.');
+  let order = step.anzeige.map((i) => step.korrekt[i]);
+  let gesperrt = false;
+  let marken = new Map(); // Text → 'ok' | 'wrong' nach dem Prüfen
+  const list = h('ol', { class: 'ziehliste', 'aria-label': 'Schritte des Versuchs, oben beginnt der Versuch' });
+  const pruefen = h('button', { class: 'primary', type: 'button', onclick: onPruefen }, 'Prüfen');
+  // Anweisung und „Prüfen“ in einer Zeile über der Liste, alles ein Block: Die Karten stehen immer mit der Anweisung auf einer Seite
+  host.append(h('div', 'zieh-block',
+    h('div', 'zieh-kopf', h('p', 'frage', step.frage || 'Ziehe die Karten in die richtige Reihenfolge.'), pruefen),
+    list));
+
+  function zeile(text, i) {
+    const m = marken.get(text);
+    const zeichen = m === 'ok' ? '✓' : m === 'wrong' ? '✗' : String(i + 1);
+    const hoch = h('button', { type: 'button', class: 'zieh-knopf', 'aria-label': `Schritt ${i + 1} nach oben`, disabled: gesperrt || i === 0, onclick: () => bewege(i, i - 1, 'hoch') }, '▲');
+    const runter = h('button', { type: 'button', class: 'zieh-knopf', 'aria-label': `Schritt ${i + 1} nach unten`, disabled: gesperrt || i === order.length - 1, onclick: () => bewege(i, i + 1, 'runter') }, '▼');
+    return h('li', { class: `zieh-zeile${m === 'ok' ? ' richtig' : m === 'wrong' ? ' falsch' : ''}`, 'data-text': text },
+      h('span', 'zieh-nr', zeichen), h('span', { class: 'zieh-griff', 'aria-hidden': 'true' }, '⠿'), h('span', 'zieh-text', text), h('span', 'zieh-knoepfe', hoch, runter));
   }
+  function zeichne(fokus) {
+    list.replaceChildren(...order.map(zeile));
+    pruefen.disabled = gesperrt;
+    if (fokus) { const b = list.children[fokus.i] && list.children[fokus.i].querySelectorAll('.zieh-knopf')[fokus.art === 'hoch' ? 0 : 1]; if (b && !b.disabled) b.focus(); }
+  }
+  function bewege(von, nach, art) {
+    if (gesperrt) return;
+    order = verschiebe(order, von, nach);
+    marken = new Map();
+    zeichne({ i: nach, art });
+  }
+  function onPruefen() {
+    if (gesperrt) return;
+    const falsch = falscheZeilen(step.korrekt, order, step.gleichwertig);
+    marken = new Map(order.map((tx, p) => [tx, falsch.includes(p) ? 'wrong' : 'ok']));
+    if (!falsch.length) { gesperrt = true; zeichne(); api.ok('Die Reihenfolge stimmt.'); return; }
+    zeichne();
+    api.fail('Karten mit ✗ stehen noch falsch. Ziehe sie an eine andere Stelle.');
+  }
+
+  // Ziehen mit Finger, Stift oder Maus: Die Karte folgt dem Zeiger, die anderen rücken nach, sobald die Mitte einer Nachbarkarte überschritten ist
+  let zug = null;
+  list.addEventListener('pointerdown', (e) => {
+    const z = e.target.closest && e.target.closest('.zieh-zeile');
+    if (gesperrt || !z || e.target.closest('button') || (e.pointerType === 'mouse' && e.button !== 0)) return;
+    const r = z.getBoundingClientRect();
+    zug = { z, griff: e.clientY - r.top, id: e.pointerId, bewegt: false };
+    z.setPointerCapture(e.pointerId);
+    z.classList.add('zieht');
+    e.preventDefault();
+  });
+  list.addEventListener('pointermove', (e) => {
+    if (!zug || e.pointerId !== zug.id) return;
+    zug.bewegt = true;
+    const { z } = zug;
+    const zeilen = [...list.children];
+    const von = zeilen.indexOf(z);
+    // Ziel: Index der Zeile, in deren Bereich der Zeiger steht (ohne die gezogene Karte zu berücksichtigen)
+    let nach = von;
+    zeilen.forEach((k, i) => {
+      if (k === z) return;
+      const r = k.getBoundingClientRect();
+      if (i < von && e.clientY < r.top + r.height / 2) nach = Math.min(nach, i);
+      if (i > von && e.clientY > r.top + r.height / 2) nach = Math.max(nach, i);
+    });
+    if (nach !== von) {
+      order = verschiebe(order, von, nach);
+      marken = new Map();
+      z.classList.remove('richtig', 'falsch');
+      // Die gezogene Karte selbst bleibt im Baum stehen (Umhängen würde den Finger loslassen), die Nachbarn rücken um sie herum
+      if (nach > von) for (let i = von + 1; i <= nach; i++) list.insertBefore(zeilen[i], z);
+      else for (let i = von - 1; i >= nach; i--) list.insertBefore(zeilen[i], z.nextSibling);
+      [...list.children].forEach((k, i) => { const nr = k.querySelector('.zieh-nr'); if (nr) nr.textContent = String(i + 1); });
+      marken.clear();
+    }
+    // Karte folgt dem Zeiger: Abstand zwischen Zeiger und der natürlichen Lage
+    z.style.transform = '';
+    const natuerlich = z.getBoundingClientRect().top;
+    z.style.transform = `translateY(${e.clientY - zug.griff - natuerlich}px)`;
+  });
+  const ende = (e) => {
+    if (!zug || (e && e.pointerId !== zug.id)) return;
+    zug.z.classList.remove('zieht');
+    zug.z.style.transform = '';
+    zug = null;
+    zeichne();
+  };
+  list.addEventListener('pointerup', ende);
+  list.addEventListener('pointercancel', ende);
+  list.addEventListener('lostpointercapture', ende);
+
+  zeichne();
   return {
     reveal() {
-      step.korrekt.forEach((t) => {
-        if (chosen.includes(t)) return;
-        chosen.push(t);
-        btnOf(t).disabled = true;
-        list.append(h('li', {}, t));
-      });
+      order = [...step.korrekt];
+      gesperrt = true;
+      marken = new Map(order.map((tx) => [tx, 'ok']));
+      zeichne();
     },
   };
 }
@@ -253,8 +331,9 @@ function beobachtung(host, step, api, ctx) {
     tastaturFeld(notiz, 'text');
     notiz.addEventListener('input', () => { cur.notiz = notiz.value; ctx.store.save(); });
     host.append(h('div', 'probe',
-      h('strong', {}, `${pr.station.name}, Probe ${pr.nr}: ${probenName(pr)}`),
-      vm ? h('span', 'hint', `Du vermutetest: ${vm}`) : null,
+      // Nur „Probe n: …“ (der Stationsname stand früher vor jeder Probe); die Vermutung steht in einer eigenen Zeile
+      h('strong', {}, `Probe ${pr.nr}: ${probenName(pr)}`),
+      vm ? h('p', 'hint', `Du vermutetest: ${vm}`) : null,
       h('div', 'chips', btns), notiz));
   }
   const besonder = h('textarea', { rows: 2, 'aria-label': 'Besonderheiten', placeholder: 'Besonderheiten oder Auffälliges (freiwillig)' });

@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
-import { checkLuecken, reihenfolge, formelTippTreffer, mische } from '../src/tasks/check.js';
+import { checkLuecken, reihenfolge, falscheZeilen, verschiebe, formelTippTreffer, mische } from '../src/tasks/check.js';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const A = JSON.parse(readFileSync(join(root, 'data/aufgaben.json'), 'utf8'));
@@ -120,4 +120,53 @@ test('Mischen: gleiche Elemente, Eingabe bleibt unverändert, Zufallsquelle steu
   assert.deepEqual(b, [0, 1, 2, 3], 'mit größtem Zufall bleibt die Reihenfolge');
   assert.notDeepEqual(a, eingabe, 'mit kleinstem Zufall wird gemischt');
   assert.deepEqual(mische([]), []);
+});
+
+test('Ziehen: verschiebe setzt einen Eintrag um und ändert die Eingabe nie', () => {
+  const l = ['a', 'b', 'c', 'd'];
+  assert.deepEqual(verschiebe(l, 0, 2), ['b', 'c', 'a', 'd']);
+  assert.deepEqual(verschiebe(l, 3, 0), ['d', 'a', 'b', 'c']);
+  assert.deepEqual(verschiebe(l, 1, 1), l);
+  assert.deepEqual(verschiebe(l, -1, 2), l);
+  assert.deepEqual(verschiebe(l, 1, 9), l);
+  assert.deepEqual(l, ['a', 'b', 'c', 'd'], 'Eingabe bleibt unverändert');
+});
+
+test('Ziehen: falscheZeilen markiert nur Zeilen an falscher Stelle, gleichwertige Schritte dürfen tauschen', () => {
+  const k = ['brille', 'beschriften', 'einfüllen', 'zusatz', 'beobachten'];
+  assert.deepEqual(falscheZeilen(k, k), []);
+  assert.deepEqual(falscheZeilen(k, ['brille', 'einfüllen', 'beschriften', 'zusatz', 'beobachten'], [[1, 2]]), [], 'gleichwertig vertauscht');
+  assert.deepEqual(falscheZeilen(k, ['brille', 'einfüllen', 'beschriften', 'zusatz', 'beobachten']), [1, 2], 'ohne Gruppe falsch');
+  assert.deepEqual(falscheZeilen(k, ['beobachten', 'beschriften', 'einfüllen', 'zusatz', 'brille'], [[1, 2]]), [0, 4]);
+  // Übereinstimmung mit reihenfolge(): vollständig und ohne falsche Zeilen = fertig
+  const g = [[1, 2]];
+  for (const x of [k, ['brille', 'einfüllen', 'beschriften', 'zusatz', 'beobachten'], ['zusatz', 'brille', 'beschriften', 'einfüllen', 'beobachten']]) {
+    assert.equal(falscheZeilen(k, x, g).length === 0, reihenfolge(k, x, g).fertig);
+  }
+});
+
+test('Aufgabe 2 und Lieferung: Keine Ziehliste ist von Anfang an gelöst, Texte bleiben kurz genug für eine Seite', () => {
+  for (const id of ['a4', 'a7']) {
+    for (const [n, steps] of Object.entries(A.aufgaben[id].niveaus)) {
+      for (const s of steps.filter((x) => x.type === 'reihenfolge')) {
+        const gelegt = s.anzeige.map((i) => s.korrekt[i]);
+        assert.notEqual(falscheZeilen(s.korrekt, gelegt, s.gleichwertig).length, 0, `${id}/${n}: schon gelöst`);
+        assert.ok(s.korrekt.length <= 7, `${id}/${n}: höchstens 7 Karten`);
+        for (const t of s.korrekt) assert.ok(t.length <= 110, `${id}/${n}: Karte zu lang: ${t.slice(0, 40)}`);
+      }
+    }
+  }
+});
+
+test('Ziehliste: Pointer-Events für Finger und Maus, die gezogene Karte bleibt im Baum, ▲▼ als zweiter Weg', () => {
+  const src = readFileSync(join(root, 'src/tasks/labor-types.js'), 'utf8');
+  const css = readFileSync(join(root, 'assets/css/design.css'), 'utf8');
+  for (const ev of ['pointerdown', 'pointermove', 'pointerup', 'pointercancel']) assert.ok(src.includes(`'${ev}'`), ev);
+  assert.match(src, /setPointerCapture/);
+  // Umhängen der gezogenen Karte selbst würde den Finger loslassen (lostpointercapture): nur die Nachbarn rücken
+  assert.doesNotMatch(src, /list\.insertBefore\(z,/);
+  assert.match(src, /aria-label': `Schritt \$\{i \+ 1\} nach oben`/);
+  assert.match(css, /\.papier \.zieh-zeile \{[^}]*touch-action: none/);
+  // Anweisung und „Prüfen“ stehen in einem Block mit der Liste (kein Seitenumbruch dazwischen)
+  assert.match(src, /h\('div', 'zieh-block',\s*h\('div', 'zieh-kopf'/);
 });

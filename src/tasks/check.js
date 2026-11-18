@@ -106,10 +106,41 @@ export function beobachtungPasst(probe, wahl) {
  * gleichwertig: Gruppen von Positionen in korrekt, die untereinander vertauscht werden dürfen, zum Beispiel [[0, 1]].
  */
 export function reihenfolge(korrekt, gewaehlt, gleichwertig = []) {
-  const rang = (i) => { const g = gleichwertig.find((x) => x.includes(i)); return g ? Math.min(...g) : i; };
+  const rang = rangVon(gleichwertig);
   const idx = gewaehlt.map((g) => korrekt.indexOf(g));
   const prefixOk = idx.every((k, p) => k >= 0 && rang(k) === rang(p)) && new Set(idx).size === idx.length;
   return { prefixOk, fertig: prefixOk && gewaehlt.length === korrekt.length };
+}
+
+/** Rang eines Platzes: gleichwertige Plätze (Gruppen aus Indizes) haben denselben Rang, den kleinsten Index der Gruppe. */
+function rangVon(gleichwertig = []) {
+  return (i) => { const g = gleichwertig.find((x) => x.includes(i)); return g ? Math.min(...g) : i; };
+}
+
+/**
+ * Welche Zeilen einer vollständig gelegten Reihenfolge stehen falsch? Gibt die Positionen (ab 0) zurück; leer = alles richtig.
+ * Eine Zeile ist richtig, wenn ihr Schritt an einer Stelle stehen darf, die zu ihm gehört (gleichwertige Schritte dürfen tauschen).
+ */
+export function falscheZeilen(korrekt, gewaehlt, gleichwertig = []) {
+  const rang = rangVon(gleichwertig);
+  const benutzt = new Set();
+  const falsch = [];
+  gewaehlt.forEach((g, p) => {
+    const k = korrekt.indexOf(g);
+    const ok = k >= 0 && !benutzt.has(k) && rang(k) === rang(p);
+    if (k >= 0) benutzt.add(k);
+    if (!ok) falsch.push(p);
+  });
+  return falsch;
+}
+
+/** Liste mit einem Eintrag an eine andere Stelle verschoben (neue Liste; ungültige Positionen ändern nichts). */
+export function verschiebe(liste, von, nach) {
+  if (!Number.isInteger(von) || !Number.isInteger(nach) || von < 0 || nach < 0 || von >= liste.length || nach >= liste.length || von === nach) return [...liste];
+  const neu = [...liste];
+  const [x] = neu.splice(von, 1);
+  neu.splice(nach, 0, x);
+  return neu;
 }
 
 /** Was im Glas passiert: bei Station A der Einfluss (Hitze, Säure …), bei Station B die Probe. */

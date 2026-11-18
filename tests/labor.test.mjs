@@ -140,14 +140,15 @@ test('Labor: Aufgabe 4 ist im Raum eingetragen, braucht keine Freigabe vorher, K
 test('Labor: alle drei Niveaus haben dieselben Stationsschritte, kein Export (das echte Protokoll kommt von der Lehrkraft)', () => {
   for (const n of ['A', 'B', 'C']) {
     const types = A.aufgaben.a4.niveaus[n].map((s) => s.type);
-    assert.equal(types[0], 'vermutung');
+    // Aufgabe 2 (a4) seit 2026-11-18: drei Fragen, Reihenfolge ziehen, Versuch, Beobachtung, Deuten (keine Vermutungen, keine Abhak-Liste)
+    assert.deepEqual(types, ['waehlen', 'waehlen', 'waehlen', 'reihenfolge', 'versuch', 'beobachtung', 'luecken'], `a4/${n}`);
+    assert.equal(A.aufgaben.a7.niveaus[n][0].type, 'vermutung', 'a7 (Lieferung) bleibt unverändert');
     assert.ok(types.includes('versuch') && types.includes('beobachtung'));
     assert.ok(!types.includes('export'));
     assert.ok(!A.aufgaben.a7.niveaus[n].some((s) => s.type === 'export'), 'a7 ohne Export');
   }
-  assert.equal(A.aufgaben.a4.niveaus.A[1].type, 'anleitung');
-  assert.equal(A.aufgaben.a4.niveaus.B[1].type, 'reihenfolge');
-  assert.equal(A.aufgaben.a4.niveaus.C[1].type, 'reihenfolge');
+  for (const n of ['A', 'B', 'C']) assert.equal(A.aufgaben.a4.niveaus[n][3].type, 'reihenfolge', `a4/${n}: Reihenfolge wird gezogen`);
+  assert.equal(A.aufgaben.a7.niveaus.A[1].type, 'anleitung');
 });
 
 test('Sicherheit: drei kurze Punkte (Kittel und Schutzbrille, Tablet, Entsorgung), keine Mengen, kein KI-Ton', () => {

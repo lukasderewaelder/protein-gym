@@ -480,14 +480,14 @@
       }
     },
     "a4": {
-      "titel": "Aufgabe 2: Vorhersagen, beobachten, deuten",
+      "titel": "Aufgabe 2: Planen, beobachten, deuten",
       "zeit": "ca. 15 Minuten (Versuch am Tisch)",
       "flag": "a4_done",
       "braucht": [
         "k_denat",
         "k_ausloeser"
       ],
-      "auftrag": "Erst vermuten, dann den Versuch am Tisch machen, beobachten, protokollieren und deuten. Das Tablet bereitet vor und wertet aus, es ersetzt den Versuch nicht.",
+      "auftrag": "Erst überlegen und den Versuch planen, dann am Tisch machen, beobachten, protokollieren und deuten. Das Tablet bereitet vor und wertet aus, es ersetzt den Versuch nicht.",
       "tipp": "Schau in den Spind: „Denaturieren: Die Struktur geht verloren“ und „Was wir im Versuch testen“. Vergleiche jede Probe mit der Kontrollprobe: Was ist anders?",
       "hilfekarte": {
         "titel": "Hilfekarte: Versuch deuten",
@@ -501,22 +501,68 @@
       "niveaus": {
         "A": [
           {
-            "type": "vermutung",
-            "stationen": [
-              "stationA"
-            ]
+            "type": "waehlen",
+            "frage": "Probe 5 bekommt nur Wasser. Wozu ist diese Probe da?",
+            "optionen": [
+              "Sie zeigt, wie die Eiklarlösung ohne Zusatz aussieht. Das ist der Vergleich.",
+              "Sie soll das Eiweiß zum Gerinnen bringen.",
+              "Sie ist Reserve, falls ein Glas kaputtgeht."
+            ],
+            "richtig": 0,
+            "erklaerung": "Die Kontrollprobe ist der Vergleich: Nur was anders aussieht als Wasser, hat etwas bewirkt."
           },
           {
-            "type": "anleitung",
-            "auftrag": "Plane den Versuch mit der Schritt-für-Schritt-Anleitung. Hake jeden Schritt ab, wenn du ihn gelesen hast.",
-            "schritte": [
+            "type": "waehlen",
+            "frage": "Woran erkennst du im Versuch, dass das Eiweiß denaturiert ist?",
+            "optionen": [
+              "Die klare Lösung wird trüb, milchig weiß oder fest.",
+              "Die Lösung wird noch klarer.",
+              "Die Lösung wird violett."
+            ],
+            "richtig": 0,
+            "erklaerung": "Denaturiertes (geronnenes) Eiweiß erkennst du an trüb, milchig weiß oder fest."
+          },
+          {
+            "type": "waehlen",
+            "frage": "Warum bekommt jedes Glas gleich viel Eiklarlösung?",
+            "optionen": [
+              "Damit nur der Zusatz, zum Beispiel Hitze oder Säure, einen Unterschied macht.",
+              "Damit alle Gläser gleich schwer sind.",
+              "Damit mehr Eiweiß gerinnt."
+            ],
+            "richtig": 0,
+            "erklaerung": "Fair vergleichen: Nur eine Sache ändern, alles andere gleich lassen."
+          },
+          {
+            "type": "reihenfolge",
+            "korrekt": [
               "Kittel und Schutzbrille anziehen.",
-              "Fünf Reagenzgläser beschriften (1 bis 5) und in den Ständer stellen.",
-              "In jedes Glas gleich viel Eiklarlösung geben (Menge laut Lehrbuch S. 21–22, Exp. 14–16, oder Anleitung der Lehrkraft).",
-              "Probe 1 im Wasserbad erhitzen (die Lehrkraft stellt es bereit).",
-              "Zu den Gläsern 2 bis 4 je einen Stoff geben: Salzsäure, Kupfersulfat-Lösung (Fehling I) und Ethanol, in jedes Glas nur einen. Ethanol gibt nur die Lehrkraft aus, keine offene Flamme.",
-              "Zu Probe 5 Wasser geben (Kontrolle).",
+              "Fünf Reagenzgläser beschriften und in den Ständer stellen.",
+              "In jedes Glas gleich viel Eiklarlösung geben.",
+              "Probe 1 im Wasserbad erhitzen.",
+              "Glas 2 bis 4: Salzsäure, Kupfersulfat-Lösung (Fehling I), Ethanol.",
+              "In Glas 5 nur Wasser geben (Kontrolle).",
               "Beobachten und im Protokoll festhalten."
+            ],
+            "anzeige": [
+              0,
+              3,
+              1,
+              6,
+              2,
+              4,
+              5
+            ],
+            "gleichwertig": [
+              [
+                1,
+                2
+              ],
+              [
+                3,
+                4,
+                5
+              ]
             ]
           },
           {
@@ -561,21 +607,47 @@
         ],
         "B": [
           {
-            "type": "vermutung",
-            "stationen": [
-              "stationA"
-            ]
+            "type": "waehlen",
+            "frage": "Probe 5 bekommt nur Wasser. Wozu ist diese Probe da?",
+            "optionen": [
+              "Sie zeigt, wie die Eiklarlösung ohne Zusatz aussieht. Das ist der Vergleich.",
+              "Sie soll das Eiweiß zum Gerinnen bringen.",
+              "Sie ist Reserve, falls ein Glas kaputtgeht."
+            ],
+            "richtig": 0,
+            "erklaerung": "Die Kontrollprobe ist der Vergleich: Nur was anders aussieht als Wasser, hat etwas bewirkt."
+          },
+          {
+            "type": "waehlen",
+            "frage": "Woran erkennst du im Versuch, dass das Eiweiß denaturiert ist?",
+            "optionen": [
+              "Die klare Lösung wird trüb, milchig weiß oder fest.",
+              "Die Lösung wird noch klarer.",
+              "Die Lösung wird violett."
+            ],
+            "richtig": 0,
+            "erklaerung": "Denaturiertes (geronnenes) Eiweiß erkennst du an trüb, milchig weiß oder fest."
+          },
+          {
+            "type": "waehlen",
+            "frage": "Warum bekommt jedes Glas gleich viel Eiklarlösung?",
+            "optionen": [
+              "Damit nur der Zusatz, zum Beispiel Hitze oder Säure, einen Unterschied macht.",
+              "Damit alle Gläser gleich schwer sind.",
+              "Damit mehr Eiweiß gerinnt."
+            ],
+            "richtig": 0,
+            "erklaerung": "Fair vergleichen: Nur eine Sache ändern, alles andere gleich lassen."
           },
           {
             "type": "reihenfolge",
-            "auftrag": "Plane den Versuch selbst. Material: Reagenzgläser und Ständer, Eiklarlösung, Salzsäure, Kupfersulfat-Lösung (Fehling I), Ethanol (von der Lehrkraft), Wasser, Wasserbad, Kittel, Schutzbrille. Tippe die Schritte in der richtigen Reihenfolge an.",
             "korrekt": [
               "Kittel und Schutzbrille anziehen.",
               "Reagenzgläser beschriften und in den Ständer stellen.",
-              "Eiklarlösung in jedes Glas geben.",
-              "In jedes Glas nur einen Versuch machen: Hitze, Salzsäure, Kupfersulfat-Lösung (Fehling I) oder Ethanol (Probe 5 nur Wasser).",
+              "Eiklarlösung in alle Gläser geben, in Glas 5 nur Wasser dazu.",
+              "Glas 1–4: Hitze, Salzsäure, Kupfersulfat-Lösung (Fehling I), Ethanol.",
               "Beobachten und im Protokoll festhalten.",
-              "Entsorgen: Glas mit Kupfersulfat-Lösung (Fehling I) in den Sammelbehälter, den Rest in den Ausguss."
+              "Entsorgen: Kupfersulfat-Lösung (Fehling I) in den Sammelbehälter."
             ],
             "anzeige": [
               3,
@@ -634,22 +706,48 @@
         ],
         "C": [
           {
-            "type": "vermutung",
-            "stationen": [
-              "stationA"
-            ]
+            "type": "waehlen",
+            "frage": "Probe 5 bekommt nur Wasser. Wozu ist diese Probe da?",
+            "optionen": [
+              "Sie zeigt, wie die Eiklarlösung ohne Zusatz aussieht. Das ist der Vergleich.",
+              "Sie soll das Eiweiß zum Gerinnen bringen.",
+              "Sie ist Reserve, falls ein Glas kaputtgeht."
+            ],
+            "richtig": 0,
+            "erklaerung": "Die Kontrollprobe ist der Vergleich: Nur was anders aussieht als Wasser, hat etwas bewirkt."
+          },
+          {
+            "type": "waehlen",
+            "frage": "Woran erkennst du im Versuch, dass das Eiweiß denaturiert ist?",
+            "optionen": [
+              "Die klare Lösung wird trüb, milchig weiß oder fest.",
+              "Die Lösung wird noch klarer.",
+              "Die Lösung wird violett."
+            ],
+            "richtig": 0,
+            "erklaerung": "Denaturiertes (geronnenes) Eiweiß erkennst du an trüb, milchig weiß oder fest."
+          },
+          {
+            "type": "waehlen",
+            "frage": "Warum bekommt jedes Glas gleich viel Eiklarlösung?",
+            "optionen": [
+              "Damit nur der Zusatz, zum Beispiel Hitze oder Säure, einen Unterschied macht.",
+              "Damit alle Gläser gleich schwer sind.",
+              "Damit mehr Eiweiß gerinnt."
+            ],
+            "richtig": 0,
+            "erklaerung": "Fair vergleichen: Nur eine Sache ändern, alles andere gleich lassen."
           },
           {
             "type": "reihenfolge",
-            "auftrag": "Plane den Versuch selbst. Material: Reagenzgläser und Ständer, Eiklarlösung, Salzsäure, Kupfersulfat-Lösung (Fehling I), Ethanol (von der Lehrkraft), Wasser, Wasserbad, Kittel, Schutzbrille. Tippe die Schritte in der richtigen Reihenfolge an. Gleichwertige Schritte dürfen vertauscht werden.",
             "korrekt": [
               "Kittel und Schutzbrille anziehen.",
               "Fünf Reagenzgläser beschriften und in den Ständer stellen.",
               "In jedes Glas gleich viel Eiklarlösung geben.",
               "Probe 5 bekommt nur Wasser (Kontrolle).",
-              "In die Gläser 1 bis 4 je nur einen Versuch machen: Hitze, Salzsäure, Kupfersulfat-Lösung (Fehling I), Ethanol.",
+              "Glas 1–4: Hitze, Salzsäure, Kupfersulfat-Lösung (Fehling I), Ethanol.",
               "Beobachten und im Protokoll festhalten.",
-              "Entsorgen: Glas mit Kupfersulfat-Lösung (Fehling I) in den Sammelbehälter, den Rest in den Ausguss."
+              "Entsorgen: Kupfersulfat-Lösung (Fehling I) in den Sammelbehälter."
             ],
             "anzeige": [
               4,
