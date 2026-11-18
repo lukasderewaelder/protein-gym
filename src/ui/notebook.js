@@ -145,9 +145,12 @@ export function createNotebook({ dialogEl, wissen, glossar, hefter, inventar, st
     const frei = hefter.eintraege.filter((e) => flags[e.ab]);
     // Leiste über dem Blatt: was zu tun ist und der Haken; das Blatt selbst enthält nur, was abgeschrieben wird
     const offen = frei.filter((e) => !eintragErledigt(e, flags, hk));
-    const leiste = h('div', 'hefter-leiste', offen.length
-      ? offen.map((e) => h('div', 'hefter-auftrag', h('strong', {}, `${e.titel}:`), h('span', {}, e.anweisungen.join(' ')), haken(e)))
-      : h('p', 'hefter-fertig', frei.length ? '✓ Alle freien Einträge sind abgeschrieben.' : 'Der erste Eintrag kommt nach der Sauna.'));
+    // Oben immer: So kommt es in den Hefter (genau so abschreiben). Darunter die offenen Einträge mit Haken
+    const leiste = h('div', 'hefter-leiste',
+      hefter.hinweis ? h('p', 'hefter-hinweis', hefter.hinweis) : null,
+      offen.length
+        ? offen.map((e) => h('div', 'hefter-auftrag', h('strong', {}, `${e.titel}:`), h('span', {}, e.anweisungen.join(' ')), haken(e)))
+        : h('p', 'hefter-fertig', frei.length ? '✓ Alle freien Einträge sind abgeschrieben.' : 'Der erste Eintrag kommt nach der Sauna.'));
     const blatt = h('article', 'blatt', h('h3', 'blatt-titel', (hefter.blatt && hefter.blatt.titel) || 'Eiweiße'));
     for (const e of hefter.eintraege) {
       if (!flags[e.ab]) {

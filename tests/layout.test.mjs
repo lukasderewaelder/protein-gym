@@ -37,3 +37,14 @@ test('Die Hinweis-Kärtchen stehen in der Leiste, nicht frei über der Szene', (
   assert.doesNotMatch(tray, /position:\s*(fixed|absolute)/);
   assert.match(tray, /flex-direction:\s*row/);
 });
+
+test('Spind: alle Reiter gleich groß, Hefter sagt, dass genau so abgeschrieben wird', async () => {
+  const game = readFileSync(new URL('../assets/css/game.css', import.meta.url), 'utf8');
+  assert.match(game, /\ndialog#notebook \{ height: calc\(100dvh - 24px\); \}/, 'feste Höhe, nicht nur beim Blättern');
+  assert.doesNotMatch(game, /dialog#notebook:has\(\.seiten-voll\)/);
+  const hefter = JSON.parse(readFileSync(new URL('../data/hefter.json', import.meta.url), 'utf8'));
+  assert.match(hefter.hinweis, /[Gg]enau so/);
+  assert.match(hefter.hinweis, /abschreiben/);
+  const nb = readFileSync(new URL('../src/ui/notebook.js', import.meta.url), 'utf8');
+  assert.match(nb, /hefter\.hinweis \? h\('p', 'hefter-hinweis', hefter\.hinweis\)/);
+});

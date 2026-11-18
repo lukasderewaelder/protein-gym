@@ -253,7 +253,8 @@ svg.formel .denat-text { fill: var(--muted); font-family: system-ui, sans-serif;
 
 /* ---------- Kein Scrollen im Spind: Blättern statt Scrollen ---------- */
 dialog#notebook .nb-body { overflow: hidden; }
-dialog#notebook:has(.seiten-voll) { height: calc(100dvh - 24px); }
+/* Alle Reiter gleich groß (Wunsch der Lehrkraft): Der Spind hat immer die volle Höhe, auch wenn ein Reiter wenig Inhalt hat */
+dialog#notebook { height: calc(100dvh - 24px); }
 dialog#notebook .nb-tabs { align-items: center; }
 .nb-nav { margin-left: auto; }
 .nb-nav button { min-height: 40px; padding: 4px 12px; }
@@ -264,12 +265,16 @@ dialog#notebook .nb-body[data-tab="karten"] .pinnwand { min-height: 0; overflow:
 dialog#notebook .nb-body[data-tab="hefter"] { display: flex; flex-direction: column; }
 dialog#notebook .nb-body[data-tab="hefter"] > .blatt { flex: 1 1 0; min-height: 0; overflow: hidden; }
 .hefter-leiste { flex: 0 0 auto; display: grid; gap: 4px; padding: 8px 14px; background: #eef5ef; border-bottom: 2px solid #1e7a3a; color: #1b1f23; font-size: calc(16px * var(--font-scale)); line-height: 1.35; }
-.hefter-leiste .hefter-auftrag { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; }
+.hefter-leiste .hefter-auftrag { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 2px 14px; }
+.hefter-leiste .hefter-auftrag > strong, .hefter-leiste .hefter-auftrag > span { grid-column: 1; }
+.hefter-leiste .hefter-auftrag > .haken { grid-column: 2; grid-row: 1 / span 2; }
 .hefter-leiste .hefter-auftrag strong { color: #1e7a3a; }
-.hefter-leiste .hefter-auftrag span { flex: 1 1 20em; }
+.hefter-leiste .hefter-auftrag span { line-height: 1.35; }
 .hefter-leiste .haken { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 12px; border: 2px solid #1e7a3a; border-radius: 8px; background: #fff; font-weight: 700; color: #1e7a3a; }
 .hefter-leiste .haken input { width: 22px; height: 22px; }
 .hefter-leiste .hefter-fertig { margin: 0; color: #1e7a3a; font-weight: 700; }
+.hefter-leiste .hefter-hinweis { margin: 0; display: flex; gap: 8px; align-items: baseline; font-size: calc(16px * var(--font-scale)); }
+.hefter-leiste .hefter-hinweis::before { content: "✎"; flex: none; }
 .blatt .blatt-abb { margin: 8px 0; }
 .blatt .blatt-abb-reihe { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: end; }
 .blatt .blatt-abb-formel { display: grid; justify-items: center; gap: 2px; }
