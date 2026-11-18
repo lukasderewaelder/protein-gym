@@ -963,7 +963,7 @@
       "zeit": "ca. 8 Minuten",
       "flag": "a6_done",
       "braucht": ["k_dose", "k_abbau", "k_geronnen"],
-      "auftrag": "Alex will einen Eiweiß-Shake kaufen und fragt, ob die Werbung stimmt. Prüfe die Aussagen mit deinem Wissen und gib ihm dann einen Rat.",
+      "auftrag": "Alex will diesen Shake kaufen. Prüfe die Werbung auf der Dose und gib ihm dann einen Rat.",
       "tipp": "Nutze die Karten „Protein = Eiweiß“, „Was ist in der Dose?“, „Abbau im Körper“ und „Geronnen heißt nicht verdorben“ im Spind.",
       "hilfekarte": {
         "titel": "Hilfekarte: Werbung prüfen",

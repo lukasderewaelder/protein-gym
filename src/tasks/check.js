@@ -251,3 +251,26 @@ export function raumFertig(room, tasks, level, flags) {
   const need = [...room.pflicht, ...(level === 2 ? room.pflichtSchwer || [] : [])];
   return need.every((id) => flags[tasks[id].flag]);
 }
+
+/**
+ * Shake-Check, eine Aussage nach der anderen. Zustand { i, phase, geloest }: phase 'urteil' → 'grund' → 'erklaert'.
+ * aktion { art: 'urteil' | 'grund', wahl } oder { art: 'weiter' }. Gibt { z, ok, alle } zurück: ok = Aktion passt,
+ * alle = jetzt sind alle Aussagen geprüft. Falsche Wahl ändert den Zustand nicht.
+ */
+export const WERBUNG_START = Object.freeze({ i: 0, phase: 'urteil', geloest: [] });
+export function werbungSchritt(w, z, aktion) {
+  const a = w.aussagen[z.i];
+  if (!a || !aktion) return { z, ok: false, alle: false };
+  if (aktion.art === 'urteil' && z.phase === 'urteil') {
+    return aktion.wahl === a.urteil ? { z: { ...z, phase: 'grund' }, ok: true, alle: false } : { z, ok: false, alle: false };
+  }
+  if (aktion.art === 'grund' && z.phase === 'grund') {
+    if (aktion.wahl !== a.richtig) return { z, ok: false, alle: false };
+    const geloest = [...new Set([...z.geloest, z.i])];
+    return { z: { ...z, phase: 'erklaert', geloest }, ok: true, alle: geloest.length === w.aussagen.length };
+  }
+  if (aktion.art === 'weiter' && z.phase === 'erklaert' && z.i < w.aussagen.length - 1) {
+    return { z: { i: z.i + 1, phase: 'urteil', geloest: z.geloest }, ok: true, alle: false };
+  }
+  return { z, ok: false, alle: false };
+}

@@ -2,6 +2,9 @@
   "hinweis": "Das Produkt ist frei erfunden. Die Texte enthalten keine Körperideale und keine Zahlen zu Gewicht oder Kalorien.",
   "produkt": {
     "name": "Muskel-Blitz Shake",
+    "sorte": "Schoko-Geschmack",
+    "slogan": "Der Eiweiß-Kick für deinen Tag!",
+    "aufkleber": "frei erfunden",
     "zutaten": ["Milcheiweiß (Molkenprotein)", "Kakao", "Zitronensäure", "Süßstoff"]
   },
   "urteile": ["stimmt", "stimmt teilweise", "stimmt nicht"],

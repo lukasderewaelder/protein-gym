@@ -1,7 +1,7 @@
 // Schritt-Typen für Sauna, Shake-Bar und Abschlussquiz: Zuordnen, Mehrfachwahl, Werbung prüfen, Rückblick.
 
 import { h } from '../ui/dom.js';
-import { checkMehrfach, mische } from './check.js';
+import { checkMehrfach, mische, werbungSchritt, WERBUNG_START } from './check.js';
 
 function zuordnen(host, step, api) {
   const gelöst = new Array(step.paare.length).fill(false);
@@ -65,77 +65,100 @@ function mehrfach(host, step, api) {
   };
 }
 
+/** Blitz-Symbol für das Etikett (SVG, damit es auf allen Geräten gleich aussieht). */
+function blitz() {
+  const NS = 'http://www.w3.org/2000/svg';
+  const s = document.createElementNS(NS, 'svg');
+  s.setAttribute('viewBox', '0 0 24 32');
+  s.setAttribute('class', 'dose-blitz');
+  s.setAttribute('aria-hidden', 'true');
+  const p = document.createElementNS(NS, 'path');
+  p.setAttribute('d', 'M14 1 L3 18 H11 L8 31 L21 12 H13 Z');
+  s.append(p);
+  return s;
+}
+
+/** Erfundenes Dosen-Etikett (Abbildung zur Aufgabe): Marke, Sorte, Spruch, Zutaten, Aufkleber „frei erfunden“. Keine Zahlen, keine Körperideale. */
+export function doseEtikett(w) {
+  const pr = w.produkt;
+  const [erst, ...rest] = pr.name.split(' ');
+  return h('figure', { class: 'dose', 'aria-label': `Etikett der Dose ${pr.name} (frei erfunden). Zutaten: ${pr.zutaten.join(', ')}.` },
+    h('span', 'dose-deckel'),
+    h('span', 'dose-aufkleber', pr.aufkleber || 'frei erfunden'),
+    h('div', 'dose-streifen', blitz(), h('strong', 'dose-marke', erst.toUpperCase()), rest.length ? h('span', 'dose-marke-2', rest.join(' ')) : null),
+    pr.sorte ? h('p', 'dose-sorte', pr.sorte) : null,
+    pr.slogan ? h('p', 'dose-slogan', pr.slogan) : null,
+    h('p', 'dose-zutaten', h('b', {}, 'Zutaten: '), pr.zutaten.join(', '), '.'));
+}
+
+/**
+ * Shake-Check: links die Dose, rechts immer nur eine Werbeaussage: Urteil → Begründung → Erklärung → „Nächste Aussage“.
+ * Erledigte Aussagen sind nur als Punkt sichtbar. Ablauf als reine Logik: werbungSchritt in src/tasks/check.js.
+ */
 function werbung(host, step, api, ctx) {
   const w = ctx.werbung;
-  const gelöst = new Array(w.aussagen.length).fill(false);
-  const cards = [];
-  host.append(
-    h('p', 'frage', 'Alex hält die Dose „' + w.produkt.name + '“ in der Hand. Prüfe jede Werbeaussage: Wähle erst, ob sie stimmt, dann die passende Begründung.'),
-    h('div', 'etikett',
-      h('strong', {}, `Etikett: ${w.produkt.name} (frei erfunden)`),
-      h('p', {}, `Zutaten: ${w.produkt.zutaten.join(', ')}.`)),
-  );
-  w.aussagen.forEach((a, i) => {
-    const urteile = w.urteile.map((u, ui) => h('button', { type: 'button', class: 'option', onclick: () => urteil(i, ui) }, u));
-    const gruende = h('div', { class: 'optionen', hidden: true });
-    const erkl = h('p', { class: 'hint', hidden: true });
-    const card = h('div', 'probe', h('strong', {}, `Aussage ${i + 1}: „${a.text}“`), h('div', 'zeile', urteile), gruende, erkl);
-    cards.push({ urteile, gruende, erkl, a });
-    host.append(card);
-  });
-  function fertig(i) {
-    gelöst[i] = true;
-    const c = cards[i];
-    c.erkl.hidden = false;
-    c.erkl.textContent = c.a.erklaerung;
-    if (gelöst.every(Boolean)) api.ok('Alle fünf Aussagen sind geprüft.'); else api.say('Richtig. Weiter mit der nächsten Aussage.');
+  let z = { ...WERBUNG_START, geloest: [] };
+  const rechts = h('div', 'shake-aussage');
+  host.append(h('div', 'shake', doseEtikett(w), rechts));
+
+  function punkte() {
+    return h('span', { class: 'shake-punkte', 'aria-hidden': 'true' }, w.aussagen.map((_, k) => h('span', `punkt${z.geloest.includes(k) ? ' fertig' : k === z.i ? ' jetzt' : ''}`, z.geloest.includes(k) ? '✓' : '')));
   }
-  function zeigeGruende(i) {
-    const c = cards[i];
-    c.gruende.hidden = false;
-    c.gruende.replaceChildren(h('p', 'frage', 'Welche Begründung passt?'), ...c.a.begruendungen.map((g, gi) => h('button', { type: 'button', class: 'option', onclick: () => grund(i, gi) }, g)));
-  }
-  function urteil(i, ui) {
-    const c = cards[i];
-    if (gelöst[i] || !c.gruende.hidden) return;
-    if (ui === c.a.urteil) {
-      c.urteile.forEach((b, k) => { b.disabled = true; if (k === ui) { b.classList.add('richtig'); b.textContent = `✓ ${b.textContent}`; } });
-      api.say('Das Urteil passt. Jetzt die Begründung.');
-      zeigeGruende(i);
+  function knopf(text, klasse, onclick) { return h('button', { type: 'button', class: klasse, onclick }, text); }
+  function zeichne(falsch = {}) {
+    const a = w.aussagen[z.i];
+    const teile = [
+      h('p', 'shake-kopf', h('span', {}, `Aussage ${z.i + 1} von ${w.aussagen.length}`), punkte()),
+      h('p', 'werbespruch', a.text),
+    ];
+    if (z.phase === 'urteil') {
+      teile.push(h('p', 'frage', 'Stimmt die Aussage?'),
+        h('div', 'zeile', w.urteile.map((u, ui) => {
+          const b = knopf(falsch.urteil && falsch.urteil.includes(ui) ? `✗ ${u}` : u, `option${falsch.urteil && falsch.urteil.includes(ui) ? ' falsch' : ''}`, () => wahl('urteil', ui));
+          if (falsch.urteil && falsch.urteil.includes(ui)) b.disabled = true;
+          return b;
+        })));
     } else {
-      c.urteile[ui].classList.add('falsch');
-      c.urteile[ui].textContent = `✗ ${c.urteile[ui].textContent}`;
-      c.urteile[ui].disabled = true;
-      api.fail('Das Urteil passt noch nicht. Prüfe die Aussage mit den Karten im Spind.');
+      if (z.phase === 'grund') {
+        // Urteil und nächste Frage in einer Zeile, damit auch lange Begründungen auf die Seite passen
+        teile.push(h('p', 'frage', h('span', 'shake-erledigt', `✓ ${w.urteile[a.urteil]}. `), 'Welche Begründung passt?'),
+          h('div', 'optionen', a.begruendungen.map((g, gi) => {
+            const istFalsch = falsch.grund && falsch.grund.includes(gi);
+            const b = knopf(istFalsch ? `✗ ${g}` : g, `option${istFalsch ? ' falsch' : ''}`, () => wahl('grund', gi));
+            if (istFalsch) b.disabled = true;
+            return b;
+          })));
+      } else {
+        teile.push(h('p', 'shake-erledigt', `✓ ${w.urteile[a.urteil]}: ${a.begruendungen[a.richtig]}`), h('p', 'muster', a.erklaerung));
+        if (z.i < w.aussagen.length - 1) teile.push(knopf('Nächste Aussage →', 'primary', () => { z = werbungSchritt(w, z, { art: 'weiter' }).z; falscheWahl = {}; zeichne(); api.say(''); }));
+      }
     }
+    rechts.replaceChildren(...teile);
   }
-  function grund(i, gi) {
-    const c = cards[i];
-    const btns = [...c.gruende.querySelectorAll('button')];
-    if (gelöst[i]) return;
-    if (gi === c.a.richtig) {
-      btns.forEach((b, k) => { b.disabled = true; if (k === gi) { b.classList.add('richtig'); b.textContent = `✓ ${b.textContent}`; } });
-      fertig(i);
-    } else {
-      btns[gi].classList.add('falsch');
-      btns[gi].textContent = `✗ ${btns[gi].textContent}`;
-      btns[gi].disabled = true;
-      api.fail('Diese Begründung passt nicht zur Aussage.');
+  let falscheWahl = {};
+  function wahl(art, nr) {
+    const r = werbungSchritt(w, z, { art, wahl: nr });
+    if (!r.ok) {
+      falscheWahl = { ...falscheWahl, [art]: [...(falscheWahl[art] || []), nr] };
+      zeichne(falscheWahl);
+      api.fail(art === 'urteil' ? 'Das Urteil passt noch nicht. Prüfe die Aussage mit den Karten im Spind.' : 'Diese Begründung passt nicht zur Aussage.');
+      return;
     }
+    z = r.z;
+    falscheWahl = {};
+    zeichne();
+    if (r.alle) api.ok(`Alle ${w.aussagen.length} Aussagen sind geprüft.`);
+    else if (z.phase === 'grund') api.say('Das Urteil passt. Jetzt die Begründung.');
+    else api.say('Richtig.');
   }
+  zeichne();
   return {
     reveal() {
-      w.aussagen.forEach((a, i) => {
-        if (gelöst[i]) return;
-        const c = cards[i];
-        c.urteile.forEach((b, k) => { b.disabled = true; if (k === a.urteil) { b.classList.add('richtig'); b.textContent = `✓ ${w.urteile[k]}`; } });
-        zeigeGruende(i);
-        const btns = [...c.gruende.querySelectorAll('button')];
-        btns.forEach((b, k) => { b.disabled = true; if (k === a.richtig) { b.classList.add('richtig'); b.textContent = `✓ ${a.begruendungen[k]}`; } });
-        gelöst[i] = true;
-        c.erkl.hidden = false;
-        c.erkl.textContent = a.erklaerung;
-      });
+      // Lösungsbeispiel: Die aktuelle Aussage wird aufgelöst, alle übrigen gelten als geprüft
+      z = { i: z.i, phase: 'erklaert', geloest: w.aussagen.map((_, k) => k) };
+      zeichne();
+      const knopfWeiter = rechts.querySelector('.primary');
+      if (knopfWeiter) knopfWeiter.remove();
     },
   };
 }
