@@ -18,7 +18,7 @@ test('Verschlüsseln und Entschlüsseln, falsches Passwort liefert nichts', asyn
 });
 
 test('lehrkraft.html zeigt ohne Passwort keinen Inhalt', () => {
-  for (const geheim of ['Fortschrittscode erzeugen', 'Codes nach dem Versuch', 'Auswertung der Fortschrittscodes', 'Lehrkraft-Modus öffnen', 'gottFreigabe', 'standZustand', 'aktuellerCode']) {
+  for (const geheim of ['Fortschrittscode erzeugen', 'Codes der Schließfächer', 'Codes nach dem Versuch', 'Auswertung der Fortschrittscodes', 'Lehrkraft-Modus öffnen', 'gottFreigabe', 'standZustand', 'aktuellerCode']) {
     assert.ok(!seite.includes(geheim), `steht im Klartext: ${geheim}`);
   }
   const p = lesePaket(seite);
@@ -28,7 +28,7 @@ test('lehrkraft.html zeigt ohne Passwort keinen Inhalt', () => {
 test('Das Standardpasswort öffnet die Seite mit allen Teilen', async () => {
   const text = await klartextDerSeite(STANDARD_WORT);
   assert.ok(text, 'entschlüsselbar');
-  for (const id of ['kw-codes', 'erz-stand', 'erz-los', 'gott-los', 'eingabe', 'tabelle']) assert.match(text, new RegExp(`id="${id}"`), id);
+  for (const id of ['kw-codes', 'erz-stand', 'erz-los', 'faecher', 'gott-los', 'eingabe', 'tabelle']) assert.match(text, new RegExp(`id="${id}"`), id);
   assert.equal(await klartextDerSeite('proteine'), null, 'Groß- und Kleinschreibung zählt');
 });
 
